@@ -1,0 +1,32 @@
+@use "../../scss/" as *;
+
+.authUser {
+  @include themify($themes) {
+    min-height: 100vh;
+    @include flex(center, center);
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: themed("bg2");
+      padding: $spacing;
+      @include flex(center, unset);
+      border-radius: $border-radius;
+      &__left {
+        max-width: 50%;
+        padding: $spacing;
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+        }
+      }
+      &__right {
+        min-width: 50%;
+        padding: $spacing;
+        border-radius: $border-radius;
+        background-color: themed("bg1");
+    
+      }
+    }
+  }
+}
