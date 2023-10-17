@@ -1,0 +1,91 @@
+@use "../../scss/" as *;
+
+.header {
+  @include themify($themes) {
+    .header__wrapper {
+      box-shadow: themed(box-shadow);
+      background-color: themed("bg2");
+      position: fixed;
+      top: 0;
+      width: 100%;
+      .container {
+        @include flex(center, space-between);
+        height: $height-header;
+        .header__wrapper__logo {
+          a {
+            @include flex(center, unset);
+            gap: 10px;
+            img {
+              --size: 40px;
+              width: var(--size);
+              height: var(--size);
+            }
+            h2 {
+              font-size: $font-size-l;
+              color: themed("text1");
+            }
+          }
+        }
+        .header__wrapper__control {
+          height: 100%;
+          ul {
+            height: 100%;
+            @include flex(center, space-between);
+            gap: $spacing;
+            li {
+              height: 100%;
+              a {
+                @include flex(center, center);
+                height: 100%;
+                padding: 0 10px;
+                font-size: $font-size-s;
+                color: themed("text1");
+                font-weight: 500;
+                position: relative;
+                &::after {
+                  content: "";
+                  position: absolute;
+                  height: 4px;
+                  width: 100%;
+                  background-color: $color-primary;
+                  bottom: 0;
+                  border-radius: $border-radius-20;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  transition: all 0.3s;
+                  width: 0;
+                }
+                &:hover::after {
+                  width: 100%;
+                }
+                &.active {
+                  width: 100%;
+                  color: themed("primary");
+                  &::after {
+                    width: 100%;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .header__wrapper__auth {
+          @include flex(center, unset);
+          gap: 10px;
+          &__user {
+            @include button($color-white, $color-primary);
+            a {
+            }
+          }
+          &__company {
+            a {
+              font-size: $font-size-s;
+              color: themed("text1");
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+}

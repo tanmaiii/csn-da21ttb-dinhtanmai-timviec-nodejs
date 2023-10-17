@@ -1,0 +1,30 @@
+@forward "./variavles";
+@forward "./mixin";
+@forward "./breakpoint";
+@forward "./grid";
+
+@use './variavles' as *;
+@use './mixin' as *;
+@use './breakpoint' as *;
+@use './grid' as *;
+
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+button, input, textarea{
+    outline: unset;
+    border: unset;
+}
+
+ul, li{
+    list-style: none;
+}
+
+a{
+    color: unset;
+    text-decoration: unset;
+}

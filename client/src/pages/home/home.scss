@@ -1,0 +1,7 @@
+@use '../../scss/' as *;
+
+
+.home{
+    min-height: 100vh;
+    margin-top: $height-header;
+}

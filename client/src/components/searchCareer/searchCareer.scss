@@ -1,0 +1,68 @@
+@use "../../scss/" as *;
+
+.searchCareer {
+  @include themify($themes) {
+    @include flex(center, unset);
+    flex: 1;
+    padding: 10px 10px;
+    border: 2px solid transparent;
+    border-radius: $border-radius-10;
+    position: relative;
+    &:focus-within {
+      border: 2px solid $color-primary;
+    }
+    input {
+      font-size: $font-size-s;
+      color: themed("text1");
+      background-color: themed("bg2");
+      padding: 10px 8px;
+      width: 100%;
+    }
+    .btn_delete_value {
+      position: absolute;
+      right: 8px;
+      transform: translateY(-50%);
+      top: 50%;
+      @include flex(center, center);
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      i {
+        font-size: 1.2rem;
+        color: $color-primary;
+      }
+    }
+    &__list {
+      position: absolute;
+      width: 100%;
+      top: calc(100% + 10px);
+      left: 0;
+      border-radius: $border-radius-10;
+      box-shadow: themed("box-shadow");
+      background-color: themed("bg2");
+      overflow: hidden;
+      //transform: translateY(-100%);
+      display: none;
+      // opacity: 0;
+      // transition: all 3s;
+      &.show {
+        display: block;
+      }
+      &__item {
+        width: 100%;
+        @include flex(center, unset);
+        padding: 10px;
+        gap: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        span {
+          font-size: $font-size-s;
+          color: themed("text1");
+        }
+        &:hover {
+          background-color: themed("bg1");
+        }
+      }
+    }
+  }
+}
