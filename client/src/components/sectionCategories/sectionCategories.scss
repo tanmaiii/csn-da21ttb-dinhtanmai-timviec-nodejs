@@ -1,0 +1,38 @@
+@use "../../scss/" as *;
+
+.sectionCategories {
+  @include themify($themes) {
+    padding: $spacing 0;
+    &__header {
+        margin: 20px 0;
+      h4 {
+        font-size: $font-size-l;
+      }
+    }
+    &__body {
+      &__list {
+        &__item {
+          &__box {
+            background-color: themed("bg2");
+            padding: 20px;
+            @include flex(center, center);
+            flex-direction: column;
+            gap: 20px;
+            height: 200px;
+            border-radius: $border-radius-30;
+            img{
+                --size: 40px;
+                height: var(--size);
+                color: red;
+                svg{
+                }
+            }
+            span{
+                font-size: $font-size-m;
+            }
+          }
+        }
+      }
+    }
+  }
+}
