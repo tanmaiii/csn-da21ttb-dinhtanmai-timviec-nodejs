@@ -65,7 +65,7 @@ export default function SearchProvince() {
 
   return (
     <div className="searchProvince">
-      <img className="img__icon" src={iconLocation} alt="" />
+      <i class="fa-solid fa-location-dot"></i>
       <input
         type="text"
         placeholder="Tên tỉnh, thành phố..."
@@ -80,11 +80,7 @@ export default function SearchProvince() {
           <i className="bx bxs-x-circle"></i>
         </button>
       )}
-      <div
-        className={`searchProvince__list ${
-          openProvince ? "show" : ""
-        }`}
-      >
+      <div className={`searchProvince__list ${openProvince ? "show" : ""}`}>
         {listProvince &&
           listProvince.map((item, i) => (
             <div
@@ -92,7 +88,7 @@ export default function SearchProvince() {
               className="searchProvince__list__item"
               onClick={() => handleSlectedItemProvince(item.name)}
             >
-              <img className="img__icon" src={iconLocation} alt="" />
+              <i class="fa-solid fa-location-dot"></i>
               <span>{item.name}</span>
             </div>
           ))}

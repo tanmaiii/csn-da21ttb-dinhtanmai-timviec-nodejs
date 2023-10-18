@@ -18,6 +18,10 @@
         height: 10px;
         position: absolute;
       }
+      i{
+        font-size: $font-size-l;
+        color: themed('text1');
+      }
       input {
         font-size: $font-size-s;
         padding: 10px 8px;
@@ -40,7 +44,7 @@
         border: none;
         cursor: pointer;
         i {
-          font-size: 1.2rem;
+          font-size: $font-size-m;
           color: $color-primary;
         }
       }

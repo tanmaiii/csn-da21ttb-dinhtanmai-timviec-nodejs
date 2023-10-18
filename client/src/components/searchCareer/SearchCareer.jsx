@@ -63,7 +63,7 @@ export default function SearchCareer() {
 
   return (
     <div className="searchCareer">
-      <img className="img__icon" src={iconSearch} alt="" />
+     <i class="fa-solid fa-magnifying-glass"></i>
       <input
         type="text"
         placeholder="Tên công việc, công ty..."
@@ -86,7 +86,7 @@ export default function SearchCareer() {
               className="searchCareer__list__item"
               onClick={() => handleSlectedItemProvince(item.name)}
             >
-              <img className="img__icon" src={iconSearch} alt="" />
+             <i class="fa-solid fa-magnifying-glass"></i>
               <span>{item.name}</span>
             </div>
           ))}
