@@ -3,27 +3,36 @@
 .header {
   @include themify($themes) {
     .header__wrapper {
-      box-shadow: themed(box-shadow);
-      background-color: themed("bg2");
+      // box-shadow: themed(box-shadow);
+      // background-color: themed("bg2");
+      background-color: transparent;
       position: fixed;
       top: 0;
       width: 100%;
+      z-index: 999;
+      transition: all .3s;
+      &.shrink {
+        box-shadow: themed(box-shadow);
+        background-color: themed("bg2");
+      }
       .container {
         @include flex(center, space-between);
         height: $height-header;
         .header__wrapper__logo {
-          a {
-            @include flex(center, unset);
-            gap: 10px;
-            img {
-              --size: 40px;
-              width: var(--size);
-              height: var(--size);
-            }
-            h2 {
-              font-size: $font-size-l;
-              color: themed("text1");
-            }
+          @include flex(center, unset);
+          gap: 10px;
+          cursor: pointer;
+          img {
+            --size: 40px;
+            width: var(--size);
+            height: var(--size);
+          }
+          h2 {
+            font-size: $font-size-l;
+            color: themed("text1");
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
           }
         }
         .header__wrapper__control {
@@ -72,6 +81,14 @@
         .header__wrapper__auth {
           @include flex(center, unset);
           gap: 10px;
+          &__darkMode {
+            background-color: transparent;
+            cursor: pointer;
+            i {
+              color: themed("text1");
+              font-size: $font-size-l;
+            }
+          }
           &__user {
             @include button($color-white, $color-primary);
             a {

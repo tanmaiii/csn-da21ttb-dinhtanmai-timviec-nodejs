@@ -3,7 +3,7 @@
 .HeroSlide {
   @include themify($themes) {
     background-position: center;
-    height: calc(100vh - $height-header);
+    height: calc(102vh);
     background-repeat: no-repeat;
     background-size: cover;
     .container {

@@ -1,14 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { ModeContextProvider } from "./context/ModeContext";
 
+Document.title = "Việc làm & Tuyển dụng JobQuest";
 
-Document.title  = "Việc làm & Tuyển dụng JobQuest";
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <ModeContextProvider>
     <App />
-  </React.StrictMode>
+  </ModeContextProvider>
 );
-

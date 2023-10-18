@@ -3,7 +3,7 @@
 .home {
   @include themify($themes) {
     min-height: 100vh;
-    margin-top: $height-header;
+    // margin-top: $height-header;
     background-color: themed("bg1");
   }
 }

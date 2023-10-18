@@ -1,19 +1,23 @@
 import React from "react";
 import "./heroSlide.scss";
-import bg from "../../assets/images/gradient1.jpg";
+import bg1 from "../../assets/images/gradient1.jpg";
+import bg2 from "../../assets/images/gradient2.jpg";
 import img from "../../assets/images/heroSlide.png";
 import SearchHeroSlide from "../searchHeroSlide/SearchHeroSlide";
 
 import imgGG from "../../assets/images/Google__Logo.png";
-import imgVNG  from "../../assets/images/vng_logo.png";
+import imgVNG from "../../assets/images/vng_logo.png";
 import imgVT from "../../assets/images/viettel_logo.png";
 import imgVNM from "../../assets/images/Vinamilk_logo.png";
 import imgTGDD from "../../assets/images/Logo-The-Gioi-Di-Dong.png";
 import imgFPT from "../../assets/images/FPT_logo.png";
+import { useMode } from "../../context/ModeContext";
 
 export default function HeroSlide() {
+  const {darkMode} = useMode();
+
   return (
-    <div className="HeroSlide" style={{ backgroundImage: `url(${bg})` }}>
+    <div className="HeroSlide" style={{ backgroundImage: `url(${darkMode ? bg2 : bg1})` }}>
       <div className="container">
         <div className="HeroSlide__wrapper row">
           <div className="HeroSlide__wrapper__left col pc-7">
@@ -31,16 +35,16 @@ export default function HeroSlide() {
             </span>
             <ul>
               <li>
-               <img src={imgVNG} alt="" />
+                <img src={imgVNG} alt="" />
               </li>
               <li>
-               <img src={imgTGDD} alt="" />
+                <img src={imgTGDD} alt="" />
               </li>
               <li>
-               <img src={imgVT} alt="" />
+                <img src={imgVT} alt="" />
               </li>
               <li>
-               <img src={imgFPT} alt="" />
+                <img src={imgFPT} alt="" />
               </li>
             </ul>
             <div className="HeroSlide__wrapper__left__search">

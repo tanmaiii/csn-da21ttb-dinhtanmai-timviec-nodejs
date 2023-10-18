@@ -1,53 +1,109 @@
-const  categories = [
-    {
-        link: '/',
-        section: 'home',
-        icon: <i className='bx bx-home-alt'></i>,
-        text: 'Home'
-    },
-    {
-        link: '/posts',
-        section: 'posts',
-        icon: <i className='bx bx-news'></i>,
-        text: 'Kế toán / Kiểm toán'
-    },
-    {
-        link: '/orders',
-        section: 'orders',
-        icon: <i className='bx bx-receipt' ></i>,
-        text: 'Quảng cáo/ Khuyến mãi / Đối ngoại'
-    },
-    {
-        link: '/customers',
-        section: 'customers',
-        icon: <i className='bx bx-user'></i>,
-        text: 'Nông nghiệp / Lâm nghiệp'
-    },
-    {
-        link: '/stats',
-        section: 'stats',
-        icon: <i className='bx bx-line-chart'></i>,
-        text: 'Nghệ thuật/ thiết kế / Giải trí'
-    },
-    {
-        link: '/settings',
-        section: 'settings',
-        icon: <i className='bx bx-cog'></i>,
-        text: 'Ngân hàng / chứng khoán'
-    },
-    {
-        link: '/settings',
-        section: 'settings',
-        icon: <i className='bx bx-cog'></i>,
-        text: 'Thư ký/ Hành chính'
-    },
-    {
-        link: '/settings',
-        section: 'settings',
-        icon: <i className='bx bx-cog'></i>,
-        text: 'Tư vấn'
-    }
-
-]
+const categories = [
+  {
+    link: "/posts",
+    section: "posts",
+    icon: <i className="bx bx-news"></i>,
+    text: "Kế toán / Kiểm toán",
+    slug: "ke-toan",
+  },
+  {
+    link: "/orders",
+    section: "orders",
+    icon: <i className="bx bx-receipt"></i>,
+    text: "Quảng cáo/ Khuyến mãi / Đối ngoại",
+    slug: "ke-toan",
+  },
+  {
+    link: "/customers",
+    section: "customers",
+    icon: <i className="bx bx-user"></i>,
+    text: "Nông nghiệp / Lâm nghiệp",
+    slug: "ke-toan",
+  },
+  {
+    link: "/stats",
+    section: "stats",
+    icon: <i className="bx bx-line-chart"></i>,
+    text: "Nghệ thuật/ thiết kế / Giải trí",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Ngân hàng / chứng khoán",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Thư ký/ Hành chính",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Tư vấn",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Thêm",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Thêm",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Thêm",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Thêm",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Thêm",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Thêm",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Thêm",
+    slug: "ke-toan",
+  },
+  {
+    link: "/settings",
+    section: "settings",
+    icon: <i className="bx bx-cog"></i>,
+    text: "Thêm",
+    slug: "ke-toan",
+  }
+];
 
 export default categories;

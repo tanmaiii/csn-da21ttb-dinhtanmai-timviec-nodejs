@@ -19,7 +19,10 @@
         position: absolute;
       }
       i{
-        font-size: $font-size-l;
+        --size: 20px;
+        width: var(--size);
+        height: var(--size);
+        font-size: $font-size-m;
         color: themed('text1');
       }
       input {

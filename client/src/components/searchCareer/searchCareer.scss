@@ -12,7 +12,10 @@
       border: 2px solid $color-primary;
     }
     i{
-      font-size: 1.4rem;
+      --size: 20px;
+      width: var(--size);
+      height: var(--size);
+      font-size: $font-size-m;
       color: themed('text1');
     }
     input {
