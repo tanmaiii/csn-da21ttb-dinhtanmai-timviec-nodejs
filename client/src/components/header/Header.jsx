@@ -3,38 +3,44 @@ import img from "../../assets/images/logoJobQuest.png";
 import { Link } from "react-router-dom";
 import "./header.scss";
 import { useMode } from "../../context/ModeContext";
-import Modal from "../modal/Modal";
-import Signin from "../signin/Signin";
-import Signup from "../signup/Signup";
+import { HiOutlineHome } from "react-icons/hi";
+import { BiSearch } from "react-icons/bi";
+import { FaRegBuilding } from "react-icons/fa";
+import { FaRankingStar } from "react-icons/fa6";
+
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const { darkMode, toggleDarkMode } = useMode();
-  const [openLogin, setOpenLogin] = useState(false)
+  const [openLogin, setOpenLogin] = useState(false);
   const headerRef = useRef();
 
+  const navigate = useNavigate();
+
   const handleReloadPage = () => {
+    navigate("/");
     window.location.reload();
   };
 
-  useEffect(() => {
-    const shinkHeader = () => {
-      if (
-        document.body.scrollTop > 100 ||
-        document.documentElement.scrollTop > 100
-      ) {
-        headerRef.current.classList.add("shrink");
-      } else {
-        headerRef.current.classList.remove("shrink");
-      }
-      window.addEventListener("scroll", shinkHeader);
-    };
+  // useEffect(() => {
+  //   const shinkHeader = () => {
+  //     if (
+  //       document.body.scrollTop > 100 ||
+  //       document.documentElement.scrollTop > 100
+  //     ) {
+  //       headerRef.current.classList.add("shrink");
+  //     } else {
+  //       headerRef.current.classList.remove("shrink");
+  //     }
+  //     window.addEventListener("scroll", shinkHeader);
+  //   };
 
-    shinkHeader();
+  //   shinkHeader();
 
-    return () => {
-      window.removeEventListener("scroll", shinkHeader());
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", shinkHeader());
+  //   };
+  // }, []);
 
   return (
     <>
@@ -49,13 +55,28 @@ export default function Header() {
             <div className="header__wrapper__control">
               <ul>
                 <li>
-                  <Link className="active">Tìm việc</Link>
+                  <Link className="active" to={'/'}>
+                    <HiOutlineHome />
+                    <span>Home</span>
+                  </Link>
                 </li>
                 <li>
-                  <Link>Đánh giá</Link>
+                  <Link  to={'/tim-viec'}>
+                    <BiSearch />
+                    <span>Tìm việc</span>
+                  </Link>
                 </li>
                 <li>
-                  <Link>Công ty</Link>
+                  <Link to={'/danh-gia'}>
+                    <FaRankingStar /> 
+                    <span>Đánh giá</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to={'/cong-ty'}>
+                    <FaRegBuilding />
+                    <span>Công ty</span>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -72,7 +93,7 @@ export default function Header() {
                 )}
               </button>
               <button className="header__wrapper__auth__user">
-                <Link>Đăng nhập</Link>
+                <Link to={"/nguoi-xin-viec/dang-nhap"}>Đăng nhập</Link>
               </button>
               <div className="header__wrapper__auth__company">
                 <Link>Nhà tuyển dụng</Link>
@@ -81,7 +102,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <Modal/>
     </>
   );
 }

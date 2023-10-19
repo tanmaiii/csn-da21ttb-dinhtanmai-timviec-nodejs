@@ -13,6 +13,14 @@
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    @include tablet{
+        width: 100%;
+        padding: 0 20px;
+    }
+    @include mobile{
+        width: 100%;
+        padding: 0 10px;
+    }
 }
 
 button, input, textarea{

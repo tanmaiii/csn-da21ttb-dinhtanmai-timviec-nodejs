@@ -3,17 +3,19 @@
 .header {
   @include themify($themes) {
     .header__wrapper {
-      // box-shadow: themed(box-shadow);
-      // background-color: themed("bg2");
-      background-color: transparent;
+      box-shadow: themed(box-shadow);
+      background-color: themed("bg2");
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 999;
-      transition: all .3s;
-      &.shrink {
-        box-shadow: themed(box-shadow);
-        background-color: themed("bg2");
+      transition: all 0.3s;
+      // &.shrink {
+      //   box-shadow: themed(box-shadow);
+      //   background-color: themed("bg2");
+      // }
+      @include mobile {
+        display: none;
       }
       .container {
         @include flex(center, space-between);
@@ -40,17 +42,27 @@
           ul {
             height: 100%;
             @include flex(center, space-between);
-            gap: $spacing;
+            gap: 20px;
             li {
               height: 100%;
               a {
                 @include flex(center, center);
+                gap: 4px;
                 height: 100%;
                 padding: 0 10px;
-                font-size: $font-size-s;
-                color: themed("text1");
-                font-weight: 500;
                 position: relative;
+                svg {
+                  --size: 20px;
+                  width: var(--size);
+                  height: var(--size);
+                  color: themed("text1");
+                }
+                span {
+                  font-weight: 500;
+                  color: themed("text1");
+                  font-weight: 500;
+                  font-size: $font-size-s;
+                }
                 &::after {
                   content: "";
                   position: absolute;
@@ -67,9 +79,22 @@
                 &:hover::after {
                   width: 100%;
                 }
+                &:hover {
+                  svg {
+                    color: themed("primary");
+                  }
+                  span {
+                    color: themed("primary");
+                  }
+                }
                 &.active {
                   width: 100%;
-                  color: themed("primary");
+                  svg {
+                    color: themed("primary");
+                  }
+                  span {
+                    color: themed("primary");
+                  }
                   &::after {
                     width: 100%;
                   }
@@ -91,12 +116,11 @@
           }
           &__user {
             @include button($color-white, $color-primary);
-            a {
-            }
           }
           &__company {
             a {
               font-size: $font-size-s;
+              font-weight: 500;
               color: themed("text1");
               font-weight: 500;
             }

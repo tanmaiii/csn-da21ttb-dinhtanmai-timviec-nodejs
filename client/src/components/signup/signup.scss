@@ -34,14 +34,14 @@
         gap: 8px;
         width: 100%;
         label {
-          font-size: $font-size-m;
+          font-size: $font-size-s;
           font-weight: 500;
           color: themed("text2");
         }
         input {
           background-color: themed("bg2");
           padding: 20px 20px;
-          font-size: $font-size-m;
+          font-size: $font-size-s;
           width: 100%;
           border-radius: $border-radius;
           color: themed("text1");
@@ -55,11 +55,11 @@
       .link-signin {
         @include flex(center, unset);
         gap: 8px;
-        font-size: $font-size-m;
+        font-size: $font-size-s;
         color: themed("text1");
         margin-top: 20px;
-        h4 {
-          font-size: $font-size-m;
+        a {
+          font-size: $font-size-s;
           color: themed("text1");
           font-weight: 600;
           cursor: pointer;

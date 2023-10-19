@@ -2,13 +2,20 @@
 
 .authUser {
   @include themify($themes) {
+    @include flex(center, unset);
+    flex-direction: column;
+    margin-top: $height-header;
     min-height: 100vh;
-    @include flex(center, center);
+    h2{
+      padding: 20px;
+      color: themed('text1');
+      font-size: $font-size-l;
+    }
     &__container {
       max-width: 1200px;
       margin: 0 auto;
       background-color: themed("bg2");
-      padding: $spacing;
+      padding: 20px;
       @include flex(center, unset);
       border-radius: $border-radius;
       &__left {

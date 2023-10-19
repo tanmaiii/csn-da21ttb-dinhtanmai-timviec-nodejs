@@ -16,6 +16,8 @@ body{
     @include flex(center, center);
     &__wrapper{
         background-color: themed('bg1');
+        padding: $spacing;
+        border-radius: 20px;
     }
   }
 }

@@ -32,7 +32,7 @@
       position: relative;
       &:hover {
         button {
-          display: flex;
+          display: block;
         }
       }
       button {
@@ -43,9 +43,12 @@
         border-radius: 50%;
         z-index: 99;
         box-shadow: themed("box-shadow");
-        background-color: themed("bg1");
+        background-color: rgba($color: themed("bg1"), $alpha: 0.8);
         transition: all 0.3s;
+        width: 62px;
+        height: 62px;
         display: none;
+        cursor: pointer;
         &:hover {
           background-color: themed("primary");
           i {
@@ -54,19 +57,16 @@
         }
         i {
           color: themed("text1");
-          --size: 40px;
-          width: var(--size);
-          height: var(--size);
           font-size: $font-size-m;
           @include flex(center, center);
           cursor: pointer;
         }
       }
       &__left {
-        left: -36px;
+        left: -31px;
       }
       &__right {
-        right: -36px;
+        right: -31px;
       }
       &__list {
         overflow-y: auto;
@@ -105,6 +105,7 @@
             h6{
               font-size: $font-size-m;
               color: themed("text1");
+              font-weight: 400;
               text-align: center;
             }
             span {

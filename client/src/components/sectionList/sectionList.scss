@@ -1,0 +1,63 @@
+@use "../../scss/" as *;
+
+.sectionList {
+  @include themify($themes) {
+    &__header {
+      @include flex(center, unset);
+      margin: 20px 0;
+      gap: 10px;
+      h4 {
+        color: themed("text1");
+        font-size: $font-size-l;
+      }
+      &__link {
+        display: block;
+      }
+    }
+    &__body {
+      position: relative;
+      &:hover {
+        .sectionList__body__btn {
+          display: block;
+        }
+      }
+      .sectionList__body__btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 10px;
+        border-radius: 50%;
+        z-index: 99;
+        box-shadow: themed("box-shadow");
+        background-color: rgba($color: themed("bg1"), $alpha: 0.8);
+        transition: all 0.3s;
+        width: 62px;
+        height: 62px;
+        display: none;
+        cursor: pointer;
+        &:hover {
+          background-color: themed("primary");
+          i {
+            color: themed("bg1");
+          }
+        }
+        i {
+          color: themed("text1");
+          font-size: $font-size-m;
+          @include flex(center, center);
+          cursor: pointer;
+        }
+      }
+      &__left {
+        left: -31px;
+      }
+      &__right {
+        right: -31px;
+      }
+      &__list {
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+    }
+  }
+}

@@ -1,8 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import logo from "../../assets/images/logoJobQuest.png";
 import "./signup.scss";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
   return (
     <div className="signup">
       <div className="signup__header ">
@@ -34,7 +38,7 @@ export default function Signup() {
         </div>
         <button className="btn-signup">Đăng ký</button>
         <span className="link-signin">
-          Bạn đã có tài khoản ?<h4> Đăng nhập</h4>
+          Bạn đã có tài khoản ?<Link to={"/nguoi-xin-viec/dang-nhap"}> Đăng nhập</Link>
         </span>
       </div>
     </div>
