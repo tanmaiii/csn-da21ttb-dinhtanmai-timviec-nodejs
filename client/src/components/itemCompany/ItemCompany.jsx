@@ -18,7 +18,7 @@ export default function ItemCompany({ company, className }) {
             <h4>{company.name}</h4>
             <p className="desc">{company.desc}</p>
           </div>
-          <div className="itemCompanyrapper__body">
+          <div className="itemCompany__wrapper__body">
             <p className="quantity">{company.quantityJob}</p>
             <div className="address">
               <i className="fa-solid fa-location-dot"></i>

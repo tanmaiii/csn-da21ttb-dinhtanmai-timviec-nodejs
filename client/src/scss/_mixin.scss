@@ -89,10 +89,10 @@ $themes: (
   font-weight: 500;
   border: 2px solid $color;
   border-radius: $border-radius-10;
-
   font-size: $font-size-m;
   cursor: pointer;
   transition: all 0.3s;
+  @include flex(center, unset);
   &:hover {
     background-color: $color;
     color: $bg;

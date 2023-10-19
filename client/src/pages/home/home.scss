@@ -7,3 +7,70 @@
     background-color: themed("bg1");
   }
 }
+
+.home__section {
+  @include themify($themes) {
+    padding: $spacing 0;
+    @include flex(center, unset);
+    &__left {
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+    }
+    &__right {
+      height: 100%;
+      padding: $spacing;
+      & > * {
+        margin-bottom: 20px;
+      }
+      &__logo {
+        padding: 10px;
+        background-color: $color-primary;
+        border-radius: $border-radius-10;
+        color: $color-white;
+        font-size: $font-size-m;
+      }
+      h2 {
+        font-size: $font-size-xl;
+        color: themed("text1");
+      }
+      span {
+        font-size: $font-size-m;
+        color: themed("text1");
+        display: block;
+      }
+      &__btn {
+        @include flex(center, unset);
+        gap: 10px;
+        button:nth-child(1) {
+          @include button($color-white, $color-primary);
+          span {
+            color: $color-white;
+            margin-right: 10px;
+          }
+          &:hover {
+            span {
+              color: $color-primary;
+            }
+          }
+        }
+        button:nth-child(2) {
+          @include button-line(themed("text1"), $color-primary);
+          span {
+            color: themed("text1");
+            margin-right: 10px;
+          }
+          &:hover {
+            span ,i{
+              color:themed("bg1");
+            }
+          }
+        }
+      }
+    }
+  }
+}
