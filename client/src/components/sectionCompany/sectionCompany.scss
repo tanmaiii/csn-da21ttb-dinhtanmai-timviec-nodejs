@@ -1,0 +1,38 @@
+@use "../../scss/" as *;
+
+.sectionList {
+  @include themify($themes) {
+    background-color: themed("bg2");
+    padding: $spacing;
+    border-radius: $border-radius-20;
+    &__header {
+      @include flex(center, center);
+      margin-bottom: 20px;
+      gap: 10px;
+      h4 {
+        color: themed("text1");
+        font-size: $font-size-l;
+      }
+      &__link {
+        display: block;
+      }
+    }
+    &__body {
+      position: relative;
+      &__list {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+    &__btn {
+      width: 100%;
+      @include flex(center, center);
+      margin-top: 20px;
+      button {
+        @include flex(center, center);
+        gap: 8px;
+        @include button($color-white, $color-primary);
+      }
+    }
+  }
+}

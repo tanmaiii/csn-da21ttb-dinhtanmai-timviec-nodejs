@@ -7,12 +7,23 @@
     margin-top: $spacing;
     .container {
       .footer__list {
+        flex-wrap: wrap;
+        @include mobile {
+          flex-direction: column;
+        }
         .footer__list__col {
           @include flex(unset, unset);
           flex-direction: column;
           gap: 20px;
+          @include mobile {
+            justify-content: center;
+            align-items: center;
+          }
           &.pc-6 {
             padding-right: 100px;
+            @include mobile {
+              padding-right: 0;
+            }
           }
           &__logo {
             @include flex(center, unset);
@@ -72,18 +83,18 @@
               }
             }
           }
-          &__header{
+          &__header {
             font-size: $font-size-m;
             color: themed("text1");
             font-weight: 500;
             line-height: 1;
           }
-          &__list{
+          &__list {
             @include flex(unset, unset);
             flex-direction: column;
             gap: 8px;
-            li{
-              a{
+            li {
+              a {
                 font-size: $font-size-s;
                 color: themed("text2");
                 font-weight: 400;
@@ -92,6 +103,13 @@
             }
           }
         }
+      }
+      .footer__bottom{
+        font-size: $font-size-s;
+        color: themed("text2");
+        width: 100%;
+        @include flex(center,center);
+        padding: 20px;
       }
     }
   }

@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./sectionList.scss";
+import "./sectionCompany.scss";
 import ItemCompany from "../itemCompany/ItemCompany";
 import companies from "../../config/companies";
 
-export default function SectionList({ title }) {
+export default function SectionCompany({ title }) {
 
   const sectionListRef = useRef();
 
@@ -25,11 +25,11 @@ export default function SectionList({ title }) {
             ))}
         </div>
       </div>
-      <div className="sectionList__btn">
+      <Link className="sectionList__btn">
         <button className="">
           <span>Xem tất cả</span> <i className="fa-solid fa-chevron-right"></i>
         </button>
-      </div>
+      </Link>
     </div>
   );
 }

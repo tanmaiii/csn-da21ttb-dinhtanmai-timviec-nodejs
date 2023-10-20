@@ -9,7 +9,7 @@ export default function Footer() {
     <div className="footer">
       <div className="container">
         <div className="footer__list row">
-          <div className="footer__list__col col pc-6">
+          <div className="footer__list__col col pc-6 t-12 m-12">
             <div className="footer__list__col__logo">
               <img src={img} alt="" />
               <h2>JobQuest</h2>
@@ -28,7 +28,7 @@ export default function Footer() {
               </button>
             </div>
           </div>
-          <div className="footer__list__col col pc-2">
+          <div className="footer__list__col col pc-2 t-4 m-12">
             <h4 className="footer__list__col__header">About Us</h4>
             <ul className="footer__list__col__list">
               <li>
@@ -48,7 +48,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="footer__list__col col pc-2">
+          <div className="footer__list__col col pc-2 t-4 m-12">
             <h4 className="footer__list__col__header">About Us</h4>
             <ul className="footer__list__col__list">
               <li>
@@ -68,7 +68,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="footer__list__col col pc-2">
+          <div className="footer__list__col col pc-2 t-4 m-12">
             <h4 className="footer__list__col__header">About Us</h4>
             <ul className="footer__list__col__list">
               <li>
@@ -89,7 +89,9 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="footer__bottom"></div>
+        <span className="footer__bottom">
+          @2023 Đinh Tấn Mãi, Tra Vinh University.
+        </span>
       </div>
     </div>
   );

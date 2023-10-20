@@ -2,8 +2,17 @@ import React from "react";
 import "./home.scss";
 import HeroSlide from "../../components/heroSlide/HeroSlide";
 import SectionCategories from "../../components/sectionCategories/SectionCategories";
-import SectionList from "../../components/sectionList/SectionList";
+import SectionCompany from "../../components/sectionCompany/SectionCompany";
+import SectionJobs from "../../components/sectionJobs/SectionJobs";
 import presont from "../../assets/images/324234234.png";
+
+// import SvgInterview from '../../assets/svg/SvgInterview'
+// import SvgRegister from '../../assets/svg/SvgRegister'
+// import SvgUploadInfo from '../../assets/svg/SvgUploadInfo'
+
+import iconRegister from "../../assets/icon/log-in.png";
+import iconUploadInfo from "../../assets/icon/register.png";
+import iconInterview from "../../assets/icon/interview.png";
 
 export default function Home() {
   return (
@@ -12,7 +21,7 @@ export default function Home() {
       <div className="home-body">
         <div className="container">
           <SectionCategories />
-          <div className="home__section row" >
+          <div className="home__section row">
             <div className="home__section__left col pc-6">
               <img src={presont} alt="" />
             </div>
@@ -36,7 +45,42 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <SectionList title={"Công ty hàng đầu"} />
+          <SectionCompany title={"Công ty hàng đầu"} />
+          <div className="home__section_procedure">
+            <div className="home__section_procedure__header">
+              <h2>Quy trình Ứng Tuyển</h2>
+            </div>
+            <div className="home__section_procedure__body row">
+              <div className="col pc-4 home__section_procedure__body__item home__section_procedure__body__item-1">
+                <div className="icon">
+                  <img src={iconRegister} alt="" />
+                </div>
+                <div className="content">
+                  <h4>Tạo tài khoản</h4>
+                </div>
+              </div>
+              <div className="col pc-4 home__section_procedure__body__item home__section_procedure__body__item-2">
+                <div className="icon">
+                  <img src={iconUploadInfo} alt="" />
+                </div>
+                <div className="content">
+                  <h4>Tạo tài khoản</h4>
+                </div>
+              </div>
+              <div className="col pc-4 home__section_procedure__body__item home__section_procedure__body__item-3">
+                <div className="icon">
+                  <img src={iconInterview} alt="" />
+                </div>
+                <div className="content">
+                  <h4>Tạo tài khoản</h4>
+                </div>
+              </div>
+            </div>
+            <button>
+              <span>Ứng tuyển ngay</span>
+            </button>
+          </div>
+          <SectionJobs title={"Gợi ý việc làm"} />
         </div>
       </div>
     </div>

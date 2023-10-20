@@ -1,8 +1,8 @@
 @use "../../scss/" as *;
 
-.sectionList {
+.sectionJobs {
   @include themify($themes) {
-    background-color: themed('bg2');
+    background-color: themed("bg2");
     padding: $spacing;
     border-radius: $border-radius-20;
     &__header {
@@ -24,13 +24,14 @@
         flex-wrap: wrap;
       }
     }
-    &__btn{
+    &__btn {
       width: 100%;
       @include flex(center, center);
       margin-top: 20px;
-      button{
-        @include button($color-white, $color-primary)
-
+      button {
+        @include flex(center, center);
+        gap: 8px;
+        @include button($color-white, $color-primary);
       }
     }
   }
