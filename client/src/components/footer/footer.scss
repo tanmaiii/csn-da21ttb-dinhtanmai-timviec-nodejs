@@ -1,1 +1,98 @@
-@use '../../scss/' as *;
+@use "../../scss/" as *;
+
+.footer {
+  @include themify($themes) {
+    padding: $spacing 0;
+    border-top: 1px solid themed("border");
+    margin-top: $spacing;
+    .container {
+      .footer__list {
+        .footer__list__col {
+          @include flex(unset, unset);
+          flex-direction: column;
+          gap: 20px;
+          &.pc-6 {
+            padding-right: 100px;
+          }
+          &__logo {
+            @include flex(center, unset);
+            gap: 8px;
+            img {
+              --size: 40px;
+              width: var(--size);
+              height: var(--size);
+            }
+            h2 {
+              font-size: $font-size-l;
+              font-weight: 600;
+              color: themed("text1");
+            }
+          }
+          span {
+            color: themed("text2");
+            font-weight: 400;
+            font-size: $font-size-s;
+          }
+          &__input {
+            @include flex(center, unset);
+            background-color: themed("bg2");
+            width: max-content;
+            padding: 6px 10px;
+            border-radius: $border-radius-10;
+            i {
+              font-size: $font-size-m;
+              color: themed("text1");
+            }
+            input {
+              width: 240px;
+              padding: 10px;
+              font-size: $font-size-s;
+              color: themed("text1");
+              background-color: transparent;
+            }
+            button {
+              padding: 10px;
+              border-radius: $border-radius-10;
+              background-color: $color-primary;
+              cursor: pointer;
+              border: 1px solid $color-primary;
+              transition: all 0.3s;
+              &:hover {
+                background-color: transparent;
+                svg {
+                  fill: $color-primary;
+                }
+              }
+              svg {
+                @include flex(center, center);
+                fill: $color-white;
+                --size: 20px;
+                width: var(--size);
+                height: var(--size);
+              }
+            }
+          }
+          &__header{
+            font-size: $font-size-m;
+            color: themed("text1");
+            font-weight: 500;
+            line-height: 1;
+          }
+          &__list{
+            @include flex(unset, unset);
+            flex-direction: column;
+            gap: 8px;
+            li{
+              a{
+                font-size: $font-size-s;
+                color: themed("text2");
+                font-weight: 400;
+                line-height: 1;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

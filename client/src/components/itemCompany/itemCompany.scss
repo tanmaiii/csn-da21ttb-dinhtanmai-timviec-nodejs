@@ -3,7 +3,8 @@
 .itemCompany {
   @include themify($themes) {
     &__wrapper {
-      background-color: themed("bg2");
+      // background-color: themed("bg1");
+      border: 1px solid themed('border');
       padding: 20px;
       border-radius: $border-radius-10;
       height: 260px;
