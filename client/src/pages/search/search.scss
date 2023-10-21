@@ -1,0 +1,54 @@
+@use "../../scss/" as *;
+
+.search {
+  @include themify($themes) {
+    min-height: 100vh;
+    margin-top: $height-header;
+    &__wrapper {
+      padding: $spacing 0;
+      .container {
+        .search__banner {
+          &__wrapper {
+            background-color: themed("bg2");
+            padding: $spacing;
+            border-radius: $border-radius-20;
+            @include flex(center, unset);
+            flex-direction: column;
+            &__input {
+              background-color: themed("bg1");
+              border-radius: $border-radius-10;
+              @include flex(center, unset);
+              width: max-content;
+              gap: 8px;
+              &__career {
+                position: relative;
+                &::after {
+                  content: "";
+                  position: absolute;
+                  height: 50%;
+                  width: 1px;
+                  background-color: themed("border");
+                  right: -4px;
+                  top: 50%;
+                  transform: translateY(-50%);
+                }
+              }
+              &__province {
+              }
+              &__btn-search {
+                @include button($color-white, $color-primary);
+                margin: 0 10px;
+              }
+            }
+            &__filter {
+              margin-top: 20px;
+              @include flex(center, unset);
+              flex-wrap: wrap;
+              gap: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

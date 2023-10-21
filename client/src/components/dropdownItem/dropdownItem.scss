@@ -1,0 +1,65 @@
+@use "../../scss/" as *;
+
+.dropdown {
+  position: relative;
+  @include themify($themes) {
+    .dropdown__toggle {
+      padding: 12px 20px;
+      background-color: themed("bg1");
+      border-radius: $border-radius-30;
+      border: 2px solid themed("bg1");
+      @include flex(center, unset);
+      cursor: pointer;
+      gap: 6px;
+      color: themed("text1");
+      transition: all 0.3s;
+      user-select: none;
+      &:hover {
+        background-color: transparent;
+      }
+      &.active {
+        background-color: $color-primary;
+        color: $color-white;
+      }
+      span {
+        font-size: $font-size-s;
+      }
+      i {
+        @include flex(center, center);
+        font-size: $font-size-s;
+      }
+    }
+    .dropdown__menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      width: 100%;
+      background-color: themed("bg1");
+      box-shadow: themed("box-shadow");
+      border-radius: $border-radius-10;
+      overflow: hidden;
+      display: block;
+      &__item {
+        label {
+          padding: 10px;
+          cursor: pointer;
+          @include flex(center, unset);
+          gap: 10px;
+          transition: all 0.3s;
+          &:hover {
+            background-color: themed("bg2");
+          }
+          input {
+            min-height: 20px;
+            min-width: 20px;
+            cursor: pointer;
+          }
+          span {
+            color: themed("text1");
+            font-size: $font-size-s;
+          }
+        }
+      }
+    }
+  }
+}

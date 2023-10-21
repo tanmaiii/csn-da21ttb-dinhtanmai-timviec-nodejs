@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import iconLocation from "../../assets/icon/icons8-location-48.png";
 import "./searchProvince.scss";
 
 import province from "../../config/province";
@@ -12,6 +11,8 @@ export default function SearchProvince() {
   const [openProvince, setOpenProvince] = useState(false);
 
   const typingTimeoutRef = useRef(null);
+  const searchProvinceRef = useRef();
+
   const inputProvinceRef = useRef();
 
   const handleSearchProvince = (e) => {
@@ -44,6 +45,7 @@ export default function SearchProvince() {
 
   const handleSlectedItemProvince = (value) => {
     setOpenProvince(false);
+    setValueProvince(value);
     inputProvinceRef.current.value = value;
   };
 
@@ -52,6 +54,18 @@ export default function SearchProvince() {
     setOpenProvince(false);
     inputProvinceRef.current.value = "";
   };
+
+  useEffect(() => {
+    let handleMousedown = (e) => {
+      if (!searchProvinceRef.current.contains(e.target)) {
+        setOpenProvince(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => {
+      document.removeEventListener("mousedown", handleMousedown);
+    };
+  });
 
   useEffect(() => {
     inputProvinceRef.current.addEventListener("focus", () => {
@@ -64,7 +78,7 @@ export default function SearchProvince() {
   }, []);
 
   return (
-    <div className="searchProvince">
+    <div className="searchProvince" ref={searchProvinceRef}>
       <i class="fa-solid fa-location-dot"></i>
       <input
         type="text"

@@ -20,7 +20,7 @@ export default function HeroSlide() {
     <div className="HeroSlide" style={{ backgroundImage: `url(${darkMode ? bg2 : bg1})` }}>
       <div className="container">
         <div className="HeroSlide__wrapper row">
-          <div className="HeroSlide__wrapper__left col pc-7">
+          <div className="HeroSlide__wrapper__left col pc-7 t-7 m-12">
             <h6></h6>
             <h4>
               "Khám phá tiềm năng nghề nghiệp cùng JobQuest - Bước đầu cho sự
@@ -51,7 +51,7 @@ export default function HeroSlide() {
               <SearchHeroSlide />
             </div>
           </div>
-          <div className="HeroSlide__wrapper__right col pc-5">
+          <div className="HeroSlide__wrapper__right col pc-5 t-5 m-12">
             <img src={img} alt="" />
           </div>
         </div>

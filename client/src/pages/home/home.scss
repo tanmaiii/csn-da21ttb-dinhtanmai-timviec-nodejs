@@ -3,7 +3,8 @@
 .home {
   @include themify($themes) {
     min-height: 100vh;
-    margin-top: calc($height-header + 12px);
+    // margin-top: calc($height-header + 12px);
+     margin-top: 0;
     background-color: themed("bg1");
     .home-body {
       .container {
@@ -19,6 +20,7 @@
   @include themify($themes) {
     padding: $spacing 0;
     @include flex(center, unset);
+    flex-wrap: wrap;
     &__left {
       overflow: hidden;
 
@@ -84,35 +86,122 @@
 
 .home__section_procedure {
   @include themify($themes) {
+    @include flex(center, center);
+    flex-direction: column;
+    gap: 20px;
+
     &__header {
       padding: 20px;
       @include flex(center, center);
+      h2 {
+        font-size: $font-size-xl;
+        color: themed("text1");
+      }
     }
     &__body {
-      @include flex(center, space-between);
+      @include flex(start, space-between);
+      width: 100%;
+      background-color: #9ae6ff;
+      border-radius: $border-radius-20;
+      padding: $spacing;
+      @include mobile {
+        flex-direction: column;
+        gap: 10px;
+      }
       &__item {
         @include flex(center, unset);
         flex-direction: column;
         gap: 10px;
+        position: relative;
+        height: 100%;
+        @include mobile {
+          flex-direction: row;
+          border: 1px solid $color-white;
+          border-radius: $border-radius-10;
+          // width: 400px;
+          align-items: start;
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          background-color: $color-primary;
+          top: 60px;
+          left: 50%;
+          z-index: 1;
+          @include mobile {
+            // display: none;
+            left: 61px;
+            bottom: 10px;
+            height: 100%;
+            width: 2px;
+          }
+        }
+        &:last-child::after {
+          display: none;
+        }
+        &:first-child {
+          .icon::after {
+            display: none;
+          }
+        }
         .icon {
           --size: 100px;
-          width: var(--size);
+          min-width: var(--size);
           height: var(--size);
           background-color: $color-primary;
           padding: 22px;
           border-radius: 50%;
           @include flex(center, center);
+          z-index: 99;
+          position: relative;
           img {
             @include flex(center, center);
             width: 100%;
             height: 100%;
             object-fit: contain;
           }
+          &::after {
+            content: "";
+            left: -10px;
+            top: unset;
+            transform: rotate(45deg);
+            width: 8px;
+            height: 8px;
+            border: 2px solid $color-primary;
+            border-bottom: 0;
+            border-left: 0;
+            position: absolute;
+            @include mobile {
+              // display: none;
+              top: -10px;
+              left: unset;
+              transform: rotate(135deg);
+            }
+          }
         }
-        .content{
-          font-size: $font-size-m;
+        .content {
+          text-align: center;
+          @include mobile {
+            text-align: left;
+          }
+          h4 {
+            font-size: $font-size-m;
+            color: themed("text1");
+          }
+          span {
+            font-size: $font-size-s;
+            color: themed("text2");
+          }
         }
       }
+    }
+    button {
+      @include button($color-white, $color-primary);
+      @include flex(center, unset);
+      gap: 8px;
+      margin-top: 20px;
     }
   }
 }

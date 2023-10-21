@@ -5,6 +5,9 @@
     background-color: themed("bg2");
     padding: $spacing;
     border-radius: $border-radius-20;
+    @include mobile{
+      padding: 20px
+    }
     &__header {
       @include flex(center, center);
       margin-bottom: 20px;

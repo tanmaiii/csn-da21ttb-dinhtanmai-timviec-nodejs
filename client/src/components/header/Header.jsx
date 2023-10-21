@@ -8,12 +8,32 @@ import { BiSearch } from "react-icons/bi";
 import { FaRegBuilding } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
+const hedearItem = [
+  {
+    display: "Home",
+    icon: <HiOutlineHome />,
+    path: "/",
+  },
+  {
+    display: "Tìm kiếm",
+    icon: <BiSearch />,
+    path: "/tim-kiem",
+  },
+  {
+    display: "Công ty",
+    icon: <FaRegBuilding />,
+    path: "/cong-ty",
+  },
+];
 
 export default function Header() {
   const { darkMode, toggleDarkMode } = useMode();
   const [openLogin, setOpenLogin] = useState(false);
   const headerRef = useRef();
+
+  const {pathname} = useLocation();
 
   const navigate = useNavigate();
 
@@ -22,30 +42,29 @@ export default function Header() {
     window.location.reload();
   };
 
-  // useEffect(() => {
-  //   const shinkHeader = () => {
-  //     if (
-  //       document.body.scrollTop > 100 ||
-  //       document.documentElement.scrollTop > 100
-  //     ) {
-  //       headerRef.current.classList.add("shrink");
-  //     } else {
-  //       headerRef.current.classList.remove("shrink");
-  //     }
-  //     window.addEventListener("scroll", shinkHeader);
-  //   };
+  let lastScrollTop = 0;
 
-  //   shinkHeader();
-
-  //   return () => {
-  //     window.removeEventListener("scroll", shinkHeader());
-  //   };
-  // }, []);
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if(scrollTop == 0 ){
+        headerRef.current.style.top = "0"
+        headerRef.current.classList.remove('shrink')
+    }else{
+        if(scrollTop > lastScrollTop){
+            headerRef.current.style.top = "-100px"
+        headerRef.current.classList.remove('shrink')
+        }else{
+            headerRef.current.style.top = "0px"
+            headerRef.current.classList.add('shrink')
+        }
+    }
+    lastScrollTop = scrollTop
+  })
 
   return (
     <>
       <div className="header">
-        <div className="header__wrapper" ref={headerRef}>
+        <div className={`header__wrapper ${pathname != '/' ? 'bg' : ''}`} ref={headerRef}>
           <div className="container">
             <div className="header__wrapper__logo" onClick={handleReloadPage}>
               <img src={img} alt="" />
@@ -54,30 +73,14 @@ export default function Header() {
 
             <div className="header__wrapper__control">
               <ul>
-                <li>
-                  <Link className="active" to={'/'}>
-                    <HiOutlineHome />
-                    <span>Home</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link  to={'/tim-viec'}>
-                    <BiSearch />
-                    <span>Tìm việc</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to={'/danh-gia'}>
-                    <FaRankingStar /> 
-                    <span>Đánh giá</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to={'/cong-ty'}>
-                    <FaRegBuilding />
-                    <span>Công ty</span>
-                  </Link>
-                </li>
+                {hedearItem.map((item, i) => (
+                  <li key={i}>
+                    <Link className={pathname === item.path ? 'active' : ''} to={item.path}>
+                      {item.icon}
+                      <span>{item.display}</span>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 

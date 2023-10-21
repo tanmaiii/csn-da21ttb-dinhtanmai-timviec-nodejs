@@ -3,6 +3,8 @@
 .sectionCategories {
   @include themify($themes) {
     padding: $spacing 0;
+    @include mobile{
+    }
     &__header {
       margin: 20px 0;
       @include flex(center, unset);

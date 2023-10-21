@@ -3,20 +3,28 @@
 .HeroSlide {
   @include themify($themes) {
     background-position: center;
-    height: calc(100vh - $height-header);
+    // height: calc(100vh - $height-header);
+     height: calc(102vh);
     background-repeat: no-repeat;
     background-size: cover;
+    @include mobile{
+      height: max-content;
+    }
     .container {
       height: 100%;
       .HeroSlide__wrapper {
         height: 100%;
         @include flex(center, center);
         padding: $spacing 0;
-        gap: $spacing;
-        @include mobile{
-          flex-direction: column;
+        @include mobile {
+          height: max-content;
+          flex-direction: column-reverse;
+          gap: 0;
         }
         &__left {
+          @include mobile {
+            height: 50%;
+          }
           & > * {
             margin-bottom: 20px;
           }
@@ -31,12 +39,13 @@
           }
           ul {
             @include flex(center, unset);
+            flex-wrap: wrap;
             gap: 20px;
             li {
               img {
                 --size: 35px;
                 height: var(--size);
-                filter:grayscale(100%);
+                filter: grayscale(100%);
                 -webkit-filter: grayscale(100%);
               }
             }
@@ -45,10 +54,19 @@
         &__right {
           width: 100%;
           @include flex(center, center);
+          @include mobile {
+            height: 50%;
+            width: 50%;
+          }
           img {
             width: 100%;
             height: auto;
             object-fit: cover;
+            @include mobile {
+              height: 100%;
+              width: 100%;
+              object-fit: cover;
+            }
           }
         }
       }

@@ -28,7 +28,7 @@
       input {
         font-size: $font-size-s;
         padding: 10px 8px;
-        background-color: themed("bg2");
+        background-color: transparent;
         color: themed("text1");
         width: 100%;
         &:focus ~ .searchHeroSide__wrapper__select__list {
@@ -61,6 +61,7 @@
         background-color: themed("bg2");
         overflow: hidden;
         display: none;
+        z-index: 99;
         &.show {
           display: block;
         }

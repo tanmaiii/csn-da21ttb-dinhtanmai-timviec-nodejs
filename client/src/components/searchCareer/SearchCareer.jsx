@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import iconSearch from "../../assets/icon/icons8-search-480.png";
 import "./searchCareer.scss";
 import career from "../../config/career";
 import formatStr from "../../config/formatStr";
@@ -10,6 +9,7 @@ export default function SearchCareer() {
   const [valueCareer, setValueProvince] = useState("");
 
   const typingTimeoutRef = useRef();
+  const searchCareerRef = useRef();
   const inputCareerRef = useRef();
 
   const handleSearchCareer = (e) => {
@@ -43,11 +43,12 @@ export default function SearchCareer() {
   const handleDeleteValueProvince = () => {
     inputCareerRef.current.value = "";
     setOpenCareer(false);
-    setValueProvince("")
+    setValueProvince("");
   };
 
   const handleSlectedItemProvince = (value) => {
     inputCareerRef.current.value = value;
+    setValueProvince(value);
     setOpenCareer(false);
   };
 
@@ -58,12 +59,24 @@ export default function SearchCareer() {
   });
 
   useEffect(() => {
+    let handleMousedown = (e) => {
+      if (!searchCareerRef.current.contains(e.target)) {
+        setOpenCareer(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => {
+      document.removeEventListener("mousedown",handleMousedown);
+    };
+  });
+
+  useEffect(() => {
     setListCareer(career.slice(0, 5));
   }, []);
 
   return (
-    <div className="searchCareer">
-     <i class="fa-solid fa-magnifying-glass"></i>
+    <div className="searchCareer" ref={searchCareerRef}>
+      <i class="fa-solid fa-magnifying-glass"></i>
       <input
         type="text"
         placeholder="Tên công việc, công ty..."
@@ -86,7 +99,7 @@ export default function SearchCareer() {
               className="searchCareer__list__item"
               onClick={() => handleSlectedItemProvince(item.name)}
             >
-             <i class="fa-solid fa-magnifying-glass"></i>
+              <i class="fa-solid fa-magnifying-glass"></i>
               <span>{item.name}</span>
             </div>
           ))}

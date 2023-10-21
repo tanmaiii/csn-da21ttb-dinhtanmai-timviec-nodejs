@@ -21,7 +21,7 @@
     input {
       font-size: $font-size-s;
       color: themed("text1");
-      background-color: themed("bg2");
+      background-color: transparent;
       padding: 10px 8px;
       width: 100%;
     }
@@ -48,6 +48,7 @@
       box-shadow: themed("box-shadow");
       background-color: themed("bg2");
       overflow: hidden;
+      z-index: 99;
       //transform: translateY(-100%);
       display: none;
       // opacity: 0;

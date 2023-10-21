@@ -3,17 +3,22 @@
 .header {
   @include themify($themes) {
     .header__wrapper {
-      box-shadow: themed(box-shadow);
-      background-color: themed("bg2");
+      // box-shadow: themed(box-shadow);
+      // background-color: themed("bg2");
+      background-color: transparent;
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 999;
       transition: all 0.3s;
-      // &.shrink {
-      //   box-shadow: themed(box-shadow);
-      //   background-color: themed("bg2");
-      // }
+      &.shrink {
+        box-shadow: themed(box-shadow);
+        background-color: themed("bg2");
+      }
+      &.bg {
+        box-shadow: themed(box-shadow);
+        background-color: themed("bg2");
+      }
       @include mobile {
         display: none;
       }
@@ -51,7 +56,7 @@
                 height: 100%;
                 padding: 0 10px;
                 position: relative;
-                svg {
+                svg, i, box-icon {
                   --size: 20px;
                   width: var(--size);
                   height: var(--size);
