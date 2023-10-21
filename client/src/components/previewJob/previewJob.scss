@@ -1,0 +1,88 @@
+@use "../../scss/" as *;
+
+.previewJob {
+  @include themify($themes) {
+    overflow-y: scroll;
+    height: calc(100vh - 244px);
+    min-height: 100%;
+    
+    &__image {
+      padding: 20px;
+      width: 100%;
+      @include flex(end, unset);
+      gap: 20px;
+      img {
+        --size: 100px;
+        width: var(--size);
+        height: var(--size);
+        object-fit: cover;
+        box-shadow: themed("box-shadow");
+      }
+      &__name {
+        h4 {
+          font-size: $font-size-m;
+          color: themed("text1");
+        }
+        span {
+          font-size: $font-size-s;
+          color: $color-blue;
+          transition: all 0.3s;
+          cursor: pointer;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    &__button {
+      @include flex(center, unset);
+      padding: 20px;
+      gap: 10px;
+      .btn_apply {
+        @include button($color-white, $color-primary);
+      }
+      .btn_save {
+        @include button-line($color-red, $color-white);
+        display: flex;
+        gap: 8px;
+      }
+    }
+    &__info__main {
+      padding: 20px;
+      width: 100%;
+      background-color: #f1ffed;
+      display: flex;
+      &__col {
+        .item {
+          padding: 10px;
+          border-bottom: 1px solid themed("border");
+          &:last-child{
+            border: 0;
+          }
+          .header {
+            @include flex(center, unset);
+            gap: 8px;
+            margin-bottom: 8px;
+            i {
+              color: themed("text1");
+              font-size: $font-size-s;
+            }
+            h4 {
+              color: themed("text1");
+              font-size: $font-size-s;
+            }
+          }
+          .content {
+            span {
+              color: themed("text2");
+              font-size: $font-size-s;
+            }
+          }
+        }
+      }
+    }
+    &__desc{
+        padding: 20px;
+    }
+  }
+}

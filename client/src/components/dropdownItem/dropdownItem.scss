@@ -39,6 +39,7 @@
       border-radius: $border-radius-10;
       overflow: hidden;
       display: block;
+      z-index: 99;
       &__item {
         label {
           padding: 10px;

@@ -2,32 +2,39 @@
 
 .itemJob {
   @include themify($themes) {
+    &.active {
+      .itemJob__wrapper {
+        border: 1px solid $color-primary;
+      }
+    }
     &__wrapper {
       @include flex(start, unset);
       gap: 10px;
       border: 1px solid themed("border");
       padding: 10px;
       border-radius: $border-radius-10;
-      background-color: themed('bg2');
+      background-color: themed("bg2");
       cursor: pointer;
+      min-height: 160px;
       &:hover {
         box-shadow: themed("box-shadow");
       }
       &__image {
-        width: 20%;
-        height: 100%;
+        min-width: 80px;
+        height: 80px;
+        width: 80px;
         @include flex(center, unset);
         border: 1px solid themed("border");
         border-radius: $border-radius-10;
         overflow: hidden;
         img {
           width: 100%;
-          height: 100px;
+          height: 100%;
           object-fit: cover;
         }
       }
       &__body {
-        width: 80%;
+        width: 100%;
         padding: 0 10px;
         & > * {
           margin-bottom: 8px;
@@ -39,7 +46,7 @@
             font-size: $font-size-s;
             color: themed("text1");
             font-weight: 500;
-            @include text(1);
+            @include text(2);
           }
           button {
             background-color: transparent;

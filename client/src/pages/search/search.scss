@@ -97,11 +97,11 @@
                     cursor: pointer;
                     text-align: left;
                     width: 100%;
-                    &.active{
+                    &.active {
                       font-weight: 600;
                     }
-                    &:hover{
-                      background-color: themed('bg1');
+                    &:hover {
+                      background-color: themed("bg1");
                     }
                   }
                 }
@@ -110,6 +110,20 @@
           }
           &__body {
             flex-wrap: wrap;
+            &__side {
+            }
+            &__preview {
+              width: 100%;
+              height: calc(100vh - $height-header);
+              position:sticky;
+              top: $height-header;
+              &__wrapper {
+                border-radius: $border-radius-20;
+                background-color: themed("bg2");
+                height: 100%;
+                width: 100%;
+              }
+            }
           }
           &__bottom {
             @include flex(center, center);

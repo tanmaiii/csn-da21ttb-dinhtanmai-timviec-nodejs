@@ -89,12 +89,19 @@ $themes: (
   font-weight: 500;
   border: 2px solid $color;
   border-radius: $border-radius-10;
-  font-size: $font-size-m;
+  font-size: $font-size-s;
   cursor: pointer;
   transition: all 0.3s;
   @include flex(center, unset);
+  span,i {
+    color: $color;
+    font-size: $font-size-s;
+  }
   &:hover {
     background-color: $color;
     color: $bg;
+    span,i {
+      color: $bg;
+    }
   }
 }

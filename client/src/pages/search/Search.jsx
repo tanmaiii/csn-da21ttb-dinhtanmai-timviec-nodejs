@@ -4,6 +4,7 @@ import SearchCareer from "../../components/searchCareer/SearchCareer";
 import SearchProvince from "../../components/searchProvince/SearchProvince";
 import DropdownItem from "../../components/dropdownItem/DropdownItem";
 import ItemJob from "../../components/itemJob/ItemJob";
+import PreviewJob from "../../components/previewJob/PreviewJob";
 import jobs from "../../config/jobs";
 import { useState } from "react";
 
@@ -17,16 +18,16 @@ const sort = [
   {
     displayName: "Lương thấp đến cao",
   },
-]
+];
 
 export default function Search() {
-  const [openSort , setOpenSort] = useState(false);
+  const [openSort, setOpenSort] = useState(false);
   const [sortActive, setSortActive] = useState("Sắp xếp");
 
   const handleSelectSort = (item) => {
-    setOpenSort(false)
-    setSortActive(item.displayName)
-  }
+    setOpenSort(false);
+    setSortActive(item.displayName);
+  };
 
   return (
     <div className="search">
@@ -57,22 +58,42 @@ export default function Search() {
               <h4>120 việc làm</h4>
               <div className="search__list__header__sort">
                 <div className="dropdown">
-                  <div className="header" onClick={() => setOpenSort(!openSort)}>
+                  <div
+                    className="header"
+                    onClick={() => setOpenSort(!openSort)}
+                  >
                     <span>{sortActive && sortActive}</span>
                     <i class="fa-solid fa-angle-down"></i>
                   </div>
-                  {openSort && <div className="list">
-                    {sort.map(item => (
-                      <span className={`list__item ${sortActive === item.displayName ? 'active' : ''}`}onClick={() => handleSelectSort(item)}>{item.displayName}</span>
-                    ))}
-                  </div>}
+                  {openSort && (
+                    <div className="list">
+                      {sort.map((item) => (
+                        <span
+                          className={`list__item ${
+                            sortActive === item.displayName ? "active" : ""
+                          }`}
+                          onClick={() => handleSelectSort(item)}
+                        >
+                          {item.displayName}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             <div className="search__list__body row">
-              {jobs.map((job) => (
-                <ItemJob job={job} className={"col pc-6 t-6 m-12"} />
-              ))}
+              <div className="search__list__body__side pc-4 t-4 m-12">
+                {jobs.map((job) => (
+                  <ItemJob job={job} className={"col pc-12 t-12 m-12"} />
+                ))}
+              </div>
+
+              <div className="search__list__body__preview col pc-8 t-8 m-0">
+                <div className="search__list__body__preview__wrapper">
+                      <PreviewJob/>
+                </div>
+              </div>
             </div>
             <div className="search__list__bottom">
               <button>Thêm</button>
