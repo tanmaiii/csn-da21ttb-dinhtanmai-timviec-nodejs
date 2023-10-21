@@ -8,6 +8,7 @@
       border: 1px solid themed("border");
       padding: 10px;
       border-radius: $border-radius-10;
+      background-color: themed('bg2');
       cursor: pointer;
       &:hover {
         box-shadow: themed("box-shadow");
@@ -32,10 +33,10 @@
           margin-bottom: 8px;
         }
         &__header {
-          @include flex(start, space-between);
+          @include flex(end, space-between);
           gap: 8px;
           .name {
-            font-size: $font-size-m;
+            font-size: $font-size-s;
             color: themed("text1");
             font-weight: 500;
             @include text(1);

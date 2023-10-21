@@ -6,8 +6,6 @@ export default function DropdownItem({ type }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef();
 
-  console.log(filter.filter((item) => item.name === type));
-
   useEffect(() => {
     const handleMousedown = (e) => {
       if (!dropdownRef.current.contains(e.target)) {

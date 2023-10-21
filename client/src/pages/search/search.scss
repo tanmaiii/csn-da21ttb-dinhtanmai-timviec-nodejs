@@ -7,6 +7,9 @@
     &__wrapper {
       padding: $spacing 0;
       .container {
+        & > * {
+          margin-bottom: 20px;
+        }
         .search__banner {
           &__wrapper {
             background-color: themed("bg2");
@@ -45,6 +48,74 @@
               @include flex(center, unset);
               flex-wrap: wrap;
               gap: 10px;
+            }
+          }
+        }
+        .search__list {
+          &__header {
+            @include flex(center, space-between);
+            padding: 10px 0;
+            h4 {
+              font-size: $font-size-m;
+              color: themed("text1");
+              font-weight: 600;
+              user-select: none;
+            }
+            &__sort {
+              @include flex(center, unset);
+              gap: 8px;
+              .dropdown {
+                position: relative;
+                .header {
+                  font-size: $font-size-s;
+                  color: themed("text1");
+                  font-weight: 600;
+                  padding: 10px 20px;
+                  background-color: themed("bg2");
+                  border-radius: $border-radius-10;
+                  cursor: pointer;
+                  @include flex(center, unset);
+                  gap: 8px;
+                }
+                .list {
+                  position: absolute;
+                  background-color: themed("bg2");
+                  box-shadow: themed("box-shadow");
+                  border-radius: $border-radius-10;
+                  width: max-content;
+                  @include flex(start, unset);
+                  flex-direction: column;
+                  right: 0;
+                  top: calc(100% + 8px);
+                  overflow: hidden;
+                  z-index: 99;
+                  &__item {
+                    padding: 10px;
+                    font-size: $font-size-s;
+                    color: themed("text1");
+                    font-weight: 400;
+                    cursor: pointer;
+                    text-align: left;
+                    width: 100%;
+                    &.active{
+                      font-weight: 600;
+                    }
+                    &:hover{
+                      background-color: themed('bg1');
+                    }
+                  }
+                }
+              }
+            }
+          }
+          &__body {
+            flex-wrap: wrap;
+          }
+          &__bottom {
+            @include flex(center, center);
+            padding: 20px 0;
+            button {
+              @include button($color-white, $color-primary);
             }
           }
         }
