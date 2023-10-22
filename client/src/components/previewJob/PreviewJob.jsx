@@ -90,33 +90,92 @@ export default function PreviewJob() {
           </div>
         </div>
       </div>
-      <div className="previewJob__desc">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo ad esse
-        repudiandae iure, placeat nam officia, vero pariatur rem ut nemo atque
-        eum, tenetur magni qui quos. Corporis, eum temporibus. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Illo ad esse repudiandae iure,
-        placeat nam officia, vero pariatur rem ut nemo atque eum, tenetur magni
-        qui quos. Corporis, eum temporibus. Lorem ipsum dolor sit amet
-        consectetur adipisicing elit. Illo ad esse repudiandae iure, placeat nam
-        officia, vero pariatur rem ut nemo atque eum, tenetur magni qui quos.
-        Corporis, eum temporibus. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Illo ad esse repudiandae iure, placeat nam officia,
-        vero pariatur rem ut nemo atque eum, tenetur magni qui quos. Corporis,
-        eum temporibus. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Illo ad esse repudiandae iure, placeat nam officia, vero pariatur rem ut
-        nemo atque eum, tenetur magni qui quos. Corporis, eum temporibus. Lorem
-        ipsum dolor sit amet consectetur adipisicing elit. Illo ad esse
-        repudiandae iure, placeat nam officia, vero pariatur rem ut nemo atque
-        eum, tenetur magni qui quos. Corporis, eum temporibus. Lorem ipsum dolor
-        sit amet consectetur adipisicing elit. Illo ad esse repudiandae iure,
-        placeat nam officia, vero pariatur rem ut nemo atque eum, tenetur magni
-        qui quos. Corporis, eum temporibus. Lorem ipsum dolor sit amet
-        consectetur adipisicing elit. Illo ad esse repudiandae iure, placeat nam
-        officia, vero pariatur rem ut nemo atque eum, tenetur magni qui quos.
-        Corporis, eum temporibus. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Illo ad esse repudiandae iure, placeat nam officia,
-        vero pariatur rem ut nemo atque eum, tenetur magni qui quos. Corporis,
-        eum temporibus.
+      <div className="previewJob__content">
+        <div className="previewJob__content__item previewJob__content__desctribe">
+          <div className="previewJob__content__item__header">
+            <h4>MÔ TẢ CÔNG VIỆC</h4>
+          </div>
+          <div className="previewJob__content__item__body">
+            <ul>
+              <li>-Quản lý các vấn đề kỹ thuật CNTT của Công ty</li>
+              <li>- Quản lý hệ thống mạng, thiết bị mạng, phần cứng</li>
+              <li>
+                - Hỗ trợ người dùng sử dụng phần mềm ứng dụng, các dịch vụ mạng,
+                thiết bị mạng, máy tính,... trong Công ty.
+              </li>
+              <li>
+                - Xây dựng và duy trì chiến lược công nghệ, đề xuất áp dụng các
+                giải pháp
+              </li>
+              <li>
+                - Xây dựng và triển khai kế hoạch thực hiện các dự án công nghệ
+                thông tin. Quản lý các dự án CNTT
+              </li>
+              <li>
+                - Lập kế hoạch phát triển hệ thống ứng dụng đáp ứng nhu cầu theo
+                từng giai đoạn
+              </li>
+              <li>
+                - Chuẩn hóa các quy trình trước khi áp dụng các hệ thống CNTT
+              </li>
+              <li>
+                - Duy trì các hệ thống CNTT hoạt động ổn định, bảo mật, an toàn
+                dữ liệu
+              </li>
+              <li>
+                - Nghiên cứu phát triển áp dụng CNTT vào Công ty một cách hiệu
+                quả.
+              </li>
+              <li>- Thiết kế, xây dựng kiến trúc cơ sở hạ tầng công nghệ</li>
+              <li>
+                - Định hướng, quản lý hoạt động và phát triển nguồn lực nhân
+                viên Phòng IT.
+              </li>
+              <li>- Xây dựng quy định liên quan đến hệ thống CNTT</li>
+              <li>
+                - Chi tiết công việc sẽ trao đổi rõ hơn trong buổi Phỏng vấn.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="previewJob__content__item previewJob__content__request">
+          <div className="previewJob__content__item__header">
+            <h4>YÊU CẦU CÔNG VIỆC</h4>
+          </div>
+          <div className="previewJob__content__item__body">
+            <ul>
+              <li>Giới tính: Không yêu cầu</li>
+              <li>
+                Sinh viên hoặc mới tốt nghiệp ngành quản trị kinh doanh,
+                logistics hoặc ngành có liên quan.
+              </li>
+              <li>Tư duy phân tích và ghi chép tốt.</li>
+              <li>Kiến thức cơ bản về logistics và chuỗi cung ứng.</li>
+              <li>Kỹ năng giao tiếp và thuyết phục.</li>
+              <li>
+                Tinh thần học hỏi và mong muốn phát triển nghề nghiệp trong lĩnh
+                vực Sales Logistic.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="previewJob__content__item previewJob__content__other">
+          <div className="previewJob__content__item__header">
+            <h4>THÔNG TIN KHÁC</h4>
+          </div>
+          <div className="previewJob__content__item__body">
+            <ul>
+              <li>Bằng cấp: Đại học</li>
+              <li>Thời gian thử việc: 2 tháng</li>
+              <li>Độ tuổi: 30 - 45</li>
+              <li>
+                Thời gian làm việc: Thứ 2 đến Thứ 6 (8h–18h), Nghỉ trưa
+                (12h–13h)
+              </li>
+              <li>Lương: Cạnh tranh</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
