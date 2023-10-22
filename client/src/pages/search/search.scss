@@ -111,6 +111,13 @@
           &__body {
             flex-wrap: wrap;
             &__side {
+              &__btn {
+                @include flex(center, center);
+                padding: 20px 0;
+                button {
+                  @include button($color-white, $color-primary);
+                }
+              }
             }
             &__preview {
               width: 100%;
@@ -125,13 +132,7 @@
               }
             }
           }
-          &__bottom {
-            @include flex(center, center);
-            padding: 20px 0;
-            button {
-              @include button($color-white, $color-primary);
-            }
-          }
+         
         }
       }
     }

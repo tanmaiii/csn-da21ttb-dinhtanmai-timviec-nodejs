@@ -52,6 +52,9 @@
       width: 100%;
       background-color: #f1ffed;
       display: flex;
+      &.dark{
+        background-color: #30336b;
+      }
       &__col {
         .item {
           padding: 10px;

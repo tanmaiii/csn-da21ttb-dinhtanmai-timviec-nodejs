@@ -1,8 +1,5 @@
 @use "../../scss/" as *;
 
-body{
-    overflow: hidden;
-}
 
 .Modal {
   @include themify($themes) {
@@ -14,10 +11,46 @@ body{
     top: 0;
     left: 0;
     @include flex(center, center);
-    &__wrapper{
-        background-color: themed('bg1');
-        padding: $spacing;
-        border-radius: 20px;
+    display: none;
+    &.active{
+      display: flex;
+    }
+    &__wrapper {
+      background-color: themed("bg2");
+      border-radius: 20px;
+      min-width: 400px;
+      min-height: 400px;
+      &__header {
+        @include flex(center, space-between);
+        padding: 20px;
+        h4 {
+          font-size: $font-size-m;
+          color: themed("text1");
+        }
+        .btn_close {
+          cursor: pointer;
+          background-color: transparent;
+          border-radius: 50%;
+          padding: 10px;
+          @include flex(center, center);
+          transition: all 0.3s;
+          user-select: none;
+          &:hover {
+            background-color: themed("bg1");
+          }
+          i {
+            @include flex(center, center);
+            --size: 20px;
+            width: var(--size);
+            height: var(--size);
+            font-size: $font-size-l;
+          }
+        }
+      }
+      &__body {
+        padding: 20px;
+        @include flex(center, space-between);
+      }
     }
   }
 }

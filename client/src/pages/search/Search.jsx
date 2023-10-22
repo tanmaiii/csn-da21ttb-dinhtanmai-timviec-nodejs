@@ -87,16 +87,16 @@ export default function Search() {
                 {jobs.map((job) => (
                   <ItemJob job={job} className={"col pc-12 t-12 m-12"} />
                 ))}
+                <div className="search__list__body__side__btn">
+                  <button>Thêm</button>
+                </div>
               </div>
 
               <div className="search__list__body__preview col pc-8 t-8 m-0">
                 <div className="search__list__body__preview__wrapper">
-                      <PreviewJob/>
+                  <PreviewJob />
                 </div>
               </div>
-            </div>
-            <div className="search__list__bottom">
-              <button>Thêm</button>
             </div>
           </div>
         </div>
