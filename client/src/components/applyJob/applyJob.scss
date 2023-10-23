@@ -1,1 +1,108 @@
-@use '../../scss/' as *;
+@use "../../scss/" as *;
+
+.applyJob {
+  @include themify($themes) {
+    min-width: 480px;
+    overflow-y: scroll;
+    height: 500px;
+    padding: 20px;
+    &__header{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: $font-size-l;
+        margin-bottom: 10px;
+    }
+    &__body {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      &__item {
+        @include flex(center, unset);
+        flex: 0 0 100%;
+        width: 100%;
+        margin-bottom: 10px;
+        label {
+          font-size: $font-size-s;
+          font-weight: 500;
+          color: themed("text1");
+          width: 100px;
+        }
+        input {
+          font-size: $font-size-s;
+          font-weight: 400;
+          width: calc(100% - 100px);
+          padding: 8px;
+          color: themed("text2");
+          border-bottom: 1px solid $color-primary;
+        }
+      }
+      &__item__textarea {
+        @include flex(unset, unset);
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+        label {
+          font-size: $font-size-s;
+          font-weight: 500;
+          color: themed("text1");
+          width: 100px;
+        }
+        textarea{
+            background-color: themed('bg1');
+            border-radius: $border-radius-10;
+            height: 400px;
+            resize: none;
+            padding: 20px;
+            color: themed('text1');
+            font-size: $font-size-s;
+        }
+      }
+      &__item__input {
+        @include flex(unset, unset);
+        flex-direction: column;
+        margin-bottom: 10px;
+        gap: 8px;
+        h6 {
+          font-size: $font-size-s;
+          font-weight: 500;
+          color: themed("text1");
+          min-width: 100px;
+        }
+        &__body{
+            width: 100%;
+            background-color: themed('bg1');
+            border-radius: $border-radius-10;
+            border: 1px dashed themed('text1');
+            @include flex(center, center);
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px;
+            h6{
+                font-size: $font-size-s;
+                color: themed('text1');
+                font-weight: 500;
+            }
+            label{
+                padding: 10px 20px;
+                background-color: $color-primary;
+                cursor: pointer;
+                user-select: none;
+                span{
+                    font-size: $font-size-s;
+                    color: $color-white;
+                }
+                input{
+                    display: none;
+                }
+            }
+        }
+      }
+    }
+    &__bottom{
+      button{
+        @include button($color-white, $color-primary);
+        width: 100%;
+      }
+    }
+  }
+}

@@ -10,6 +10,7 @@ import Layout from "./layout/Layout";
 import Home from "./pages/home/Home";
 import Search from "./pages/search/Search";
 import AuthUser from "./pages/authUser/AuthUser";
+import DetailJob from "./pages/detailJob/DetailJob";
 
 import Signin from "./components/signin/Signin";
 import Signup from "./components/signup/Signup";
@@ -29,6 +30,7 @@ function App() {
                 <Route path="dang-nhap" index element={<Signin />} />
                 <Route path="dang-ky" element={<Signup />} />
               </Route>
+              <Route path="/cong-viec/:id" element={<DetailJob />} />
             </Route>
           </Routes>
         </BrowserRouter>

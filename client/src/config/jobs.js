@@ -4,7 +4,7 @@ const jobs = [
     link: "/posts",
     company: "FPT Telecom",
     name: "UX/UI Designer",
-    wage: "12.000.000-15.000.000",
+    wage: "12tr - 15tr",
     photo:
       "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
     quantityJob: "40 việc làm",
@@ -28,7 +28,7 @@ const jobs = [
     link: "/posts",
     company: "FPT Telecom",
     name: "UX/UI Designer",
-    wage: "12.000.000-15.000.000",
+    wage: "12tr - 15tr",
     photo:
       "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
     quantityJob: "40 việc làm",
@@ -40,7 +40,7 @@ const jobs = [
     link: "/posts",
     company: "FPT Telecom",
     name: "UX/UI Designer",
-    wage: "12.000.000-15.000.000",
+    wage: "12tr - 15tr",
     photo:
       "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
     quantityJob: "40 việc làm",
@@ -52,7 +52,7 @@ const jobs = [
     link: "/posts",
     company: "CGV Trà Vinh",
     name: "Nhân viên thu ngân.",
-    wage: "12.000.000-15.000.000",
+    wage: "12tr - 15tr",
     photo:
       "https://yt3.googleusercontent.com/LgXlB82xCQv9NF8r6dUq0-VduICDv-YG6Dj9VgCUNKYUo0NNclcoQNo9K_tqBKdfjbUC8RWsGg=s900-c-k-c0x00ffffff-no-rj",
     quantityJob: "40 việc làm",
@@ -64,7 +64,7 @@ const jobs = [
     link: "/posts",
     company: "FPT Telecom",
     name: "UX/UI Designer",
-    wage: "12.000.000-15.000.000",
+    wage: "12tr - 15tr",
     photo:
       "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
     quantityJob: "40 việc làm",
@@ -76,7 +76,7 @@ const jobs = [
     link: "/posts",
     company: "FPT Telecom",
     name: "UX/UI Designer",
-    wage: "12.000.000-15.000.000",
+    wage: "12tr - 15tr",
     photo:
       "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
     quantityJob: "40 việc làm",
@@ -88,7 +88,7 @@ const jobs = [
     link: "/posts",
     company: "FPT Telecom",
     name: "UX/UI Designer",
-    wage: "12.000.000-15.000.000",
+    wage: "12tr - 15tr",
     photo:
       "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
     quantityJob: "40 việc làm",

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./itemJob.scss";
-import img from "../../assets/images/FPT_logo.png";
+import { Link } from "react-router-dom";
 
 export default function ItemJob({ className, job }) {
   const [save, setSave] = useState(false);
@@ -13,7 +13,9 @@ export default function ItemJob({ className, job }) {
         </div>
         <div className="itemJob__wrapper__body">
           <div className="itemJob__wrapper__body__header">
-            <h4 className="name">{job?.name}</h4>
+            <Link to={`/cong-viec/${job.id}`}>
+              <h4 className="name">{job?.name}</h4>
+            </Link>
             <button onClick={() => setSave(!save)}>
               {save ? (
                 <i class="fa-solid fa-bookmark"></i>

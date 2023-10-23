@@ -98,6 +98,7 @@
               color: themed("text2");
             }
             span {
+              @include text(1);
               color: themed("text2");
               font-size: $font-size-s;
               font-weight: 500;

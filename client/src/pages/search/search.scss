@@ -11,6 +11,7 @@
           margin-bottom: 20px;
         }
         .search__banner {
+          z-index: 1;
           &__wrapper {
             background-color: themed("bg2");
             padding: $spacing;

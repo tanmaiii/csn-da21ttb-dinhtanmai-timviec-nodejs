@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import "./home.scss";
 import HeroSlide from "../../components/heroSlide/HeroSlide";
 import SectionCategories from "../../components/sectionCategories/SectionCategories";
@@ -11,6 +11,9 @@ import iconUploadInfo from "../../assets/icon/register.png";
 import iconInterview from "../../assets/icon/web.png";
 
 export default function Home() {
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
   return (
     <div className="home">
       <HeroSlide />

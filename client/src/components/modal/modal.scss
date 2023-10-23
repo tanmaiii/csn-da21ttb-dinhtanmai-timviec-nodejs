@@ -6,12 +6,12 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba($color: #000000, $alpha: 0.24);
-    z-index: 99999;
     position: fixed;
     top: 0;
     left: 0;
     @include flex(center, center);
     display: none;
+    z-index: 99999;
     &.active{
       display: flex;
     }
@@ -20,6 +20,7 @@
       border-radius: 20px;
       min-width: 400px;
       min-height: 400px;
+      max-height: calc(100vh - $height-header);
       &__header {
         @include flex(center, space-between);
         padding: 20px;
@@ -48,8 +49,6 @@
         }
       }
       &__body {
-        padding: 20px;
-        @include flex(center, space-between);
       }
     }
   }

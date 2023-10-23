@@ -5,9 +5,8 @@ import { useMode } from "../../context/ModeContext";
 import Modal from '../../components/modal/Modal'
 import ApplyJob from "../applyJob/ApplyJob";
 
-export default function PreviewJob() {
+export default function PreviewJob({setOpenModal}) {
   const [save, setSave] = useState(false);
-  const [openModal, setOpenModal] = useState(false)
   const { darkMode } = useMode();
 
   return (
@@ -187,9 +186,6 @@ export default function PreviewJob() {
           </div>
         </div>
       </div>
-      <Modal title={"Nộp đơn"} openModal={openModal} setOpenModal={setOpenModal}>
-            <ApplyJob/>
-      </Modal>
     </>
   );
 }
