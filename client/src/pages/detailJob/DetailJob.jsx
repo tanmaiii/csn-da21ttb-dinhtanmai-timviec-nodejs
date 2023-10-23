@@ -40,7 +40,7 @@ export default function DetailJob({ setOpenModal }) {
                 )}
               </button>
             </div>
-            <div className={`detailJob__wrapper__main__important`} style={{}}>
+            <div className={`detailJob__wrapper__main__important`}>
               <div className="detailJob__wrapper__main__important__col col pc-6">
                 <div className="item">
                   <div className="header">

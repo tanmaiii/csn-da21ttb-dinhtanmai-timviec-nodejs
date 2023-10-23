@@ -1,5 +1,67 @@
-@use '../../scss/' as *;
+@use "../../scss/" as *;
 
-.listJobCol{
-    
+.listJobCol {
+  @include themify($themes) {
+    &__wrapper {
+      &__header {
+        h4 {
+          font-size: $font-size-m;
+          color: themed("text1");
+          font-weight: 500;
+        }
+      }
+      &__body {
+        &__item {
+          &__box {
+            background-color: themed("bg2");
+            border-radius: $border-radius-10;
+            padding: 10px;
+            cursor: pointer;
+            & > *{
+                margin-bottom: 10px;
+            }
+            .name__job {
+              font-size: $font-size-s;
+              font-weight: 600;
+              color: themed("text1");
+              @include text(1);
+            }
+            .name_company {
+              font-size: $font-size-s;
+              font-weight: 400;
+              color: themed("text2");
+            }
+            .wage {
+              background-color: themed("bg1");
+              padding: 6px 10px;
+              border-radius: $border-radius-10;
+              width: max-content;
+              @include flex(center, unset);
+              gap: 8px;
+              i {
+                font-size: $font-size-s;
+                color: themed("text2");
+              }
+              span {
+                @include text(1);
+                color: themed("text2");
+                font-size: $font-size-s;
+                font-weight: 500;
+              }
+            }
+            .workingForm {
+              background-color: themed("bg1");
+              padding: 6px 10px;
+              border-radius: $border-radius-10;
+              color: themed("text2");
+              font-weight: 500;
+              width: max-content;
+            }
+          }
+        }
+      }
+      &__bottom {
+      }
+    }
+  }
 }
