@@ -1,0 +1,141 @@
+@use "../../scss/" as *;
+
+.company {
+  @include themify($themes) {
+    min-height: 100vh;
+    margin-top: $height-header;
+    .container {
+      .company__wrapper {
+        padding: 20px 0;
+        &__header {
+          @include flex(center, space-between);
+          gap: 20px;
+          @include mobile{
+            flex-direction: column;
+          }
+          h4 {
+            font-size: $font-size-m;
+            color: themed("text1");
+            font-weight: 600;
+          }
+          &__search {
+            background-color: themed("bg2");
+            padding: 6px 10px;
+            border-radius: $border-radius-10;
+            @include flex(center, unset);
+            i {
+              font-size: $font-size-s;
+              color: themed("text1");
+            }
+            input {
+              font-size: $font-size-s;
+              color: themed("text1");
+              padding: 8px;
+              background-color: transparent;
+              width: 260px;
+            }
+            button {
+              @include button($color-white, $color-primary);
+            }
+          }
+        }
+        &__main {
+          margin-top: 20px;
+          &__filter {
+            @include mobile{
+                display: none;
+            }
+            &__address {
+              width: 100%;
+              margin-top: 10px;
+              h6 {
+                font-size: $font-size-s;
+                color: themed("text1");
+                font-weight: 500;
+              }
+              &__list {
+                width: 100%;
+                height: 50vh;
+                overflow: auto;
+                padding: 10px 0;
+                &::-webkit-scrollbar {
+                  width: 6px;
+                }
+                /* Track */
+                &::-webkit-scrollbar-track {
+                  background: transparent;
+                }
+
+                /* Handle */
+                &::-webkit-scrollbar-thumb {
+                  border-radius: 20px;
+                  background: #888;
+                }
+
+                /* Handle on hover */
+                &::-webkit-scrollbar-thumb:hover {
+                  background: #555;
+                }
+                &__item {
+                  width: 100%;
+                  @include flex(center, unset);
+                  gap: 10px;
+                  padding: 8px 0;
+                  input {
+                    --size: 20px;
+                    width: var(--size);
+                    height: var(--size);
+                    cursor: pointer;
+                  }
+                  span {
+                    font-size: $font-size-s;
+                    color: themed("text1");
+                    font-weight: 400;
+                  }
+                }
+              }
+            }
+            &__scale {
+              width: 100%;
+              margin-top: 10px;
+              h6 {
+                font-size: $font-size-s;
+                color: themed("text1");
+                font-weight: 500;
+              }
+              &__list {
+                width: 100%;
+                overflow: auto;
+                padding: 10px 0;
+
+                &__item {
+                  width: 100%;
+                  @include flex(center, unset);
+                  gap: 10px;
+                  padding: 8px 0;
+                  input {
+                    --size: 20px;
+                    width: var(--size);
+                    height: var(--size);
+                    cursor: pointer;
+                  }
+                  span {
+                    font-size: $font-size-s;
+                    color: themed("text1");
+                    font-weight: 400;
+                  }
+                }
+              }
+            }
+          }
+          &__list {
+            width: 100%;
+            min-height: 400px;
+            display: flex;
+            flex-wrap: wrap;
+          }
+        }
+      }
+    }
+  }
+}

@@ -24,8 +24,8 @@ export default function ItemJob({ className, job }) {
               )}
             </button>
           </div>
-          <h5 className="company">{job?.company}</h5>
-          <div className="address">
+          <h5 className="itemJob__wrapper__body__company">{job?.company}</h5>
+          <div className="itemJob__wrapper__body__address">
             <i class="fa-solid fa-location-dot"></i>
             <span>{job?.address}</span>
           </div>

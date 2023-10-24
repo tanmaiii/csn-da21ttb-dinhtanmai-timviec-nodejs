@@ -2,7 +2,6 @@
 
 .dropdown {
   position: relative;
-  z-index: 99;
   @include themify($themes) {
     .dropdown__toggle {
       padding: 12px 20px;
@@ -15,6 +14,7 @@
       color: themed("text1");
       transition: all 0.3s;
       user-select: none;
+      z-index: 1;
       &:hover {
         background-color: transparent;
       }

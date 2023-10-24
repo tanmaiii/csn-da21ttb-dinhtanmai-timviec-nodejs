@@ -188,11 +188,11 @@
           }
           h4 {
             font-size: $font-size-m;
-            color: themed("text1");
+            color: $color-txt-light;
           }
           span {
             font-size: $font-size-s;
-            color: themed("text2");
+            color: $color-txt-light-extra;
           }
         }
       }

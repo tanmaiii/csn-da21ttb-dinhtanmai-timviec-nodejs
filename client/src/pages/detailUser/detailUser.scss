@@ -1,0 +1,216 @@
+@use "../../scss/" as *;
+
+.detailUser {
+  @include themify($themes) {
+    margin-top: $height-header;
+    min-height: 100vh;
+    padding: $spacing 0;
+    .container {
+      .detailUser__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        &__header {
+          background-color: themed("bg2");
+          padding: 20px;
+          border-radius: $border-radius-20;
+          @include flex(center, space-between);
+          width: 100%;
+          &__main {
+            @include flex(center, unset);
+            gap: 10px;
+            &__image {
+              --size: 200px;
+              width: var(--size);
+              height: var(--size);
+              overflow: hidden;
+              border-radius: $border-radius-10;
+              @include flex(center, center);
+              border: 1px solid themed("border");
+              box-shadow: themed("box-shadow");
+              img {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+              }
+            }
+            &__text {
+              @include flex(unset, unset);
+              flex-direction: column;
+              gap: 8px;
+              &__name {
+                font-size: $font-size-l;
+                color: themed("text1");
+                font-weight: 500;
+              }
+              &__date {
+                @include flex(center, unset);
+                gap: 8px;
+                i {
+                  color: themed("text2");
+                  font-size: $font-size-s;
+                }
+                span {
+                  font-size: $font-size-s;
+                  color: themed("text2");
+                  font-weight: 400;
+                }
+              }
+            }
+          }
+          &__button {
+            @include flex(center, unset);
+            flex-direction: column;
+            gap: 10px;
+            span {
+              font-size: $font-size-s;
+              color: themed("text1");
+              font-weight: 500;
+            }
+            button {
+              @include button($color-white, $color-primary);
+            }
+          }
+        }
+        &__body {
+          display: flex;
+          &__left {
+            background-color: themed("bg2");
+            padding: 20px;
+            border-radius: $border-radius-20;
+            &__control {
+              @include flex(center, unset);
+              gap: 10px;
+              button {
+                padding: 10px 20px;
+                // background-color: themed("bg1");
+                border-radius: $border-radius-10;
+                font-size: $font-size-s;
+                color: themed("text1");
+                cursor: pointer;
+                &.active {
+                  background-color: themed("bg1");
+                }
+              }
+            }
+            &__content {
+              padding: 20px 0;
+            }
+          }
+          &__right {
+            background-color: themed("bg2");
+            min-height: 100px;
+            border-radius: $border-radius-10;
+            padding: 20px;
+            h6 {
+              font-size: $font-size-s;
+              color: themed("text1");
+              font-weight: 500;
+              width: 100%;
+              padding: 6px 0;
+            }
+            &__web {
+              margin-bottom: 20px;
+              a {
+                color: $color-blue;
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+            }
+            &__list {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 10px;
+              a {
+                font-size: $font-size-m;
+                transition: all 0.3s;
+                i {
+                  color: themed("text1");
+                }
+                &:hover {
+                  i {
+                    color: themed("text2");
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.personalInformation {
+  @include themify($themes) {
+    &__wrapper {
+      &__item {
+        @include flex(center, space-between);
+        padding: 20px 0;
+        border-bottom: 1px solid themed("border");
+        &__left {
+          h6 {
+            font-size: $font-size-s;
+            color: themed("text1");
+            font-weight: 600;
+            margin-bottom: 10px;
+          }
+          span {
+            font-size: $font-size-s;
+            color: themed("text2");
+            font-weight: 400;
+          }
+          input {
+            background-color: themed("bg1");
+            padding: 8px 10px;
+            font-size: $font-size-s;
+            color: themed("text2");
+            border-radius: $border-radius-10;
+            width: 280px;
+          }
+        }
+        &__right {
+          @include flex(center, unset);
+          flex-direction: column;
+          gap: 10px;
+          button {
+            background-color: themed("bg1");
+            padding: 10px 16px;
+            border-radius: $border-radius-10;
+            color: themed("text1");
+            font-size: $font-size-s;
+            cursor: pointer;
+            &.btn-edit {
+            }
+            &.btn-save {
+              background-color: $color-primary;
+              color: $color-white;
+            }
+            &.btn-cancel {
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.appliedJobs {
+  @include themify($themes) {
+    &__wrapper {
+      &__item{
+        background-color: themed('bg1');
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: $border-radius-10;
+        &__left{
+
+        }
+        &__right{
+          
+        }
+      }
+    }
+  }
+}

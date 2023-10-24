@@ -3,7 +3,7 @@
 .itemCompany {
   @include themify($themes) {
     &__wrapper {
-      // background-color: themed("bg1");
+      background-color: themed("bg2");
       border: 1px solid themed('border');
       padding: 20px;
       border-radius: $border-radius-10;
@@ -31,14 +31,14 @@
             display: block;
           }
         }
-        &:hover {
-          i:nth-child(1) {
-            display: none;
-          }
-          i:nth-child(2) {
-            display: block;
-          }
-        }
+        // &:hover {
+        //   i:nth-child(1) {
+        //     display: none;
+        //   }
+        //   i:nth-child(2) {
+        //     display: block;
+        //   }
+        // }
         i {
           font-size: $font-size-l;
           color: $color-red;

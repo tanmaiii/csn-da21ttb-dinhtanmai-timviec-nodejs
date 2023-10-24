@@ -27,7 +27,7 @@
         border: 1px solid themed("border");
         border-radius: $border-radius-10;
         overflow: hidden;
-        @include tablet{
+        @include mobile{
           display: none;
         }
         img {
@@ -60,7 +60,7 @@
             }
           }
         }
-        .company {
+        &__company {
           font-size: $font-size-s;
           color: themed("text2");
           font-weight: 400;
@@ -70,7 +70,7 @@
             text-decoration: underline;
           }
         }
-        .address {
+        &__address {
           @include flex(center, unset);
           gap: 8px;
           i {

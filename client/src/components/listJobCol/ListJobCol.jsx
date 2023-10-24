@@ -14,8 +14,8 @@ export default function ListJobCol({ name, category }) {
           {jobs.slice(0, 5).map((job) => (
             <div className="listJobCol__wrapper__body__item col pc-12 t-12 m-0">
               <div className="listJobCol__wrapper__body__item__box">
-                <h4 className="name__job">addaasdasdasdasdas</h4>
-                <h6 className="name_company">CGV</h6>
+                <h4 className="name__job">{job.name}</h4>
+                <h6 className="name_company">{job.company}</h6>
                 <div className="wage">
                   <i class="fa-solid fa-dollar-sign"></i>
                   <span>{job?.wage}</span>
