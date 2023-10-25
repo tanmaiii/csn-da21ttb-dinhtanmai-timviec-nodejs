@@ -95,6 +95,9 @@
             }
             &__content {
               padding: 20px 0;
+              .companiesSave{
+                flex-wrap: wrap;
+              }
             }
           }
           &__right {
@@ -199,16 +202,95 @@
 .appliedJobs {
   @include themify($themes) {
     &__wrapper {
-      &__item{
-        background-color: themed('bg1');
+      &__item {
+        // background-color: themed('bg1');
         margin-bottom: 20px;
-        padding: 20px;
+        padding: 10px;
         border-radius: $border-radius-10;
-        &__left{
-
+        border: 1px solid themed("border");
+        display: flex;
+        cursor: pointer;
+        transition: all 0.3s;
+        &:hover {
+          background-color: themed("bg1");
         }
-        &__right{
-          
+        &__left {
+          @include flex(unset, unset);
+          flex-direction: column;
+          gap: 8px;
+          &__name {
+            font-size: $font-size-s;
+            color: themed("text1");
+            font-weight: 500;
+            @include text(2);
+          }
+          &__company {
+            font-size: $font-size-s;
+            color: themed("text2");
+            font-weight: 400;
+            @include text(2);
+            cursor: pointer;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+          &__address {
+            @include flex(center, unset);
+            gap: 8px;
+            i {
+              font-size: $font-size-m;
+              color: themed("text2");
+            }
+            span {
+              font-size: $font-size-s;
+              color: themed("text2");
+            }
+          }
+          &__wage {
+            background-color: themed("bg1");
+            padding: 6px 10px;
+            border-radius: $border-radius-10;
+            width: max-content;
+            @include flex(center, unset);
+            gap: 8px;
+            i {
+              font-size: $font-size-s;
+              color: themed("text2");
+            }
+            span {
+              @include text(1);
+              color: themed("text2");
+              font-size: $font-size-s;
+              font-weight: 500;
+            }
+          }
+          &__workingForm {
+            background-color: themed("bg1");
+            padding: 6px 10px;
+            border-radius: $border-radius-10;
+            color: themed("text2");
+            font-weight: 500;
+            width: max-content;
+          }
+        }
+        &__right {
+          @include flex(center, center);
+          flex-direction: column;
+          height: 100%;
+          gap: 10px;
+          span {
+            font-size: $font-size-s;
+            color: themed("text1");
+            font-weight: 500;
+          }
+          button{
+            background-color: $color-primary;
+            color: $color-white;
+            font-size: $font-size-s;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: $border-radius-10;
+          }
         }
       }
     }

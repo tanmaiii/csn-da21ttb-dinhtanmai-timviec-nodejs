@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./detailUser.scss";
 import img from "../../assets/images/FPT_logo.png";
 import ItemJob from "../../components/itemJob/ItemJob";
+import ItemCompany from '../../components/itemCompany/ItemCompany'
 import { Link } from "react-router-dom";
 
 import jobs from "../../config/jobs";
+import companies from '../../config/companies'
 
 export default function DetailUser() {
   const [active, setActive] = useState(1);
@@ -66,8 +68,20 @@ export default function DetailUser() {
                   </button>
                 </div>
                 <div className="detailUser__wrapper__body__left__content">
-                  {/* <PersonalInformation /> */}
-                  <AppliedJobs />
+                  {active === 1 && <PersonalInformation />}
+                  {active === 2 && <AppliedJobs />}
+                  {active === 3 && (
+                    <div className="jobsSave">
+                      {jobs.map((job, i) => (
+                        <ItemJob  job={job} key={i}  className={"col pc-12"}/>
+                      ))}
+                    </div>
+                  )}
+                  {active === 4 && (<div className="companiesSave row">
+                      {companies.map((company, i) => (
+                        <ItemCompany  company={company} key={i}  className={"col pc-6"}/>
+                      ))}
+                    </div>)}
                 </div>
               </div>
             </div>
@@ -105,7 +119,7 @@ function AppliedJobs({ job }) {
     <div className="appliedJobs">
       <div className="appliedJobs__wrapper">
         {jobs.map((job, i) => (
-          <div className="appliedJobs__wrapper__item row">
+          <div className="appliedJobs__wrapper__item">
             <div className="col pc-9">
               <div className="appliedJobs__wrapper__item__left ">
                 <h4 className="appliedJobs__wrapper__item__left__name">
@@ -129,7 +143,8 @@ function AppliedJobs({ job }) {
             </div>
             <div className="col pc-3">
               <div className="appliedJobs__wrapper__item__right">
-                <span>Đã xem hồ sơ</span>
+                <span>Trạng thái</span>
+                <button>Đã xem hồ sơ</button>
               </div>
             </div>
           </div>
