@@ -41,7 +41,7 @@
               }
               &__btn-search {
                 @include button($color-white, $color-primary);
-                margin: 0 10px;
+                margin: 10px 10px;
               }
             }
             &__filter {

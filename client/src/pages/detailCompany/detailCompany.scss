@@ -38,51 +38,23 @@
               @include flex(unset, unset);
               flex-direction: column;
               gap: 8px;
+              & > div {
+                @include flex(center, unset);
+                gap: 8px;
+                i {
+                  color: themed("text2");
+                  font-size: $font-size-s;
+                }
+                span {
+                  font-size: $font-size-s;
+                  color: themed("text2");
+                  font-weight: 400;
+                }
+              }
               &__name {
                 font-size: $font-size-l;
                 color: themed("text1");
                 font-weight: 500;
-              }
-              &__address {
-                @include flex(center, unset);
-                gap: 8px;
-                i {
-                  color: themed("text2");
-                  font-size: $font-size-s;
-                }
-                span {
-                  font-size: $font-size-s;
-                  color: themed("text2");
-                  font-weight: 400;
-                }
-              }
-              &__scale {
-                @include flex(center, unset);
-                gap: 8px;
-                gap: 8px;
-                i {
-                  color: themed("text2");
-                  font-size: $font-size-s;
-                }
-                span {
-                  font-size: $font-size-s;
-                  color: themed("text2");
-                  font-weight: 400;
-                }
-              }
-              &__web {
-                @include flex(center, unset);
-                gap: 8px;
-                gap: 8px;
-                i {
-                  color: themed("text2");
-                  font-size: $font-size-s;
-                }
-                span {
-                  font-size: $font-size-s;
-                  color: themed("text2");
-                  font-weight: 400;
-                }
               }
             }
           }
@@ -106,17 +78,30 @@
             background-color: themed("bg2");
             padding: 20px;
             border-radius: $border-radius-20;
-            &__header {
-              font-size: $font-size-m;
-              font-weight: 500;
-              color: $color-primary;
-              margin: 10px 0;
-            }
-            &__intro {
-              p {
+            &__control {
+              @include flex(center, unset);
+              gap: 10px;
+              height: 100%;
+              button {
+                height: 100%;
+                padding: 10px 20px;
+                // background-color: themed("bg1");
+                border-radius: $border-radius-10;
                 font-size: $font-size-s;
                 color: themed("text1");
-                font-weight: 400;
+                cursor: pointer;
+                span {
+                  @include text(3);
+                }
+                &.active {
+                  background-color: themed("bg1");
+                }
+              }
+            }
+            &__content {
+              padding: 20px 0;
+              .companiesSave {
+                flex-wrap: wrap;
               }
             }
           }
@@ -134,9 +119,9 @@
             }
             &__web {
               margin-bottom: 20px;
-              a{
+              a {
                 color: $color-blue;
-                &:hover{
+                &:hover {
                   text-decoration: underline;
                 }
               }
@@ -147,17 +132,172 @@
               gap: 10px;
               a {
                 font-size: $font-size-m;
-                transition: all .3s;
+                transition: all 0.3s;
                 i {
                   color: themed("text1");
                 }
-                &:hover{
-                  i{
-                  color: themed("text2");
+                &:hover {
+                  i {
+                    color: themed("text2");
                   }
                 }
               }
             }
+          }
+        }
+      }
+    }
+  }
+}
+
+.personalInformation {
+  @include themify($themes) {
+    &__wrapper {
+      &__item {
+        @include flex(center, space-between);
+        padding: 20px 0;
+        border-bottom: 1px solid themed("border");
+        &__left {
+          max-width: 70%;
+          h6 {
+            font-size: $font-size-s;
+            color: themed("text1");
+            font-weight: 600;
+            margin-bottom: 10px;
+          }
+          span {
+            font-size: $font-size-s;
+            color: themed("text2");
+            font-weight: 400;
+          }
+          input {
+            background-color: themed("bg1");
+            padding: 8px 10px;
+            font-size: $font-size-s;
+            color: themed("text2");
+            border-radius: $border-radius-10;
+            width: 280px;
+          }
+        }
+        &__right {
+          @include flex(end, unset);
+          flex-direction: column;
+          gap: 10px;
+          min-width: 30%;
+          button {
+            background-color: themed("bg1");
+            padding: 10px 16px;
+            border-radius: $border-radius-10;
+            color: themed("text1");
+            font-size: $font-size-s;
+            cursor: pointer;
+            &.btn-edit {
+            }
+            &.btn-save {
+              background-color: $color-primary;
+              color: $color-white;
+            }
+            &.btn-cancel {
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.appliedJobs {
+  @include themify($themes) {
+    &__wrapper {
+      &__item {
+        // background-color: themed('bg1');
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: $border-radius-10;
+        border: 1px solid themed("border");
+        display: flex;
+        cursor: pointer;
+        transition: all 0.3s;
+        @include flex(center, space-between);
+        &:hover {
+          background-color: themed("bg1");
+        }
+        &__left {
+          @include flex(unset, unset);
+          flex-direction: column;
+          gap: 8px;
+          &__name {
+            font-size: $font-size-s;
+            color: themed("text1");
+            font-weight: 500;
+            @include text(2);
+          }
+          &__company {
+            font-size: $font-size-s;
+            color: themed("text2");
+            font-weight: 400;
+            @include text(2);
+            cursor: pointer;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+          &__address {
+            @include flex(center, unset);
+            gap: 8px;
+            i {
+              font-size: $font-size-m;
+              color: themed("text2");
+            }
+            span {
+              font-size: $font-size-s;
+              color: themed("text2");
+            }
+          }
+          &__wage {
+            background-color: themed("bg1");
+            padding: 6px 10px;
+            border-radius: $border-radius-10;
+            width: max-content;
+            @include flex(center, unset);
+            gap: 8px;
+            i {
+              font-size: $font-size-s;
+              color: themed("text2");
+            }
+            span {
+              @include text(1);
+              color: themed("text2");
+              font-size: $font-size-s;
+              font-weight: 500;
+            }
+          }
+          &__workingForm {
+            background-color: themed("bg1");
+            padding: 6px 10px;
+            border-radius: $border-radius-10;
+            color: themed("text2");
+            font-weight: 500;
+            width: max-content;
+          }
+        }
+        &__right {
+          @include flex(center, center);
+          flex-direction: column;
+          height: 100%;
+          gap: 10px;
+          span {
+            font-size: $font-size-s;
+            color: themed("text1");
+            font-weight: 500;
+          }
+          button {
+            background-color: $color-primary;
+            color: $color-white;
+            font-size: $font-size-s;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: $border-radius-10;
           }
         }
       }

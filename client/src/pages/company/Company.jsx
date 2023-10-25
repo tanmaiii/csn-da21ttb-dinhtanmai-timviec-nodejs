@@ -1,9 +1,10 @@
 import React from "react";
 import "./company.scss";
 import province from "../../config/province";
-import companies from "../../config/companies"
+import companies from "../../config/companies";
 
 import ItemCompany from "../../components/itemCompany/ItemCompany";
+import Pagination from "../../components/pagination/Pagination";
 
 const scale = [
   {
@@ -77,12 +78,15 @@ export default function Company() {
             </div>
             <div className="col pc-9 t-9 m-12">
               <div className="company__wrapper__main__list">
-                      {
-                        companies.map((company, i) => (
-                              <ItemCompany company={company} key={i} className={"col pc-4 t-6 m-12"}/>
-                        ))
-                      }
+                {companies.map((company, i) => (
+                  <ItemCompany
+                    company={company}
+                    key={i}
+                    className={"col pc-4 t-6 m-12"}
+                  />
+                ))}
               </div>
+              <Pagination page={1} limit={10} witdPagi={10}/>
             </div>
           </div>
         </div>

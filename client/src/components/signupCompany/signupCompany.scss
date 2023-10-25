@@ -18,15 +18,22 @@
           object-fit: cover;
         }
       }
-      h2 {
+      h4 {
         font-size: $font-size-l;
         color: themed("primary");
         font-weight: 500;
-        margin-bottom: 10px;
       }
     }
     &__body {
       width: 100%;
+      .header {
+        font-size: $font-size-m;
+        font-weight: 500;
+        color: themed("text1");
+        padding: 20px 0;
+        width: 100%;
+        @include flex(center, center);
+      }
       .item {
         @include flex(unset, unset);
         margin-bottom: 10px;
@@ -38,7 +45,7 @@
           font-weight: 500;
           color: themed("text2");
         }
-        input {
+        & > input {
           background-color: themed("bg2");
           padding: 20px 20px;
           font-size: $font-size-s;
@@ -46,8 +53,56 @@
           border-radius: $border-radius;
           color: themed("text1");
         }
+        &__scale {
+          position: relative;
+          &__header {
+            width: 100%;
+            padding: 20px 20px;
+            font-size: $font-size-s;
+            border-radius: $border-radius;
+            color: themed("text1");
+            background-color: themed("bg2");
+            @include flex(center, space-between);
+            cursor: pointer;
+            i{
+              @include flex(center, center);
+            }
+          }
+          &__list {
+            position: absolute;
+            top: calc(100% + 10px);
+            border-radius: $border-radius;
+            background-color: themed("bg2");
+            z-index: 99;
+            width: 100%;
+            box-shadow: themed("box-shadow");
+            @include flex(unset, unset);
+            flex-direction: column;
+            overflow: hidden;
+            span {
+              font-size: $font-size-s;
+              color: themed("text1");
+              padding: 10px 20px;
+              transition: all .3s;
+              font-weight: 400;
+              cursor: pointer;
+              transition: all .3s;
+              &:hover {
+                background-color: themed("bg1");
+              }
+              &.active{
+                font-weight: 600;
+              }
+            }
+          }
+        }
+        &__province {
+          background-color: themed("bg2");
+          border-radius: $border-radius-10;
+          padding: 0;
+        }
       }
-      .btn-signup {
+      .btn-signupCompany {
         margin-top: 20px;
         @include button($color-white, $color-primary);
         width: 100%;

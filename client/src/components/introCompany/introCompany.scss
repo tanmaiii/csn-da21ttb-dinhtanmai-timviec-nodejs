@@ -1,0 +1,58 @@
+@use "../../scss/" as *;
+
+.introCompany {
+  @include themify($themes) {
+    &__wrapper {
+      &__header {
+        @include flex(center, space-between);
+        padding: 20px 0;
+        h4 {
+          font-size: $font-size-l;
+          color: themed("primary");
+          font-weight: 500;
+        }
+        &__edit {
+          @include flex(center, unset);
+          gap: 8px;
+          button {
+            padding: 10px 14px;
+            border-radius: $border-radius-10;
+            border: 1px solid themed("border");
+            @include flex(center, unset);
+            gap: 8px;
+            font-size: $font-size-s;
+            color: themed("text1");
+            cursor: pointer;
+            &.btn-save {
+              background-color: $color-primary;
+              color: $color-white;
+              border: none;
+            }
+          }
+        }
+      }
+      &__body {
+        &__content {
+          p {
+            font-size: $font-size-s;
+            color: themed("text1");
+            font-weight: 400;
+          }
+        }
+        &__edit{
+            textarea{
+                background-color: themed('bg1');
+                width: 100%;
+                min-height: 400px;
+                padding: 20px;
+                border-radius: $border-radius-10;
+                font-size: $font-size-s;
+                color: themed("text1");
+                font-weight: 400;
+                resize: none;
+            }
+        }
+      }
+    }
+  }
+}

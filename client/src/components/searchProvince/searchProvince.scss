@@ -3,7 +3,7 @@
 .searchProvince {
   @include themify($themes) {
       @include flex(center, unset);
-      padding: 10px 10px;
+      padding: 10px;
       border: 2px solid transparent;
       border-radius: $border-radius-10;
       position: relative;

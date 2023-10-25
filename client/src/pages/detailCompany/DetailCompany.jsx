@@ -1,12 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./detailCompany.scss";
 import img from "../../assets/images/FPT_logo.png";
 import ItemJob from "../../components/itemJob/ItemJob";
+import ItemCompany from "../../components/itemCompany/ItemCompany";
+import IntroCompany from "../../components/introCompany/IntroCompany";
+import InfoCompany from "../../components/infoCompany/InfoCompany";
+import { Link } from "react-router-dom";
 
 import jobs from "../../config/jobs";
+import companies from "../../config/companies";
 
 export default function DetailCompany() {
-  
+  const [active, setActive] = useState(1);
+
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -22,82 +28,80 @@ export default function DetailCompany() {
               </div>
               <div className="detailCompany__wrapper__header__main__text">
                 <h4 className="detailCompany__wrapper__header__main__text__name">
-                  FPT Telecom
+                  FPT
                 </h4>
                 <div className="detailCompany__wrapper__header__main__text__address">
                   <i class="fa-solid fa-location-dot"></i>
-                  <span>TP.Hồ Chí Minh</span>
+                  <span>TP. Hồ Chí Minh</span>
                 </div>
                 <div className="detailCompany__wrapper__header__main__text__scale">
-                  <i class="fa-solid fa-users"></i>
-                  <span>5.000 - 10.00 nhân viên</span>
+                  <i class="fa-solid fa-user-group"></i>
+                  <span>5000 - 10000 nhân viên</span>
                 </div>
-                <div className="detailCompany__wrapper__header__main__text__web">
+                <div className="detailCompany__wrapper__header__main__text__link">
                   <i class="fa-solid fa-link"></i>
-                  <span>fpttelecom.vn</span>
+                  <span>www.fpt.com</span>
                 </div>
               </div>
             </div>
             <div className="detailCompany__wrapper__header__button">
-              <span>123 lượt theo dõi</span>
-              <button>Theo dõi</button>
+              <button>Chỉnh sửa</button>
             </div>
           </div>
           <div className="detailCompany__wrapper__body row">
-            <div className=" col pc-9">
+            <div className=" col pc-9 t-9 m-12">
               <div className="detailCompany__wrapper__body__left">
-                <h6 className="detailCompany__wrapper__body__left__header">
-                  Giới thiệu về công ty
-                </h6>
-                <div className="detailCompany__wrapper__body__left__intro">
-                  <p>
-                    Được thành lập ngày 31/01/1997, Công ty Cổ phần Viễn thông
-                    FPT (FPT Telecom) khởi đầu từ Trung tâm Dịch vụ Trực tuyến
-                    với 4 thành viên sáng lập cùng sản phẩm mạng Intranet đầu
-                    tiên của Việt Nam mang tên “Trí tuệ Việt Nam – TTVN”. Sau 21
-                    năm hoạt động, FPT Telecom đã trở thành một trong những nhà
-                    cung cấp dịch vụ viễn thông và Internet hàng đầu khu vực với
-                    gần 14 000 nhân viên, 2 công ty thành viên, 59 chi nhánh
-                    trong và ngoài nước. Hiện nay, FPT Telecom đang cung cấp các
-                    sản phẩm, dịch vụ chính bao gồm:
-                  </p>
-                  <p>- Dịch vụ Internet</p>
-                  <p>
-                    - Kênh thuê riêng, Tên miền, Email, Lưu trữ web, Trung tâm
-                    dữ liệu
-                  </p>
-                  <p>
-                    - Các dịch vụ giá trị gia tăng trên Internet: Truyền hình
-                    internet (FPT play HD), Điện thoại cố định (VoIP), Giám sát
-                    từ xa(IP Camera), Chứng thực chữ ký số (CA), Điện toán đám
-                    mây (Cloud computing),...
-                  </p>
-                  <p>
-                    Với phương châm “Mọi dịch vụ trên một kết nối”, FPT Telecom
-                    luôn không ngừng nghiên cứu và triển khai tích hợp ngày càng
-                    nhiều các dịch vụ giá trị gia tăng trên cùng một đường
-                    truyền Internet nhằm đem lại lợi ích tối đa cho khách hàng
-                    sử dụng. Đồng thời, việc đẩy mạnh hợp tác với các đối tác
-                    viễn thông lớn trên thế giới, xây dựng các tuyến cáp quang
-                    quốc tế là những hướng đi được triển khai mạnh mẽ để đưa các
-                    dịch vụ tiếp cận với thị trường toàn cầu, nâng cao hơn nữa
-                    vị thế của FPT Telecom nói riêng và các nhà cung cấp dịch vụ
-                    viễn thông Việt Nam nói chung.
-                  </p>
-
-                  <p>Thông tin chi tiết tham khảo tại website: www.fpt.vn!</p>
+                <div className="detailCompany__wrapper__body__left__control">
+                  <button
+                    onClick={() => setActive(1)}
+                    className={`${active === 1 && "active"}`}
+                  >
+                    <span>Giới thiệu</span>
+                  </button>
+                  <button
+                    onClick={() => setActive(2)}
+                    className={`${active === 2 && "active"}`}
+                  >
+                    <span>Việc làm</span>
+                  </button>
+                  <button
+                    onClick={() => setActive(3)}
+                    className={`${active === 3 && "active"}`}
+                  >
+                    <span>Đơn ứng tuyển</span>
+                  </button>
+                  <button
+                    onClick={() => setActive(4)}
+                    className={`${active === 4 && "active"}`}
+                  >
+                    <span>Chỉnh sửa thông tin</span>
+                  </button>
                 </div>
-                <h6 className="detailCompany__wrapper__body__left__header">
-                  Công việc đang tuyển (2 việc làm).
-                </h6>
-                <div className="detailCompany__wrapper__body__left__list-job">
-                  {jobs.slice(0, 4).map((job) => (
-                    <ItemJob job={job} className={"col pc-12"} />
-                  ))}
+                <div className="detailCompany__wrapper__body__left__content">
+                  {active === 1 && <IntroCompany />}
+                  {active === 2 && (
+                    <div className="jobsSave">
+                      {jobs.map((job, i) => (
+                        <ItemJob job={job} key={i} className={"col pc-12"} />
+                      ))}
+                    </div>
+                  )}
+                  {active === 3 && (
+                    <div className="companiesSave row">
+                      {companies.map((company, i) => (
+                        <ItemCompany
+                          company={company}
+                          key={i}
+                          className={"col pc-6"}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  {active === 4 && <InfoCompany />}
                 </div>
               </div>
             </div>
-            <div className="col pc-3">
+            <div className="col pc-3 t-3 m-0">
               <div className="detailCompany__wrapper__body__right">
                 <h6>Website</h6>
                 <div className="detailCompany__wrapper__body__right__web">
@@ -125,3 +129,95 @@ export default function DetailCompany() {
     </div>
   );
 }
+
+// function AppliedJobs({ job }) {
+//   return (
+//     <div className="appliedJobs">
+//       <div className="appliedJobs__wrapper">
+//         {jobs.map((job, i) => (
+//           <div className="appliedJobs__wrapper__item">
+//             <div className="col pc-9 t-9 m-7">
+//               <div className="appliedJobs__wrapper__item__left ">
+//                 <h4 className="appliedJobs__wrapper__item__left__name">
+//                   {job?.name}
+//                 </h4>
+//                 <h5 className="appliedJobs__wrapper__item__left__company">
+//                   {job?.company}
+//                 </h5>
+//                 <div className="appliedJobs__wrapper__item__left__address">
+//                   <i class="fa-solid fa-location-dot"></i>
+//                   <span>{job?.address}</span>
+//                 </div>
+//                 <div className="appliedJobs__wrapper__item__left__wage">
+//                   <i class="fa-solid fa-dollar-sign"></i>
+//                   <span>{job?.wage}</span>
+//                 </div>
+//                 <p className="appliedJobs__wrapper__item__left__workingForm">
+//                   {job?.workingForm}
+//                 </p>
+//               </div>
+//             </div>
+//             <div className="col pc-3 t-3 m-4">
+//               <div className="appliedJobs__wrapper__item__right">
+//                 <span>Trạng thái</span>
+//                 <button>Đã xem hồ sơ</button>
+//               </div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
+// function PersonalInformation() {
+//   return (
+//     <div className="personalInformation">
+//       <div className="personalInformation__wrapper">
+//         <ItemInfo title={"Họ tên"} desc={"Đinh Tấn Mãi"} />
+//         <ItemInfo title={"Ngày sinh :"} desc={"03/10/2003"} type={"date"} />
+//         <ItemInfo title={"Email :"} desc={"tanmai833@gmail.com"} />
+//         <ItemInfo title={"Số điện thoại :"} desc={"781263612"} />
+//         <ItemInfo
+//           title={"Liên kết CV (Kết nối với Google Drive) :"}
+//           desc={
+//             "https://drive.google.com/file/d/12YACDCDYGxxk-hMVwJxzD1s7HvwvZNAm/view?usp=sharing"
+//           }
+//         />
+//       </div>
+//     </div>
+//   );
+// }
+
+// function ItemInfo({ title, desc, type = "text" }) {
+//   const [edit, setEdit] = useState(false);
+
+//   return (
+//     <div className="personalInformation__wrapper__item">
+//       <div className="personalInformation__wrapper__item__left">
+//         <h6>{title}</h6>
+//         {!edit ? (
+//           <span>{desc}</span>
+//         ) : (
+//           <input type={type} defaultValue={desc} />
+//         )}
+//       </div>
+//       <div className="personalInformation__wrapper__item__right">
+//         {!edit ? (
+//           <button className="btn-edit" onClick={() => setEdit(true)}>
+//             Thay đổi
+//           </button>
+//         ) : (
+//           <>
+//             <button className="btn-save" onClick={() => setEdit(false)}>
+//               Lưu
+//             </button>
+//             <button className="btn-cancel" onClick={() => setEdit(false)}>
+//               Hủy
+//             </button>
+//           </>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }

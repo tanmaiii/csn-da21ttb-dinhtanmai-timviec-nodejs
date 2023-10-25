@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./detailUser.scss";
 import img from "../../assets/images/FPT_logo.png";
 import ItemJob from "../../components/itemJob/ItemJob";
-import ItemCompany from '../../components/itemCompany/ItemCompany'
+import ItemCompany from "../../components/itemCompany/ItemCompany";
 import { Link } from "react-router-dom";
 
 import jobs from "../../config/jobs";
-import companies from '../../config/companies'
+import companies from "../../config/companies";
 
 export default function DetailUser() {
   const [active, setActive] = useState(1);
@@ -46,42 +46,48 @@ export default function DetailUser() {
                     onClick={() => setActive(1)}
                     className={`${active === 1 && "active"}`}
                   >
-                    Thông tin cá nhân
+                    <span>Thông tin cá nhân</span>
                   </button>
                   <button
                     onClick={() => setActive(2)}
                     className={`${active === 2 && "active"}`}
                   >
-                    Đã ứng tuyển 0
+                    <span>Đã ứng tuyển 0</span>
                   </button>
                   <button
                     onClick={() => setActive(3)}
                     className={`${active === 3 && "active"}`}
                   >
-                    Công việc đã lưu 0
+                    <span>Công việc đã lưu 0</span>
                   </button>
                   <button
                     onClick={() => setActive(4)}
                     className={`${active === 4 && "active"}`}
                   >
-                    Công ty đã lưu 0
+                    <span>Công ty đã lưu 0</span>
                   </button>
                 </div>
                 <div className="detailUser__wrapper__body__left__content">
-                  {active === 1 && <PersonalInformation />}
+                  {active === 1 && <InfoUser />}
                   {active === 2 && <AppliedJobs />}
                   {active === 3 && (
                     <div className="jobsSave">
                       {jobs.map((job, i) => (
-                        <ItemJob  job={job} key={i}  className={"col pc-12"}/>
+                        <ItemJob job={job} key={i} className={"col pc-12"} />
                       ))}
                     </div>
                   )}
-                  {active === 4 && (<div className="companiesSave row">
+                  {active === 4 && (
+                    <div className="companiesSave row">
                       {companies.map((company, i) => (
-                        <ItemCompany  company={company} key={i}  className={"col pc-6"}/>
+                        <ItemCompany
+                          company={company}
+                          key={i}
+                          className={"col pc-6"}
+                        />
                       ))}
-                    </div>)}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -120,7 +126,7 @@ function AppliedJobs({ job }) {
       <div className="appliedJobs__wrapper">
         {jobs.map((job, i) => (
           <div className="appliedJobs__wrapper__item">
-            <div className="col pc-9">
+            <div className="col pc-9 t-9 m-7">
               <div className="appliedJobs__wrapper__item__left ">
                 <h4 className="appliedJobs__wrapper__item__left__name">
                   {job?.name}
@@ -141,7 +147,7 @@ function AppliedJobs({ job }) {
                 </p>
               </div>
             </div>
-            <div className="col pc-3">
+            <div className="col pc-3 t-3 m-4">
               <div className="appliedJobs__wrapper__item__right">
                 <span>Trạng thái</span>
                 <button>Đã xem hồ sơ</button>
@@ -154,10 +160,10 @@ function AppliedJobs({ job }) {
   );
 }
 
-function PersonalInformation() {
+function InfoUser() {
   return (
-    <div className="personalInformation">
-      <div className="personalInformation__wrapper">
+    <div className="infoUser">
+      <div className="infoUser__wrapper">
         <ItemInfo title={"Họ tên"} desc={"Đinh Tấn Mãi"} />
         <ItemInfo title={"Ngày sinh :"} desc={"03/10/2003"} type={"date"} />
         <ItemInfo title={"Email :"} desc={"tanmai833@gmail.com"} />

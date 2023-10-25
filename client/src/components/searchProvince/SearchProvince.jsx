@@ -5,7 +5,7 @@ import province from "../../config/province";
 
 import formatStr from "../../config/formatStr";
 
-export default function SearchProvince() {
+export default function SearchProvince({}) {
   const [listProvince, setListProvince] = useState(null);
   const [valueProvince, setValueProvince] = useState("");
   const [openProvince, setOpenProvince] = useState(false);

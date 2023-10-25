@@ -1,0 +1,114 @@
+@use "../../scss/" as *;
+
+.infoCompany {
+  @include themify($themes) {
+    &__wrapper {
+      &__header {
+      }
+      &__body {
+        &__item {
+          @include flex(center, space-between);
+          padding: 20px 0;
+          border-bottom: 1px solid themed("border");
+          &__left {
+            h6 {
+              font-size: $font-size-s;
+              color: themed("text1");
+              font-weight: 600;
+              margin-bottom: 10px;
+            }
+            span {
+              font-size: $font-size-s;
+              font-weight: 400;
+              color: themed("text1");
+            }
+            input {
+              font-size: $font-size-s;
+              font-weight: 400;
+              color: themed("text1");
+              padding: 16px 20px;
+              background-color: themed("bg1");
+              border-radius: $border-radius-10;
+              width: 280px;
+            }
+            &__search__province {
+              background-color: themed("bg1");
+              border-radius: $border-radius-10;
+            }
+            &__scale {
+              position: relative;
+              &__header {
+                width: 280px;
+                padding: 16px 20px;
+                font-size: $font-size-s;
+                border-radius: $border-radius;
+                color: themed("text1");
+                background-color: themed("bg1");
+                @include flex(center, space-between);
+                cursor: pointer;
+                user-select: none;
+                i {
+                  @include flex(center, center);
+                }
+              }
+              &__list {
+                position: absolute;
+                top: calc(100% + 10px);
+                border-radius: $border-radius;
+                background-color: themed("bg2");
+                z-index: 99;
+                width: 100%;
+                box-shadow: themed("box-shadow");
+                @include flex(unset, unset);
+                flex-direction: column;
+                overflow: hidden;
+                span {
+                  font-size: $font-size-s;
+                  color: themed("text1");
+                  padding: 10px 20px;
+                  transition: all 0.3s;
+                  font-weight: 400;
+                  cursor: pointer;
+                  transition: all 0.3s;
+                  &:hover {
+                    background-color: themed("bg1");
+                  }
+                  &.active {
+                    font-weight: 600;
+                  }
+                }
+              }
+            }
+          }
+          &__right {
+            @include flex(end, unset);
+            flex-direction: column;
+            gap: 10px;
+            min-width: 30%;
+            button {
+              background-color: themed("bg1");
+              padding: 10px 16px;
+              border-radius: $border-radius-10;
+              color: themed("text1");
+              font-size: $font-size-s;
+              cursor: pointer;
+              &.btn-edit {
+              }
+              &.btn-save {
+                background-color: $color-primary;
+                color: $color-white;
+              }
+              &.btn-cancel {
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.ItemInfoCompany {
+  @include themify($themes) {
+  }
+}
