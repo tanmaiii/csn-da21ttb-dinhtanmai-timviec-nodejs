@@ -18,6 +18,9 @@ import DetailUser from "./pages/detailUser/DetailUser";
 import Signin from "./components/signin/Signin";
 import Signup from "./components/signup/Signup";
 
+import SigninCompany from "./components/signinCompany/SigninCompany";
+import SignupCompany from "./components/signupCompany/SignupCompany";
+
 function App() {
   const { darkMode } = useMode();
   return (
@@ -32,6 +35,10 @@ function App() {
               <Route path="/nguoi-xin-viec" element={<AuthUser />}>
                 <Route path="dang-nhap" index element={<Signin />} />
                 <Route path="dang-ky" element={<Signup />} />
+              </Route>
+              <Route path="/nha-tuyen-dung" element={<AuthUser />}>
+                <Route path="dang-nhap" index element={<SigninCompany />} />
+                <Route path="dang-ky" element={<SignupCompany />} />
               </Route>
               <Route path="/cong-viec/:id" element={<DetailJob />} />
               <Route path="/cong-ty/:id" element={<DetailCompany />} />

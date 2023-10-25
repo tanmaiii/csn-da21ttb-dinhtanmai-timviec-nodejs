@@ -99,7 +99,7 @@ export default function Header() {
                 <Link to={"/nguoi-xin-viec/dang-nhap"}>Đăng nhập</Link>
               </button>
               <div className="header__wrapper__auth__company">
-                <Link>Nhà tuyển dụng</Link>
+                <Link to={"/nha-tuyen-dung/dang-nhap"}>Nhà tuyển dụng</Link>
               </div>
             </div>
           </div>
