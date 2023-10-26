@@ -14,6 +14,10 @@ import AuthUser from "./pages/authUser/AuthUser";
 import DetailJob from "./pages/detailJob/DetailJob";
 import DetailCompany from "./pages/detailCompany/DetailCompany";
 import DetailUser from "./pages/detailUser/DetailUser";
+import PostJob from "./pages/postJob/PostJob";
+import EditJob from "./pages/editJob/PostJob";
+
+import Candidate from "./pages/candidate/Candidate";
 
 import Signin from "./components/signin/Signin";
 import Signup from "./components/signup/Signup";
@@ -41,8 +45,12 @@ function App() {
                 <Route path="dang-ky" element={<SignupCompany />} />
               </Route>
               <Route path="/cong-viec/:id" element={<DetailJob />} />
-              <Route path="/cong-ty/:id" element={<DetailCompany />} />
               <Route path="/nguoi-dung/:id" element={<DetailUser />} />
+              
+              <Route path="/cong-ty/:id" element={<DetailCompany />} />
+              <Route path="/cong-ty/ung-vien" element={<Candidate />} />
+              <Route path="/cong-ty/dang-bai" element={<PostJob />} />
+              <Route path="/cong-ty/chinh-sua" element={<EditJob />} />
             </Route>
           </Routes>
         </BrowserRouter>

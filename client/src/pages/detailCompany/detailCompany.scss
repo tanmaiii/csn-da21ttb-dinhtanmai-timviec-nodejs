@@ -90,8 +90,13 @@
                 font-size: $font-size-s;
                 color: themed("text1");
                 cursor: pointer;
+                transition: all .3s;
                 span {
                   @include text(3);
+                }
+                &:hover{
+                  background-color: themed("bg1");
+
                 }
                 &.active {
                   background-color: themed("bg1");

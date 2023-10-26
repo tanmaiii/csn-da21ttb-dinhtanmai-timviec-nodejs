@@ -22,10 +22,11 @@
     }
 }
 
-button, input, textarea{
+button, input, textarea, select{
     outline: unset;
     border: unset;
     background-color: unset;
+    cursor: pointer;
 }
 
 ul, li{

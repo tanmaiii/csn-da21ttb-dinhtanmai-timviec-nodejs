@@ -3,6 +3,7 @@ import "./detailCompany.scss";
 import img from "../../assets/images/FPT_logo.png";
 import ItemJob from "../../components/itemJob/ItemJob";
 import ItemCompany from "../../components/itemCompany/ItemCompany";
+import ItemCandidate from "../../components/itemCandidate/ItemCandidate";
 import IntroCompany from "../../components/introCompany/IntroCompany";
 import InfoCompany from "../../components/infoCompany/InfoCompany";
 import { Link } from "react-router-dom";
@@ -64,18 +65,24 @@ export default function DetailCompany() {
                   >
                     <span>Việc làm</span>
                   </button>
-                  <button
-                    onClick={() => setActive(3)}
-                    className={`${active === 3 && "active"}`}
-                  >
-                    <span>Đơn ứng tuyển</span>
-                  </button>
+
                   <button
                     onClick={() => setActive(4)}
                     className={`${active === 4 && "active"}`}
                   >
                     <span>Chỉnh sửa thông tin</span>
                   </button>
+                  <Link to={"/cong-ty/ung-vien"}>
+                    <button
+                      onClick={() => setActive(3)}
+                      className={`${active === 3 && "active"}`}
+                    >
+                      <span>Đơn ứng tuyển</span>
+                    </button>
+                  </Link>
+                  <Link to={"/cong-ty/dang-bai"}>
+                    <button>Đăng Tuyển dụng</button>
+                  </Link>
                 </div>
                 <div className="detailCompany__wrapper__body__left__content">
                   {active === 1 && <IntroCompany />}
@@ -87,14 +94,10 @@ export default function DetailCompany() {
                     </div>
                   )}
                   {active === 3 && (
-                    <div className="companiesSave row">
-                      {companies.map((company, i) => (
-                        <ItemCompany
-                          company={company}
-                          key={i}
-                          className={"col pc-6"}
-                        />
-                      ))}
+                    <div className="candidate row">
+                      <ItemCandidate className={"col pc-6"} />
+                      <ItemCandidate className={"col pc-6"} />
+                      <ItemCandidate className={"col pc-6"} />
                     </div>
                   )}
                   {active === 4 && <InfoCompany />}
