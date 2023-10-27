@@ -3,19 +3,38 @@ import "./itemCandidate.scss";
 
 export default function ItemCandidate() {
   return (
-    <div className="itemCandidate">
-      <div className="itemCandidate__wrapper row">
-        <div className="col pc-3">
-          <div className="itemCandidate__wrapper__info">
-            <div className="name">Đinh tấn mãi</div>
-            <div className="email">Đinh tấn mãi</div>
-            <div className="sdt">Đinh tấn mãi</div>
-          </div>
+    <tr className="itemCandidate">
+      <td width={"1%"}></td>
+      <td width={"29%"}>
+        <div>
+          <h6>Tên</h6>
+          <span>Đinh Tấn Mãi</span>
         </div>
-        <div className="col pc-3"></div>
-        <div className="col pc-3"></div>
-        <div className="col pc-3"></div>
-      </div>
-    </div>
+        <div>
+          <h6>Email</h6>
+          <span>tanmai833@gmail.com</span>
+        </div>
+        <div>
+          <h6>SDT</h6>
+          <span>0123128312</span>
+        </div>
+      </td>
+      <td  width={"10%"}>27/10/2004</td>
+      <td width={"15%"}>
+        <select name="" id="">
+          <option value="">Đã xem</option>
+          <option value="">Đã xem</option>
+          <option value="">Đã xem</option>
+          <option value="">Đã xem</option>
+          <option value="">Đã xem</option>
+        </select>
+      </td>
+      <td width={"30%"}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </td>
+      <td  width={"15%"}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </td>
+    </tr>
   );
 }

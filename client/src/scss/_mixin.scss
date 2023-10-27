@@ -92,7 +92,9 @@ $themes: (
   font-size: $font-size-s;
   cursor: pointer;
   transition: all 0.3s;
-  @include flex(center, unset);
+  @include flex(center, center);
+  width: max-content;
+  gap: 6px;
   span,i {
     color: $color;
     font-size: $font-size-s;

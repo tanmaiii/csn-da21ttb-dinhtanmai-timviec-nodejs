@@ -20,6 +20,7 @@
           &__control {
             @include flex(center, unset);
             gap: 10px;
+            margin-bottom: $spacing;
             h4 {
               font-size: $font-size-s;
               color: themed("text1");
@@ -35,7 +36,7 @@
               color: themed("text1");
             }
           }
-          &__list{
+          &__list {
             width: 100%;
           }
         }

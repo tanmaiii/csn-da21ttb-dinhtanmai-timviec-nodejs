@@ -1,3 +1,7 @@
-@use '../../scss/' as *
+@use "../../scss/" as *;
 
-
+.itemCandidate {
+  td {
+    padding: 10px;
+  }
+}

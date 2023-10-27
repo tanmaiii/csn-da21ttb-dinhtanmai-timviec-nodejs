@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./candidate.scss";
 import ItemCandidate from "../../components/itemCandidate/ItemCandidate";
+import TableCandidate from "../../components/tableCandidate/TableCandidate";
+import dataCandidate from "../../config/dataCandidate";
+import Pagination from "../../components/pagination/Pagination";
+
 
 export default function Candidate() {
+  const [data, setData] = useState(dataCandidate);
+  const [paginate, setPaginate] = useState(0);
+
   return (
     <div className="candidate">
       <div className="container">
@@ -21,19 +28,14 @@ export default function Candidate() {
               </select>
             </div>
             <div className="candidate__wrapper__body__list">
-                <table>
-                    <thead></thead>
-                    <tbody></tbody>
-                </table>
-                <ItemCandidate/>
-                <ItemCandidate/>
-                <ItemCandidate/>
-                <ItemCandidate/>
-                <ItemCandidate/>
-                <ItemCandidate/>
-                <ItemCandidate/>
-                <ItemCandidate/>
+              {data && <TableCandidate data={data} limit={10} paginate={paginate}/>}
             </div>
+            <Pagination
+              totalItem={data?.length}
+              limit={10}
+              paginate={paginate}
+              setPaginate={setPaginate}
+            />
           </div>
         </div>
       </div>
