@@ -35,8 +35,16 @@
         }
       }
       &__btn__left {
+        button:hover{
+          background-color: $color-primary;
+          color: $color-white;
+        }
       }
       &__btn__right {
+         button:hover{
+          background-color: $color-primary;
+          color: $color-white;
+        }
       }
     }
   }

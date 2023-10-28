@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./tableCandidate.scss";
-import Modal from '../../components/modal/Modal'
+import Modal from "../../components/modal/Modal";
+import DetailCandidate from "../../components/detailCandidate/DetailCandidate";
+
 const renderHead = (item, index) => <th key={index}>{item}</th>;
 
 const headData = [
@@ -13,7 +15,8 @@ const headData = [
 ];
 
 export default function TableCandidate(props) {
-  const [openModal, setOpenModal] = useState(false)
+  const [openModal, setOpenModal] = useState(false);
+  const [candidate, setCandidate] = useState(null);
 
   const initDataShow =
     props.data && props.limit
@@ -30,6 +33,11 @@ export default function TableCandidate(props) {
       )
     );
   }, [props.paginate]);
+
+  const handleClickView = (item) => {
+    setCandidate(item)
+    setOpenModal(true)
+  }
 
   return (
     <>
@@ -53,7 +61,7 @@ export default function TableCandidate(props) {
                       <span>{item.email}</span>
                     </div>
                     <div className="td-item">
-                      <h6>Sđt: </h6>
+                      <h6>SDT: </h6>
                       <span>{item.phone}</span>
                     </div>
                   </div>
@@ -62,8 +70,8 @@ export default function TableCandidate(props) {
                 <td data-cell={"Công việc"}>{item.nameJob}</td>
                 <td data-cell={"Trạng thái"}>{item.status}</td>
                 <td>
-                  <button onClick={() => setOpenModal(true)}>
-                    <i class="fa-regular fa-eye"></i>
+                  <button onClick={() => handleClickView(item) }>
+                    <i className="fa-regular fa-eye"></i>
                     <span>Xem</span>
                   </button>
                 </td>
@@ -72,8 +80,12 @@ export default function TableCandidate(props) {
           </tbody>
         </table>
       </div>
-      <Modal title={"Thư xin việc"} setOpenModal={setOpenModal} openModal={openModal}>
-
+      <Modal
+        title={"Thư xin việc"}
+        setOpenModal={setOpenModal}
+        openModal={openModal}
+      >
+        <DetailCandidate candidate={candidate}/>
       </Modal>
     </>
   );

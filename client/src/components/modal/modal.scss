@@ -17,10 +17,12 @@
     }
     &__wrapper {
       background-color: themed("bg2");
-      border-radius: 20px;
+      border-radius: $border-radius-10;
       min-width: 400px;
       min-height: 400px;
       max-height: calc(100vh - $height-header);
+      max-width: calc(60vw);
+      overflow: hidden;
       &__header {
         @include flex(center, space-between);
         padding: 20px;
@@ -36,6 +38,7 @@
           @include flex(center, center);
           transition: all 0.3s;
           user-select: none;
+          color: themed('text1');
           &:hover {
             background-color: themed("bg1");
           }
@@ -49,6 +52,7 @@
         }
       }
       &__body {
+        padding-bottom: 20px;
       }
     }
   }

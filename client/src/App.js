@@ -10,7 +10,7 @@ import Layout from "./layout/Layout";
 import Home from "./pages/home/Home";
 import Search from "./pages/search/Search";
 import Company from "./pages/company/Company";
-import AuthUser from "./pages/authUser/AuthUser";
+import Auth from "./pages/auth/Auth";
 import DetailJob from "./pages/detailJob/DetailJob";
 import DetailCompany from "./pages/detailCompany/DetailCompany";
 import DetailUser from "./pages/detailUser/DetailUser";
@@ -36,17 +36,17 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/tim-kiem" element={<Search />} />
               <Route path="/cong-ty" element={<Company />} />
-              <Route path="/nguoi-xin-viec" element={<AuthUser />}>
+              <Route path="/nguoi-xin-viec" element={<Auth />}>
                 <Route path="dang-nhap" index element={<Signin />} />
                 <Route path="dang-ky" element={<Signup />} />
               </Route>
-              <Route path="/nha-tuyen-dung" element={<AuthUser />}>
+              <Route path="/nha-tuyen-dung" element={<Auth />}>
                 <Route path="dang-nhap" index element={<SigninCompany />} />
                 <Route path="dang-ky" element={<SignupCompany />} />
               </Route>
               <Route path="/cong-viec/:id" element={<DetailJob />} />
               <Route path="/nguoi-dung/:id" element={<DetailUser />} />
-              
+
               <Route path="/cong-ty/:id" element={<DetailCompany />} />
               <Route path="/cong-ty/ung-vien" element={<Candidate />} />
               <Route path="/cong-ty/dang-bai" element={<PostJob />} />

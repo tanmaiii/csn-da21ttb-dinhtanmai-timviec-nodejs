@@ -1,0 +1,67 @@
+@use "../../scss/" as *;
+
+.detailCandidate {
+  @include themify($themes) {
+    &__wrapper {
+      padding: 0 20px 20px;
+      overflow-y: scroll;
+      height: 500px;
+      &__control {
+        display: grid;
+        grid-template-columns: 0.6fr 1.4fr;
+        gap: 8px;
+        &__title {
+          font-size: $font-size-m;
+          color: $color-primary;
+          padding: 8px;
+        }
+      }
+      &__group {
+        &__title {
+          width: 100%;
+          padding: 8px;
+          color: $color-primary;
+          font-size: $font-size-m;
+        }
+        &__content {
+          margin-left: 10px;
+          &__item {
+            display: grid;
+            grid-template-columns: 0.6fr 1.4fr;
+            margin-bottom: 6px;
+            h6 {
+              font-size: $font-size-s;
+              font-weight: 500;
+              color: themed("text1");
+            }
+            span {
+              font-size: $font-size-s;
+              font-weight: 400;
+              color: themed("text1");
+            }
+          }
+          &__item__letters {
+            background-color: themed("bg1");
+            padding: 8px;
+            border-radius: $border-radius-10;
+            span {
+              font-size: $font-size-s;
+              color: themed("text1");
+            }
+          }
+          &__item__cv {
+            padding: 8px;
+            a {
+              font-size: $font-size-s;
+              color: $color-blue;
+              transition: all 0.3s;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

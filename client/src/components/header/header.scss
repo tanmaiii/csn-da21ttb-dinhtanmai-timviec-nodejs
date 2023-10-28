@@ -20,7 +20,6 @@
         background-color: themed("bg2");
       }
       @include mobile {
-        display: none;
       }
       .container {
         @include flex(center, space-between);
@@ -44,6 +43,9 @@
         }
         .header__wrapper__control {
           height: 100%;
+          @include mobile {
+            display: none;
+          }
           ul {
             height: 100%;
             @include flex(center, space-between);
@@ -56,9 +58,7 @@
                 height: 100%;
                 padding: 0 10px;
                 position: relative;
-                svg,
-                i,
-                box-icon {
+                i {
                   --size: 20px;
                   width: var(--size);
                   height: var(--size);
@@ -83,20 +83,9 @@
                   transition: all 0.3s;
                   width: 0;
                 }
-                &:hover::after {
-                  width: 100%;
-                }
-                &:hover {
-                  svg {
-                    color: themed("primary");
-                  }
-                  span {
-                    color: themed("primary");
-                  }
-                }
+                &:hover,
                 &.active {
-                  width: 100%;
-                  svg {
+                  i {
                     color: themed("primary");
                   }
                   span {
@@ -113,6 +102,9 @@
         .header__wrapper__auth {
           @include flex(center, unset);
           gap: 10px;
+          @include mobile {
+            display: none;
+          }
           &__darkMode {
             background-color: transparent;
             cursor: pointer;
@@ -130,6 +122,79 @@
               font-weight: 500;
               color: themed("text1");
               font-weight: 500;
+            }
+          }
+        }
+        .header__wrapper__control-mobile {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: max-content;
+          height: 100vh;
+          background-color: themed("bg2");
+          padding: $spacing;
+          display: none;
+          box-shadow: themed("box-shadow");
+          transform: translateX(-100%);
+          transition: all 0.3s;
+          @include mobile {
+            display: block;
+          }
+          &.open {
+            transform: translateX(0);
+          }
+          ul {
+            width: 100%;
+            @include flex(center, space-between);
+            gap: 20px;
+            flex-direction: column;
+            li {
+              width: 100%;
+              padding: 10px 0;
+              a,
+              button {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                height: 100%;
+                padding: 0 10px;
+                position: relative;
+                font-weight: 500;
+                color: themed("text1");
+                font-weight: 500;
+                font-size: $font-size-s;
+                i {
+                  --size: 20px;
+                  width: var(--size);
+                  height: var(--size);
+                  color: themed("text1");
+                }
+                &:hover,
+                &.active {
+                  color: $color-primary;
+                  i {
+                    color: $color-primary;
+                  }
+                }
+              }
+            }
+            hr {
+              width: 100%;
+              height: 1px;
+              background-color: themed('border');
+              border: none;
+            }
+          }
+        }
+        .header__wrapper__btn-mobile {
+          display: none;
+          @include mobile {
+            display: block;
+          }
+          button {
+            i {
+              font-size: $font-size-l;
+              color: themed("text1");
             }
           }
         }

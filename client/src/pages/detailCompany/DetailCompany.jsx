@@ -7,12 +7,13 @@ import ItemCandidate from "../../components/itemCandidate/ItemCandidate";
 import IntroCompany from "../../components/introCompany/IntroCompany";
 import InfoCompany from "../../components/infoCompany/InfoCompany";
 import { Link } from "react-router-dom";
+import Pagination from "../../components/pagination/Pagination";
 
 import jobs from "../../config/jobs";
-import companies from "../../config/companies";
 
 export default function DetailCompany() {
   const [active, setActive] = useState(1);
+  const [paginate,setPaginate] = useState(1);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -73,10 +74,7 @@ export default function DetailCompany() {
                     <span>Chỉnh sửa thông tin</span>
                   </button>
                   <Link to={"/cong-ty/ung-vien"}>
-                    <button
-                      onClick={() => setActive(3)}
-                      className={`${active === 3 && "active"}`}
-                    >
+                    <button>
                       <span>Đơn ứng tuyển</span>
                     </button>
                   </Link>
@@ -91,6 +89,7 @@ export default function DetailCompany() {
                       {jobs.map((job, i) => (
                         <ItemJob job={job} key={i} className={"col pc-12"} />
                       ))}
+                      <Pagination totalItem={30} limit={5} paginate={paginate} setPaginate={setPaginate}/>
                     </div>
                   )}
                   {active === 3 && (
@@ -132,95 +131,3 @@ export default function DetailCompany() {
     </div>
   );
 }
-
-// function AppliedJobs({ job }) {
-//   return (
-//     <div className="appliedJobs">
-//       <div className="appliedJobs__wrapper">
-//         {jobs.map((job, i) => (
-//           <div className="appliedJobs__wrapper__item">
-//             <div className="col pc-9 t-9 m-7">
-//               <div className="appliedJobs__wrapper__item__left ">
-//                 <h4 className="appliedJobs__wrapper__item__left__name">
-//                   {job?.name}
-//                 </h4>
-//                 <h5 className="appliedJobs__wrapper__item__left__company">
-//                   {job?.company}
-//                 </h5>
-//                 <div className="appliedJobs__wrapper__item__left__address">
-//                   <i class="fa-solid fa-location-dot"></i>
-//                   <span>{job?.address}</span>
-//                 </div>
-//                 <div className="appliedJobs__wrapper__item__left__wage">
-//                   <i class="fa-solid fa-dollar-sign"></i>
-//                   <span>{job?.wage}</span>
-//                 </div>
-//                 <p className="appliedJobs__wrapper__item__left__workingForm">
-//                   {job?.workingForm}
-//                 </p>
-//               </div>
-//             </div>
-//             <div className="col pc-3 t-3 m-4">
-//               <div className="appliedJobs__wrapper__item__right">
-//                 <span>Trạng thái</span>
-//                 <button>Đã xem hồ sơ</button>
-//               </div>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// function PersonalInformation() {
-//   return (
-//     <div className="personalInformation">
-//       <div className="personalInformation__wrapper">
-//         <ItemInfo title={"Họ tên"} desc={"Đinh Tấn Mãi"} />
-//         <ItemInfo title={"Ngày sinh :"} desc={"03/10/2003"} type={"date"} />
-//         <ItemInfo title={"Email :"} desc={"tanmai833@gmail.com"} />
-//         <ItemInfo title={"Số điện thoại :"} desc={"781263612"} />
-//         <ItemInfo
-//           title={"Liên kết CV (Kết nối với Google Drive) :"}
-//           desc={
-//             "https://drive.google.com/file/d/12YACDCDYGxxk-hMVwJxzD1s7HvwvZNAm/view?usp=sharing"
-//           }
-//         />
-//       </div>
-//     </div>
-//   );
-// }
-
-// function ItemInfo({ title, desc, type = "text" }) {
-//   const [edit, setEdit] = useState(false);
-
-//   return (
-//     <div className="personalInformation__wrapper__item">
-//       <div className="personalInformation__wrapper__item__left">
-//         <h6>{title}</h6>
-//         {!edit ? (
-//           <span>{desc}</span>
-//         ) : (
-//           <input type={type} defaultValue={desc} />
-//         )}
-//       </div>
-//       <div className="personalInformation__wrapper__item__right">
-//         {!edit ? (
-//           <button className="btn-edit" onClick={() => setEdit(true)}>
-//             Thay đổi
-//           </button>
-//         ) : (
-//           <>
-//             <button className="btn-save" onClick={() => setEdit(false)}>
-//               Lưu
-//             </button>
-//             <button className="btn-cancel" onClick={() => setEdit(false)}>
-//               Hủy
-//             </button>
-//           </>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }

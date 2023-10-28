@@ -28,6 +28,10 @@
       i {
         @include flex(center, center);
         font-size: $font-size-s;
+        transition: all .3s;
+        &.open{
+          transform:rotate(-180deg);
+        }
       }
     }
     .dropdown__menu {

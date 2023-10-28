@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./postJob.scss";
 import jobs from "../../config/jobs";
 import province from "../../config/province";
@@ -6,6 +6,10 @@ import career from "../../config/career";
 import ReactQuill from "react-quill";
 
 export default function PostJob() {
+
+  useEffect(() => {
+    window.scroll(0, 0);
+  })
   return (
     <div className="postJob">
       <div className="container">

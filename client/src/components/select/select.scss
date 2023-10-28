@@ -1,0 +1,58 @@
+@use "../../scss/" as *;
+
+.select {
+  @include themify($themes) {
+    position: relative;
+    width: max-content;
+
+    &__header {
+      padding: 14px 18px;
+      border-radius: $border-radius-10;
+      background-color: themed("bg1");
+      @include flex(center, unset);
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      width: max-content;
+      span {
+        font-size: $font-size-s;
+        font-weight: 400;
+        color: themed("text1");
+      }
+      i {
+        font-size: $font-size-s;
+        color: themed("text1");
+        transition: all 0.3s;
+      }
+      &.open {
+        i {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+    &__body {
+      top: 100%;
+      left: 0;
+      width: 100%;
+      position: absolute;
+      border-radius: $border-radius-10;
+      background-color: themed("bg1");
+      box-shadow: themed("box-shadow");
+      overflow: hidden;
+      &__item {
+        padding: 10px 8px;
+        font-size: $font-size-s;
+        color: themed("text1");
+        font-weight: 400;
+        cursor: pointer;
+        user-select: none;
+        &.active {
+          font-weight: 500;
+        }
+        &:hover {
+          background-color: themed("bg2");
+        }
+      }
+    }
+  }
+}

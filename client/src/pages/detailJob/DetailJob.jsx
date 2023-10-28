@@ -14,16 +14,12 @@ export default function DetailJob({job}) {
     window.scrollTo(0, 0);
   }, []);
 
-  // if(!job){
-  //   return <Loader/>
-  // }
-
   return (
     <>
       <div className="detailJob">
         <div className="container">
           <div className="detailJob__wrapper row">
-            <div className="detailJob__wrapper__main col pc-9">
+            <div className="detailJob__wrapper__main col pc-9 t-9 m-12">
               <div className="detailJob__wrapper__main__image">
                 <img src={img} alt="" />
                 <div className="detailJob__wrapper__main__image__name">
@@ -204,7 +200,7 @@ export default function DetailJob({job}) {
                 </div>
               </div>
             </div>
-            <div className="detailJob__wrapper__side col pc-3">
+            <div className="detailJob__wrapper__side col pc-3 t-3 m-0">
               <ListJobCol name={"Công việc liên quan"} />
             </div>
           </div>

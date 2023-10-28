@@ -14,7 +14,11 @@ export default function Pagination({
     pageNumbers.push(i);
   }
 
-  if (totalItem === undefined || paginate === undefined || limit === undefined) {
+  if (
+    totalItem === undefined ||
+    paginate === undefined ||
+    limit === undefined
+  ) {
     return;
   }
 
@@ -33,12 +37,13 @@ export default function Pagination({
       <div className="pagination__wrapper">
         <div className="pagination__wrapper__btn__left">
           <button onClick={handleClickLeft}>
-            <i class="fa-solid fa-angle-left"></i>
+            <i className="fa-solid fa-angle-left"></i>
           </button>
         </div>
         <div className="pagination__wrapper__list">
-          {pageNumbers.map((number) => (
+          {pageNumbers.map((number, i) => (
             <button
+              key={i}
               onClick={() => setPaginate(number)}
               className={`pagination__wrapper__list__item ${
                 paginate === number ? "active" : ""
@@ -50,7 +55,7 @@ export default function Pagination({
         </div>
         <div className="pagination__wrapper__btn__right">
           <button onClick={handleClickRight}>
-            <i class="fa-solid fa-angle-right"></i>
+            <i className="fa-solid fa-angle-right"></i>
           </button>
         </div>
       </div>
