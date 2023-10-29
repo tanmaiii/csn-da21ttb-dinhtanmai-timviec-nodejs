@@ -26,14 +26,8 @@
               color: themed("text1");
               font-weight: 500;
             }
-            select {
+            &__select {
               width: 380px;
-              padding: 12px 16px;
-              border-radius: $border-radius-10;
-              background-color: themed("bg1");
-              border: 1px solid themed("border");
-              font-size: $font-size-s;
-              color: themed("text1");
             }
           }
           &__list {

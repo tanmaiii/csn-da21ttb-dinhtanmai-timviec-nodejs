@@ -2,10 +2,26 @@ import React, { useState } from "react";
 import "./detailCandidate.scss";
 import Select from "../select/Select";
 
-const options = ["Chưa xem" , "Đã xem", "Chấp nhận", "Từ chối"]
+const options = [
+  {
+    value: "Chưa xem",
+    label: "Chưa xem"
+  },
+  {
+    value: "Đã xem",
+    label: "Đã xem"
+  },
+  {
+    value: "Chấp nhận",
+    label: "Chấp nhận"
+  },
+  {
+    value: "Từ chối",
+    label: "Từ chối"
+  },
+]
 
 export default function DetailCandidate({ candidate }) {
-  const [optionActive, setOptionActive] = useState(0)
 
   return (
     candidate && (
@@ -16,7 +32,7 @@ export default function DetailCandidate({ candidate }) {
               Trạng thái hồ sơ
             </h4>
             <div className="detailCandidate__wrapper__control__select">
-              <Select options={options} optionActive={optionActive} setOptionActive={setOptionActive}/>
+              <Select options={options} />
             </div>
           </div>
           <div className="detailCandidate__wrapper__group">

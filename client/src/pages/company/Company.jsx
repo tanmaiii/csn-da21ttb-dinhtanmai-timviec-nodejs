@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./company.scss";
 import province from "../../config/province";
 import companies from "../../config/companies";
@@ -28,7 +28,7 @@ const scale = [
 ];
 
 export default function Company() {
-  console.log(scale);
+  const [paginate, setPaginate] = useState(1);
   return (
     <div className="company">
       <div className="container">
@@ -86,7 +86,7 @@ export default function Company() {
                   />
                 ))}
               </div>
-              <Pagination page={1} limit={10} witdPagi={10}/>
+              <Pagination totalItem={20} limit={8} paginate={paginate} setPaginate={setPaginate}/>
             </div>
           </div>
         </div>

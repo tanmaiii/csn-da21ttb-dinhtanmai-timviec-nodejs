@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./detailCompany.scss";
 import img from "../../assets/images/FPT_logo.png";
 import ItemJob from "../../components/itemJob/ItemJob";
-import ItemCompany from "../../components/itemCompany/ItemCompany";
-import ItemCandidate from "../../components/itemCandidate/ItemCandidate";
 import IntroCompany from "../../components/introCompany/IntroCompany";
 import InfoCompany from "../../components/infoCompany/InfoCompany";
 import { Link } from "react-router-dom";
@@ -13,7 +11,7 @@ import jobs from "../../config/jobs";
 
 export default function DetailCompany() {
   const [active, setActive] = useState(1);
-  const [paginate,setPaginate] = useState(1);
+  const [paginate, setPaginate] = useState(1);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -66,12 +64,11 @@ export default function DetailCompany() {
                   >
                     <span>Việc làm</span>
                   </button>
-
                   <button
-                    onClick={() => setActive(4)}
-                    className={`${active === 4 && "active"}`}
+                    onClick={() => setActive(3)}
+                    className={`${active === 3 && "active"}`}
                   >
-                    <span>Chỉnh sửa thông tin</span>
+                    <span>Thông tin</span>
                   </button>
                   <Link to={"/cong-ty/ung-vien"}>
                     <button>
@@ -79,27 +76,25 @@ export default function DetailCompany() {
                     </button>
                   </Link>
                   <Link to={"/cong-ty/dang-bai"}>
-                    <button>Đăng Tuyển dụng</button>
+                    <button>Đăng tuyển dụng</button>
                   </Link>
                 </div>
                 <div className="detailCompany__wrapper__body__left__content">
                   {active === 1 && <IntroCompany />}
                   {active === 2 && (
-                    <div className="jobsSave">
+                    <div className="jobsSave row">
                       {jobs.map((job, i) => (
                         <ItemJob job={job} key={i} className={"col pc-12"} />
                       ))}
-                      <Pagination totalItem={30} limit={5} paginate={paginate} setPaginate={setPaginate}/>
+                      <Pagination
+                        totalItem={30}
+                        limit={5}
+                        paginate={paginate}
+                        setPaginate={setPaginate}
+                      />
                     </div>
                   )}
-                  {active === 3 && (
-                    <div className="candidate row">
-                      <ItemCandidate className={"col pc-6"} />
-                      <ItemCandidate className={"col pc-6"} />
-                      <ItemCandidate className={"col pc-6"} />
-                    </div>
-                  )}
-                  {active === 4 && <InfoCompany />}
+                  {active === 3 && <InfoCompany />}
                 </div>
               </div>
             </div>

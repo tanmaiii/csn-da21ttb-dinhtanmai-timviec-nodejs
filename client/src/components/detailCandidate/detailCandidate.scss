@@ -10,10 +10,14 @@
         display: grid;
         grid-template-columns: 0.6fr 1.4fr;
         gap: 8px;
+        align-items: center;
         &__title {
           font-size: $font-size-m;
           color: $color-primary;
           padding: 8px;
+        }
+        &__select{
+          width: 200px;
         }
       }
       &__group {

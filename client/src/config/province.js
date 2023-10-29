@@ -1,6 +1,8 @@
 const province = [
   {
     name: "Hà Nội",
+    label: "Hà Nội",
+    value: "ha-noi",
     slug: "ha-noi",
     type: "thanh-pho",
     name_with_type: "Thành phố Hà Nội",
@@ -8,6 +10,8 @@ const province = [
   },
   {
     name: "Hà Giang",
+    label: "Hà Giang",
+    value: "ha-giang",
     slug: "ha-giang",
     type: "tinh",
     name_with_type: "Tỉnh Hà Giang",
@@ -15,6 +19,8 @@ const province = [
   },
   {
     name: "Cao Bằng",
+    label: "Cao Bằng",
+    value: "cao-bang",
     slug: "cao-bang",
     type: "tinh",
     name_with_type: "Tỉnh Cao Bằng",
@@ -22,6 +28,8 @@ const province = [
   },
   {
     name: "Bắc Kạn",
+    label: "Bắc Kạn",
+    value: "bac-kan",
     slug: "bac-kan",
     type: "tinh",
     name_with_type: "Tỉnh Bắc Kạn",
@@ -29,6 +37,8 @@ const province = [
   },
   {
     name: "Tuyên Quang",
+    label: "Tuyên Quang",
+    value: "tuyen-quang",
     slug: "tuyen-quang",
     type: "tinh",
     name_with_type: "Tỉnh Tuyên Quang",
@@ -36,6 +46,8 @@ const province = [
   },
   {
     name: "Lào Cai",
+    label: "Lào Cai",
+    value: "lao-cai",
     slug: "lao-cai",
     type: "tinh",
     name_with_type: "Tỉnh Lào Cai",
@@ -43,6 +55,8 @@ const province = [
   },
   {
     name: "Điện Biên",
+    label: "Điện Biên",
+    value: "dien-bien",
     slug: "dien-bien",
     type: "tinh",
     name_with_type: "Tỉnh Điện Biên",
@@ -50,6 +64,8 @@ const province = [
   },
   {
     name: "Lai Châu",
+    label: "Lai Châu",
+    value: "lai-chau",
     slug: "lai-chau",
     type: "tinh",
     name_with_type: "Tỉnh Lai Châu",
@@ -57,6 +73,8 @@ const province = [
   },
   {
     name: "Sơn La",
+    label: "Sơn La",
+    value: "son-la",
     slug: "son-la",
     type: "tinh",
     name_with_type: "Tỉnh Sơn La",
@@ -64,6 +82,8 @@ const province = [
   },
   {
     name: "Yên Bái",
+    label: "Yên Bái",
+    value: "yen-bai",
     slug: "yen-bai",
     type: "tinh",
     name_with_type: "Tỉnh Yên Bái",
@@ -71,6 +91,8 @@ const province = [
   },
   {
     name: "Hoà Bình",
+    label: "Hoà Bình",
+    value: "hoa-binh",
     slug: "hoa-binh",
     type: "tinh",
     name_with_type: "Tỉnh Hoà Bình",
@@ -78,6 +100,8 @@ const province = [
   },
   {
     name: "Thái Nguyên",
+    label: "Thái Nguyên",
+    value: "thai-nguyen",
     slug: "thai-nguyen",
     type: "tinh",
     name_with_type: "Tỉnh Thái Nguyên",
@@ -85,6 +109,8 @@ const province = [
   },
   {
     name: "Lạng Sơn",
+    label: "Lạng Sơn",
+    value: "lang-son",
     slug: "lang-son",
     type: "tinh",
     name_with_type: "Tỉnh Lạng Sơn",
@@ -92,6 +118,8 @@ const province = [
   },
   {
     name: "Quảng Ninh",
+    label: "Quảng Ninh",
+    value: "quang-ninh",
     slug: "quang-ninh",
     type: "tinh",
     name_with_type: "Tỉnh Quảng Ninh",
@@ -99,6 +127,8 @@ const province = [
   },
   {
     name: "Bắc Giang",
+    label: "Bắc Giang",
+    value: "bac-giang",
     slug: "bac-giang",
     type: "tinh",
     name_with_type: "Tỉnh Bắc Giang",
@@ -106,6 +136,8 @@ const province = [
   },
   {
     name: "Phú Thọ",
+    label: "Phú Thọ",
+    value: "phu-tho",
     slug: "phu-tho",
     type: "tinh",
     name_with_type: "Tỉnh Phú Thọ",
@@ -113,6 +145,8 @@ const province = [
   },
   {
     name: "Vĩnh Phúc",
+    label: "Vĩnh Phúc",
+    value: "vinh-phuc",
     slug: "vinh-phuc",
     type: "tinh",
     name_with_type: "Tỉnh Vĩnh Phúc",
@@ -120,6 +154,8 @@ const province = [
   },
   {
     name: "Bắc Ninh",
+    label: "Bắc Ninh",
+    value: "bac-ninh",
     slug: "bac-ninh",
     type: "tinh",
     name_with_type: "Tỉnh Bắc Ninh",
@@ -127,6 +163,8 @@ const province = [
   },
   {
     name: "Hải Dương",
+    label: "Hải Dương",
+    value: "hai-duong",
     slug: "hai-duong",
     type: "tinh",
     name_with_type: "Tỉnh Hải Dương",
@@ -134,6 +172,8 @@ const province = [
   },
   {
     name: "Hải Phòng",
+    label: "Hải Phòng",
+    value: "hai-phong",
     slug: "hai-phong",
     type: "thanh-pho",
     name_with_type: "Thành phố Hải Phòng",
@@ -141,6 +181,8 @@ const province = [
   },
   {
     name: "Hưng Yên",
+    label: "Hưng Yên",
+    value: "hung-yen",
     slug: "hung-yen",
     type: "tinh",
     name_with_type: "Tỉnh Hưng Yên",
@@ -148,6 +190,8 @@ const province = [
   },
   {
     name: "Thái Bình",
+    label: "Thái Bình",
+    value: "thai-binh",
     slug: "thai-binh",
     type: "tinh",
     name_with_type: "Tỉnh Thái Bình",
@@ -155,6 +199,8 @@ const province = [
   },
   {
     name: "Hà Nam",
+    label: "Hà Nam",
+    value: "ha-nam",
     slug: "ha-nam",
     type: "tinh",
     name_with_type: "Tỉnh Hà Nam",
@@ -162,6 +208,8 @@ const province = [
   },
   {
     name: "Nam Định",
+    label: "Nam Định",
+    value: "nam-dinh",
     slug: "nam-dinh",
     type: "tinh",
     name_with_type: "Tỉnh Nam Định",
@@ -169,6 +217,8 @@ const province = [
   },
   {
     name: "Ninh Bình",
+    label: "Ninh Bình",
+    value: "ninh-binh",
     slug: "ninh-binh",
     type: "tinh",
     name_with_type: "Tỉnh Ninh Bình",
@@ -176,6 +226,8 @@ const province = [
   },
   {
     name: "Thanh Hóa",
+    label: "Thanh Hóa",
+    value: "thanh-hoa",
     slug: "thanh-hoa",
     type: "tinh",
     name_with_type: "Tỉnh Thanh Hóa",
@@ -183,6 +235,8 @@ const province = [
   },
   {
     name: "Nghệ An",
+    label: "Nghệ An",
+    value: "nghe-an",
     slug: "nghe-an",
     type: "tinh",
     name_with_type: "Tỉnh Nghệ An",
@@ -190,6 +244,8 @@ const province = [
   },
   {
     name: "Hà Tĩnh",
+    label: "Hà Tĩnh",
+    value: "ha-tinh",
     slug: "ha-tinh",
     type: "tinh",
     name_with_type: "Tỉnh Hà Tĩnh",
@@ -197,6 +253,8 @@ const province = [
   },
   {
     name: "Quảng Bình",
+    label: "Quảng Bình",
+    value: "quang-binh",
     slug: "quang-binh",
     type: "tinh",
     name_with_type: "Tỉnh Quảng Bình",
@@ -204,6 +262,8 @@ const province = [
   },
   {
     name: "Quảng Trị",
+    label: "Quảng Trị",
+    value: "quang-tri",
     slug: "quang-tri",
     type: "tinh",
     name_with_type: "Tỉnh Quảng Trị",
@@ -211,6 +271,8 @@ const province = [
   },
   {
     name: "Thừa Thiên Huế",
+    label: "Thừa Thiên Huế",
+    value: "thua-thien-hue",
     slug: "thua-thien-hue",
     type: "tinh",
     name_with_type: "Tỉnh Thừa Thiên Huế",
@@ -218,6 +280,8 @@ const province = [
   },
   {
     name: "Đà Nẵng",
+    label: "Đà Nẵng",
+    value: "da-nang",
     slug: "da-nang",
     type: "thanh-pho",
     name_with_type: "Thành phố Đà Nẵng",
@@ -225,6 +289,8 @@ const province = [
   },
   {
     name: "Quảng Nam",
+    label: "Quảng Nam",
+    value: "quang-nam",
     slug: "quang-nam",
     type: "tinh",
     name_with_type: "Tỉnh Quảng Nam",
@@ -232,6 +298,8 @@ const province = [
   },
   {
     name: "Quảng Ngãi",
+    label: "Quảng Ngãi",
+    value: "quang-ngai",
     slug: "quang-ngai",
     type: "tinh",
     name_with_type: "Tỉnh Quảng Ngãi",
@@ -239,6 +307,8 @@ const province = [
   },
   {
     name: "Bình Định",
+    label: "Bình Định",
+    value: "binh-dinh",
     slug: "binh-dinh",
     type: "tinh",
     name_with_type: "Tỉnh Bình Định",
@@ -246,6 +316,8 @@ const province = [
   },
   {
     name: "Phú Yên",
+    label: "Phú Yên",
+    value: "phu-yen",
     slug: "phu-yen",
     type: "tinh",
     name_with_type: "Tỉnh Phú Yên",
@@ -253,6 +325,8 @@ const province = [
   },
   {
     name: "Khánh Hòa",
+    label: "Khánh Hòa",
+    value: "khanh-hoa",
     slug: "khanh-hoa",
     type: "tinh",
     name_with_type: "Tỉnh Khánh Hòa",
@@ -260,6 +334,8 @@ const province = [
   },
   {
     name: "Ninh Thuận",
+    label: "Ninh Thuận",
+    value: "ninh-thuan",
     slug: "ninh-thuan",
     type: "tinh",
     name_with_type: "Tỉnh Ninh Thuận",
@@ -267,6 +343,8 @@ const province = [
   },
   {
     name: "Bình Thuận",
+    label: "Bình Thuận",
+    value: "binh-thuan",
     slug: "binh-thuan",
     type: "tinh",
     name_with_type: "Tỉnh Bình Thuận",
@@ -274,6 +352,8 @@ const province = [
   },
   {
     name: "Kon Tum",
+    label: "Kon Tum",
+    value: "kon-tum",
     slug: "kon-tum",
     type: "tinh",
     name_with_type: "Tỉnh Kon Tum",
@@ -281,6 +361,8 @@ const province = [
   },
   {
     name: "Gia Lai",
+    label: "Gia Lai",
+    value: "gia-lai",
     slug: "gia-lai",
     type: "tinh",
     name_with_type: "Tỉnh Gia Lai",
@@ -288,6 +370,8 @@ const province = [
   },
   {
     name: "Đắk Lắk",
+    label: "Đắk Lắk",
+    value: "dak-lak",
     slug: "dak-lak",
     type: "tinh",
     name_with_type: "Tỉnh Đắk Lắk",
@@ -295,6 +379,8 @@ const province = [
   },
   {
     name: "Đắk Nông",
+    label: "Đắk Nông",
+    value: "dak-nong",
     slug: "dak-nong",
     type: "tinh",
     name_with_type: "Tỉnh Đắk Nông",
@@ -302,6 +388,8 @@ const province = [
   },
   {
     name: "Lâm Đồng",
+    label: "Lâm Đồng",
+    value: "lam-dong",
     slug: "lam-dong",
     type: "tinh",
     name_with_type: "Tỉnh Lâm Đồng",
@@ -309,6 +397,8 @@ const province = [
   },
   {
     name: "Bình Phước",
+    label: "Bình Phước",
+    value: "binh-phuoc",
     slug: "binh-phuoc",
     type: "tinh",
     name_with_type: "Tỉnh Bình Phước",
@@ -316,6 +406,8 @@ const province = [
   },
   {
     name: "Tây Ninh",
+    label: "Tây Ninh",
+    value: "tay-ninh",
     slug: "tay-ninh",
     type: "tinh",
     name_with_type: "Tỉnh Tây Ninh",
@@ -323,6 +415,8 @@ const province = [
   },
   {
     name: "Bình Dương",
+    label: "Bình Dương",
+    value: "binh-duong",
     slug: "binh-duong",
     type: "tinh",
     name_with_type: "Tỉnh Bình Dương",
@@ -330,6 +424,8 @@ const province = [
   },
   {
     name: "Đồng Nai",
+    label: "Đồng Nai",
+    value: "dong-nai",
     slug: "dong-nai",
     type: "tinh",
     name_with_type: "Tỉnh Đồng Nai",
@@ -337,6 +433,8 @@ const province = [
   },
   {
     name: "Bà Rịa - Vũng Tàu",
+    label: "Bà Rịa - Vũng Tàu",
+    value: "ba-ria-vung-tau",
     slug: "ba-ria-vung-tau",
     type: "tinh",
     name_with_type: "Tỉnh Bà Rịa - Vũng Tàu",
@@ -344,6 +442,8 @@ const province = [
   },
   {
     name: "Hồ Chí Minh",
+    label: "Hồ Chí Minh",
+    value: "ho-chi-minh",
     slug: "ho-chi-minh",
     type: "thanh-pho",
     name_with_type: "Thành phố Hồ Chí Minh",
@@ -351,6 +451,8 @@ const province = [
   },
   {
     name: "Long An",
+    label: "Long An",
+    value: "long-an",
     slug: "long-an",
     type: "tinh",
     name_with_type: "Tỉnh Long An",
@@ -358,6 +460,8 @@ const province = [
   },
   {
     name: "Tiền Giang",
+    label: "Tiền Giang",
+    value: "tien-giang",
     slug: "tien-giang",
     type: "tinh",
     name_with_type: "Tỉnh Tiền Giang",
@@ -365,6 +469,8 @@ const province = [
   },
   {
     name: "Bến Tre",
+    label: "Bến Tre",
+    value: "ben-tre",
     slug: "ben-tre",
     type: "tinh",
     name_with_type: "Tỉnh Bến Tre",
@@ -372,6 +478,8 @@ const province = [
   },
   {
     name: "Trà Vinh",
+    label: "Trà Vinh",
+    value: "tra-vinh",
     slug: "tra-vinh",
     type: "tinh",
     name_with_type: "Tỉnh Trà Vinh",
@@ -379,6 +487,8 @@ const province = [
   },
   {
     name: "Vĩnh Long",
+    label: "Vĩnh Long",
+    value: "vinh-long",
     slug: "vinh-long",
     type: "tinh",
     name_with_type: "Tỉnh Vĩnh Long",
@@ -386,6 +496,8 @@ const province = [
   },
   {
     name: "Đồng Tháp",
+    label: "Đồng Tháp",
+    value: "dong-thap",
     slug: "dong-thap",
     type: "tinh",
     name_with_type: "Tỉnh Đồng Tháp",
@@ -393,6 +505,8 @@ const province = [
   },
   {
     name: "An Giang",
+    label: "An Giang",
+    value: "an-giang",
     slug: "an-giang",
     type: "tinh",
     name_with_type: "Tỉnh An Giang",
@@ -400,6 +514,8 @@ const province = [
   },
   {
     name: "Kiên Giang",
+    label: "Kiên Giang",
+    value: "kien-giang",
     slug: "kien-giang",
     type: "tinh",
     name_with_type: "Tỉnh Kiên Giang",
@@ -407,6 +523,8 @@ const province = [
   },
   {
     name: "Cần Thơ",
+    label: "Cần Thơ",
+    value: "can-tho",
     slug: "can-tho",
     type: "thanh-pho",
     name_with_type: "Thành phố Cần Thơ",
@@ -414,6 +532,8 @@ const province = [
   },
   {
     name: "Hậu Giang",
+    label: "Hậu Giang",
+    value: "hau-giang",
     slug: "hau-giang",
     type: "tinh",
     name_with_type: "Tỉnh Hậu Giang",
@@ -421,6 +541,8 @@ const province = [
   },
   {
     name: "Sóc Trăng",
+    label: "Sóc Trăng",
+    value: "soc-trang",
     slug: "soc-trang",
     type: "tinh",
     name_with_type: "Tỉnh Sóc Trăng",
@@ -428,6 +550,8 @@ const province = [
   },
   {
     name: "Bạc Liêu",
+    label: "Bạc Liêu",
+    value: "bac-lieu",
     slug: "bac-lieu",
     type: "tinh",
     name_with_type: "Tỉnh Bạc Liêu",
@@ -435,6 +559,8 @@ const province = [
   },
   {
     name: "Cà Mau",
+    label: "Cà Mau",
+    value: "ca-mau",
     slug: "ca-mau",
     type: "tinh",
     name_with_type: "Tỉnh Cà Mau",

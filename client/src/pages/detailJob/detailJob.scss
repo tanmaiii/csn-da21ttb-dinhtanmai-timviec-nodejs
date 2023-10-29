@@ -6,111 +6,113 @@
     .container {
       .detailJob__wrapper {
         padding: $spacing 0;
-        &__main{
-            &__image {
-                padding: 20px;
-                width: 100%;
-                @include flex(end, unset);
-                gap: 20px;
-                img {
-                  --size: 100px;
-                  width: var(--size);
-                  height: var(--size);
-                  object-fit: cover;
-                  box-shadow: themed("box-shadow");
+        &__main {
+          background-color: themed("bg2");
+          border-radius: $border-radius-10;
+          overflow: hidden;
+          &__image {
+            padding: 20px;
+            width: 100%;
+            @include flex(end, unset);
+            gap: 20px;
+            img {
+              --size: 100px;
+              width: var(--size);
+              height: var(--size);
+              object-fit: cover;
+              box-shadow: themed("box-shadow");
+            }
+            &__name {
+              h4 {
+                font-size: $font-size-m;
+                color: themed("text1");
+              }
+              span {
+                font-size: $font-size-s;
+                color: $color-blue;
+                transition: all 0.3s;
+                cursor: pointer;
+                &:hover {
+                  text-decoration: underline;
                 }
-                &__name {
+              }
+            }
+          }
+          &__button {
+            @include flex(center, unset);
+            padding: 20px;
+            gap: 10px;
+            .btn_apply {
+              @include button($color-white, $color-primary);
+            }
+            .btn_save {
+              @include button-line($color-red, $color-white);
+              display: flex;
+              gap: 8px;
+            }
+          }
+          &__important {
+            padding: 20px;
+            width: 100%;
+            background-color: #f1ffed;
+            display: flex;
+            &.dark {
+              background-color: #30336b;
+            }
+            &__col {
+              .item {
+                padding: 10px;
+                border-bottom: 1px solid themed("border");
+                &:last-child {
+                  border: 0;
+                }
+                .header {
+                  @include flex(center, unset);
+                  gap: 8px;
+                  margin-bottom: 8px;
+                  i {
+                    color: $color-txt-light;
+                    font-size: $font-size-s;
+                  }
                   h4 {
-                    font-size: $font-size-m;
+                    color: $color-txt-light;
+                    font-size: $font-size-s;
+                  }
+                }
+                .content {
+                  span {
+                    color: $color-txt-light-extra;
+                    font-size: $font-size-s;
+                  }
+                }
+              }
+            }
+          }
+          &__content {
+            padding: 20px;
+            &__item {
+              margin-top: 20px;
+              &__header {
+                padding: 10px 0;
+                h4 {
+                  font-size: $font-size-m;
+                  font-weight: 600;
+                  color: $color-primary;
+                }
+              }
+              &__body {
+                ul {
+                  li {
+                    line-height: 1.6;
+                    font-size: $font-size-s;
                     color: themed("text1");
                   }
-                  span {
-                    font-size: $font-size-s;
-                    color: $color-blue;
-                    transition: all 0.3s;
-                    cursor: pointer;
-                    &:hover {
-                      text-decoration: underline;
-                    }
-                  }
                 }
               }
-              &__button {
-                @include flex(center, unset);
-                padding: 20px;
-                gap: 10px;
-                .btn_apply {
-                  @include button($color-white, $color-primary);
-                }
-                .btn_save {
-                  @include button-line($color-red, $color-white);
-                  display: flex;
-                  gap: 8px;
-                }
-              }
-              &__important {
-                padding: 20px;
-                width: 100%;
-                background-color: #f1ffed;
-                display: flex;
-                &.dark{
-                  background-color: #30336b;
-                }
-                &__col {
-                  .item {
-                    padding: 10px;
-                    border-bottom: 1px solid themed("border");
-                    &:last-child {
-                      border: 0;
-                    }
-                    .header {
-                      @include flex(center, unset);
-                      gap: 8px;
-                      margin-bottom: 8px;
-                      i {
-                        color: $color-txt-light;
-                        font-size: $font-size-s;
-                      }
-                      h4 {
-                        color: $color-txt-light;
-                        font-size: $font-size-s;
-                      }
-                    }
-                    .content {
-                      span {
-                        color: $color-txt-light-extra;
-                        font-size: $font-size-s;
-                      }
-                    }
-                  }
-                }
-              }
-              &__content {
-                padding: 20px;
-                &__item {
-                  margin-top: 20px;
-                  &__header {
-                    padding: 10px 0;
-                    h4 {
-                      font-size: $font-size-m;
-                      font-weight: 600;
-                      color: $color-primary;
-                    }
-                  }
-                  &__body {
-                    ul {
-                      li {
-                        line-height: 1.6;
-                        font-size: $font-size-s;
-                        color: themed("text1");
-                      }
-                    }
-                  }
-                }
-              }
+            }
+          }
         }
-        &__side{
-            
+        &__side {
         }
       }
     }

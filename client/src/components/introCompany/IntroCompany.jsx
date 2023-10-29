@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./introCompany.scss";
+import ReactQuill from "react-quill";
 
 export default function IntroCompany() {
   const [edit, setEdit] = useState(false);
@@ -71,7 +72,7 @@ export default function IntroCompany() {
             </div>
           ) : (
             <div className="introCompany__wrapper__body__edit">
-              <textarea name="" id="" cols="30" rows="10" placeholder="Chia sẻ về công ty..."></textarea>
+              <ReactQuill theme="snow" />
             </div>
           )}
         </div>

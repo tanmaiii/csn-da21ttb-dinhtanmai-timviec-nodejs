@@ -5,16 +5,33 @@ import dataCandidate from "../../config/dataCandidate";
 import Pagination from "../../components/pagination/Pagination";
 import Select from "../../components/select/Select";
 
-const options = ["Tất cả", "UI UX", "backend"]
+const options = [
+  {
+    label: "Lorem Ipsum Al Pattern",
+    value: "Lorem Ipsum Al Pattern 1",
+  },
+  {
+    label: "Lorem Ipsum Al Pattern",
+    value: "Lorem Ipsum Al Pattern 2",
+  },
+  {
+    label: "Lorem Ipsum Al Pattern",
+    value: "Lorem Ipsum Al Pattern 3",
+  },
+  {
+    label: "Lorem Ipsum Al Pattern",
+    value: "Lorem Ipsum Al Pattern 4",
+  },
+];
 
 export default function Candidate() {
   const [data, setData] = useState(dataCandidate);
   const [paginate, setPaginate] = useState(0);
-  const [optionActive, setOptionActive] = useState(0)
+  const [optionActive, setOptionActive] = useState(0);
 
   useEffect(() => {
-      window.scroll(0, 0);
-  },[])
+    window.scroll(0, 0);
+  }, []);
 
   return (
     <div className="candidate">
@@ -24,10 +41,14 @@ export default function Candidate() {
           <div className="candidate__wrapper__body">
             <div className="candidate__wrapper__body__control">
               <h4>Tên công việc :</h4>
-              <Select options={options} optionActive={optionActive} setOptionActive={setOptionActive}/>
+              <div className="candidate__wrapper__body__control__select">
+                <Select options={options} />
+              </div>
             </div>
             <div className="candidate__wrapper__body__list">
-              {data && <TableCandidate data={data} limit={10} paginate={paginate}/>}
+              {data && (
+                <TableCandidate data={data} limit={10} paginate={paginate} />
+              )}
             </div>
             <Pagination
               totalItem={data?.length}

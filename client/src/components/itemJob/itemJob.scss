@@ -2,6 +2,7 @@
 
 .itemJob {
   @include themify($themes) {
+    width: 100%;
     &.active {
       .itemJob__wrapper {
         border: 1px solid $color-primary;

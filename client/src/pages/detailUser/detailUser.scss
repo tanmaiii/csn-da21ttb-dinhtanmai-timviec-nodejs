@@ -16,9 +16,18 @@
           border-radius: $border-radius-20;
           @include flex(center, space-between);
           width: 100%;
+          @include mobile {
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+          }
           &__main {
             @include flex(center, unset);
             gap: 10px;
+            @include mobile {
+              flex-direction: column;
+              gap: 8px;
+            }
             &__image {
               --size: 200px;
               width: var(--size);
@@ -38,6 +47,9 @@
               @include flex(unset, unset);
               flex-direction: column;
               gap: 8px;
+              @include mobile{
+                align-items: center;
+              }
               &__name {
                 font-size: $font-size-l;
                 color: themed("text1");
@@ -82,6 +94,14 @@
               @include flex(center, unset);
               gap: 10px;
               height: 100%;
+              @include mobile {
+                button:nth-child(3) {
+                  display: none;
+                }
+                button:nth-child(4) {
+                  display: none;
+                }
+              }
               button {
                 height: 100%;
                 padding: 10px 20px;
@@ -90,7 +110,7 @@
                 font-size: $font-size-s;
                 color: themed("text1");
                 cursor: pointer;
-                span{
+                span {
                   @include text(3);
                 }
                 &.active {
@@ -100,7 +120,10 @@
             }
             &__content {
               padding: 20px 0;
-              .companiesSave{
+              .companiesSave {
+                flex-wrap: wrap;
+              }
+              .jobsSave {
                 flex-wrap: wrap;
               }
             }
@@ -142,62 +165,6 @@
                   }
                 }
               }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-.infoUser {
-  @include themify($themes) {
-    &__wrapper {
-      &__item {
-        @include flex(center, space-between);
-        padding: 20px 0;
-        border-bottom: 1px solid themed("border");
-        &__left {
-          max-width: 70%;
-          h6 {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 600;
-            margin-bottom: 10px;
-          }
-          span {
-            font-size: $font-size-s;
-            color: themed("text2");
-            font-weight: 400;
-          }
-          input {
-            background-color: themed("bg1");
-            padding: 8px 10px;
-            font-size: $font-size-s;
-            color: themed("text2");
-            border-radius: $border-radius-10;
-            width: 280px;
-          }
-        }
-        &__right {
-          @include flex(end, unset);
-          flex-direction: column;
-          gap: 10px;
-          min-width: 30%;
-          button {
-            background-color: themed("bg1");
-            padding: 10px 16px;
-            border-radius: $border-radius-10;
-            color: themed("text1");
-            font-size: $font-size-s;
-            cursor: pointer;
-            &.btn-edit {
-            }
-            &.btn-save {
-              background-color: $color-primary;
-              color: $color-white;
-            }
-            &.btn-cancel {
             }
           }
         }
@@ -290,14 +257,135 @@
             font-size: $font-size-s;
             color: themed("text1");
             font-weight: 500;
+            text-align: center;
           }
-          button{
+          button {
             background-color: $color-primary;
             color: $color-white;
             font-size: $font-size-s;
             font-weight: 500;
             padding: 10px 16px;
             border-radius: $border-radius-10;
+          }
+        }
+      }
+    }
+  }
+}
+
+.infoUser {
+  @include themify($themes) {
+    &__wrapper {
+      &__item {
+        @include flex(center, space-between);
+        padding: 20px 0;
+        border-bottom: 1px solid themed("border");
+        &__left {
+          max-width: 70%;
+          h6 {
+            font-size: $font-size-s;
+            color: themed("text1");
+            font-weight: 600;
+            margin-bottom: 10px;
+          }
+          span {
+            font-size: $font-size-s;
+            color: themed("text2");
+            font-weight: 400;
+          }
+          input {
+            background-color: themed("bg1");
+            padding: 8px 10px;
+            font-size: $font-size-s;
+            color: themed("text2");
+            border-radius: $border-radius-10;
+            width: 280px;
+          }
+        }
+        &__right {
+          @include flex(end, unset);
+          flex-direction: column;
+          gap: 10px;
+          min-width: 30%;
+          button {
+            background-color: themed("bg1");
+            padding: 10px 16px;
+            border-radius: $border-radius-10;
+            color: themed("text1");
+            font-size: $font-size-s;
+            cursor: pointer;
+            &.btn-edit {
+            }
+            &.btn-save {
+              background-color: $color-primary;
+              color: $color-white;
+            }
+            &.btn-cancel {
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.personalInformation__wrapper {
+  @include themify($themes) {
+    &__item {
+      @include flex(center, space-between);
+      padding: 20px 0;
+      border-bottom: 1px solid themed("border");
+      overflow: hidden;
+      &__left {
+        h6 {
+          font-size: $font-size-s;
+          color: themed("text1");
+          font-weight: 600;
+          margin-bottom: 10px;
+        }
+        span {
+          font-size: $font-size-s;
+          font-weight: 400;
+          color: themed("text1");
+        }
+        input {
+          font-size: $font-size-s;
+          font-weight: 400;
+          color: themed("text1");
+          padding: 16px 20px;
+          background-color: themed("bg1");
+          border-radius: $border-radius-10;
+          width: 280px;
+          @include mobile {
+            width: 100%;
+          }
+        }
+        .select {
+          width: 280px;
+          @include mobile {
+            width: 100%;
+          }
+        }
+      }
+      &__right {
+        @include flex(end, unset);
+        flex-direction: column;
+        gap: 10px;
+        min-width: 30%;
+        button {
+          background-color: themed("bg1");
+          padding: 10px 16px;
+          border-radius: $border-radius-10;
+          color: themed("text1");
+          font-size: $font-size-s;
+          cursor: pointer;
+          &.btn-edit {
+          }
+          &.btn-save {
+            background-color: $color-primary;
+            color: $color-white;
+          }
+          &.btn-cancel {
           }
         }
       }

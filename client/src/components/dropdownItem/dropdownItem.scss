@@ -16,7 +16,7 @@
       user-select: none;
       z-index: 1;
       &:hover {
-        background-color: transparent;
+        background-color: themed("bg2");
       }
       &.active {
         background-color: $color-primary;

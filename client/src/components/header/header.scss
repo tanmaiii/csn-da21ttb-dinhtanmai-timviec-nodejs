@@ -24,10 +24,17 @@
       .container {
         @include flex(center, space-between);
         height: $height-header;
+        position: relative;
         .header__wrapper__logo {
           @include flex(center, unset);
           gap: 10px;
           cursor: pointer;
+          @include mobile {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
           img {
             --size: 40px;
             width: var(--size);
@@ -181,7 +188,7 @@
             hr {
               width: 100%;
               height: 1px;
-              background-color: themed('border');
+              background-color: themed("border");
               border: none;
             }
           }

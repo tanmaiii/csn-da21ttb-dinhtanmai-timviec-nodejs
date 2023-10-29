@@ -86,6 +86,12 @@ export default function Header() {
           ref={headerRef}
         >
           <div className="container">
+            <div className="header__wrapper__btn-mobile">
+              <button onClick={() => setOpen(!open)}>
+                <i class="fa-solid fa-bars"></i>
+              </button>
+            </div>
+
             <div className="header__wrapper__logo" onClick={handleReloadPage}>
               <img src={img} alt="" />
               <h2>JobQuest</h2>
@@ -152,7 +158,7 @@ export default function Header() {
                   <Link to={"/nha-tuyen-dung/dang-nhap"}>Nhà tuyển dụng</Link>
                 </li>
                 <hr />
-                <li >
+                <li>
                   <button onClick={() => toggleDarkMode()}>
                     {darkMode ? (
                       <>
@@ -168,12 +174,6 @@ export default function Header() {
                   </button>
                 </li>
               </ul>
-            </div>
-
-            <div className="header__wrapper__btn-mobile">
-              <button onClick={() => setOpen(!open)}>
-                <i class="fa-solid fa-bars"></i>
-              </button>
             </div>
           </div>
         </div>

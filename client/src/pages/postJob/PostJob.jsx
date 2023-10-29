@@ -4,19 +4,40 @@ import jobs from "../../config/jobs";
 import province from "../../config/province";
 import career from "../../config/career";
 import ReactQuill from "react-quill";
+import Select from "../../components/select/Select";
+
+const optionsDegree = [
+  {
+    label: "Không yêu cầu",
+    value: "Không yêu cầu",
+  },
+  {
+    label: "Đại học",
+    value: "Đại học",
+  },
+  {
+    label: "Cao đẳng",
+    value: "Cao đẳng",
+  },
+  {
+    label: "Trung cấp",
+    value: "Trung cấp",
+  },
+  {
+    label: "Trung học",
+    value: "Trung học",
+  },
+];
 
 export default function PostJob() {
-
   useEffect(() => {
     window.scroll(0, 0);
-  })
+  });
   return (
     <div className="postJob">
       <div className="container">
         <div className="postJob__wrapper">
-          <h2 className="postJob__wrapper__header">
-            Đăng bài tuyển dụng
-          </h2>
+          <h2 className="postJob__wrapper__header">Đăng bài tuyển dụng</h2>
           <div className="postJob__wrapper__body">
             {/* thông tin */}
             <div className="postJob__wrapper__body__form">
@@ -33,13 +54,13 @@ export default function PostJob() {
                 <div className="postJob__wrapper__body__form__content__item">
                   <h6>Loại ngành nghề</h6>
                   <div className="postJob__wrapper__body__form__content__item__input">
-                    <input type="text" placeholder="Chức danh" />
+                    <Select options={career} />
                   </div>
                 </div>
                 <div className="postJob__wrapper__body__form__content__item">
                   <h6>Địa chỉ làm việc</h6>
                   <div className="postJob__wrapper__body__form__content__item__input">
-                    <input type="text" placeholder="Chức danh" />
+                    <Select options={province} />
                   </div>
                 </div>
               </div>
@@ -73,8 +94,8 @@ export default function PostJob() {
                     <input type="text" placeholder="Tối thiểu" />
                     <input type="text" placeholder="Tối đa" />
                     <div className="postJob__wrapper__body__form__content__item__input__child">
-                        <input type="checkbox" name="" id="" />
-                        <label htmlFor="">Thảo thuận</label>
+                      <input type="checkbox" name="" id="" />
+                      <label htmlFor="">Thảo thuận</label>
                     </div>
                   </div>
                 </div>
@@ -102,14 +123,7 @@ export default function PostJob() {
                 <div className="postJob__wrapper__body__form__content__item">
                   <h6>Bằng cấp</h6>
                   <div className="postJob__wrapper__body__form__content__item__input">
-                    <select name="" id="">
-                      <option value="">Không yêu cầu</option>
-                      <option value="">Đại học</option>
-                      <option value="">Cao đẳng</option>
-                      <option value="">Đại học</option>
-                      <option value="">Đại học</option>
-                      <option value="">Đại học</option>
-                    </select>
+                    <Select options={optionsDegree}  defaultValue={optionsDegree[0]}/>
                   </div>
                 </div>
               </div>

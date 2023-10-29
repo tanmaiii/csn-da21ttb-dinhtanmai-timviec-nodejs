@@ -46,32 +46,32 @@ export default function DetailUser() {
                     onClick={() => setActive(1)}
                     className={`${active === 1 && "active"}`}
                   >
-                    <span>Thông tin cá nhân</span>
+                    <span>Thông tin</span>
                   </button>
                   <button
                     onClick={() => setActive(2)}
                     className={`${active === 2 && "active"}`}
                   >
-                    <span>Đã ứng tuyển 0</span>
+                    <span>Ứng tuyển</span>
                   </button>
                   <button
                     onClick={() => setActive(3)}
                     className={`${active === 3 && "active"}`}
                   >
-                    <span>Công việc đã lưu 0</span>
+                    <span>Công việc</span>
                   </button>
                   <button
                     onClick={() => setActive(4)}
                     className={`${active === 4 && "active"}`}
                   >
-                    <span>Công ty đã lưu 0</span>
+                    <span>Công ty</span>
                   </button>
                 </div>
                 <div className="detailUser__wrapper__body__left__content">
                   {active === 1 && <InfoUser />}
                   {active === 2 && <AppliedJobs />}
                   {active === 3 && (
-                    <div className="jobsSave">
+                    <div className="jobsSave row">
                       {jobs.map((job, i) => (
                         <ItemJob job={job} key={i} className={"col pc-12"} />
                       ))}

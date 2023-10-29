@@ -16,9 +16,16 @@
           border-radius: $border-radius-20;
           @include flex(center, space-between);
           width: 100%;
+          @include mobile {
+            flex-direction: column;
+            gap: 20px;
+          }
           &__main {
-            @include flex(center, unset);
+            @include flex(top, unset);
             gap: 10px;
+            @include mobile {
+              flex-direction: column;
+            }
             &__image {
               --size: 200px;
               width: var(--size);
@@ -28,6 +35,8 @@
               @include flex(center, center);
               border: 1px solid themed("border");
               box-shadow: themed("box-shadow");
+              @include mobile {
+              }
               img {
                 width: 100%;
                 height: auto;
@@ -38,6 +47,9 @@
               @include flex(unset, unset);
               flex-direction: column;
               gap: 8px;
+              @include mobile {
+                align-items: center;
+              }
               & > div {
                 @include flex(center, unset);
                 gap: 8px;
@@ -82,6 +94,12 @@
               @include flex(center, unset);
               gap: 10px;
               height: 100%;
+              overflow: hidden;
+              @include mobile {
+                a {
+                  display: none;
+                }
+              }
               button {
                 height: 100%;
                 padding: 10px 20px;
@@ -90,13 +108,12 @@
                 font-size: $font-size-s;
                 color: themed("text1");
                 cursor: pointer;
-                transition: all .3s;
+                transition: all 0.3s;
                 span {
                   @include text(3);
                 }
-                &:hover{
+                &:hover {
                   background-color: themed("bg1");
-
                 }
                 &.active {
                   background-color: themed("bg1");
@@ -106,6 +123,9 @@
             &__content {
               padding: 20px 0;
               .companiesSave {
+                flex-wrap: wrap;
+              }
+              .jobsSave{
                 flex-wrap: wrap;
               }
             }
@@ -148,161 +168,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    }
-  }
-}
-
-.personalInformation {
-  @include themify($themes) {
-    &__wrapper {
-      &__item {
-        @include flex(center, space-between);
-        padding: 20px 0;
-        border-bottom: 1px solid themed("border");
-        &__left {
-          max-width: 70%;
-          h6 {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 600;
-            margin-bottom: 10px;
-          }
-          span {
-            font-size: $font-size-s;
-            color: themed("text2");
-            font-weight: 400;
-          }
-          input {
-            background-color: themed("bg1");
-            padding: 8px 10px;
-            font-size: $font-size-s;
-            color: themed("text2");
-            border-radius: $border-radius-10;
-            width: 280px;
-          }
-        }
-        &__right {
-          @include flex(end, unset);
-          flex-direction: column;
-          gap: 10px;
-          min-width: 30%;
-          button {
-            background-color: themed("bg1");
-            padding: 10px 16px;
-            border-radius: $border-radius-10;
-            color: themed("text1");
-            font-size: $font-size-s;
-            cursor: pointer;
-            &.btn-edit {
-            }
-            &.btn-save {
-              background-color: $color-primary;
-              color: $color-white;
-            }
-            &.btn-cancel {
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-.appliedJobs {
-  @include themify($themes) {
-    &__wrapper {
-      &__item {
-        // background-color: themed('bg1');
-        margin-bottom: 20px;
-        padding: 10px;
-        border-radius: $border-radius-10;
-        border: 1px solid themed("border");
-        display: flex;
-        cursor: pointer;
-        transition: all 0.3s;
-        @include flex(center, space-between);
-        &:hover {
-          background-color: themed("bg1");
-        }
-        &__left {
-          @include flex(unset, unset);
-          flex-direction: column;
-          gap: 8px;
-          &__name {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 500;
-            @include text(2);
-          }
-          &__company {
-            font-size: $font-size-s;
-            color: themed("text2");
-            font-weight: 400;
-            @include text(2);
-            cursor: pointer;
-            &:hover {
-              text-decoration: underline;
-            }
-          }
-          &__address {
-            @include flex(center, unset);
-            gap: 8px;
-            i {
-              font-size: $font-size-m;
-              color: themed("text2");
-            }
-            span {
-              font-size: $font-size-s;
-              color: themed("text2");
-            }
-          }
-          &__wage {
-            background-color: themed("bg1");
-            padding: 6px 10px;
-            border-radius: $border-radius-10;
-            width: max-content;
-            @include flex(center, unset);
-            gap: 8px;
-            i {
-              font-size: $font-size-s;
-              color: themed("text2");
-            }
-            span {
-              @include text(1);
-              color: themed("text2");
-              font-size: $font-size-s;
-              font-weight: 500;
-            }
-          }
-          &__workingForm {
-            background-color: themed("bg1");
-            padding: 6px 10px;
-            border-radius: $border-radius-10;
-            color: themed("text2");
-            font-weight: 500;
-            width: max-content;
-          }
-        }
-        &__right {
-          @include flex(center, center);
-          flex-direction: column;
-          height: 100%;
-          gap: 10px;
-          span {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 500;
-          }
-          button {
-            background-color: $color-primary;
-            color: $color-white;
-            font-size: $font-size-s;
-            font-weight: 500;
-            padding: 10px 16px;
-            border-radius: $border-radius-10;
           }
         }
       }
