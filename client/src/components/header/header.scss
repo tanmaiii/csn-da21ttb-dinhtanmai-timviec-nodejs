@@ -114,10 +114,18 @@
           }
           &__darkMode {
             background-color: transparent;
+            padding: 10px;
+            border-radius: $border-radius-10;
+            border: 1.6px solid themed("text1");
             cursor: pointer;
+            @include flex(center, center);
             i {
+              @include flex(center, center);
+              --size: 20px;
+              width: var(--size);
+              height: var(--size);
               color: themed("text1");
-              font-size: $font-size-l;
+              font-size: $font-size-m;
             }
           }
           &__user {
@@ -139,13 +147,16 @@
           width: max-content;
           height: 100vh;
           background-color: themed("bg2");
-          padding: $spacing;
+          padding: 28px;
           display: none;
           box-shadow: themed("box-shadow");
           transform: translateX(-100%);
           transition: all 0.3s;
+          @include flex(start, space-between);
+          height: 100vh;
+          flex-direction: column;
           @include mobile {
-            display: block;
+            display: flex;
           }
           &.open {
             transform: translateX(0);
@@ -153,18 +164,16 @@
           ul {
             width: 100%;
             @include flex(center, space-between);
-            gap: 20px;
+            gap: 10px;
             flex-direction: column;
             li {
               width: 100%;
-              padding: 10px 0;
+              padding: 10px;
               a,
               button {
-                display: flex;
-                align-items: center;
+                @include flex(center, unset);
                 gap: 4px;
                 height: 100%;
-                padding: 0 10px;
                 position: relative;
                 font-weight: 500;
                 color: themed("text1");
@@ -191,6 +200,13 @@
               background-color: themed("border");
               border: none;
             }
+          }
+          &__option__logout{
+            width: 100%;
+            padding: 10px;
+            @include flex(center, unset);
+            gap: 8px;
+            color: themed('text1')
           }
         }
         .header__wrapper__btn-mobile {

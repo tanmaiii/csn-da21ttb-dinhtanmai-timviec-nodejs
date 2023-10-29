@@ -3,10 +3,9 @@ import img from "../../assets/images/logoJobQuest.png";
 import { Link } from "react-router-dom";
 import "./header.scss";
 import { useMode } from "../../context/ModeContext";
-import { HiOutlineHome } from "react-icons/hi";
-import { BiSearch } from "react-icons/bi";
-import { FaRegBuilding } from "react-icons/fa";
-import { FaRankingStar } from "react-icons/fa6";
+
+import DropdownUser from "../dropdownUser/DropdownUser";
+import DropdownCompany from "../dropdownCompany/DropdownCompany";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -29,6 +28,8 @@ const hedearItem = [
 ];
 
 export default function Header() {
+  const [user, setUser] = useState(false);
+  const [company, setCompany] = useState(false);
   const { darkMode, toggleDarkMode } = useMode();
   const [open, setOpen] = useState(false);
   const headerRef = useRef();
@@ -52,7 +53,7 @@ export default function Header() {
       headerRef.current.classList.remove("shrink");
     } else {
       if (scrollTop > lastScrollTop) {
-        headerRef.current.style.top = "-100px";
+        headerRef.current.style.top = "-500px";
         headerRef.current.classList.remove("shrink");
       } else {
         headerRef.current.style.top = "0px";
@@ -91,12 +92,10 @@ export default function Header() {
                 <i class="fa-solid fa-bars"></i>
               </button>
             </div>
-
             <div className="header__wrapper__logo" onClick={handleReloadPage}>
               <img src={img} alt="" />
               <h2>JobQuest</h2>
             </div>
-
             <div className="header__wrapper__control">
               <ul>
                 {hedearItem.map((item, i) => (
@@ -112,7 +111,6 @@ export default function Header() {
                 ))}
               </ul>
             </div>
-
             <div className="header__wrapper__auth">
               <button
                 className="header__wrapper__auth__darkMode"
@@ -124,14 +122,21 @@ export default function Header() {
                   <i class="fa-solid fa-moon"></i>
                 )}
               </button>
-              <button className="header__wrapper__auth__user">
-                <Link to={"/nguoi-xin-viec/dang-nhap"}>Đăng nhập</Link>
-              </button>
-              <div className="header__wrapper__auth__company">
-                <Link to={"/nha-tuyen-dung/dang-nhap"}>Nhà tuyển dụng</Link>
-              </div>
+              {user ? (
+                <DropdownUser />
+              ) : (
+                <button className="header__wrapper__auth__user">
+                  <Link to={"/nguoi-xin-viec/dang-nhap"}>Đăng nhập</Link>
+                </button>
+              )}
+              {company ? (
+                <DropdownCompany />
+              ) : (
+                <button className="header__wrapper__auth__company">
+                  <Link to={"/nha-tuyen-dung/dang-nhap"}>Nhà tuyển dụng</Link>
+                </button>
+              )}
             </div>
-
             <div
               className={`header__wrapper__control-mobile ${
                 open ? "open" : ""
@@ -139,6 +144,19 @@ export default function Header() {
               ref={sideBarMobile}
             >
               <ul>
+                {user && (
+                  <>
+                    <DropdownUser />
+                    <hr />
+                  </>
+                )}
+                {company && (
+                  <>
+                    <DropdownCompany />
+                    <hr />
+                  </>
+                )}
+
                 {hedearItem.map((item, i) => (
                   <li key={i}>
                     <Link
@@ -150,14 +168,9 @@ export default function Header() {
                     </Link>
                   </li>
                 ))}
+
                 <hr />
-                <li>
-                  <Link to={"/nguoi-xin-viec/dang-nhap"}>Đăng nhập</Link>
-                </li>
-                <li>
-                  <Link to={"/nha-tuyen-dung/dang-nhap"}>Nhà tuyển dụng</Link>
-                </li>
-                <hr />
+                
                 <li>
                   <button onClick={() => toggleDarkMode()}>
                     {darkMode ? (
@@ -173,7 +186,34 @@ export default function Header() {
                     )}
                   </button>
                 </li>
+
+                {!user && (
+                  <li>
+                    <button className="">
+                      <Link to={"/nguoi-xin-viec/dang-nhap"}>
+                        Người tìm việc
+                      </Link>
+                    </button>
+                  </li>
+                )}
+
+                {!company && (
+                  <li>
+                    <button className="">
+                      <Link to={"/nha-tuyen-dung/dang-nhap"}>
+                        Nhà tuyển dụng
+                      </Link>
+                    </button>
+                  </li>
+                )}
               </ul>
+              {user ||
+                (company && (
+                  <Link className="header__wrapper__control-mobile__option header__wrapper__control-mobile__option__logout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Đăng xuất</span>
+                  </Link>
+                ))}
             </div>
           </div>
         </div>

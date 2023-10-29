@@ -45,7 +45,7 @@ function App() {
                 <Route path="dang-ky" element={<SignupCompany />} />
               </Route>
               <Route path="/cong-viec/:id" element={<DetailJob />} />
-              <Route path="/nguoi-dung/:id" element={<DetailUser />} />
+              <Route path="/nguoi-dung/:id/" element={<DetailUser />} />
 
               <Route path="/cong-ty/:id" element={<DetailCompany />} />
               <Route path="/cong-ty/ung-vien" element={<Candidate />} />

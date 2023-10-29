@@ -1,0 +1,101 @@
+@use "../../scss/" as *;
+
+.dropdownCompany {
+  @include themify($themes) {
+    position: relative;
+    &__toogle {
+      border: 1.6px solid themed("text1");
+      border-radius: $border-radius-10;
+      padding: 6px;
+      @include flex(center, center);
+      gap: 8px;
+      height: 42px;
+      cursor: pointer;
+      @include mobile{
+        border: none;
+        border-radius: none;
+        flex-direction: column;
+        height: max-content;
+      }
+      img {
+        height: 100%;
+        width: auto;
+        overflow: hidden;
+        border-radius: 50%;
+        object-fit: cover;
+        @include mobile{
+          width: 80px;
+          height: 80px;
+          object-fit: cover;
+          border: 2px solid $color-primary;
+        }
+      }
+      span {
+        font-size: $font-size-s;
+        color: themed("text1");
+        font-weight: 500;
+      }
+    }
+    &__dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background-color: themed("bg2");
+      border-radius: $border-radius-10;
+      width: max-content;
+      overflow: hidden;
+      box-shadow: themed("box-shadow");
+      padding: 8px;
+      display: none;
+      &.open {
+        display: block;
+      }
+      @include mobile {
+        @include flex(start, unset);
+        flex-direction: column;
+        gap: 10px;
+        position: unset;
+        top: unset;
+        left: unset;
+        transform: none;
+        background-color: transparent;
+        box-shadow: none;
+        padding: 0;
+      }
+      hr {
+        margin: 8px 0;
+        @include mobile{
+          display: none;
+        }
+      }
+      &__option {
+        padding: 10px 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border-radius: $border-radius-10;
+        @include flex(center, unset);
+        gap: 8px;
+        @include mobile{
+          width: 100%;
+        }
+        span {
+          font-size: $font-size-s;
+          color: themed("text1");
+          font-weight: 400;
+        }
+        i {
+          font-size: $font-size-s;
+          color: themed("text1");
+        }
+        &:hover {
+          background-color: themed("bg1");
+        }
+      }
+      &__option__logout{
+        @include mobile{
+          display: none;
+        }
+      }
+    }
+  }
+}

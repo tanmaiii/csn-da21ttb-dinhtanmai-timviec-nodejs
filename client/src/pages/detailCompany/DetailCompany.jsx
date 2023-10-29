@@ -4,7 +4,7 @@ import img from "../../assets/images/FPT_logo.png";
 import ItemJob from "../../components/itemJob/ItemJob";
 import IntroCompany from "../../components/introCompany/IntroCompany";
 import InfoCompany from "../../components/infoCompany/InfoCompany";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
 
 import jobs from "../../config/jobs";
@@ -12,6 +12,7 @@ import jobs from "../../config/jobs";
 export default function DetailCompany() {
   const [active, setActive] = useState(1);
   const [paginate, setPaginate] = useState(1);
+  let [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -53,20 +54,20 @@ export default function DetailCompany() {
               <div className="detailCompany__wrapper__body__left">
                 <div className="detailCompany__wrapper__body__left__control">
                   <button
-                    onClick={() => setActive(1)}
-                    className={`${active === 1 && "active"}`}
+                  onClick={() => setSearchParams()}
+                    className={`${searchParams.get("tag") === null && "active"}`}
                   >
                     <span>Giới thiệu</span>
                   </button>
                   <button
-                    onClick={() => setActive(2)}
-                    className={`${active === 2 && "active"}`}
+                    onClick={() => setSearchParams({ ["tag"]: "jobs" })}
+                    className={`${searchParams.get("tag") === "jobs" && "active"}`}
                   >
                     <span>Việc làm</span>
                   </button>
                   <button
-                    onClick={() => setActive(3)}
-                    className={`${active === 3 && "active"}`}
+                     onClick={() => setSearchParams({ ["tag"]: "info" })}
+                    className={`${searchParams.get("tag") === "info" && "active"}`}
                   >
                     <span>Thông tin</span>
                   </button>
@@ -80,8 +81,8 @@ export default function DetailCompany() {
                   </Link>
                 </div>
                 <div className="detailCompany__wrapper__body__left__content">
-                  {active === 1 && <IntroCompany />}
-                  {active === 2 && (
+                  {searchParams.get("tag") === null && <IntroCompany />}
+                  {searchParams.get("tag") === "jobs" && (
                     <div className="jobsSave row">
                       {jobs.map((job, i) => (
                         <ItemJob job={job} key={i} className={"col pc-12"} />
