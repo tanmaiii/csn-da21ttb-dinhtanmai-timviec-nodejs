@@ -28,7 +28,7 @@ const hedearItem = [
 ];
 
 export default function Header() {
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(false);
   const [company, setCompany] = useState(false);
   const { darkMode, toggleDarkMode } = useMode();
   const [open, setOpen] = useState(false);

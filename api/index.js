@@ -1,7 +1,10 @@
 import express from 'express';
 import { db } from "./connect.js";
+import authUserRouter from './routers/authUser.js'
 
 const app = express();
+
+app.use(express.json())
 
 db.connect(function(err){
     if(err) {
@@ -11,6 +14,12 @@ db.connect(function(err){
     }
 })
 
+
+app.use("/api/authUser", authUserRouter)
+
+
+
 app.listen(8800, (req,res) => {
     console.log("Backend running");
 })
+

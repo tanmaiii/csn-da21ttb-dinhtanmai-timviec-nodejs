@@ -85,6 +85,7 @@ export default function SectionCategories() {
             <i class="fa-solid fa-chevron-left"></i>
           </button>
         )}
+        
         <div ref={sectionListRef} className="sectionCategories__body__list row">
           {categories.map((item, i) => (
             <div
@@ -102,6 +103,7 @@ export default function SectionCategories() {
             </div>
           ))}
         </div>
+
         {btnRight && (
           <button
             className="sectionCategories__body__right"
