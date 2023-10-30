@@ -95,12 +95,7 @@
               gap: 10px;
               height: 100%;
               @include mobile {
-                button:nth-child(3) {
-                  display: none;
-                }
-                button:nth-child(4) {
-                  display: none;
-                }
+                display: none;
               }
               button {
                 height: 100%;
@@ -110,14 +105,70 @@
                 font-size: $font-size-s;
                 color: themed("text1");
                 cursor: pointer;
+                border: 1px solid transparent;
                 span {
                   @include text(3);
                 }
                 &.active {
                   background-color: themed("bg1");
+                  border: 1px solid themed("border");
                 }
               }
             }
+
+            &__control-mobile {
+              @include flex(center, unset);
+              gap: 6px;
+              height: 100%;
+              display: none;
+              @include mobile {
+                display: flex;
+              }
+              button {
+                height: 100%;
+                padding: 16px;
+                border-radius: $border-radius-10;
+                border: 1px solid transparent;
+                font-size: $font-size-s;
+                color: themed("text1");
+                cursor: pointer;
+                @include flex(center, unset);
+                gap: 8px;
+                span {
+                  @include text(3);
+                }
+                &.active{
+                  background-color: themed("bg1");
+                  border: 1px solid themed("border");
+                }
+                &:hover{
+                  background-color: themed("bg1");
+                  border: 1px solid themed("border");
+                }
+              }
+
+              .button__more {
+                position: relative;
+                &__dropdown {
+                  position: absolute;
+                  width: max-content;
+                  right: 0;
+                  top: 100%;
+                  @include flex(center, unset);
+                  flex-direction: column;
+                  background-color: themed("bg2");
+                  box-shadow: themed('box-shadow');
+                  border-radius: $border-radius-10;
+                  z-index: 99;
+                  padding: 8px;
+                  gap: 8px;
+                  button{
+                    width: 100%;
+                  }
+                }
+              }
+            }
+
             &__content {
               padding: 20px 0;
               .companiesSave {

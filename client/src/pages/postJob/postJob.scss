@@ -10,6 +10,9 @@
         background-color: themed("bg2");
         border-radius: $border-radius-20;
         padding: 20px;
+        @include mobile{
+          padding: 10px;
+        }
         &__header {
           font-size: $font-size-l;
           color: $color-primary;
@@ -38,6 +41,7 @@
                 &__input {
                   @include flex(center, unset);
                   gap: 20px;
+                  flex-wrap: wrap;
                   .select {
                     width: 360px;
                   }

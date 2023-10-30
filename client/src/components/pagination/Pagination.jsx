@@ -35,13 +35,40 @@ export default function Pagination({
   return (
     <div className="pagination">
       <div className="pagination__wrapper">
-        <div className="pagination__wrapper__btn__left">
+        <div
+          className={`pagination__wrapper__btn__left ${
+            paginate === 0 ? "hidden" : ""
+          }`}
+        >
           <button onClick={handleClickLeft}>
             <i className="fa-solid fa-angle-left"></i>
           </button>
         </div>
         <div className="pagination__wrapper__list">
-          {pageNumbers.map((number, i) => (
+          {pageNumbers.map((number, i) => {
+            if (
+              number - 2 == paginate ||
+              number + 2 == paginate ||
+              number - 1 == paginate ||
+              number + 1 == paginate ||
+              number === paginate
+            ) {
+              return (
+                <button
+                  key={i}
+                  onClick={() => setPaginate(number)}
+                  className={`pagination__wrapper__list__item ${
+                    paginate === number ? "active" : ""
+                  }`}
+                >
+                  {number + 1}
+                </button>
+              );
+            } else if (paginate < 2) {
+            }
+          })}
+
+          {/* {pageNumbers.map((number, i) => (
             <button
               key={i}
               onClick={() => setPaginate(number)}
@@ -51,9 +78,13 @@ export default function Pagination({
             >
               {number + 1}
             </button>
-          ))}
+          ))} */}
         </div>
-        <div className="pagination__wrapper__btn__right">
+        <div
+          className={`pagination__wrapper__btn__right ${
+            paginate + 1 === pageNumbers.length ? "hidden" : ""
+          } `}
+        >
           <button onClick={handleClickRight}>
             <i className="fa-solid fa-angle-right"></i>
           </button>

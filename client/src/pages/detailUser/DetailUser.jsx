@@ -1,22 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./detailUser.scss";
 import img from "../../assets/images/FPT_logo.png";
 import ItemJob from "../../components/itemJob/ItemJob";
 import ItemCompany from "../../components/itemCompany/ItemCompany";
 import ReactQuill from "react-quill";
-import {
-  useSearchParams,
-} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import jobs from "../../config/jobs";
 import companies from "../../config/companies";
 
 export default function DetailUser() {
   let [searchParams, setSearchParams] = useSearchParams();
+  const [openControlMb, setOpenControlMb] = useState(false);
+  const controlMbRef = useRef();
 
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
+
+  useEffect(() => {
+    const handleMousedown = (e) => {
+      if (!controlMbRef.current.contains(e.target)) {
+        setOpenControlMb(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => document.removeEventListener("mousedown", handleMousedown);
+  });
+
+  useEffect(() => {
+    setOpenControlMb(false);
+  }, [searchParams]);
 
   return (
     <div className="detailUser">
@@ -86,6 +100,66 @@ export default function DetailUser() {
                     <span>Công ty</span>
                   </button>
                 </div>
+
+                <div className="detailUser__wrapper__body__left__control-mobile">
+                  <button
+                    onClick={() => setSearchParams()}
+                    className={`${
+                      searchParams.get("tag") === null && "active"
+                    }`}
+                  >
+                    <span>Giới thiệu</span>
+                  </button>
+                  <button
+                    onClick={() => setSearchParams({ ["tag"]: "info" })}
+                    className={`${
+                      searchParams.get("tag") === "info" && "active"
+                    }`}
+                  >
+                    <span>Thông tin</span>
+                  </button>
+
+                  <div className="button__more" ref={controlMbRef}>
+                    <button
+                      className="button__more__toggle"
+                      onClick={() => setOpenControlMb(!openControlMb)}
+                    >
+                      <span>Thêm</span>
+                      <i class="fa-solid fa-angle-down"></i>
+                    </button>
+                    {openControlMb && (
+                      <div className="button__more__dropdown">
+                        <button
+                          onClick={() => setSearchParams({ ["tag"]: "apply" })}
+                          className={`${
+                            searchParams.get("tag") === "apply" && "active"
+                          }`}
+                        >
+                          <span>Ứng tuyển</span>
+                        </button>
+                        <button
+                          onClick={() => setSearchParams({ ["tag"]: "jobs" })}
+                          className={`${
+                            searchParams.get("tag") === "jobs" && "active"
+                          }`}
+                        >
+                          <span>Công việc</span>
+                        </button>
+                        <button
+                          onClick={() =>
+                            setSearchParams({ ["tag"]: "companies" })
+                          }
+                          className={`${
+                            searchParams.get("tag") === "companies" && "active"
+                          }`}
+                        >
+                          <span>Công ty</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <div className="detailUser__wrapper__body__left__content">
                   {searchParams.get("tag") === null && <IntroUser />}
                   {searchParams.get("tag") === "info" && <InfoUser />}

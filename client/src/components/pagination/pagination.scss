@@ -25,7 +25,7 @@
       }
       &__list {
         @include flex(center, unset);
-        gap: 10px;
+        gap: 6px;
         padding: 0 10px;
         button {
           &.active {
@@ -35,12 +35,18 @@
         }
       }
       &__btn__left {
+        &.hidden{
+          visibility: hidden;
+        }
         button:hover{
           background-color: $color-primary;
           color: $color-white;
         }
       }
       &__btn__right {
+        &.hidden{
+          visibility: hidden;
+        }
          button:hover{
           background-color: $color-primary;
           color: $color-white;

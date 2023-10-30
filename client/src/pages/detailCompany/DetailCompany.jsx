@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./detailCompany.scss";
 import img from "../../assets/images/FPT_logo.png";
 import ItemJob from "../../components/itemJob/ItemJob";
@@ -10,13 +10,28 @@ import Pagination from "../../components/pagination/Pagination";
 import jobs from "../../config/jobs";
 
 export default function DetailCompany() {
-  const [active, setActive] = useState(1);
   const [paginate, setPaginate] = useState(1);
   let [searchParams, setSearchParams] = useSearchParams();
+  const [openControlMb, setOpenControlMb] = useState(false);
+  const controlMbRef = useRef();
 
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
+
+  useEffect(() => {
+    const handleMousedown = (e) => {
+      if (!controlMbRef.current.contains(e.target)) {
+        setOpenControlMb(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => document.removeEventListener("mousedown", handleMousedown);
+  });
+
+  useEffect(() => {
+    setOpenControlMb(false);
+  }, [searchParams]);
 
   return (
     <div className="detailCompany">
@@ -54,32 +69,88 @@ export default function DetailCompany() {
               <div className="detailCompany__wrapper__body__left">
                 <div className="detailCompany__wrapper__body__left__control">
                   <button
-                  onClick={() => setSearchParams()}
-                    className={`${searchParams.get("tag") === null && "active"}`}
+                    onClick={() => setSearchParams()}
+                    className={`${
+                      searchParams.get("tag") === null && "active"
+                    }`}
                   >
                     <span>Giới thiệu</span>
                   </button>
                   <button
                     onClick={() => setSearchParams({ ["tag"]: "jobs" })}
-                    className={`${searchParams.get("tag") === "jobs" && "active"}`}
+                    className={`${
+                      searchParams.get("tag") === "jobs" && "active"
+                    }`}
                   >
                     <span>Việc làm</span>
                   </button>
                   <button
-                     onClick={() => setSearchParams({ ["tag"]: "info" })}
-                    className={`${searchParams.get("tag") === "info" && "active"}`}
+                    onClick={() => setSearchParams({ ["tag"]: "info" })}
+                    className={`${
+                      searchParams.get("tag") === "info" && "active"
+                    }`}
                   >
                     <span>Thông tin</span>
                   </button>
                   <Link to={"/cong-ty/ung-vien"}>
                     <button>
-                      <span>Đơn ứng tuyển</span>
+                      <span>Ứng tuyển</span>
                     </button>
                   </Link>
                   <Link to={"/cong-ty/dang-bai"}>
-                    <button>Đăng tuyển dụng</button>
+                    <button>Tuyển dụng</button>
                   </Link>
                 </div>
+
+                <div className="detailCompany__wrapper__body__left__control-mobile">
+                  <button
+                    onClick={() => setSearchParams()}
+                    className={`${
+                      searchParams.get("tag") === null && "active"
+                    }`}
+                  >
+                    <span>Giới thiệu</span>
+                  </button>
+
+                  <div className="button__more" ref={controlMbRef}>
+                    <button
+                      className="button__more__toggle"
+                      onClick={() => setOpenControlMb(!openControlMb)}
+                    >
+                      <span>Thêm</span>
+                      <i class="fa-solid fa-angle-down"></i>
+                    </button>
+                    {openControlMb && (
+                      <div className="button__more__dropdown">
+                        <button
+                          onClick={() => setSearchParams({ ["tag"]: "jobs" })}
+                          className={`${
+                            searchParams.get("tag") === "jobs" && "active"
+                          }`}
+                        >
+                          <span>Việc làm</span>
+                        </button>
+                        <button
+                          onClick={() => setSearchParams({ ["tag"]: "info" })}
+                          className={`${
+                            searchParams.get("tag") === "info" && "active"
+                          }`}
+                        >
+                          <span>Thông tin</span>
+                        </button>
+                        <Link to={"/cong-ty/ung-vien"}>
+                          <button>
+                            <span>Ứng tuyển</span>
+                          </button>
+                        </Link>
+                        <Link to={"/cong-ty/dang-bai"}>
+                          <button>Tuyển dụng</button>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <div className="detailCompany__wrapper__body__left__content">
                   {searchParams.get("tag") === null && <IntroCompany />}
                   {searchParams.get("tag") === "jobs" && (
@@ -95,7 +166,7 @@ export default function DetailCompany() {
                       />
                     </div>
                   )}
-                  {active === 3 && <InfoCompany />}
+                  {searchParams.get("tag") === "info" && <InfoCompany />}
                 </div>
               </div>
             </div>

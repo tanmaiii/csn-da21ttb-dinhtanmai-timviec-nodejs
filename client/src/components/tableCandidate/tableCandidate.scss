@@ -3,14 +3,11 @@
 .table {
   @include themify($themes) {
     width: 100%;
-    min-width: 400px;
     border-radius: $border-radius-10;
     overflow-y: auto;
     // background-color: themed("bg2");
-    overflow: hidden;
     @include tablet {
       max-width: 100%;
-      overflow-x: scroll;
     }
     @include mobile {
     }
@@ -18,6 +15,8 @@
       border-spacing: 0;
       border-radius: $border-radius-10;
       border-collapse: collapse;
+      width: 100%;
+      overflow: hidden;
       thead {
         tr {
           border-bottom: 1px solid themed("border");
@@ -38,6 +37,7 @@
       tbody {
         tr {
           border-bottom: 1px solid themed("border");
+          width: 100%;
           &:nth-of-type(even) {
             background-color: themed("bg1");
           }
@@ -47,6 +47,7 @@
             padding: 10px;
             color: themed("text2");
             @include mobile {
+              width: 100%;
               display: grid;
               grid-template-columns: 11ch auto;
               padding: 0.5rem 1rem;
@@ -59,6 +60,7 @@
             .td-item {
               @include flex(center, unset);
               gap: 8px;
+              flex-wrap: wrap;
               h6 {
                 font-size: $font-size-s;
                 font-weight: 500;
@@ -72,7 +74,7 @@
             background-color: $color-primary;
             color: $color-white;
             td {
-                color: $color-white;  
+              color: $color-white;
             }
           }
         }

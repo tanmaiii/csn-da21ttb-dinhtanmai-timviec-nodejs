@@ -1,10 +1,9 @@
 @use "../../scss/" as *;
 
-
 .Modal {
   @include themify($themes) {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: rgba($color: #000000, $alpha: 0.24);
     position: fixed;
     top: 0;
@@ -12,16 +11,16 @@
     @include flex(center, center);
     display: none;
     z-index: 99999;
-    &.active{
+    &.active {
       display: flex;
     }
     &__wrapper {
       background-color: themed("bg2");
       border-radius: $border-radius-10;
-      min-width: 400px;
+      min-width: 60vw;
       min-height: 400px;
       max-height: calc(100vh - $height-header);
-      max-width: calc(60vw);
+      max-width: 90vw;
       overflow: hidden;
       &__header {
         @include flex(center, space-between);
@@ -38,7 +37,7 @@
           @include flex(center, center);
           transition: all 0.3s;
           user-select: none;
-          color: themed('text1');
+          color: themed("text1");
           &:hover {
             background-color: themed("bg1");
           }

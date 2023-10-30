@@ -28,7 +28,7 @@ const hedearItem = [
 ];
 
 export default function Header() {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(true);
   const [company, setCompany] = useState(false);
   const { darkMode, toggleDarkMode } = useMode();
   const [open, setOpen] = useState(false);
@@ -206,6 +206,7 @@ export default function Header() {
                     </button>
                   </li>
                 )}
+                
               </ul>
               {user ||
                 (company && (

@@ -35,6 +35,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
           }
+          @include tablet {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
           img {
             --size: 40px;
             width: var(--size);
@@ -51,6 +57,9 @@
         .header__wrapper__control {
           height: 100%;
           @include mobile {
+            display: none;
+          }
+          @include tablet {
             display: none;
           }
           ul {
@@ -112,6 +121,9 @@
           @include mobile {
             display: none;
           }
+          @include tablet {
+            display: none;
+          }
           &__darkMode {
             background-color: transparent;
             padding: 10px;
@@ -156,6 +168,9 @@
           height: 100vh;
           flex-direction: column;
           @include mobile {
+            display: flex;
+          }
+          @include tablet {
             display: flex;
           }
           &.open {
@@ -212,6 +227,9 @@
         .header__wrapper__btn-mobile {
           display: none;
           @include mobile {
+            display: block;
+          }
+          @include tablet {
             display: block;
           }
           button {
