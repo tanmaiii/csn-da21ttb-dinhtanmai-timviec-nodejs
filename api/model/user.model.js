@@ -34,16 +34,45 @@ User.findByEmail = (email, result) => {
   });
 };
 
-User.update = ( editUser ,id , result) => {
-  db.query("UPDATE INTO users ? WHERE id = ? ", editUser, id, (err, res) => {
+User.findById = (id, result) => {
+  db.query("SELECT * FROM users WHERE id=?", id, (err, res) => {
     if (err) {
       console.log("error", err);
       result(err, null);
       return;
     }
-    console.log("Tạo thành công: ", { id: res.insertId, ...newUser });
-    result(null, { id: res.insertId, ...newUser });
+    if (res.length) {
+      result(null, res[0]);
+      return;
+    }
+    result(null, null);
   });
+};
+
+User.update = (editUser, result) => {
+  const values = [
+    editUser.name,
+    editUser.email,
+    editUser.phone,
+    editUser.address,
+    editUser.brithDay,
+    editUser.intro,
+    editUser.cv,
+    editUser.id,
+  ];
+
+  db.query(
+    "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `address`= ?, `brithDay`= ? , `intro`= ? , `cv`=? WHERE id = ? ",
+    values,
+    (err, res) => {
+      if (err) {
+        console.log("error", err);
+        result(err, null);
+        return;
+      }
+      result(null, { id: res.insertId, ...editUser });
+    }
+  );
 };
 
 User.resetPassword = (email, password, result) => {
