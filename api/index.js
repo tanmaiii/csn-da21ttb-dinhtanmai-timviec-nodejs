@@ -1,6 +1,6 @@
 import express from 'express';
-import { db } from "./connect.js";
-import authUserRouter from './routers/authUser.js'
+import { db } from "./config/connect.js";
+import authUserRouter from './routers/authUser.router.js'
 
 const app = express();
 
@@ -14,10 +14,7 @@ db.connect(function(err){
     }
 })
 
-
 app.use("/api/authUser", authUserRouter)
-
-
 
 app.listen(8800, (req,res) => {
     console.log("Backend running");
