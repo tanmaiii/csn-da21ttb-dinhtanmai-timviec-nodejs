@@ -1,33 +1,29 @@
-import User from "../../model/user.model.js";
 import bcrypt from "bcrypt";
+import { db } from "../../config/connect.js";
 
 export const register = (req, res) => {
-  const {name, email, password, phone} = req.body;
+  const { name, email, password, phone } = req.body;
 
-  if(name && email && password && phone){
-      User.findByEmail(email, (err, user) => {
-          if(err || user){
-             return res.status(409).json(email + " đã tồn tại");
-          }
-      })
+  const q = "SELECT * FROM users WHERE email = ?";
 
-      bcrypt.hash(password, 10).then((hashedPassword) => {
-          const user = new User({
-              name: name,
-              email: email,
-              password: hashedPassword,
-              phone: phone
-          })
+  if (!name || !email || !password || !phone)
+    return res.status(409).json("Các trường không để rỗng!");
 
-          User.create(user, (err, user) => {
-              if(!err ){
-                  console.log(user);
-                  res.status(200).json(user);
-              }
-          })
-      })
-  }else{
-    res.status(409).json("Các trường không để rỗng!");
-  }
-  
+  db.query(q, email, (err, data) => {
+    if (err) return res.status(500).json(err);
+    if (data.length) return res.status(409).json("Email đã tồn tại !");
+
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+
+    const q =
+      "INSERT INTO users (`name`, `email`, `password`, `phone`) VALUE (?)";
+
+    const values = [name, email, hashedPassword, phone];
+
+    db.query(q, [values], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json("Đăng ký thành công");
+    });
+  });
 };

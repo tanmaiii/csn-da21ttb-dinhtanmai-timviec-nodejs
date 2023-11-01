@@ -1,36 +1,71 @@
 import User from "../model/user.model.js";
 import jwt from "jsonwebtoken";
+import { db } from "../config/connect.js";
 
 export const getUser = (req, res) => {
   const id = req.params.id;
+  const q = "SELECT * FROM users WHERE id=?";
   if (id) {
-    User.findById(id, (err, user) => {
-      if (!user) {
-        return res.json("Không tồn tại !");
+    db.query(q, id, (err, data) => {
+      console.log(data);
+      if (!data.length) {
+        return res.status(401).json("Không tồn tại !");
       } else {
-        const { password, ...others } = user;
+        const { password, ...others } = data[0];
         return res.json(others);
       }
     });
+  } else {
+    return res.status(401).json("Không để rỗng !");
   }
 };
 
 export const updateUser = (req, res) => {
-  const token = req.cookies.accessToken;
-  if (!token) return res.status(401).json("Chưa đăng nhập !");
-  console.log(token);
+  const token = req.cookies?.accessToken;
+  if (!token) return res.status(401).json("Not logged in!");
 
-  // jwt.verify(token, "secretkey", (err, userInfo) => {
-  //   if (err) return res.status(403).json("Token không trùng !");
-  //
-  // });
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token không trùng !");
 
-  // if (!req.body.id) return res.status(401).json("Thiếu trường id");
+    if (!req.body.id) return res.status(401).json("Thiếu trường id");
 
-  // User.update(req.body, (err, user) => {
-  //   if (!err) {
-  //     console.log(user);
-  //     res.status(200).json(user);
-  //   }
-  // });
+    const q =
+      "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `address`= ?, `brithDay`= ? , `intro`= ? , `cv`=? WHERE id = ? ";
+    const values = [
+      req.body.name,
+      req.body.email,
+      req.body.phone,
+      req.body.address,
+      req.body.brithDay,
+      req.body.intro,
+      req.body.cv,
+      userInfo.id,
+    ];
+
+    db.query(q, values, (err, data) => {
+      if (!err) return res.status(200).json(err);
+      if (data.affectedRows > 0) return res.json("Update");
+      return res.status(403).json("Chỉ thanh đổi được thông tin của mình");
+    });
+  });
+};
+
+export const resetPassword = (email, password, result) => {
+  db.query(
+    "UPDATE users SET password = ? WHERE email=?",
+    email,
+    password,
+    (err, res) => {
+      if ((err, res)) {
+        console.log("error", err);
+        result(err, null);
+        return;
+      }
+      if (res.affectedRows === 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+      result(null, { email: email });
+    }
+  );
 };

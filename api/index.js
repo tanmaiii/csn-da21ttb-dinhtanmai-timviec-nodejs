@@ -1,10 +1,14 @@
 import express from 'express';
 import { db } from "./config/connect.js";
+
+import cookieParser from "cookie-parser";
+
 import authUserRouter from './routers/authUser.router.js'
 import usersRouter from './routers/users.router.js'
 
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json())
 
 db.connect(function(err){
