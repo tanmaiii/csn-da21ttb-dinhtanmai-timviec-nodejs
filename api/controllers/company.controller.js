@@ -1,9 +1,27 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
 
-export const getUser = (req, res) => {
+export const getCompany = (req, res) => {
   const id = req.params.id;
-  const q = "SELECT * FROM users WHERE id=?";
+  const q = "SELECT * FROM companies WHERE id=?";
+  if (id) {
+    db.query(q, id, (err, data) => {
+      console.log(data);
+      if (!data.length) {
+        return res.status(401).json("Không tồn tại !");
+      } else {
+        const { password, ...others } = data[0];
+        return res.json(others);
+      }
+    });
+  } else {
+    return res.status(401).json("Không để rỗng !");
+  }
+};
+
+export const getAllCompany = (req, res) => {
+  const id = req.params.id;
+  const q = "SELECT * FROM companies WHERE id=?";
   if (id) {
     db.query(q, id, (err, data) => {
       console.log(data);
@@ -29,15 +47,15 @@ export const updateUser = (req, res) => {
     if (!req.body.id) return res.status(401).json("Thiếu trường id");
 
     const q =
-      "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `address`= ?, `brithDay`= ? , `intro`= ? , `cv`=? WHERE id = ? ";
+      "UPDATE companies SET `nameCompany`= ?,`nameAdmin`= ?,  `email`= ?, `phone`= ?, `address`= ?,  `intro`= ? , `scale`=? WHERE id = ? ";
     const values = [
-      req.body.name,
+      req.body.nameCompany,
+      req.body.nameAdmin,
       req.body.email,
       req.body.phone,
       req.body.address,
-      req.body.brithDay,
       req.body.intro,
-      req.body.cv,
+      req.body.scale,
       userInfo.id,
     ];
 
@@ -51,7 +69,7 @@ export const updateUser = (req, res) => {
 
 export const resetPassword = (email, password, result) => {
   db.query(
-    "UPDATE users SET password = ? WHERE email=?",
+    "UPDATE companies SET password = ? WHERE email=?",
     email,
     password,
     (err, res) => {

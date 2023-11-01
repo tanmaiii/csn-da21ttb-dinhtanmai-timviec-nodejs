@@ -1,9 +1,46 @@
-import React,{useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/images/logoJobQuest.png";
 import "./signin.scss";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Signin() {
+  const { loginUser, currentUser } = useAuth();
+  const navigate = useNavigate();
+  const [err, setErr] = useState("");
+  const [mess, setMess] = useState("");
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = () => {
+    console.log(inputs);
+
+    setErr("");
+    const res = async () => {
+      try {
+        await loginUser(inputs);
+      } catch (err) {
+        setErr("Email hoặc mật khẩu không đúng !");
+      }
+    };
+    res();
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -15,16 +52,29 @@ export default function Signin() {
         </div>
         <h2>Đăng nhập vào JobQuest</h2>
       </div>
+      {err && <p className="err">{err}</p>}
       <div className="signin__body">
         <div className="item">
           <label htmlFor="">Email</label>
-          <input type="text" placeholder="Enter your email" />
+          <input
+            type="email"
+            placeholder="Enter your email"
+            name="email"
+            onChange={handleChange}
+          />
         </div>
         <div className="item">
           <label htmlFor="">Password</label>
-          <input type="password" placeholder="Enter your password" />
+          <input
+            type="password"
+            placeholder="Enter your password"
+            name="password"
+            onChange={handleChange}
+          />
         </div>
-        <button className="btn-signin">Đăng nhập</button>
+        <button className="btn-signin" onClick={handleSubmit}>
+          Đăng nhập
+        </button>
         <span className="link-signup">
           Bạn chưa có tài khoản ?
           <Link to={"/nguoi-xin-viec/dang-ky"}> Đăng ký</Link>

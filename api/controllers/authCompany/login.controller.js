@@ -4,9 +4,7 @@ import { db } from "../../config/connect.js";
 
 export const login = (req, res) => {
   const { email, password } = req.body;
-  const q = "SELECT * FROM users WHERE email=?";
-
-  console.log(email, password);
+  const q = "SELECT * FROM companies WHERE email=?";
 
   if (email && password) {
     db.query(q, email, (err, data) => {

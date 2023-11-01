@@ -3,6 +3,7 @@ import img from "../../assets/images/logoJobQuest.png";
 import { Link } from "react-router-dom";
 import "./header.scss";
 import { useMode } from "../../context/ModeContext";
+import { useAuth } from "../../context/authContext";
 
 import DropdownUser from "../dropdownUser/DropdownUser";
 import DropdownCompany from "../dropdownCompany/DropdownCompany";
@@ -31,9 +32,14 @@ export default function Header() {
   const [user, setUser] = useState(false);
   const [company, setCompany] = useState(false);
   const { darkMode, toggleDarkMode } = useMode();
+  const { currentUser, logoutUser } = useAuth();
+  const { currentCompany, logoutCompany } = useAuth();
+
   const [open, setOpen] = useState(false);
   const headerRef = useRef();
   const sideBarMobile = useRef();
+
+  console.log(currentUser);
 
   const { pathname } = useLocation();
 
@@ -122,14 +128,14 @@ export default function Header() {
                   <i class="fa-solid fa-moon"></i>
                 )}
               </button>
-              {user ? (
+              {currentUser ? (
                 <DropdownUser />
               ) : (
                 <button className="header__wrapper__auth__user">
                   <Link to={"/nguoi-xin-viec/dang-nhap"}>Đăng nhập</Link>
                 </button>
               )}
-              {company ? (
+              {currentCompany ? (
                 <DropdownCompany />
               ) : (
                 <button className="header__wrapper__auth__company">
@@ -144,13 +150,13 @@ export default function Header() {
               ref={sideBarMobile}
             >
               <ul>
-                {user && (
+                {currentUser && (
                   <>
                     <DropdownUser />
                     <hr />
                   </>
                 )}
-                {company && (
+                {currentCompany && (
                   <>
                     <DropdownCompany />
                     <hr />
@@ -170,7 +176,7 @@ export default function Header() {
                 ))}
 
                 <hr />
-                
+
                 <li>
                   <button onClick={() => toggleDarkMode()}>
                     {darkMode ? (
@@ -187,7 +193,7 @@ export default function Header() {
                   </button>
                 </li>
 
-                {!user && (
+                {!currentUser && (
                   <li>
                     <button className="">
                       <Link to={"/nguoi-xin-viec/dang-nhap"}>
@@ -197,7 +203,7 @@ export default function Header() {
                   </li>
                 )}
 
-                {!company && (
+                {!currentCompany && (
                   <li>
                     <button className="">
                       <Link to={"/nha-tuyen-dung/dang-nhap"}>
@@ -206,15 +212,26 @@ export default function Header() {
                     </button>
                   </li>
                 )}
-                
               </ul>
-              {user ||
-                (company && (
-                  <Link className="header__wrapper__control-mobile__option header__wrapper__control-mobile__option__logout">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    <span>Đăng xuất</span>
-                  </Link>
-                ))}
+              {currentUser && (
+                <Link
+                  className="header__wrapper__control-mobile__option header__wrapper__control-mobile__option__logout"
+                  onClick={() => logoutUser()}
+                >
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  <span>Đăng xuất</span>
+                </Link>
+              )}
+
+              {currentCompany && (
+                <Link
+                  className="header__wrapper__control-mobile__option header__wrapper__control-mobile__option__logout"
+                  onClick={() => logoutCompany()}
+                >
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  <span>Đăng xuất</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>
