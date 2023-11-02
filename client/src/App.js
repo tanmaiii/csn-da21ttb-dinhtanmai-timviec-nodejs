@@ -7,6 +7,7 @@ import "./App.scss";
 import { useMode } from "./context/ModeContext";
 
 import Layout from "./layout/Layout";
+
 import Home from "./pages/home/Home";
 import Search from "./pages/search/Search";
 import Company from "./pages/company/Company";
@@ -16,8 +17,8 @@ import DetailCompany from "./pages/detailCompany/DetailCompany";
 import DetailUser from "./pages/detailUser/DetailUser";
 import PostJob from "./pages/postJob/PostJob";
 import EditJob from "./pages/editJob/PostJob";
-
 import Candidate from "./pages/candidate/Candidate";
+import NotFound from "./pages/notFound/NotFound";
 
 import Signin from "./components/signin/Signin";
 import Signup from "./components/signup/Signup";
@@ -33,6 +34,9 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
+              
+              <Route path="*" element={<NotFound />} />
+              
               <Route index element={<Home />} />
               <Route path="/tim-kiem" element={<Search />} />
               <Route path="/nha-tuyen-dung" element={<Company />} />
@@ -46,7 +50,7 @@ function App() {
                 <Route path="dang-nhap" index element={<SigninCompany />} />
                 <Route path="dang-ky" element={<SignupCompany />} />
               </Route>
-              
+
               <Route path="/cong-viec/:id" element={<DetailJob />} />
               <Route path="/nguoi-dung/:id/" element={<DetailUser />} />
 
@@ -54,6 +58,7 @@ function App() {
               <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
               <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
               <Route path="nha-tuyen-dung/chinh-sua" element={<EditJob />} />
+
             </Route>
           </Routes>
         </BrowserRouter>

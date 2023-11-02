@@ -4,7 +4,7 @@ export default function SvgAccountant() {
   return (
       <svg
         id="Layer_1"
-        enable-background="new 0 0 65 65"
+        enableBackground="new 0 0 65 65"
         height="100"
         viewBox="0 0 65 65"
         width="100"

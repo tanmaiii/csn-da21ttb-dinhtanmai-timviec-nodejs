@@ -9,7 +9,7 @@ export default function SvgUploadInfo() {
         x="0px"
         y="0px"
         viewBox="0 0 512 512"
-        Style="enable-background:new 0 0 512 512;"
+        Style="enableBackground:new 0 0 512 512;"
         width="512"
         height="512"
       >

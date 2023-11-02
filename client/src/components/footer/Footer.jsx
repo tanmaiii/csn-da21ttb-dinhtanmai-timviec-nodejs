@@ -21,7 +21,7 @@ export default function Footer() {
               unde id.
             </span>
             <div className="footer__list__col__input">
-              <i class="fa-regular fa-envelope"></i>
+              <i className="fa-regular fa-envelope"></i>
               <input type="text" placeholder="Địa chỉ Email..." />
               <button>
                 <BiSolidSend />

@@ -13,17 +13,17 @@ import { useNavigate, useLocation } from "react-router-dom";
 const hedearItem = [
   {
     display: "Home",
-    icon: <i class="fa-solid fa-house"></i>,
+    icon: <i className="fa-solid fa-house"></i>,
     path: "/",
   },
   {
     display: "Tìm kiếm",
-    icon: <i class="fa-solid fa-magnifying-glass"></i>,
+    icon: <i className="fa-solid fa-magnifying-glass"></i>,
     path: "/tim-kiem",
   },
   {
     display: "Công ty",
-    icon: <i class="fa-solid fa-building"></i>,
+    icon: <i className="fa-solid fa-building"></i>,
     path: "/nha-tuyen-dung",
   },
 ];
@@ -36,8 +36,6 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const headerRef = useRef();
   const sideBarMobile = useRef();
-
-  console.log(currentUser);
 
   const { pathname } = useLocation();
 
@@ -93,7 +91,7 @@ export default function Header() {
           <div className="container">
             <div className="header__wrapper__btn-mobile">
               <button onClick={() => setOpen(!open)}>
-                <i class="fa-solid fa-bars"></i>
+                <i className="fa-solid fa-bars"></i>
               </button>
             </div>
             <div className="header__wrapper__logo" onClick={handleReloadPage}>
@@ -121,9 +119,9 @@ export default function Header() {
                 onClick={() => toggleDarkMode()}
               >
                 {darkMode ? (
-                  <i class="fa-regular fa-sun"></i>
+                  <i className="fa-regular fa-sun"></i>
                 ) : (
-                  <i class="fa-solid fa-moon"></i>
+                  <i className="fa-solid fa-moon"></i>
                 )}
               </button>
               {currentUser ? (
@@ -180,12 +178,12 @@ export default function Header() {
                   <button onClick={() => toggleDarkMode()}>
                     {darkMode ? (
                       <>
-                        <i class="fa-regular fa-sun"></i>
+                        <i className="fa-regular fa-sun"></i>
                         <span>Chế độ sáng</span>
                       </>
                     ) : (
                       <>
-                        <i class="fa-solid fa-moon"></i>
+                        <i className="fa-solid fa-moon"></i>
                         <span>Chế độ tối</span>
                       </>
                     )}
@@ -217,7 +215,7 @@ export default function Header() {
                   className="header__wrapper__control-mobile__option header__wrapper__control-mobile__option__logout"
                   onClick={() => logoutUser()}
                 >
-                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  <i className="fa-solid fa-arrow-right-from-bracket"></i>
                   <span>Đăng xuất</span>
                 </Link>
               )}
@@ -227,7 +225,7 @@ export default function Header() {
                   className="header__wrapper__control-mobile__option header__wrapper__control-mobile__option__logout"
                   onClick={() => logoutCompany()}
                 >
-                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  <i className="fa-solid fa-arrow-right-from-bracket"></i>
                   <span>Đăng xuất</span>
                 </Link>
               )}

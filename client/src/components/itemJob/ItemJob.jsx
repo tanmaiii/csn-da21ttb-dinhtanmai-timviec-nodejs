@@ -18,20 +18,20 @@ export default function ItemJob({ className, job }) {
             </Link>
             <button onClick={() => setSave(!save)}>
               {save ? (
-                <i class="fa-solid fa-bookmark"></i>
+                <i className="fa-solid fa-bookmark"></i>
               ) : (
-                <i class="fa-regular fa-bookmark"></i>
+                <i className="fa-regular fa-bookmark"></i>
               )}
             </button>
           </div>
           <h5 className="itemJob__wrapper__body__company">{job?.company}</h5>
           <div className="itemJob__wrapper__body__address">
-            <i class="fa-solid fa-location-dot"></i>
+            <i className="fa-solid fa-location-dot"></i>
             <span>{job?.address}</span>
           </div>
           <div className="itemJob__wrapper__body__bottom">
             <div className="wage">
-              <i class="fa-solid fa-dollar-sign"></i>
+              <i className="fa-solid fa-dollar-sign"></i>
               <span>{job?.wage}</span>
             </div>
             <p className="workingForm">{job?.workingForm}</p>

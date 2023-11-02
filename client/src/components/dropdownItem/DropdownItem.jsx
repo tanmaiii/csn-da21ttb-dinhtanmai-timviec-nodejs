@@ -26,7 +26,7 @@ export default function DropdownItem({ type }) {
               <div className="dropdown__toggle" onClick={() => setOpen(!open)}>
                 {group?.icon}
                 <span className="text">{group.displayName}</span>
-                <i class={`fa-solid fa-angle-down ${open ? 'open' : ''}`}></i>
+                <i className={`fa-solid fa-angle-down ${open ? 'open' : ''}`}></i>
               </div>
               {open && (
                 <div className="dropdown__menu">
