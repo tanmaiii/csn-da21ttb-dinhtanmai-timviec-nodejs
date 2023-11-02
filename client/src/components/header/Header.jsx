@@ -24,13 +24,11 @@ const hedearItem = [
   {
     display: "Công ty",
     icon: <i class="fa-solid fa-building"></i>,
-    path: "/cong-ty",
+    path: "/nha-tuyen-dung",
   },
 ];
 
 export default function Header() {
-  const [user, setUser] = useState(false);
-  const [company, setCompany] = useState(false);
   const { darkMode, toggleDarkMode } = useMode();
   const { currentUser, logoutUser } = useAuth();
   const { currentCompany, logoutCompany } = useAuth();
@@ -132,9 +130,10 @@ export default function Header() {
                 <DropdownUser />
               ) : (
                 <button className="header__wrapper__auth__user">
-                  <Link to={"/nguoi-xin-viec/dang-nhap"}>Đăng nhập</Link>
+                  <Link to={"/nguoi-dung/dang-nhap"}>Đăng nhập</Link>
                 </button>
               )}
+              <hr className="hr-col"/> 
               {currentCompany ? (
                 <DropdownCompany />
               ) : (
@@ -196,7 +195,7 @@ export default function Header() {
                 {!currentUser && (
                   <li>
                     <button className="">
-                      <Link to={"/nguoi-xin-viec/dang-nhap"}>
+                      <Link to={"/nguoi-dung/dang-nhap"}>
                         Người tìm việc
                       </Link>
                     </button>

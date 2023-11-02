@@ -327,7 +327,7 @@
 .infoUser {
   @include themify($themes) {
     &__wrapper {
-      &__item {
+      .personalInformation__wrapper__item {
         @include flex(center, space-between);
         padding: 20px 0;
         border-bottom: 1px solid themed("border");
@@ -357,7 +357,7 @@
           @include flex(end, unset);
           flex-direction: column;
           gap: 10px;
-          min-width: 30%;
+          max-width: 30%;
           button {
             background-color: themed("bg1");
             padding: 10px 16px;

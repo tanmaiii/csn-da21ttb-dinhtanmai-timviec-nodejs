@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./detailUser.scss";
-import img from "../../assets/images/FPT_logo.png";
+import avt from "../../assets/images/avatar.png";
+
 import ItemJob from "../../components/itemJob/ItemJob";
 import ItemCompany from "../../components/itemCompany/ItemCompany";
 import ReactQuill from "react-quill";
@@ -8,11 +9,13 @@ import { useSearchParams } from "react-router-dom";
 
 import jobs from "../../config/jobs";
 import companies from "../../config/companies";
+import { useAuth } from "../../context/authContext";
 
 export default function DetailUser() {
   let [searchParams, setSearchParams] = useSearchParams();
   const [openControlMb, setOpenControlMb] = useState(false);
   const controlMbRef = useRef();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -32,6 +35,8 @@ export default function DetailUser() {
     setOpenControlMb(false);
   }, [searchParams]);
 
+  
+
   return (
     <div className="detailUser">
       <div className="container">
@@ -39,7 +44,7 @@ export default function DetailUser() {
           <div className="detailUser__wrapper__header">
             <div className="detailUser__wrapper__header__main">
               <div className="detailUser__wrapper__header__main__image">
-                <img src={img} alt="" />
+                <img src={avt} alt="" />
               </div>
               <div className="detailUser__wrapper__header__main__text">
                 <h4 className="detailUser__wrapper__header__main__text__name">

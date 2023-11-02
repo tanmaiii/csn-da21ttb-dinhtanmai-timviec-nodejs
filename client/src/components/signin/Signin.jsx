@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
+import checkEmail from "../../config/checkEmail";
 
 export default function Signin() {
   const { loginUser, currentUser } = useAuth();
@@ -22,17 +23,19 @@ export default function Signin() {
   };
 
   const handleSubmit = () => {
-    console.log(inputs);
-
     setErr("");
-    const res = async () => {
-      try {
-        await loginUser(inputs);
-      } catch (err) {
-        setErr("Email hoặc mật khẩu không đúng !");
-      }
-    };
-    res();
+    if (!checkEmail(inputs.email)) {
+      return setErr("Email Không hợp lệ !");
+    } else {
+      const res = async () => {
+        try {
+          await loginUser(inputs);
+        } catch (err) {
+          setErr("Email hoặc mật khẩu không đúng !");
+        }
+      };
+      res();
+    }
   };
 
   useEffect(() => {
@@ -77,7 +80,7 @@ export default function Signin() {
         </button>
         <span className="link-signup">
           Bạn chưa có tài khoản ?
-          <Link to={"/nguoi-xin-viec/dang-ky"}> Đăng ký</Link>
+          <Link to={"/nguoi-dung/dang-ky"}> Đăng ký</Link>
         </span>
       </div>
     </div>

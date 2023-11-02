@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdownCompany.scss";
-import img from "../../assets/images/Microsoft_logo.png";
+import avatar from "../../assets/images/avatar.png";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 export default function DropdownCompany() {
   const id = 123; //fake
   const [openMenuUser, setOpenMenuUser] = useState(false);
   const dropdownCompanyRef = useRef();
   const location = useLocation();
+  const { logoutCompany, currentCompany } = useAuth();
 
   useEffect(() => {
     const handleMouseDown = (e) => {
@@ -29,46 +31,52 @@ export default function DropdownCompany() {
         className="dropdownCompany__toogle"
         onClick={() => setOpenMenuUser(!openMenuUser)}
       >
-        <img src={img} alt="" />
-        <span>Tấn Mãi</span>
+        <img
+          src={currentCompany.avatarPic ? currentCompany.avatarPic : avatar}
+          alt=""
+        />
+        <span>{currentCompany.nameCompany}</span>
       </div>
-        <div
-          className={`dropdownCompany__dropdown ${openMenuUser ? "open" : ""}`}
+      <div
+        className={`dropdownCompany__dropdown ${openMenuUser ? "open" : ""}`}
+      >
+        <Link
+          to={`/nha-tuyen-dung/${id}`}
+          className="dropdownCompany__dropdown__option"
         >
-          <Link
-            to={`/cong-ty/${id}`}
-            className="dropdownCompany__dropdown__option"
-          >
-            <i class="fa-regular fa-user"></i>
-            <span>Trang cá nhân</span>
-          </Link>
-          <Link
-            to={`/cong-ty/${id}/?tag=jobs`}
-            className="dropdownCompany__dropdown__option"
-          >
-            <i class="fa-regular fa-rectangle-list"></i>
-            <span>Việc làm của bạn</span>
-          </Link>
-          <Link
-            to={"/cong-ty/ung-vien"}
-            className="dropdownCompany__dropdown__option"
-          >
-            <i class="fa-regular fa-address-card"></i>
-            <span>Đơn ứng tuyển</span>
-          </Link>
-          <Link
-            to={"/cong-ty/dang-bai"}
-            className="dropdownCompany__dropdown__option"
-          >
-            <i class="fa-solid fa-plus"></i>
-            <span>Đăng ứng tuyển</span>
-          </Link>
-          <hr />
-          <Link className="dropdownCompany__dropdown__option dropdownCompany__dropdown__option__logout">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            <span>Đăng xuất</span>
-          </Link>
-        </div>
+          <i class="fa-regular fa-user"></i>
+          <span>Trang cá nhân</span>
+        </Link>
+        <Link
+          to={`/nha-tuyen-dung/${id}/?tag=jobs`}
+          className="dropdownCompany__dropdown__option"
+        >
+          <i class="fa-regular fa-rectangle-list"></i>
+          <span>Việc làm của bạn</span>
+        </Link>
+        <Link
+          to={"/nha-tuyen-dung/ung-vien"}
+          className="dropdownCompany__dropdown__option"
+        >
+          <i class="fa-regular fa-address-card"></i>
+          <span>Đơn ứng tuyển</span>
+        </Link>
+        <Link
+          to={"/nha-tuyen-dung/dang-bai"}
+          className="dropdownCompany__dropdown__option"
+        >
+          <i class="fa-solid fa-plus"></i>
+          <span>Đăng ứng tuyển</span>
+        </Link>
+        <hr />
+        <button
+          onClick={() => logoutCompany()}
+          className="dropdownCompany__dropdown__option dropdownCompany__dropdown__option__logout"
+        >
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Đăng xuất</span>
+        </button>
+      </div>
     </div>
   );
 }

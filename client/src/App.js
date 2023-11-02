@@ -35,22 +35,25 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="/tim-kiem" element={<Search />} />
-              <Route path="/cong-ty" element={<Company />} />
-              <Route path="/nguoi-xin-viec" element={<Auth />}>
+              <Route path="/nha-tuyen-dung" element={<Company />} />
+
+              <Route path="/nguoi-dung" element={<Auth />}>
                 <Route path="dang-nhap" index element={<Signin />} />
                 <Route path="dang-ky" element={<Signup />} />
               </Route>
+
               <Route path="/nha-tuyen-dung" element={<Auth />}>
                 <Route path="dang-nhap" index element={<SigninCompany />} />
                 <Route path="dang-ky" element={<SignupCompany />} />
               </Route>
+              
               <Route path="/cong-viec/:id" element={<DetailJob />} />
               <Route path="/nguoi-dung/:id/" element={<DetailUser />} />
 
-              <Route path="/cong-ty/:id" element={<DetailCompany />} />
-              <Route path="/cong-ty/ung-vien" element={<Candidate />} />
-              <Route path="/cong-ty/dang-bai" element={<PostJob />} />
-              <Route path="/cong-ty/chinh-sua" element={<EditJob />} />
+              <Route path="nha-tuyen-dung/:id" element={<DetailCompany />} />
+              <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
+              <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
+              <Route path="nha-tuyen-dung/chinh-sua" element={<EditJob />} />
             </Route>
           </Routes>
         </BrowserRouter>

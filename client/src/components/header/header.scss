@@ -118,6 +118,7 @@
         .header__wrapper__auth {
           @include flex(center, unset);
           gap: 10px;
+          height: 100%;
           @include mobile {
             display: none;
           }
@@ -150,6 +151,11 @@
               color: themed("text1");
               font-weight: 500;
             }
+          }
+          .hr-col {
+            height: calc($height-header - 20px);
+            border: 1.2px solid themed("text1");
+            border-radius: $border-radius-10;
           }
         }
         .header__wrapper__control-mobile {
@@ -216,12 +222,12 @@
               border: none;
             }
           }
-          &__option__logout{
+          &__option__logout {
             width: 100%;
             padding: 10px;
             @include flex(center, unset);
             gap: 8px;
-            color: themed('text1')
+            color: themed("text1");
           }
         }
         .header__wrapper__btn-mobile {

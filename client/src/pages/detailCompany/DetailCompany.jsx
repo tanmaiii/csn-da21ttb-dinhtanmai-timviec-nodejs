@@ -92,12 +92,12 @@ export default function DetailCompany() {
                   >
                     <span>Thông tin</span>
                   </button>
-                  <Link to={"/cong-ty/ung-vien"}>
+                  <Link to={"/nha-tuyen-dung/ung-vien"}>
                     <button>
                       <span>Ứng tuyển</span>
                     </button>
                   </Link>
-                  <Link to={"/cong-ty/dang-bai"}>
+                  <Link to={"/nha-tuyen-dung/dang-bai"}>
                     <button>Tuyển dụng</button>
                   </Link>
                 </div>
@@ -138,12 +138,12 @@ export default function DetailCompany() {
                         >
                           <span>Thông tin</span>
                         </button>
-                        <Link to={"/cong-ty/ung-vien"}>
+                        <Link to={"/nha-tuyen-dung/ung-vien"}>
                           <button>
                             <span>Ứng tuyển</span>
                           </button>
                         </Link>
-                        <Link to={"/cong-ty/dang-bai"}>
+                        <Link to={"/nha-tuyen-dung/dang-bai"}>
                           <button>Tuyển dụng</button>
                         </Link>
                       </div>

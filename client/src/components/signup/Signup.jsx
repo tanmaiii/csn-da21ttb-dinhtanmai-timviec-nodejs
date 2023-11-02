@@ -38,7 +38,7 @@ export default function Signup() {
         </div>
         <button className="btn-signup">Đăng ký</button>
         <span className="link-signin">
-          Bạn đã có tài khoản ?<Link to={"/nguoi-xin-viec/dang-nhap"}> Đăng nhập</Link>
+          Bạn đã có tài khoản ?<Link to={"/nguoi-dung/dang-nhap"}> Đăng nhập</Link>
         </span>
       </div>
     </div>

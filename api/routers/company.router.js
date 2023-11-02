@@ -2,13 +2,13 @@ import express from "express";
 import {
   getCompany,
   getAllCompany,
-  updateUser,
+  updateCompany,
 } from "../controllers/company.controller.js";
 
 const router = express.Router();
 
 router.get("/find/:id", getCompany);
 router.get("/", getAllCompany);
-router.put("/", updateUser);
+router.put("/", updateCompany);
 
 export default router;

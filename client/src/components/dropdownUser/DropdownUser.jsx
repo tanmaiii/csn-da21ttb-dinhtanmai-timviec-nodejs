@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdownUser.scss";
-import img from "../../assets/images/Microsoft_logo.png";
+import avt from "../../assets/images/avatar.png";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 export default function DropdownUser() {
   const id = 123; //fake
   const [openMenuUser, setOpenMenuUser] = useState(false);
   const dropdownUserRef = useRef();
   const location = useLocation();
+  const { logoutUser, currentUser } = useAuth()
 
   useEffect(() => {
     const handleMouseDown = (e) => {
@@ -29,7 +31,7 @@ export default function DropdownUser() {
         className="dropdownUser__toogle"
         onClick={() => setOpenMenuUser(!openMenuUser)}
       >
-        <img src={img} alt="" />
+        <img src={currentUser.avatarPic ? currentUser.avatarPic : avt} alt="" />
         <span>Tấn Mãi</span>
       </div>
         <div className={`dropdownUser__dropdown ${openMenuUser ? 'open' : ''}`}>
@@ -62,10 +64,10 @@ export default function DropdownUser() {
             <span>Theo dõi</span>
           </Link>
           <hr />
-          <Link className="dropdownUser__dropdown__option dropdownUser__dropdown__option__logout">
+          <button  onClick={() => logoutUser()} className="dropdownUser__dropdown__option dropdownUser__dropdown__option__logout">
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
             <span>Đăng xuất</span>
-          </Link>
+          </button>
         </div>
     </div>
   );

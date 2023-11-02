@@ -26,7 +26,7 @@ export const updateUser = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
 
-    if (!req.body.id) return res.status(401).json("Thiếu trường id");
+    // if (!req.body.id) return res.status(401).json("Thiếu trường id");
 
     const q =
       "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `address`= ?, `brithDay`= ? , `intro`= ? , `cv`=? WHERE id = ? ";
@@ -42,9 +42,9 @@ export const updateUser = (req, res) => {
     ];
 
     db.query(q, values, (err, data) => {
-      if (!err) return res.status(200).json(err);
+      if (!err) return res.status(200).json(data);
       if (data.affectedRows > 0) return res.json("Update");
-      return res.status(403).json("Chỉ thanh đổi được thông tin của mình");
+      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
     });
   });
 };

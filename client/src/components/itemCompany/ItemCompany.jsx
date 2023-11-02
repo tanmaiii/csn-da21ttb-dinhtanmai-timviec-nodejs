@@ -13,7 +13,7 @@ export default function ItemCompany({ company, className, style }) {
 
   const handleClick = (e) => {
     if(!btnRef.current.contains(e.target)){
-      return navigate('/cong-ty/123')
+      return navigate('/nha-tuyen-dung/123')
     }
   }
 
