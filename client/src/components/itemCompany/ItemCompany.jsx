@@ -36,8 +36,8 @@ export default function ItemCompany({ company, className, style }) {
             </div>
           </div>
           <button ref={btnRef} className={`btn__follow ${follow ? 'active' : ''}`} onClick={() => handleFollow()}>
-            <i class="fa-regular fa-heart"></i>
-            <i class="fa-solid fa-heart"></i>
+            <i className="fa-regular fa-heart"></i>
+            <i className="fa-solid fa-heart"></i>
           </button>
         </div>
       </div>

@@ -1,30 +1,48 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./infoCompany.scss";
-import SearchProvince from "../../components/searchProvince/SearchProvince";
-import Select from "../../components/select/Select";
-import scale from "../../config/scale";
-import province from "../../config/province";
+import Select from "../../../components/select/Select";
+import scale from "../../../config/scale";
+import province from "../../../config/province";
+import { useParams } from "react-router-dom";
+import { makeRequest } from "../../../axios";
 
 export default function InfoCompany() {
+  const [company, setCompany] = useState();
+  const [err, setErr] = useState();
+  const [loading, setLoading] = useState();
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getCompany = async () => {
+      try {
+        const res = await makeRequest.get("/company/owner/" + id);
+        setCompany(res.data);
+      } catch (err) {
+        setErr("id không hợp lệ");
+      }
+    };
+    getCompany();
+  }, []);
+
   return (
     <div className="infoCompany">
       <div className="infoCompany__wrapper">
         <div className="infoCompany__wrapper__header"></div>
         <div className="infoCompany__wrapper__body">
-          <ItemInfoCompany title={"Tên công ty"} desc={"FPT Telecom"} />
-          <ItemInfoCompany title={"Tên người đại diện"} desc={"tan mai"} />
-          <ItemInfoCompany title={"Email"} desc={"tanmai833@gmail.com"} />
-          <ItemInfoCompany title={"Điện thoại"} desc={"03234123123"} />
-          <ItemInfoCompany title={"Email"} desc={"tanmai833@gmail.com"} />
+          <ItemInfoCompany title={"Tên công ty"} desc={company?.nameCompany || "..."} />
+          <ItemInfoCompany title={"Tên người đại diện"} desc={company?.nameAdmin || "..."} />
+          <ItemInfoCompany title={"Email"} desc={company?.email || "..."} />
+          <ItemInfoCompany title={"Điện thoại"} desc={company?.phone || "..."} />
+          <ItemInfoCompany title={"Web"} desc={company?.web || "..."}/>
           <ItemInfoCompany
             title={"Địa chỉ"}
-            desc={"Tra vinh"}
+            desc={company?.address || "..."}
             select={true}
             options={province}
           />
           <ItemInfoCompany
             title={"Quy mô"}
-            desc={"5000 - 1000 nhân viên"}
+            desc={company?.scale || "..."}
             select={true}
             options={scale}
           />

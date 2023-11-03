@@ -12,19 +12,23 @@
         gap: 18px;
         &__header {
           background-color: themed("bg2");
-          padding: 20px;
+          padding: 30px;
           border-radius: $border-radius-20;
-          @include flex(center, space-between);
+          @include flex(end, space-between);
           width: 100%;
           @include mobile {
             flex-direction: column;
             gap: 20px;
+            align-items: center;
           }
           &__main {
-            @include flex(top, unset);
-            gap: 10px;
+            @include flex(end, unset);
+            gap: 20px;
             @include mobile {
               flex-direction: column;
+            }
+            @include mobile {
+              @include flex(center, unset);
             }
             &__image {
               --size: 200px;
@@ -35,18 +39,42 @@
               @include flex(center, center);
               border: 1px solid themed("border");
               box-shadow: themed("box-shadow");
-              @include mobile {
-              }
+              position: relative;
               img {
                 width: 100%;
                 height: auto;
                 object-fit: contain;
+              }
+              &:hover {
+                .detailCompany__wrapper__header__main__image__edit {
+                  display: flex;
+                }
+              }
+              &__edit {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba($color: #000000, $alpha: 0.2);
+                @include flex(center, center);
+                transition: all 0.3s;
+                cursor: pointer;
+                display: none;
+                i {
+                  font-size: 3rem;
+                  color: $color-white;
+                }
+                input {
+                  display: none;
+                }
               }
             }
             &__text {
               @include flex(unset, unset);
               flex-direction: column;
               gap: 8px;
+              padding: 10px 0;
               @include mobile {
                 align-items: center;
               }
@@ -61,6 +89,12 @@
                   font-size: $font-size-s;
                   color: themed("text2");
                   font-weight: 400;
+                }
+                a{
+                  color: $color-blue;
+                  &:hover{
+                    text-decoration: underline;
+                  }
                 }
               }
               &__name {
@@ -81,6 +115,22 @@
             }
             button {
               @include button($color-white, $color-primary);
+            }
+          }
+          &__button__follow {
+            @include flex(center, unser);
+            gap: 10px;
+            flex-direction: column;
+            span {
+              font-size: $font-size-s;
+              font-weight: 500;
+              color: themed("text2");
+            }
+            .btn-follow {
+              @include button($color-white, $color-primary);
+            }
+            .btn-unFollow {
+              @include button-line(themed("text1"), $color-white);
             }
           }
         }
@@ -190,6 +240,7 @@
             min-height: 100px;
             border-radius: $border-radius-10;
             padding: 20px;
+            overflow: hidden;
             h6 {
               font-size: $font-size-s;
               color: themed("text1");

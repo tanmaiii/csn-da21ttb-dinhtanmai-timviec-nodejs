@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { makeRequest } from "../axios";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext();
 
@@ -9,6 +10,7 @@ export function useAuth() {
 }
 
 export const AuthContextProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user") || null)
   );
@@ -26,6 +28,7 @@ export const AuthContextProvider = ({ children }) => {
   const logoutCompany = async () => {
     await makeRequest.post("/authCompany/logout");
     setCurrentCompany(null);
+    navigate('/')
   };
 
   const loginUser = async (inputs) => {
@@ -37,6 +40,7 @@ export const AuthContextProvider = ({ children }) => {
   const logoutUser = async () => {
     await makeRequest.post("/authUser/logout");
     setCurrentUser(null);
+    navigate('/')
   };
 
   useEffect(() => {

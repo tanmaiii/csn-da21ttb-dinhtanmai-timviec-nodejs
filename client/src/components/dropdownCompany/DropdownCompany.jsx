@@ -5,15 +5,15 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 
 export default function DropdownCompany() {
-  const id = 123; //fake
   const [openMenuUser, setOpenMenuUser] = useState(false);
   const dropdownCompanyRef = useRef();
   const location = useLocation();
   const { logoutCompany, currentCompany } = useAuth();
-
+  const id = currentCompany?.id;
+  
   useEffect(() => {
     const handleMouseDown = (e) => {
-      if (!dropdownCompanyRef.current.contains(e.target)) {
+      if (!dropdownCompanyRef.current?.contains(e.target)) {
         setOpenMenuUser(false);
       }
     };

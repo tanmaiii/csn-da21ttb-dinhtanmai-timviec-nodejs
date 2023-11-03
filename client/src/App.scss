@@ -1,9 +1,30 @@
 @use "./scss/" as *;
 
+html {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #cacaca;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    border-radius: $border-radius-10;
+    background: #7f7f7f;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #676767;
+  }
+}
 
 .App {
   @include themify($themes) {
-    background-color: themed('bg1');
+    background-color: themed("bg1");
   }
 }
 
@@ -11,5 +32,5 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }

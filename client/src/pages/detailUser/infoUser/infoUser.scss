@@ -1,0 +1,58 @@
+@use '../../../scss/' as * ;
+
+.infoUser {
+    @include themify($themes) {
+      &__wrapper {
+        .personalInformation__wrapper__item {
+          @include flex(center, space-between);
+          padding: 20px 0;
+          border-bottom: 1px solid themed("border");
+          &__left {
+            max-width: 70%;
+            h6 {
+              font-size: $font-size-s;
+              color: themed("text1");
+              font-weight: 600;
+              margin-bottom: 10px;
+            }
+            span {
+              font-size: $font-size-s;
+              color: themed("text2");
+              font-weight: 400;
+            }
+            input {
+              background-color: themed("bg1");
+              padding: 8px 10px;
+              font-size: $font-size-s;
+              color: themed("text2");
+              border-radius: $border-radius-10;
+              width: 280px;
+            }
+          }
+          &__right {
+            @include flex(end, unset);
+            flex-direction: column;
+            gap: 10px;
+            max-width: 30%;
+            button {
+              background-color: themed("bg1");
+              padding: 10px 16px;
+              border-radius: $border-radius-10;
+              color: themed("text1");
+              font-size: $font-size-s;
+              cursor: pointer;
+              &.btn-edit {
+              }
+              &.btn-save {
+                background-color: $color-primary;
+                color: $color-white;
+              }
+              &.btn-cancel {
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

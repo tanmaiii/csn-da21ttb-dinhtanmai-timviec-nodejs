@@ -5,9 +5,12 @@ import avatar from "../../assets/images/avatar.png";
 import ItemJob from "../../components/itemJob/ItemJob";
 import ItemCompany from "../../components/itemCompany/ItemCompany";
 import Loader from "../../components/loader/Loader";
-import ReactQuill from "react-quill";
-import { useSearchParams, useParams } from "react-router-dom";
+import NotFound from "../notFound/NotFound";
+import InfoUser from "./infoUser/InfoUser";
+import IntroUser from "./introUser/IntroUser";
+import AppliedJobs from "./appliedJobs/AppliedJobs";
 
+import { useSearchParams, useParams } from "react-router-dom";
 import jobs from "../../config/jobs";
 import companies from "../../config/companies";
 import { useAuth } from "../../context/authContext";
@@ -17,6 +20,7 @@ export default function DetailUser() {
   let [searchParams, setSearchParams] = useSearchParams();
   const [openControlMb, setOpenControlMb] = useState(false);
   const [user, setUser] = useState();
+  const [err, setErr] = useState();
   const controlMbRef = useRef();
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState();
@@ -25,12 +29,13 @@ export default function DetailUser() {
 
   useEffect(() => {
     setLoading(true);
+    setErr();
     const getUser = async () => {
       try {
         const res = await makeRequest.get("/user/find/" + id);
         setUser(res.data);
       } catch (err) {
-        console.log(err);
+        setErr("id không hợp lệ");
       }
     };
     getUser();
@@ -43,7 +48,7 @@ export default function DetailUser() {
 
   useEffect(() => {
     const handleMousedown = (e) => {
-      if (!controlMbRef.current.contains(e.target)) {
+      if (!controlMbRef?.current?.contains(e.target)) {
         setOpenControlMb(false);
       }
     };
@@ -58,6 +63,7 @@ export default function DetailUser() {
   return (
     <>
       {loading && <Loader />}
+      {err && <NotFound />}
       {user && (
         <div className="detailUser">
           <div className="container">
@@ -76,7 +82,9 @@ export default function DetailUser() {
                     </h4>
                     <div className="detailUser__wrapper__header__main__text__date">
                       <i className="fa-solid fa-calendar-days"></i>
-                      <span>{user?.brithDay}</span>
+                      <span>
+                        {user?.brithDay ? user?.brithDay : "00/00/0000"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -96,16 +104,17 @@ export default function DetailUser() {
                       >
                         <span>Giới thiệu</span>
                       </button>
-                      <button
-                        onClick={() => setSearchParams({ ["tag"]: "info" })}
-                        className={`${
-                          searchParams.get("tag") === "info" && "active"
-                        }`}
-                      >
-                        <span>Thông tin</span>
-                      </button>
-                      {currentUser.id === user.id && (
+
+                      { user?.id === currentUser?.id && (
                         <>
+                          <button
+                            onClick={() => setSearchParams({ ["tag"]: "info" })}
+                            className={`${
+                              searchParams.get("tag") === "info" && "active"
+                            }`}
+                          >
+                            <span>Thông tin</span>
+                          </button>
                           <button
                             onClick={() =>
                               setSearchParams({ ["tag"]: "apply" })
@@ -148,63 +157,69 @@ export default function DetailUser() {
                       >
                         <span>Giới thiệu</span>
                       </button>
-                      <button
-                        onClick={() => setSearchParams({ ["tag"]: "info" })}
-                        className={`${
-                          searchParams.get("tag") === "info" && "active"
-                        }`}
-                      >
-                        <span>Thông tin</span>
-                      </button>
-
-                      <div className="button__more" ref={controlMbRef}>
+                      {currentUser?.id === user.id && (
                         <button
-                          className="button__more__toggle"
-                          onClick={() => setOpenControlMb(!openControlMb)}
+                          onClick={() => setSearchParams({ ["tag"]: "info" })}
+                          className={`${
+                            searchParams.get("tag") === "info" && "active"
+                          }`}
                         >
-                          <span>Thêm</span>
-                          <i className="fa-solid fa-angle-down"></i>
+                          <span>Thông tin</span>
                         </button>
-                        {openControlMb && (
-                          <div className="button__more__dropdown">
-                            <button
-                              onClick={() =>
-                                setSearchParams({ ["tag"]: "apply" })
-                              }
-                              className={`${
-                                searchParams.get("tag") === "apply" && "active"
-                              }`}
-                            >
-                              <span>Ứng tuyển</span>
-                            </button>
-                            <button
-                              onClick={() =>
-                                setSearchParams({ ["tag"]: "jobs" })
-                              }
-                              className={`${
-                                searchParams.get("tag") === "jobs" && "active"
-                              }`}
-                            >
-                              <span>Công việc</span>
-                            </button>
-                            <button
-                              onClick={() =>
-                                setSearchParams({ ["tag"]: "companies" })
-                              }
-                              className={`${
-                                searchParams.get("tag") === "companies" &&
-                                "active"
-                              }`}
-                            >
-                              <span>Công ty</span>
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                      )}
+                      {currentUser?.id === user.id && (
+                        <div className="button__more" ref={controlMbRef}>
+                          <button
+                            className="button__more__toggle"
+                            onClick={() => setOpenControlMb(!openControlMb)}
+                          >
+                            <span>Thêm</span>
+                            <i className="fa-solid fa-angle-down"></i>
+                          </button>
+                          {openControlMb && (
+                            <div className="button__more__dropdown">
+                              <button
+                                onClick={() =>
+                                  setSearchParams({ ["tag"]: "apply" })
+                                }
+                                className={`${
+                                  searchParams.get("tag") === "apply" &&
+                                  "active"
+                                }`}
+                              >
+                                <span>Ứng tuyển</span>
+                              </button>
+                              <button
+                                onClick={() =>
+                                  setSearchParams({ ["tag"]: "jobs" })
+                                }
+                                className={`${
+                                  searchParams.get("tag") === "jobs" && "active"
+                                }`}
+                              >
+                                <span>Công việc</span>
+                              </button>
+                              <button
+                                onClick={() =>
+                                  setSearchParams({ ["tag"]: "companies" })
+                                }
+                                className={`${
+                                  searchParams.get("tag") === "companies" &&
+                                  "active"
+                                }`}
+                              >
+                                <span>Công ty</span>
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
 
                     <div className="detailUser__wrapper__body__left__content">
-                      {searchParams.get("tag") === null && <IntroUser />}
+                      {searchParams.get("tag") === null && (
+                        <IntroUser intro={user?.intro} />
+                      )}
                       {searchParams.get("tag") === "info" && <InfoUser />}
                       {searchParams.get("tag") === "apply" && <AppliedJobs />}
                       {searchParams.get("tag") === "jobs" && (
@@ -260,176 +275,5 @@ export default function DetailUser() {
         </div>
       )}
     </>
-  );
-}
-
-function AppliedJobs({ job }) {
-  return (
-    <div className="appliedJobs">
-      <div className="appliedJobs__wrapper">
-        {jobs.map((job, i) => (
-          <div key={i} className="appliedJobs__wrapper__item">
-            <div className="col pc-9 t-9 m-7">
-              <div className="appliedJobs__wrapper__item__left ">
-                <h4 className="appliedJobs__wrapper__item__left__name">
-                  {job?.name}
-                </h4>
-                <h5 className="appliedJobs__wrapper__item__left__company">
-                  {job?.company}
-                </h5>
-                <div className="appliedJobs__wrapper__item__left__address">
-                  <i className="fa-solid fa-location-dot"></i>
-                  <span>{job?.address}</span>
-                </div>
-                <div className="appliedJobs__wrapper__item__left__wage">
-                  <i className="fa-solid fa-dollar-sign"></i>
-                  <span>{job?.wage}</span>
-                </div>
-                <p className="appliedJobs__wrapper__item__left__workingForm">
-                  {job?.workingForm}
-                </p>
-              </div>
-            </div>
-            <div className="col pc-3 t-3 m-4">
-              <div className="appliedJobs__wrapper__item__right">
-                <span>Trạng thái</span>
-                <button>Đã xem hồ sơ</button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function InfoUser() {
-  return (
-    <div className="infoUser">
-      <div className="infoUser__wrapper">
-        <ItemInfo title={"Họ tên"} desc={"Đinh Tấn Mãi"} />
-        <ItemInfo title={"Ngày sinh :"} desc={"03/10/2003"} type={"date"} />
-        <ItemInfo title={"Email :"} desc={"tanmai833@gmail.com"} />
-        <ItemInfo title={"Số điện thoại :"} desc={"781263612"} />
-        <ItemInfo
-          title={"Liên kết CV (Kết nối với Google Drive) :"}
-          desc={
-            "https://drive.google.com/file/d/12YACDCDYGxxk-hMVwJxzD1s7HvwvZNAm/view?usp=sharing"
-          }
-        />
-      </div>
-    </div>
-  );
-}
-
-function ItemInfo({ title, desc, type = "text" }) {
-  const [edit, setEdit] = useState(false);
-
-  return (
-    <div className="personalInformation__wrapper__item">
-      <div className="personalInformation__wrapper__item__left">
-        <h6>{title}</h6>
-        {!edit ? (
-          <span>{desc}</span>
-        ) : (
-          <input type={type} defaultValue={desc} />
-        )}
-      </div>
-      <div className="personalInformation__wrapper__item__right">
-        {!edit ? (
-          <button className="btn-edit" onClick={() => setEdit(true)}>
-            Thay đổi
-          </button>
-        ) : (
-          <>
-            <button className="btn-save" onClick={() => setEdit(false)}>
-              Lưu
-            </button>
-            <button className="btn-cancel" onClick={() => setEdit(false)}>
-              Hủy
-            </button>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function IntroUser() {
-  const [edit, setEdit] = useState(false);
-
-  return (
-    <div className="introUser">
-      <div className="introUser__wrapper">
-        <div className="introUser__wrapper__header">
-          <h4>Giới thiệu </h4>
-          <div className="introUser__wrapper__header__edit">
-            {!edit ? (
-              <button className="btn-edit" onClick={() => setEdit(true)}>
-                <i className="fa-solid fa-pen-to-square"></i>
-                <span>Chỉnh sửa</span>
-              </button>
-            ) : (
-              <>
-                <button className="btn-save" onClick={() => setEdit(false)}>
-                  <i className="fa-solid fa-pen-to-square"></i>
-                  <span>Lưu</span>
-                </button>
-                <button className="btn-cancel" onClick={() => setEdit(false)}>
-                  <i className="fa-solid fa-pen-to-square"></i>
-                  <span>Hủy</span>
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-        <div className="introUser__wrapper__body">
-          {!edit ? (
-            <div className="introUser__wrapper__body__content">
-              <p>
-                Được thành lập ngày 31/01/1997, Công ty Cổ phần Viễn thông FPT
-                (FPT Telecom) khởi đầu từ Trung tâm Dịch vụ Trực tuyến với 4
-                thành viên sáng lập cùng sản phẩm mạng Intranet đầu tiên của
-                Việt Nam mang tên “Trí tuệ Việt Nam – TTVN”. Sau 21 năm hoạt
-                động, FPT Telecom đã trở thành một trong những nhà cung cấp dịch
-                vụ viễn thông và Internet hàng đầu khu vực với gần 14 000 nhân
-                viên, 2 công ty thành viên, 59 chi nhánh trong và ngoài nước.
-                Hiện nay, FPT Telecom đang cung cấp các sản phẩm, dịch vụ chính
-                bao gồm:
-              </p>
-
-              <p>- Dịch vụ Internet</p>
-              <p>
-                - Kênh thuê riêng, Tên miền, Email, Lưu trữ web, Trung tâm dữ
-                liệu
-              </p>
-              <p>
-                - Các dịch vụ giá trị gia tăng trên Internet: Truyền hình
-                internet (FPT play HD), Điện thoại cố định (VoIP), Giám sát từ
-                xa(IP Camera), Chứng thực chữ ký số (CA), Điện toán đám mây
-                (Cloud computing),...
-              </p>
-              <p>
-                Với phương châm “Mọi dịch vụ trên một kết nối”, FPT Telecom luôn
-                không ngừng nghiên cứu và triển khai tích hợp ngày càng nhiều
-                các dịch vụ giá trị gia tăng trên cùng một đường truyền Internet
-                nhằm đem lại lợi ích tối đa cho khách hàng sử dụng. Đồng thời,
-                việc đẩy mạnh hợp tác với các đối tác viễn thông lớn trên thế
-                giới, xây dựng các tuyến cáp quang quốc tế là những hướng đi
-                được triển khai mạnh mẽ để đưa các dịch vụ tiếp cận với thị
-                trường toàn cầu, nâng cao hơn nữa vị thế của FPT Telecom nói
-                riêng và các nhà cung cấp dịch vụ viễn thông Việt Nam nói chung.
-              </p>
-
-              <p>Thông tin chi tiết tham khảo tại website: www.fpt.vn!</p>
-            </div>
-          ) : (
-            <div className="introUser__wrapper__body__edit">
-              <ReactQuill theme="snow" />
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
   );
 }

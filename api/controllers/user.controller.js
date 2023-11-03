@@ -3,10 +3,31 @@ import { db } from "../config/connect.js";
 
 export const getUser = (req, res) => {
   const id = req.params.id;
-  const q = "SELECT * FROM users WHERE id=?";
+  const q =
+    "SELECT id, name, phone, avatarPic, brithDay, intro, cv FROM users WHERE id=?";
+
   if (id) {
     db.query(q, id, (err, data) => {
-      console.log(data);
+      if (!data.length) {
+        return res.status(401).json("Không tồn tại !");
+      } else {
+        return res.json(data[0]);
+      }
+    });
+  } else {
+    return res.status(401).json("Không có trường id !");
+  }
+
+};
+
+export const getOwnerUser = (req, res) => {
+  const q = "SELECT * FROM users WHERE id=?";
+
+  const token = req.cookies?.accessToken;
+  if (!token) return res.status(401).json("Not logged in!");
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    db.query(q, userInfo.id, (err, data) => {
       if (!data.length) {
         return res.status(401).json("Không tồn tại !");
       } else {
@@ -14,9 +35,7 @@ export const getUser = (req, res) => {
         return res.json(others);
       }
     });
-  } else {
-    return res.status(401).json("Không để rỗng !");
-  }
+  });
 };
 
 export const updateUser = (req, res) => {

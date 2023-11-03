@@ -1,0 +1,70 @@
+@use "../../../scss/" as *;
+
+.introCompany {
+  @include themify($themes) {
+    &__wrapper {
+      &__header {
+        @include flex(center, space-between);
+        padding: 20px 0;
+        h4 {
+          font-size: $font-size-l;
+          color: themed("primary");
+          font-weight: 500;
+        }
+        &__edit {
+          @include flex(center, unset);
+          gap: 8px;
+          button {
+            padding: 10px 14px;
+            border-radius: $border-radius-10;
+            border: 1px solid themed("border");
+            @include flex(center, unset);
+            gap: 8px;
+            font-size: $font-size-s;
+            color: themed("text1");
+            cursor: pointer;
+            &.btn-save {
+              background-color: $color-primary;
+              color: $color-white;
+              border: none;
+            }
+          }
+        }
+      }
+      &__body {
+        &__content {
+          color: themed("text1");
+          font-size: $font-size-s;
+          color: themed("text1");
+          font-weight: 400;
+        }
+        &__edit {
+          .quill {
+            width: 100%;
+            color: themed("text1");
+            background-color: themed("bg2");
+            overflow: hidden;
+            .ql-toolbar {
+              background-color: themed("bg1");
+              border-top-left-radius: $border-radius-10;
+              border-top-right-radius: $border-radius-10;
+              .ql-formats {
+                color: themed("text1");
+              }
+            }
+            .ql-container {
+              border-bottom-left-radius: $border-radius-10;
+              border-bottom-right-radius: $border-radius-10;
+              .ql-editor {
+                overflow-y: scroll;
+                height: 400px;
+                font-size: $font-size-s;
+                min-height: 300px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

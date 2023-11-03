@@ -3,6 +3,7 @@ import logo from "../../assets/images/logoJobQuest.png";
 import "./signinCompany.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import checkEmail from "../../config/checkEmail";
 
 export default function SigninCompany() {
   const navigate = useNavigate();
@@ -21,17 +22,19 @@ export default function SigninCompany() {
   };
 
   const handleSubmit = () => {
-    console.log(inputs);
-
     setErr("");
-    const res = async () => {
-      try {
-        await loginCompany(inputs);
-      } catch (err) {
-        setErr("Email hoặc mật khẩu không đúng !");
-      }
-    };
-    res();
+    if (!checkEmail(inputs.email)) {
+      return setErr("Email Không hợp lệ !");
+    } else {
+      const res = async () => {
+        try {
+          await loginCompany(inputs);
+        } catch (err) {
+          setErr("Email hoặc mật khẩu không đúng !");
+        }
+      };
+      res();
+    }
   };
 
   useEffect(() => {
@@ -72,7 +75,9 @@ export default function SigninCompany() {
             placeholder="Enter your password"
           />
         </div>
-        <button className="btn-signinCompany" onClick={handleSubmit}>Đăng nhập</button>
+        <button className="btn-signinCompany" onClick={handleSubmit}>
+          Đăng nhập
+        </button>
         <span className="link-signup">
           Bạn chưa có tài khoản ?
           <Link to={"/nha-tuyen-dung/dang-ky"}> Đăng ký</Link>

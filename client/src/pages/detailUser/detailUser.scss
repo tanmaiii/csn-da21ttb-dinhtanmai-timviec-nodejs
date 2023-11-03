@@ -184,6 +184,7 @@
             min-height: 100px;
             border-radius: $border-radius-10;
             padding: 20px;
+            overflow: hidden;
             h6 {
               font-size: $font-size-s;
               color: themed("text1");
@@ -224,292 +225,68 @@
   }
 }
 
-.appliedJobs {
-  @include themify($themes) {
-    &__wrapper {
-      &__item {
-        // background-color: themed('bg1');
-        margin-bottom: 20px;
-        padding: 10px;
-        border-radius: $border-radius-10;
-        border: 1px solid themed("border");
-        display: flex;
-        cursor: pointer;
-        transition: all 0.3s;
-        @include flex(center, space-between);
-        &:hover {
-          background-color: themed("bg1");
-        }
-        &__left {
-          @include flex(unset, unset);
-          flex-direction: column;
-          gap: 8px;
-          &__name {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 500;
-            @include text(2);
-          }
-          &__company {
-            font-size: $font-size-s;
-            color: themed("text2");
-            font-weight: 400;
-            @include text(2);
-            cursor: pointer;
-            &:hover {
-              text-decoration: underline;
-            }
-          }
-          &__address {
-            @include flex(center, unset);
-            gap: 8px;
-            i {
-              font-size: $font-size-m;
-              color: themed("text2");
-            }
-            span {
-              font-size: $font-size-s;
-              color: themed("text2");
-            }
-          }
-          &__wage {
-            background-color: themed("bg1");
-            padding: 6px 10px;
-            border-radius: $border-radius-10;
-            width: max-content;
-            @include flex(center, unset);
-            gap: 8px;
-            i {
-              font-size: $font-size-s;
-              color: themed("text2");
-            }
-            span {
-              @include text(1);
-              color: themed("text2");
-              font-size: $font-size-s;
-              font-weight: 500;
-            }
-          }
-          &__workingForm {
-            background-color: themed("bg1");
-            padding: 6px 10px;
-            border-radius: $border-radius-10;
-            color: themed("text2");
-            font-weight: 500;
-            width: max-content;
-          }
-        }
-        &__right {
-          @include flex(center, center);
-          flex-direction: column;
-          height: 100%;
-          gap: 10px;
-          span {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 500;
-            text-align: center;
-          }
-          button {
-            background-color: $color-primary;
-            color: $color-white;
-            font-size: $font-size-s;
-            font-weight: 500;
-            padding: 10px 16px;
-            border-radius: $border-radius-10;
-          }
-        }
-      }
-    }
-  }
-}
 
-.infoUser {
-  @include themify($themes) {
-    &__wrapper {
-      .personalInformation__wrapper__item {
-        @include flex(center, space-between);
-        padding: 20px 0;
-        border-bottom: 1px solid themed("border");
-        &__left {
-          max-width: 70%;
-          h6 {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 600;
-            margin-bottom: 10px;
-          }
-          span {
-            font-size: $font-size-s;
-            color: themed("text2");
-            font-weight: 400;
-          }
-          input {
-            background-color: themed("bg1");
-            padding: 8px 10px;
-            font-size: $font-size-s;
-            color: themed("text2");
-            border-radius: $border-radius-10;
-            width: 280px;
-          }
-        }
-        &__right {
-          @include flex(end, unset);
-          flex-direction: column;
-          gap: 10px;
-          max-width: 30%;
-          button {
-            background-color: themed("bg1");
-            padding: 10px 16px;
-            border-radius: $border-radius-10;
-            color: themed("text1");
-            font-size: $font-size-s;
-            cursor: pointer;
-            &.btn-edit {
-            }
-            &.btn-save {
-              background-color: $color-primary;
-              color: $color-white;
-            }
-            &.btn-cancel {
-            }
-          }
-        }
-      }
-    }
-  }
-}
+// .personalInformation__wrapper {
+//   @include themify($themes) {
+//     &__item {
+//       @include flex(center, space-between);
+//       padding: 20px 0;
+//       border-bottom: 1px solid themed("border");
+//       overflow: hidden;
+//       &__left {
+//         h6 {
+//           font-size: $font-size-s;
+//           color: themed("text1");
+//           font-weight: 600;
+//           margin-bottom: 10px;
+//         }
+//         span {
+//           font-size: $font-size-s;
+//           font-weight: 400;
+//           color: themed("text1");
+//         }
+//         input {
+//           font-size: $font-size-s;
+//           font-weight: 400;
+//           color: themed("text1");
+//           padding: 16px 20px;
+//           background-color: themed("bg1");
+//           border-radius: $border-radius-10;
+//           width: 280px;
+//           @include mobile {
+//             width: 100%;
+//           }
+//         }
+//         .select {
+//           width: 280px;
+//           @include mobile {
+//             width: 100%;
+//           }
+//         }
+//       }
+//       &__right {
+//         @include flex(end, unset);
+//         flex-direction: column;
+//         gap: 10px;
+//         min-width: 30%;
+//         button {
+//           background-color: themed("bg1");
+//           padding: 10px 16px;
+//           border-radius: $border-radius-10;
+//           color: themed("text1");
+//           font-size: $font-size-s;
+//           cursor: pointer;
+//           &.btn-edit {
+//           }
+//           &.btn-save {
+//             background-color: $color-primary;
+//             color: $color-white;
+//           }
+//           &.btn-cancel {
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
 
-.personalInformation__wrapper {
-  @include themify($themes) {
-    &__item {
-      @include flex(center, space-between);
-      padding: 20px 0;
-      border-bottom: 1px solid themed("border");
-      overflow: hidden;
-      &__left {
-        h6 {
-          font-size: $font-size-s;
-          color: themed("text1");
-          font-weight: 600;
-          margin-bottom: 10px;
-        }
-        span {
-          font-size: $font-size-s;
-          font-weight: 400;
-          color: themed("text1");
-        }
-        input {
-          font-size: $font-size-s;
-          font-weight: 400;
-          color: themed("text1");
-          padding: 16px 20px;
-          background-color: themed("bg1");
-          border-radius: $border-radius-10;
-          width: 280px;
-          @include mobile {
-            width: 100%;
-          }
-        }
-        .select {
-          width: 280px;
-          @include mobile {
-            width: 100%;
-          }
-        }
-      }
-      &__right {
-        @include flex(end, unset);
-        flex-direction: column;
-        gap: 10px;
-        min-width: 30%;
-        button {
-          background-color: themed("bg1");
-          padding: 10px 16px;
-          border-radius: $border-radius-10;
-          color: themed("text1");
-          font-size: $font-size-s;
-          cursor: pointer;
-          &.btn-edit {
-          }
-          &.btn-save {
-            background-color: $color-primary;
-            color: $color-white;
-          }
-          &.btn-cancel {
-          }
-        }
-      }
-    }
-  }
-}
-
-.introUser {
-  @include themify($themes) {
-    &__wrapper {
-      &__header {
-        @include flex(center, space-between);
-        padding: 20px 0;
-        h4 {
-          font-size: $font-size-l;
-          color: themed("primary");
-          font-weight: 500;
-        }
-        &__edit {
-          @include flex(center, unset);
-          gap: 8px;
-          button {
-            padding: 10px 14px;
-            border-radius: $border-radius-10;
-            border: 1px solid themed("border");
-            @include flex(center, unset);
-            gap: 8px;
-            font-size: $font-size-s;
-            color: themed("text1");
-            cursor: pointer;
-            &.btn-save {
-              background-color: $color-primary;
-              color: $color-white;
-              border: none;
-            }
-          }
-        }
-      }
-      &__body {
-        &__content {
-          p {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 400;
-          }
-        }
-        &__edit {
-          .quill {
-            width: 100%;
-            color: themed("text1");
-            background-color: themed("bg2");
-            overflow: hidden;
-            .ql-toolbar {
-              background-color: themed("bg1");
-              border-top-left-radius: $border-radius-10;
-              border-top-right-radius: $border-radius-10;
-              .ql-formats {
-                color: themed("text1");
-              }
-            }
-            .ql-container {
-              border-bottom-left-radius: $border-radius-10;
-              border-bottom-right-radius: $border-radius-10;
-              .ql-editor {
-                overflow-y: scroll;
-                height: 400px;
-                font-size: $font-size-s;
-                min-height: 300px;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}

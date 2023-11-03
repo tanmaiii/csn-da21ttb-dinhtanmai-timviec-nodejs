@@ -31,37 +31,34 @@ function App() {
   return (
     <div className={`theme-${darkMode ? "dark" : "light"}`}>
       <div className={`App`}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              
-              <Route path="*" element={<NotFound />} />
-              
-              <Route index element={<Home />} />
-              <Route path="/tim-kiem" element={<Search />} />
-              <Route path="/nha-tuyen-dung" element={<Company />} />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="*" element={<NotFound />} />
 
-              <Route path="/nguoi-dung" element={<Auth />}>
-                <Route path="dang-nhap" index element={<Signin />} />
-                <Route path="dang-ky" element={<Signup />} />
-              </Route>
+            <Route index element={<Home />} />
+            <Route path="/tim-kiem" element={<Search />} />
+            <Route path="/nha-tuyen-dung" element={<Company />} />
 
-              <Route path="/nha-tuyen-dung" element={<Auth />}>
-                <Route path="dang-nhap" index element={<SigninCompany />} />
-                <Route path="dang-ky" element={<SignupCompany />} />
-              </Route>
-
-              <Route path="/cong-viec/:id" element={<DetailJob />} />
-              <Route path="/nguoi-dung/:id/" element={<DetailUser />} />
-
-              <Route path="nha-tuyen-dung/:id" element={<DetailCompany />} />
-              <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
-              <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
-              <Route path="nha-tuyen-dung/chinh-sua" element={<EditJob />} />
-
+            <Route path="/nguoi-dung" element={<Auth />}>
+              <Route path="dang-nhap" index element={<Signin />} />
+              <Route path="dang-ky" element={<Signup />} />
             </Route>
-          </Routes>
-        </BrowserRouter>
+
+            <Route path="/nha-tuyen-dung" element={<Auth />}>
+              <Route path="dang-nhap" index element={<SigninCompany />} />
+              <Route path="dang-ky" element={<SignupCompany />} />
+            </Route>
+
+            <Route path="/cong-viec/:id" element={<DetailJob />} />
+            
+            <Route path="/nguoi-dung/:id/" element={<DetailUser />} />
+
+            <Route path="nha-tuyen-dung/:id" element={<DetailCompany />} />
+            <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
+            <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
+            <Route path="nha-tuyen-dung/chinh-sua" element={<EditJob />} />
+          </Route>
+        </Routes>
       </div>
     </div>
   );

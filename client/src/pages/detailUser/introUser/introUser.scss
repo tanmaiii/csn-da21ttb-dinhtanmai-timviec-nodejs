@@ -1,6 +1,6 @@
-@use "../../scss/" as *;
+@use "../../../scss/" as *;
 
-.introCompany {
+.introUser {
   @include themify($themes) {
     &__wrapper {
       &__header {
@@ -33,11 +33,10 @@
       }
       &__body {
         &__content {
-          p {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 400;
-          }
+          color: themed("text1");
+          font-size: $font-size-s;
+          color: themed("text1");
+          font-weight: 400;
         }
         &__edit {
           .quill {
@@ -57,8 +56,8 @@
               border-bottom-left-radius: $border-radius-10;
               border-bottom-right-radius: $border-radius-10;
               .ql-editor {
-                 overflow-y: scroll;
-                 height: 400px;
+                overflow-y: scroll;
+                height: 400px;
                 font-size: $font-size-s;
                 min-height: 300px;
               }
