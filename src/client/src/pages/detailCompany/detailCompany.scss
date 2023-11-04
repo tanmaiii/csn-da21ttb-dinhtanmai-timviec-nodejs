@@ -1,0 +1,286 @@
+@use "../../scss/" as *;
+
+.detailCompany {
+  @include themify($themes) {
+    margin-top: $height-header;
+    min-height: 100vh;
+    padding: $spacing 0;
+    .container {
+      .detailCompany__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        &__header {
+          background-color: themed("bg2");
+          padding: 30px;
+          border-radius: $border-radius-20;
+          @include flex(end, space-between);
+          width: 100%;
+          @include mobile {
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+          }
+          &__main {
+            @include flex(end, unset);
+            gap: 20px;
+            @include mobile {
+              flex-direction: column;
+            }
+            @include mobile {
+              @include flex(center, unset);
+            }
+            &__image {
+              --size: 200px;
+              width: var(--size);
+              height: var(--size);
+              overflow: hidden;
+              border-radius: $border-radius-10;
+              @include flex(center, center);
+              border: 1px solid themed("border");
+              box-shadow: themed("box-shadow");
+              position: relative;
+              img {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+              }
+              &:hover {
+                .detailCompany__wrapper__header__main__image__edit {
+                  display: flex;
+                }
+              }
+              &__edit {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba($color: #000000, $alpha: 0.2);
+                @include flex(center, center);
+                transition: all 0.3s;
+                cursor: pointer;
+                display: none;
+                i {
+                  font-size: 3rem;
+                  color: $color-white;
+                }
+                input {
+                  display: none;
+                }
+              }
+            }
+            &__text {
+              @include flex(unset, unset);
+              flex-direction: column;
+              gap: 8px;
+              padding: 10px 0;
+              @include mobile {
+                align-items: center;
+              }
+              & > div {
+                @include flex(center, unset);
+                gap: 8px;
+                i {
+                  --size: 20px;
+                  width: var(--size);
+                  height: var(--size);
+                  color: themed("text2");
+                  font-size: $font-size-s;
+                  @include flex(center, center);
+                }
+                span {
+                  font-size: $font-size-s;
+                  color: themed("text2");
+                  font-weight: 400;
+                }
+                a {
+                  color: $color-blue;
+                  &:hover {
+                    text-decoration: underline;
+                  }
+                }
+              }
+              &__name {
+                font-size: $font-size-l;
+                color: themed("text1");
+                font-weight: 500;
+              }
+            }
+          }
+          &__button {
+            @include flex(center, unset);
+            flex-direction: column;
+            gap: 10px;
+            span {
+              font-size: $font-size-s;
+              color: themed("text1");
+              font-weight: 500;
+            }
+            button {
+              @include button($color-white, $color-primary);
+            }
+          }
+          &__button__follow {
+            @include flex(center, unser);
+            gap: 10px;
+            flex-direction: column;
+            span {
+              font-size: $font-size-s;
+              font-weight: 500;
+              color: themed("text2");
+            }
+            .btn-follow {
+              @include button($color-white, $color-primary);
+            }
+            .btn-unFollow {
+              @include button-line(themed("text1"), $color-white);
+            }
+          }
+        }
+        &__body {
+          display: flex;
+          &__left {
+            background-color: themed("bg2");
+            padding: 20px;
+            border-radius: $border-radius-20;
+            &__control {
+              @include flex(center, unset);
+              gap: 8px;
+              height: 100%;
+              overflow: hidden;
+              @include mobile {
+                display: none;
+              }
+              button {
+                height: 100%;
+                padding: 10px 20px;
+                // background-color: themed("bg1");
+                border-radius: $border-radius-10;
+                font-size: $font-size-s;
+                border: 1px solid transparent;
+                color: themed("text1");
+                cursor: pointer;
+                transition: all 0.3s;
+                span {
+                  @include text(3);
+                }
+                &:hover {
+                  background-color: themed("bg1");
+                  border: 1px solid themed("border");
+                }
+                &.active {
+                  border: 1px solid themed("border");
+                  background-color: themed("bg1");
+                }
+              }
+            }
+
+            &__control-mobile {
+              @include flex(center, unset);
+              gap: 6px;
+              height: 100%;
+              display: none;
+              @include mobile {
+                display: flex;
+              }
+              button {
+                height: 100%;
+                padding: 16px;
+                border-radius: $border-radius-10;
+                border: 1px solid transparent;
+                font-size: $font-size-s;
+                color: themed("text1");
+                cursor: pointer;
+                @include flex(center, unset);
+                gap: 8px;
+                span {
+                  @include text(3);
+                }
+                &.active {
+                  background-color: themed("bg1");
+                  border: 1px solid themed("border");
+                }
+                &:hover {
+                  background-color: themed("bg1");
+                  border: 1px solid themed("border");
+                }
+              }
+
+              .button__more {
+                position: relative;
+                &__dropdown {
+                  position: absolute;
+                  width: max-content;
+                  right: 0;
+                  top: 100%;
+                  @include flex(center, unset);
+                  flex-direction: column;
+                  background-color: themed("bg2");
+                  box-shadow: themed("box-shadow");
+                  border-radius: $border-radius-10;
+                  z-index: 99;
+                  padding: 8px;
+                  gap: 8px;
+                  button {
+                    width: 100%;
+                  }
+                }
+              }
+            }
+
+            &__content {
+              padding: 20px 0;
+              .companiesSave {
+                flex-wrap: wrap;
+              }
+              .jobsSave {
+                flex-wrap: wrap;
+              }
+            }
+          }
+          &__right {
+            background-color: themed("bg2");
+            min-height: 100px;
+            border-radius: $border-radius-10;
+            padding: 20px;
+            overflow: hidden;
+            h6 {
+              font-size: $font-size-s;
+              color: themed("text1");
+              font-weight: 500;
+              width: 100%;
+              padding: 6px 0;
+            }
+            &__web {
+              margin-bottom: 20px;
+              a {
+                color: $color-blue;
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+            }
+            &__list {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 10px;
+              a {
+                font-size: $font-size-m;
+                transition: all 0.3s;
+                i {
+                  color: themed("text1");
+                }
+                &:hover {
+                  i {
+                    color: themed("text2");
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

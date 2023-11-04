@@ -1,0 +1,62 @@
+@forward "./variavles";
+@forward "./mixin";
+@forward "./breakpoint";
+@forward "./grid";
+
+@use "./variavles" as *;
+@use "./mixin" as *;
+@use "./breakpoint" as *;
+@use "./grid" as *;
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  @include tablet {
+    width: 100%;
+    padding: 0 20px;
+  }
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.err {
+  font-size: $font-size-s;
+  background-color:  $color-red;
+  color: $color-white;
+  border-radius: $border-radius-10;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-weight: 700;
+  width: 100%;
+}
+
+.mess {
+  font-size: $font-size-s;
+  background-color:  $color-green;
+  color: $color-white;
+  border-radius: $border-radius-10;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-weight: 700;
+}
+
+button,
+input,
+textarea,
+select {
+  outline: unset;
+  border: unset;
+  background-color: unset;
+  cursor: pointer;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  color: unset;
+  text-decoration: unset;
+}

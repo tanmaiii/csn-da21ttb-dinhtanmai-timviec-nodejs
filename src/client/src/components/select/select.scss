@@ -1,0 +1,32 @@
+@use "../../scss/" as *;
+
+.select {
+  @include themify($themes) {
+    width: 360px;
+    @include mobile{
+      width: 100%;
+    }
+    .css-b62m3t-container {
+      .css-13cymwt-control,
+      .css-t3ipsp-control {
+        cursor: pointer;
+        background-color: transparent;
+        padding: 10px;
+        border-radius: $border-radius-10;
+        border: 1px solid themed("border");
+        font-size: $font-size-s;
+        color: themed("text1");
+        outline: none;
+        .css-1fdsijx-ValueContainer {
+          .css-1dimb5e-singleValue,
+          .css-166bipr-Input {
+            color: themed("text1");
+          }
+        }
+      }
+      .css-1nmidp5-control {
+        background-color: themed('bg1');
+      }
+    }
+  }
+}

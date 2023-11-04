@@ -1,0 +1,41 @@
+@use "../../scss/" as *;
+
+.auth {
+  @include themify($themes) {
+    @include flex(center, unset);
+    flex-direction: column;
+    margin-top: $height-header;
+    min-height: 100vh;
+    h2 {
+      padding: 20px;
+      color: themed("text1");
+      font-size: $font-size-l;
+      margin-bottom: $spacing;
+    }
+    .container {
+      width: 100%;
+      .auth__container {
+        width: 100%;
+        background-color: themed("bg2");
+        padding: 20px;
+        @include flex(center, unset);
+        border-radius: $border-radius;
+        &__left {
+          padding: $spacing;
+          img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+          }
+        }
+        &__right {
+          padding: $spacing;
+          border-radius: $border-radius;
+          @include mobile {
+            padding: 20px;
+          }
+        }
+      }
+    }
+  }
+}

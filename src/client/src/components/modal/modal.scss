@@ -1,0 +1,59 @@
+@use "../../scss/" as *;
+
+.Modal {
+  @include themify($themes) {
+    width: 100%;
+    height: 100%;
+     background-color: themed('rgba');
+    position: fixed;
+    top: 0;
+    left: 0;
+    @include flex(center, center);
+    display: none;
+    z-index: 99999;
+    &.active {
+      display: flex;
+    }
+    &__wrapper {
+      background-color: themed("bg2");
+      border-radius: $border-radius-10;
+      min-width: 60vw;
+      min-height: 400px;
+      max-height: calc(100vh - $height-header);
+      max-width: 90vw;
+      overflow: hidden;
+      box-shadow: themed('box-shadow');
+      &__header {
+        @include flex(center, space-between);
+        padding: 20px;
+        h4 {
+          font-size: $font-size-m;
+          color: themed("text1");
+        }
+        .btn_close {
+          cursor: pointer;
+          background-color: transparent;
+          border-radius: 50%;
+          padding: 10px;
+          @include flex(center, center);
+          transition: all 0.3s;
+          user-select: none;
+          color: themed("text1");
+          &:hover {
+            background-color: themed("bg1");
+          }
+          i {
+            @include flex(center, center);
+            --size: 20px;
+            width: var(--size);
+            height: var(--size);
+            font-size: $font-size-l;
+          }
+        }
+      }
+      &__body {
+        padding-bottom: 20px;
+      }
+    }
+  }
+}
