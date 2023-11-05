@@ -1,46 +1,149 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./postJob.scss";
 import jobs from "../../config/jobs";
-import province from "../../config/province";
-import career from "../../config/career";
 import ReactQuill from "react-quill";
 import Select from "../../components/select/Select";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
+import { makeRequest } from "../../axios";
 
-const optionsDegree = [
+const typeWorks = [
+  { id: 1, name: "Nhân viên chính thức" },
+  { id: 2, name: "Bán thời gian" },
+  { id: 3, name: "Tự do" },
+  { id: 4, name: "Thực tập" },
+];
+
+const levelJob = [
   {
-    label: "Không yêu cầu",
+    id: 1,
+    name: "Không yêu cầu",
     value: "Không yêu cầu",
   },
   {
-    label: "Đại học",
+    id: 2,
+    name: "Đại học",
     value: "Đại học",
   },
   {
-    label: "Cao đẳng",
+    id: 3,
+    name: "Cao đẳng",
     value: "Cao đẳng",
   },
   {
-    label: "Trung cấp",
+    id: 4,
+    name: "Trung cấp",
     value: "Trung cấp",
   },
   {
-    label: "Trung học",
+    id: 5,
+    name: "Trung học",
     value: "Trung học",
   },
 ];
 
 export default function PostJob() {
   const { currentCompany } = useAuth();
+  const [fields, setFields] = useState();
+  const [provinces, setProvinces] = useState();
   const navigate = useNavigate();
+  const [err, setErr] = useState();
+  const [mess, setMess] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const [selectedOptionProvince, setSelectedOptionProvince] = useState();
+  const [selectedOptionFields, setSelectedOptionFields] = useState();
+  const [sex, setSex] = useState("cả hai");
+  const [request, setRequest] = useState("");
+  const [desc, setDesc] = useState("");
+  const [other, setOther] = useState("");
+  const [salaryMin, setSalaryMin] = useState(0);
+  const [salaryMax, setSalaryMax] = useState(0);
+  const [salaryDiscuss, setSalaryDiscuss] = useState(false);
+  const [typeWork, setTypeWork] = useState();
+  const [level, setLevel] = useState();
+
+  const [inputs, setInputs] = useState({
+    idField: "",
+    idProvince: "",
+    nameJob: "",
+    request: "",
+    desc: "",
+    other: "",
+    salaryMin: "",
+    salaryMax: "",
+    typeWork: "",
+    level: "",
+    sex: "",
+  });
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async () => {
+    setErr();
+    setMess();
+
+    if (salaryMax < salaryMin)
+      return setErr("Tiền lương tối đa không nhỏ hơn tiền lương tối thiểu.");
+
+    try {
+      setLoading(true);
+      inputs.idField = selectedOptionFields.fId;
+      inputs.idProvince = selectedOptionProvince.pId;
+      inputs.sex = sex;
+      inputs.desc = desc;
+      inputs.request = request;
+      inputs.other = other;
+      inputs.typeWork = typeWork;
+      inputs.level = level;
+      if (salaryDiscuss == true) {
+        inputs.salaryMin = 0;
+        inputs.salaryMax = 0;
+      } else {
+        inputs.salaryMin = salaryMin;
+        inputs.salaryMax = salaryMax;
+      }
+      console.log(inputs);
+      await makeRequest.post("/job", inputs);
+      setMess("Đăng thành công!");
+    } catch (err) {
+      setErr(err?.response?.data);
+    }
+  };
+
+  useEffect(() => {
+    const getFields = async () => {
+      try {
+        const res = await makeRequest("/fields");
+        setFields(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getFields();
+  }, []);
+
+  useEffect(() => {
+    const getProvinces = async () => {
+      try {
+        const res = await makeRequest("/provinces");
+        setProvinces(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProvinces();
+  }, []);
 
   useEffect(() => {
     window.scroll(0, 0);
-  });
+  }, []);
 
   useEffect(() => {
-    navigate("/");
+    if (!currentCompany) return navigate("/");
   }, [currentCompany]);
 
   return (
@@ -58,19 +161,32 @@ export default function PostJob() {
                 <div className="postJob__wrapper__body__form__content__item">
                   <h6>Chức danh tuyển dụng</h6>
                   <div className="postJob__wrapper__body__form__content__item__input">
-                    <input type="text" placeholder="Chức danh" />
+                    <input
+                      onChange={handleChange}
+                      name="nameJob"
+                      type="text"
+                      placeholder="Chức danh"
+                    />
                   </div>
                 </div>
                 <div className="postJob__wrapper__body__form__content__item">
                   <h6>Loại ngành nghề</h6>
                   <div className="postJob__wrapper__body__form__content__item__input">
-                    <Select options={career} />
+                    <Select
+                      options={fields && fields}
+                      selectedOption={selectedOptionFields}
+                      setSelectedOption={setSelectedOptionFields}
+                    />
                   </div>
                 </div>
                 <div className="postJob__wrapper__body__form__content__item">
                   <h6>Địa chỉ làm việc</h6>
                   <div className="postJob__wrapper__body__form__content__item__input">
-                    <Select options={province} />
+                    <Select
+                      options={provinces && provinces}
+                      selectedOption={selectedOptionProvince}
+                      setSelectedOption={setSelectedOptionProvince}
+                    />
                   </div>
                 </div>
               </div>
@@ -83,60 +199,112 @@ export default function PostJob() {
               <div className="postJob__wrapper__body__form__content">
                 <div className="postJob__wrapper__body__form__content__item  postJob__wrapper__body__form__content__item__sex">
                   <h6>Giới tính</h6>
-                  <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__sex__input">
-                    <div className="postJob__wrapper__body__form__content__item__input__child postJob__wrapper__body__form__content__item__sex__input__item">
-                      <input type="radio" placeholder="Chức danh" />
-                      <label htmlFor="">Nam/Nữ</label>
+                  <div className="postJob__wrapper__body__form__content__item__input">
+                    <div className="postJob__wrapper__body__form__content__item__input__child">
+                      <input
+                        onChange={(e) => setSex(e.target.value)}
+                        name="sex"
+                        value={"nam"}
+                        type="radio"
+                        id="sex-nam"
+                      />
+                      <label htmlFor="sex-nam">Nam</label>
                     </div>
-                    <div className="postJob__wrapper__body__form__content__item__input__child postJob__wrapper__body__form__content__item__sex__input__item">
-                      <input type="radio" placeholder="Chức danh" />
-                      <label htmlFor="">Nam</label>
+                    <div className="postJob__wrapper__body__form__content__item__input__child">
+                      <input
+                        onChange={(e) => setSex(e.target.value)}
+                        name="sex"
+                        value={"nữ"}
+                        type="radio"
+                        id="sex-nu"
+                      />
+                      <label htmlFor="sex-nu">Nữ</label>
                     </div>
-                    <div className="postJob__wrapper__body__form__content__item__input__child postJob__wrapper__body__form__content__item__sex__input__item">
-                      <input type="radio" placeholder="Chức danh" />
-                      <label htmlFor="">Nữ</label>
+                    <div className="postJob__wrapper__body__form__content__item__input__child">
+                      <input
+                        defaultChecked
+                        onChange={(e) => setSex(e.target.value)}
+                        name="sex"
+                        value={"cả hai"}
+                        type="radio"
+                        id="sex-nam-nu"
+                      />
+                      <label htmlFor="sex-nam-nu">Nam/Nữ</label>
                     </div>
                   </div>
                 </div>
                 <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__scale">
                   <h6>Mức lương</h6>
                   <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__scale__input">
-                    <input type="text" placeholder="Tối thiểu" />
-                    <input type="text" placeholder="Tối đa" />
+                    <input
+                      type="number"
+                      onChange={(e) => setSalaryMin(parseInt(e.target.value))}
+                      name="salaryMin"
+                      value={salaryMin}
+                      placeholder="Tối thiểu"
+                    />
+                    <input
+                      type="number"
+                      onChange={(e) => setSalaryMax(parseInt(e.target.value))}
+                      name="salaryMax"
+                      value={salaryMax}
+                      placeholder="Tối đa"
+                    />
                     <div className="postJob__wrapper__body__form__content__item__input__child">
-                      <input type="checkbox" name="" id="" />
-                      <label htmlFor="">Thảo thuận</label>
+                      <input
+                        type="checkbox"
+                        name=""
+                        id="salaryDiscuss"
+                        onChange={(e) => setSalaryDiscuss(e.target.checked)}
+                      />
+                      <label htmlFor="salaryDiscuss">Thảo thuận</label>
                     </div>
                   </div>
                 </div>
                 <div className="postJob__wrapper__body__form__content__item  postJob__wrapper__body__form__content__item__typeWork">
                   <h6>Hình thức làm việc</h6>
                   <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__typeWork__input">
-                    <div className="postJob__wrapper__body__form__content__item__input__child postJob__wrapper__body__form__content__item__typeWork__input__item">
-                      <input type="checkbox" placeholder="Chức danh" />
-                      <label htmlFor="">Nhân viên chính thức</label>
-                    </div>
-                    <div className="postJob__wrapper__body__form__content__item__input__child postJob__wrapper__body__form__content__item__typeWork__input__item">
-                      <input type="checkbox" placeholder="Chức danh" />
-                      <label htmlFor="">Bán thời gian</label>
-                    </div>
-                    <div className="postJob__wrapper__body__form__content__item__input__child postJob__wrapper__body__form__content__item__typeWork__input__item">
-                      <input type="checkbox" placeholder="Chức danh" />
-                      <label htmlFor="">Tự do</label>
-                    </div>
-                    <div className="postJob__wrapper__body__form__content__item__input__child postJob__wrapper__body__form__content__item__typeWork__input__item">
-                      <input type="checkbox" placeholder="Chức danh" />
-                      <label htmlFor="">Thực tập</label>
-                    </div>
+                    {typeWorks.map((item, i) => (
+                      <div
+                        key={i}
+                        className="postJob__wrapper__body__form__content__item__input__child"
+                      >
+                        <input
+                          className="typeWork__input"
+                          name={`typeWork`}
+                          id={`typeWork${item.id}`}
+                          type="radio"
+                          value={item.name}
+                          onChange={(e) => setTypeWork(e.target.value)}
+                        />
+                        <label htmlFor={`typeWork${item.id}`}>
+                          {item.name}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="postJob__wrapper__body__form__content__item">
+                <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__jobLevel">
                   <h6>Bằng cấp</h6>
-                  <div className="postJob__wrapper__body__form__content__item__input">
-                    <Select
-                      options={optionsDegree}
-                      defaultValue={optionsDegree[0]}
-                    />
+                  <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__jobLevel__input">
+                    {levelJob.map((item, i) => (
+                      <div
+                        key={i}
+                        className="postJob__wrapper__body__form__content__item__input__child "
+                      >
+                        <input
+                          className="jobLevel__input"
+                          name={`jobLevel`}
+                          id={`jobLevel${item.id}`}
+                          type="radio"
+                          value={item.name}
+                          onChange={(e) => setLevel(e.target.value)}
+                        />
+                        <label htmlFor={`jobLevel${item.id}`}>
+                          {item.name}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -147,7 +315,7 @@ export default function PostJob() {
                 Mô tả công việc
               </h2>
               <div className="postJob__wrapper__body__form__content">
-                <ReactQuill theme="snow" />
+                <ReactQuill theme="snow" value={desc} onChange={setDesc} />
               </div>
             </div>
             {/* yêu cầu */}
@@ -156,7 +324,11 @@ export default function PostJob() {
                 Yêu cầu công việc
               </h2>
               <div className="postJob__wrapper__body__form__content">
-                <ReactQuill theme="snow" />
+                <ReactQuill
+                  theme="snow"
+                  value={request}
+                  onChange={setRequest}
+                />
               </div>
             </div>
             {/* khác */}
@@ -165,11 +337,13 @@ export default function PostJob() {
                 Thông tin khác
               </h2>
               <div className="postJob__wrapper__body__form__content">
-                <ReactQuill theme="snow" />
+                <ReactQuill theme="snow" value={other} onChange={setOther} />
               </div>
             </div>
+            {mess && <p className="mess">{mess}</p>}
+            {err && <p className="err">{err}</p>}
             <div className="postJob__wrapper__body__button">
-              <button>Đăng</button>
+              <button onClick={handleSubmit}>Đăng</button>
             </div>
           </div>
         </div>

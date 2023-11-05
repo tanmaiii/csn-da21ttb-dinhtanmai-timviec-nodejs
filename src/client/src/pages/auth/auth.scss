@@ -17,7 +17,7 @@
       .auth__container {
         width: 100%;
         background-color: themed("bg2");
-        padding: 20px;
+        // padding: 20px;
         @include flex(center, unset);
         border-radius: $border-radius;
         &__left {
@@ -31,8 +31,15 @@
         &__right {
           padding: $spacing;
           border-radius: $border-radius;
+          @include flex(center, center);
           @include mobile {
             padding: 20px;
+          }
+
+          .btn-auth{
+            @include button($color-white, $color-primary);
+            width: 100%;
+            min-height: 50px;
           }
         }
       }

@@ -1,16 +1,25 @@
 import bcrypt from "bcrypt";
 import { db } from "../../config/connect.js";
-import checkEmail from '../../middlewares/checkEmail.middleware.js'
+import checkEmail from "../../middlewares/checkEmail.middleware.js";
 
 export const register = (req, res) => {
-  const { nameAdmin, nameCompany, email, password, phone, address, scale } = req.body;
+  const { nameAdmin, nameCompany, email, password, phone, idProvince, scale } =
+    req.body;
 
   const q = "SELECT * FROM companies WHERE email = ?";
 
-  if (!nameAdmin || !nameCompany || !email || !password || !phone || !address || !scale) 
+  if (
+    !nameAdmin ||
+    !nameCompany ||
+    !email ||
+    !password ||
+    !phone ||
+    !idProvince ||
+    !scale
+  )
     return res.status(409).json("Các trường không để rỗng!");
 
-  if(!checkEmail(email)) return res.status(409).json("Email không hợp lệ.");
+  if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ.");
 
   db.query(q, email, (err, data) => {
     console.log(data);
@@ -21,9 +30,17 @@ export const register = (req, res) => {
     const hashedPassword = bcrypt.hashSync(password, salt);
 
     const q =
-      "INSERT INTO companies (`nameAdmin`, `nameCompany`, `email`, `password`, `phone`, `address`, `scale`) VALUE (?)";
+      "INSERT INTO companies (`nameAdmin`, `nameCompany`, `email`, `password`, `phone`, `idProvince`, `scale`) VALUE (?)";
 
-    const values = [nameAdmin, nameCompany, email, hashedPassword, phone , address, scale ];
+    const values = [
+      nameAdmin,
+      nameCompany,
+      email,
+      hashedPassword,
+      phone,
+      idProvince,
+      scale,
+    ];
 
     db.query(q, [values], (err, data) => {
       console.log(data);

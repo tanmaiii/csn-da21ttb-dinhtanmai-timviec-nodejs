@@ -49,7 +49,7 @@ export default function DetailJob({job}) {
                 </button>
               </div>
               <div className={`detailJob__wrapper__main__important`}>
-                <div className="detailJob__wrapper__main__important__col col pc-6">
+                <div className="detailJob__wrapper__main__important__col col pc-6 t-6 m-12">
                   <div className="item">
                     <div className="header">
                       <i class="fa-solid fa-location-dot"></i>
@@ -78,7 +78,7 @@ export default function DetailJob({job}) {
                     </div>
                   </div>
                 </div>
-                <div className="detailJob__wrapper__main__important__col col pc-6">
+                <div className="detailJob__wrapper__main__important__col col pc-6 t-6 m-12">
                   <div className="item">
                     <div className="header">
                       <i class="fa-solid fa-suitcase"></i>

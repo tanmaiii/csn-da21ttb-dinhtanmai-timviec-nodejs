@@ -22,7 +22,7 @@
 
 .err {
   font-size: $font-size-s;
-  background-color:  $color-red;
+  background-color: $color-red;
   color: $color-white;
   border-radius: $border-radius-10;
   margin-bottom: 20px;
@@ -33,7 +33,7 @@
 
 .mess {
   font-size: $font-size-s;
-  background-color:  $color-green;
+  background-color: $color-green;
   color: $color-white;
   border-radius: $border-radius-10;
   margin-bottom: 20px;
@@ -59,4 +59,53 @@ li {
 a {
   color: unset;
   text-decoration: unset;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.btn-loading {
+  padding: 10px 16px;
+  background-color: $color-primary;
+  color: $color-white;
+  font-weight: 500;
+  border-radius: $border-radius-10;
+  font-size: $font-size-s;
+  transition: all 0.3s;
+  width: 100%;
+  height: 50px;
+  @include flex(center, center);
+  cursor:unset;
+  .loading {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background-color: $color-white;
+    animation: loading 1.5s linear infinite;
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-70px, 0) rotate(-180deg);
+  }
+  50% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+  75% {
+    transform: translate(70px, 0) rotate(180deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
 }

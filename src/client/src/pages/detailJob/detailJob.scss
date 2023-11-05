@@ -52,14 +52,21 @@
             }
           }
           &__important {
-            padding: 20px;
+            padding:20px;
             width: 100%;
             background-color: #f1ffed;
             display: flex;
+            flex-wrap: wrap;
             &.dark {
               background-color: #30336b;
             }
             &__col {
+              @include mobile{
+                padding: 0;
+                &:nth-child(1){
+                  border-bottom: 1px solid themed("border");
+                }
+              }
               .item {
                 padding: 10px;
                 border-bottom: 1px solid themed("border");

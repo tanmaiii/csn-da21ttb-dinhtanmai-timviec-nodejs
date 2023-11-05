@@ -6,16 +6,17 @@ import { useAuth } from "../../context/authContext";
 import checkEmail from "../../config/checkEmail";
 
 export default function SigninCompany() {
-  const navigate = useNavigate();
-
   const { currentCompany, loginCompany } = useAuth();
   const [err, setErr] = useState("");
   const [mess, setMess] = useState("");
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(true);
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ export default function SigninCompany() {
 
   const handleSubmit = async () => {
     setErr("");
+    setLoading(true);
     const res = async () => {
       try {
         await loginCompany(inputs);
@@ -32,6 +34,7 @@ export default function SigninCompany() {
       }
     };
     res();
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -55,6 +58,7 @@ export default function SigninCompany() {
       {err && <p className="err">{err}</p>}
       <div className="signinCompany__body">
         <div className="item">
+          <i class="fa-solid fa-envelope"></i>
           <input
             autocomplete="none"
             type="email"
@@ -66,6 +70,7 @@ export default function SigninCompany() {
           <label htmlFor="email">Email</label>
         </div>
         <div className="item">
+          <i class="fa-solid fa-lock"></i>
           <input
             autocomplete="none"
             type={`${show ? "password" : "text"}`}
@@ -83,9 +88,15 @@ export default function SigninCompany() {
             )}
           </span>
         </div>
-        <button className="btn-signinCompany" onClick={handleSubmit}>
-          Đăng nhập
-        </button>
+        {!loading ? (
+          <button className="btn-auth" onClick={handleSubmit}>
+            Đăng nhập
+          </button>
+        ) : (
+          <button className="btn-loading">
+            <div className="loading"></div>
+          </button>
+        )}
         <span className="link-signup">
           Bạn chưa có tài khoản ?
           <Link to={"/nha-tuyen-dung/dang-ky"}> Đăng ký</Link>

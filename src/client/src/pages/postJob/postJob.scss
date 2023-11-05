@@ -10,7 +10,7 @@
         background-color: themed("bg2");
         border-radius: $border-radius-20;
         padding: 20px;
-        @include mobile{
+        @include mobile {
           padding: 10px;
         }
         &__header {
@@ -32,7 +32,7 @@
             &__content {
               padding: 10px;
               &__item {
-                padding: 10px 0;
+                margin-bottom: 20px;
                 h6 {
                   font-size: $font-size-s;
                   color: themed("text1");
@@ -46,12 +46,11 @@
                     width: 360px;
                   }
                   input {
-                    padding: 16px;
-                    background-color: themed("bg1");
+                    border: 1px solid themed("border");
                     border-radius: $border-radius-10;
+                    padding: 16px;
                     width: 360px;
                     font-size: $font-size-s;
-                    border: 1px solid themed("border");
                     color: themed("text1");
                   }
                   input[type="checkbox"] {
@@ -80,6 +79,7 @@
                     label {
                       font-size: $font-size-s;
                       color: themed("text1");
+                      cursor: pointer;
                     }
                   }
                 }

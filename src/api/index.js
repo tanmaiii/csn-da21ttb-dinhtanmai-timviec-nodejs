@@ -3,13 +3,16 @@ import { db } from "./config/connect.js";
 
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import cors from 'cors'
+import cors from "cors";
 
 import authUserRouter from "./routers/authUser.router.js";
 import authCompanyRouter from "./routers/authCompany.router.js";
 import userRouter from "./routers/user.router.js";
 import companyRouter from "./routers/company.router.js";
-import postRouter from "./routers/post.router.js";
+import jobRouter from "./routers/job.router.js";
+import fieldsRouter from "./routers/fields.router.js";
+import provinesRouter from "./routers/provinces.router.js";
+
 const app = express();
 
 app.use((req, res, next) => {
@@ -41,7 +44,9 @@ app.use("/api/authUser", authUserRouter);
 app.use("/api/authCompany", authCompanyRouter);
 app.use("/api/user", userRouter);
 app.use("/api/company", companyRouter);
-app.use("api/post", postRouter);
+app.use("/api/job", jobRouter);
+app.use("/api/fields", fieldsRouter);
+app.use("/api/provinces", provinesRouter);
 
 app.listen(8800, (req, res) => {
   console.log("Backend running");

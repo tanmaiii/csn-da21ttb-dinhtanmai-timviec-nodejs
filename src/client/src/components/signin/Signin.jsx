@@ -10,6 +10,7 @@ export default function Signin() {
   const { loginUser, currentUser } = useAuth();
   const [show, setShow] = useState(true);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
   const [mess, setMess] = useState("");
 
@@ -24,6 +25,7 @@ export default function Signin() {
   };
 
   const handleSubmit = () => {
+    setLoading(true);
     setErr("");
     const res = async () => {
       try {
@@ -32,6 +34,7 @@ export default function Signin() {
         setErr(err?.response?.data);
       }
     };
+    setLoading(false);
     res();
   };
 
@@ -55,6 +58,7 @@ export default function Signin() {
       {err && <p className="err">{err}</p>}
       <div className="signin__body">
         <div className="item">
+          <i class="fa-solid fa-envelope"></i>
           <input
             autoComplete="none"
             type="email"
@@ -66,6 +70,7 @@ export default function Signin() {
           <label htmlFor="email">Email</label>
         </div>
         <div className="item">
+          <i class="fa-solid fa-lock"></i>
           <input
             autoComplete="none"
             type={`${show ? "password" : "text"}`}
@@ -83,9 +88,16 @@ export default function Signin() {
             )}
           </span>
         </div>
-        <button className="btn-signin" onClick={handleSubmit}>
-          Đăng nhập
-        </button>
+        {!loading ? (
+          <button className="btn-auth" onClick={handleSubmit}>
+            Đăng ký
+          </button>
+        ) : (
+          <button className="btn-loading">
+            <div className="loading"></div>
+          </button>
+        )}
+
         <span className="link-signup">
           Bạn chưa có tài khoản ?
           <Link to={"/nguoi-dung/dang-ky"}> Đăng ký</Link>

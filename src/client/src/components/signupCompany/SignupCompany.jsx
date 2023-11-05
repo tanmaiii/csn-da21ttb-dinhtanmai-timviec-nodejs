@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import logo from "../../assets/images/logoJobQuest.png";
 import "./signupCompany.scss";
 import { Link, useNavigate } from "react-router-dom";
-import province from "../../config/province";
+// import province from "../../config/province";
 import scale from "../../config/scale";
 import SearchProvince from "../../components/searchProvince/SearchProvince";
 import Select from "../select/Select";
@@ -11,12 +11,12 @@ import { makeRequest } from "../../axios";
 export default function SignupCompany() {
   const [showPass, setShowPass] = useState(true);
   const [showRePass, setShowRePass] = useState(true);
-  const [openScale, setOpenScale] = useState(false);
-  const [scaleActive, setScaleActive] = useState("Số lượng");
   const [selectedOptionProvince, setSelectedOptionProvince] = useState();
   const [selectedOptionScale, setSelectedOptionScale] = useState();
+  const [provinces , setProvinces] = useState();
   const [err, setErr] = useState();
   const [mess, setMess] = useState();
+  const [loading, setLoading] = useState(false);
   const passwordRef = useRef();
   const rePasswordRef = useRef();
   const navigate = useNavigate();
@@ -27,6 +27,7 @@ export default function SignupCompany() {
     password: "",
     nameCompany: "",
     nameAdmin: "",
+    idProvince: "",
   });
 
   const handleChange = (e) => {
@@ -41,10 +42,12 @@ export default function SignupCompany() {
       return setErr("Mật khẩu từ 6 kí tự trở lên.");
     if (passwordRef.current.value !== rePasswordRef.current.value)
       return setErr("Nhập lại mật khẩu không trùng khớp.");
-    if(!selectedOptionScale || !selectedOptionProvince) return  setErr("Chọn quy mô mà địa chỉ.");
+    if (!selectedOptionScale || !selectedOptionProvince)
+      return setErr("Chọn quy mô mà địa chỉ.");
     try {
+      setLoading(true);
       inputs.scale = selectedOptionScale.name;
-      inputs.address = selectedOptionProvince.name;
+      inputs.idProvince = selectedOptionProvince.pId;
       console.log(inputs);
       await makeRequest.post("/authCompany/register", inputs);
       setMess("Đăng ký thành công.");
@@ -52,7 +55,20 @@ export default function SignupCompany() {
     } catch (err) {
       setErr(err?.response?.data);
     }
+    setLoading(false);
   };
+
+  useEffect(() => {
+    const getProvinces = async () => {
+      try {
+        const res = await makeRequest("/provinces");
+        setProvinces(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProvinces();
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -71,6 +87,7 @@ export default function SignupCompany() {
       <div className="signupCompany__body">
         <h4 className="header">Thông tin đăng nhập</h4>
         <div className="item">
+          <i class="fa-solid fa-envelope"></i>
           <input
             onChange={handleChange}
             placeholder=" "
@@ -83,6 +100,7 @@ export default function SignupCompany() {
           <label htmlFor="email">Email</label>
         </div>
         <div className="item">
+          <i class="fa-solid fa-phone"></i>
           <input
             onChange={handleChange}
             placeholder=" "
@@ -95,6 +113,7 @@ export default function SignupCompany() {
           <label htmlFor="phone">Số điện thoại</label>
         </div>
         <div className="item">
+          <i class="fa-solid fa-lock"></i>
           <input
             onChange={handleChange}
             placeholder=" "
@@ -118,6 +137,7 @@ export default function SignupCompany() {
           </span>
         </div>
         <div className="item">
+          <i class="fa-solid fa-lock"></i>
           <input
             placeholder=" "
             autoComplete="none"
@@ -139,6 +159,7 @@ export default function SignupCompany() {
         </div>
         <h4 className="header">Thông tin công ty</h4>
         <div className="item">
+          <i class="fa-solid fa-building"></i>
           <input
             onChange={handleChange}
             placeholder=" "
@@ -151,6 +172,7 @@ export default function SignupCompany() {
           <label htmlFor="nameCompany">Tên công ty</label>
         </div>
         <div className="item">
+          <i class="fa-solid fa-user"></i>
           <input
             onChange={handleChange}
             placeholder=" "
@@ -176,15 +198,21 @@ export default function SignupCompany() {
           <div className="item__province">
             <Select
               placeholder="Địa chỉ"
-              options={province}
+              options={provinces}
               selectedOption={selectedOptionProvince}
               setSelectedOption={setSelectedOptionProvince}
             />
           </div>
         </div>
-        <button className="btn-signupCompany" onClick={handleSumit}>
-          Đăng ký
-        </button>
+        {!loading ? (
+          <button className="btn-auth" onClick={handleSumit}>
+            Đăng ký
+          </button>
+        ) : (
+          <button className="btn-loading">
+            <div className="loading"></div>
+          </button>
+        )}
         <span className="link-signin">
           Bạn đã có tài khoản ?
           <Link to={"/nha-tuyen-dung/dang-nhap"}> Đăng nhập</Link>

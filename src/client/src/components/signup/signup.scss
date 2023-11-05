@@ -21,28 +21,83 @@
       h2 {
         font-size: $font-size-l;
         color: themed("primary");
+        text-align: center;
         font-weight: 500;
         margin-bottom: 10px;
       }
     }
     &__body {
       width: 100%;
+      // .item {
+      //   @include flex(unset, unset);
+      //   margin-bottom: 20px;
+      //   flex-direction: column;
+      //   gap: 8px;
+      //   width: 100%;
+      //   position: relative;
+
+      //   input {
+      //     background-color: themed("bg2");
+      //     padding: 20px 20px;
+      //     font-size: $font-size-s;
+      //     width: 100%;
+      //     border-radius: $border-radius;
+      //     border: 1px solid themed("border");
+      //     color: themed("text1");
+      //     &:focus {
+      //       border-color: $color-primary;
+      //     }
+      //     &:not(:placeholder-shown) + label,
+      //     &:focus + label {
+      //       top: 0;
+      //     }
+      //   }
+      //   label {
+      //     font-size: $font-size-s;
+      //     font-weight: 500;
+      //     color: themed("text2");
+      //     user-select: none;
+      //     position: absolute;
+      //     top: 50%;
+      //     transform: translateY(-50%);
+      //     left: 14px;
+      //     transition: all .3s;
+      //     background-color: themed('bg2');
+      //     padding: 8px;
+      //     border-radius: $border-radius-10;
+      //   }
+      //   .tooglePassword {
+      //     position: absolute;
+      //     top: 50%;
+      //     transform: translateY(-50%);
+      //     right: 10px;
+      //     cursor: pointer;
+      //     color: themed('text2');
+      //     font-size: 1.2rem;
+      //   }
+      // }
       .item {
-        @include flex(unset, unset);
+        @include flex(center, unset);
         margin-bottom: 20px;
-        flex-direction: column;
-        gap: 8px;
         width: 100%;
         position: relative;
-
+        background-color: themed("bg2");
+        border: 1px solid themed("border");
+        border-radius: $border-radius;
+        display: flex;
+        & > i {
+          --size: 40px;
+          min-width: var(--size);
+          height: var(--size);
+          @include flex(center, center);
+          color: themed("text2");
+          font-size: 1.1rem;
+        }
         input {
-          background-color: themed("bg2");
-          padding: 20px 20px;
+          padding: 20px 8px;
           font-size: $font-size-s;
-          width: 100%;
-          border-radius: $border-radius;
-          border: 1px solid themed("border");
           color: themed("text1");
+          width: 100%;
           &:focus {
             border-color: $color-primary;
           }
@@ -52,18 +107,18 @@
           }
         }
         label {
+          position: absolute;
+          top: 50%;
+          left: 40px;
+          transform: translateY(-50%);
+          padding: 8px;
+          background-color: themed("bg2");
+          border-radius: $border-radius-10;
           font-size: $font-size-s;
           font-weight: 500;
           color: themed("text2");
+          transition: all 0.3s;
           user-select: none;
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          left: 14px;
-          transition: all .3s;
-          background-color: themed('bg2');
-          padding: 8px;
-          border-radius: $border-radius-10;
         }
         .tooglePassword {
           position: absolute;
@@ -71,7 +126,7 @@
           transform: translateY(-50%);
           right: 10px;
           cursor: pointer;
-          color: themed('text2');
+          color: themed("text2");
           font-size: 1.2rem;
         }
       }

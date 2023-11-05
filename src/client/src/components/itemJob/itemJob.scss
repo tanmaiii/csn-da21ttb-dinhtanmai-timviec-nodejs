@@ -23,13 +23,13 @@
       &__image {
         min-width: 80px;
         height: 80px;
-        width: 80px;
         @include flex(center, unset);
         border: 1px solid themed("border");
         border-radius: $border-radius-10;
         overflow: hidden;
         @include mobile{
-          display: none;
+          min-width: 60px;
+          height: 60px;
         }
         img {
           width: 100%;

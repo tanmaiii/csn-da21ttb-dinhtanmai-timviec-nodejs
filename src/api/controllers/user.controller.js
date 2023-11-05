@@ -44,9 +44,6 @@ export const updateUser = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
-
-    // if (!req.body.id) return res.status(401).json("Thiếu trường id");
-
     const q =
       "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `address`= ?, `brithDay`= ? , `intro`= ? , `cv`=? WHERE id = ? ";
     const values = [
