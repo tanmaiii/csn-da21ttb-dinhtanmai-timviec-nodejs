@@ -42,6 +42,33 @@ const levelJob = [
   },
 ];
 
+const experienceJob = [
+  {
+    id: 1,
+    name: "Không yêu cầu",
+  },
+  {
+    id: 2,
+    name: "1 năm",
+  },
+  {
+    id: 3,
+    name: "1 - 2 năm",
+  },
+  {
+    id: 4,
+    name: "2 - 5 năm",
+  },
+  {
+    id: 5,
+    name: "5 - 10 năm",
+  },
+  {
+    id: 6,
+    name: "Trên 10 năm",
+  },
+];
+
 export default function PostJob() {
   const { currentCompany } = useAuth();
   const [fields, setFields] = useState();
@@ -60,8 +87,9 @@ export default function PostJob() {
   const [salaryMin, setSalaryMin] = useState(0);
   const [salaryMax, setSalaryMax] = useState(0);
   const [salaryDiscuss, setSalaryDiscuss] = useState(false);
-  const [typeWork, setTypeWork] = useState();
-  const [level, setLevel] = useState();
+  const [typeWork, setTypeWork] = useState(typeWorks[0].name);
+  const [level, setLevel] = useState(levelJob[0].name);
+  const [experience, setExperience] = useState(experience[0].name)
 
   const [inputs, setInputs] = useState({
     idField: "",
@@ -75,6 +103,7 @@ export default function PostJob() {
     typeWork: "",
     level: "",
     sex: "",
+    experience: ""
   });
 
   const handleChange = (e) => {
@@ -85,6 +114,12 @@ export default function PostJob() {
   const handleSubmit = async () => {
     setErr();
     setMess();
+
+    if (!selectedOptionFields || !selectedOptionProvince)
+      setErr("Chưa chọn ngành nghề và địa chỉ.");
+    if (!sex || !typeWork || !level)
+      setErr("Chọn các mục trong yêu cầu chung.");
+    if (!request || !desc) return setErr("Mô tả, yêu cầu không được rỗng.");
 
     if (salaryMax < salaryMin)
       return setErr("Tiền lương tối đa không nhỏ hơn tiền lương tối thiểu.");
@@ -99,6 +134,7 @@ export default function PostJob() {
       inputs.other = other;
       inputs.typeWork = typeWork;
       inputs.level = level;
+      inputs.experience = experience;
       if (salaryDiscuss == true) {
         inputs.salaryMin = 0;
         inputs.salaryMax = 0;
@@ -301,6 +337,29 @@ export default function PostJob() {
                           onChange={(e) => setLevel(e.target.value)}
                         />
                         <label htmlFor={`jobLevel${item.id}`}>
+                          {item.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__experience">
+                  <h6>Kinh nghiệm</h6>
+                  <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__experience__input">
+                    {experienceJob.map((item, i) => (
+                      <div
+                        key={i}
+                        className="postJob__wrapper__body__form__content__item__input__child "
+                      >
+                        <input
+                          className="experienceJob__input"
+                          name={`experienceJob`}
+                          id={`experienceJob${item.id}`}
+                          type="radio"
+                          value={item.name}
+                          onChange={(e) => setExperience(e.target.value)}
+                        />
+                        <label htmlFor={`experienceJob${item.id}`}>
                           {item.name}
                         </label>
                       </div>

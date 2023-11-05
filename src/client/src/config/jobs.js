@@ -59,42 +59,42 @@ const jobs = [
     workingForm: "Bán thời gian", // Bán thời gian/ Toàn thời gian / từ xa / thực tập
     address: "TP.Hồ Chí Minh",
   },
-  {
-    id: 1,
-    link: "/posts",
-    company: "FPT Telecom",
-    name: "UX/UI Designer",
-    wage: "12tr - 15tr",
-    photo:
-      "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
-    quantityJob: "40 việc làm",
-    workingForm: "Toàn thời gian", // Bán thời gian/ Toàn thời gian / từ xa / thực tập
-    address: "TP.Hồ Chí Minh",
-  },
-  {
-    id: 1,
-    link: "/posts",
-    company: "FPT Telecom",
-    name: "UX/UI Designer",
-    wage: "12tr - 15tr",
-    photo:
-      "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
-    quantityJob: "40 việc làm",
-    workingForm: "Toàn thời gian", // Bán thời gian/ Toàn thời gian / từ xa / thực tập
-    address: "TP.Hồ Chí Minh",
-  },
-  {
-    id: 1,
-    link: "/posts",
-    company: "FPT Telecom",
-    name: "UX/UI Designer",
-    wage: "12tr - 15tr",
-    photo:
-      "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
-    quantityJob: "40 việc làm",
-    workingForm: "Toàn thời gian", // Bán thời gian/ Toàn thời gian / từ xa / thực tập
-    address: "TP.Hồ Chí Minh",
-  },
+  // {
+  //   id: 1,
+  //   link: "/posts",
+  //   company: "FPT Telecom",
+  //   name: "UX/UI Designer",
+  //   wage: "12tr - 15tr",
+  //   photo:
+  //     "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
+  //   quantityJob: "40 việc làm",
+  //   workingForm: "Toàn thời gian", // Bán thời gian/ Toàn thời gian / từ xa / thực tập
+  //   address: "TP.Hồ Chí Minh",
+  // },
+  // {
+  //   id: 1,
+  //   link: "/posts",
+  //   company: "FPT Telecom",
+  //   name: "UX/UI Designer",
+  //   wage: "12tr - 15tr",
+  //   photo:
+  //     "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
+  //   quantityJob: "40 việc làm",
+  //   workingForm: "Toàn thời gian", // Bán thời gian/ Toàn thời gian / từ xa / thực tập
+  //   address: "TP.Hồ Chí Minh",
+  // },
+  // {
+  //   id: 1,
+  //   link: "/posts",
+  //   company: "FPT Telecom",
+  //   name: "UX/UI Designer",
+  //   wage: "12tr - 15tr",
+  //   photo:
+  //     "https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg",
+  //   quantityJob: "40 việc làm",
+  //   workingForm: "Toàn thời gian", // Bán thời gian/ Toàn thời gian / từ xa / thực tập
+  //   address: "TP.Hồ Chí Minh",
+  // },
 ];
 
 export default jobs;

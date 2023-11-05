@@ -17,6 +17,7 @@ export const postJob = (req, res) => {
     sex,
     typeWork,
     level,
+    experience,
   } = req.body;
 
   console.log(req.body);
@@ -33,7 +34,7 @@ export const postJob = (req, res) => {
         return res.status(401).json("Người dùng không hợp lệ !");
 
       const q =
-        "INSERT INTO jobs (`idCompany`, `idField`, `idProvince` , `nameJob`, `request`, `desc`, `other`, `salaryMin`, `salaryMax`,`sex`, `typeWork` , `level`, `createdAt`) VALUE (?)";
+        "INSERT INTO jobs (`idCompany`, `idField`, `idProvince` , `nameJob`, `request`, `desc`, `other`, `salaryMin`, `salaryMax`,`sex`, `typeWork` , `level`, `experience`,  `createdAt`) VALUE (?)";
       const values = [
         companmyInfo.id,
         idField,
@@ -47,6 +48,7 @@ export const postJob = (req, res) => {
         sex,
         typeWork,
         level,
+        experience,
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       ];
       db.query(q, [values], (err, data) => {
