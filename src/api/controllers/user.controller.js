@@ -4,7 +4,7 @@ import { db } from "../config/connect.js";
 export const getUser = (req, res) => {
   const id = req.params.id;
   const q =
-    "SELECT id, name, phone, avatarPic, brithDay, intro, cv FROM users WHERE id=?";
+    "SELECT id, name, phone, avatarPic, birthDay, intro, cv FROM users WHERE id=?";
 
   if (id) {
     db.query(q, id, (err, data) => {
@@ -17,7 +17,6 @@ export const getUser = (req, res) => {
   } else {
     return res.status(401).json("Không có trường id !");
   }
-
 };
 
 export const getOwnerUser = (req, res) => {
@@ -42,24 +41,44 @@ export const updateUser = (req, res) => {
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
+  const { name, birthDay, email, phone, idProvince, cv } = req.body;
+
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
-      "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `address`= ?, `brithDay`= ? , `intro`= ? , `cv`=? WHERE id = ? ";
-    const values = [
-      req.body.name,
-      req.body.email,
-      req.body.phone,
-      req.body.address,
-      req.body.brithDay,
-      req.body.intro,
-      req.body.cv,
-      userInfo.id,
-    ];
+      "UPDATE job.users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ? , `idProvince`= ?, `cv` = ? WHERE id = ? ";
+    const values = [name, email, phone, birthDay, idProvince, cv, userInfo.id];
 
     db.query(q, values, (err, data) => {
       if (!err) return res.status(200).json(data);
-      if (data.affectedRows > 0) return res.json("Update");
+      if (data?.affectedRows > 0) return res.json("Update");
+      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+    });
+  });
+};
+
+// {
+//   "name": "tanmai update",
+//   "birthDay": "11-11-111",
+//   "email": "update@g.com",
+//   "phone": "123",
+//   "idProvince": 1,
+//   "cv": "update@g.com"
+// }
+
+export const updateIntroUser = (req, res) => {
+  const token = req.cookies?.accessToken;
+  if (!token) return res.status(401).json("Not logged in!");
+
+  console.log(req.body.intro);
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token không trùng !");
+    const q = "UPDATE job.users SET `intro` = ? WHERE id = ? ";
+
+    db.query(q, [req.body.intro, userInfo.id], (err, data) => {
+      if (!err) return res.status(200).json(data);
+      if (data?.affectedRows > 0) return res.json("Update");
       return res.status(403).json("Chỉ thay đổi được thông tin của mình");
     });
   });

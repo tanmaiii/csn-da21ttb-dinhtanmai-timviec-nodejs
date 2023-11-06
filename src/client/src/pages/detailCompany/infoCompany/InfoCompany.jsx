@@ -12,6 +12,7 @@ export default function InfoCompany() {
   const [loading, setLoading] = useState();
   const { id } = useParams();
 
+
   useEffect(() => {
     const getCompany = async () => {
       try {
@@ -29,20 +30,20 @@ export default function InfoCompany() {
       <div className="infoCompany__wrapper">
         <div className="infoCompany__wrapper__header"></div>
         <div className="infoCompany__wrapper__body">
-          <ItemInfoCompany title={"Tên công ty"} desc={company?.nameCompany || "..."} />
-          <ItemInfoCompany title={"Tên người đại diện"} desc={company?.nameAdmin || "..."} />
-          <ItemInfoCompany title={"Email"} desc={company?.email || "..."} />
-          <ItemInfoCompany title={"Điện thoại"} desc={company?.phone || "..."} />
-          <ItemInfoCompany title={"Web"} desc={company?.web || "..."}/>
+          <ItemInfoCompany title={"Tên công ty"} desc={company?.nameCompany} />
+          <ItemInfoCompany title={"Tên người đại diện"} desc={company?.nameAdmin} />
+          <ItemInfoCompany title={"Email"} desc={company?.email} />
+          <ItemInfoCompany title={"Điện thoại"} desc={company?.phone} />
+          <ItemInfoCompany title={"Web"} desc={company?.web}/>
           <ItemInfoCompany
             title={"Địa chỉ"}
-            desc={company?.address || "..."}
+            desc={company?.address}
             select={true}
             options={province}
           />
           <ItemInfoCompany
             title={"Quy mô"}
-            desc={company?.scale || "..."}
+            desc={company?.scale}
             select={true}
             options={scale}
           />
@@ -60,7 +61,7 @@ function ItemInfoCompany({ title, desc, type = "text", select, options }) {
       <div className="infoCompany__wrapper__body__item__left">
         <h6>{title}</h6>
         {!edit ? (
-          <span>{desc}</span>
+          <span>{desc || '...'}</span>
         ) : select ? (
           <Select options={options} />
         ) : (

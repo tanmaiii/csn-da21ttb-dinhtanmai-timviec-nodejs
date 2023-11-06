@@ -28,6 +28,7 @@ export const postJob = (req, res) => {
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
   const q = "SELECT * FROM companies WHERE id = ?";
+  
   jwt.verify(token, "secretkey", (err, companmyInfo) => {
     db.query(q, companmyInfo.id, (err, data) => {
       if (!data?.length)

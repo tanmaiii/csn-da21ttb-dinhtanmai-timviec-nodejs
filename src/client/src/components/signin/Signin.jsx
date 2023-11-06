@@ -4,7 +4,6 @@ import "./signin.scss";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
-import checkEmail from "../../config/checkEmail";
 
 export default function Signin() {
   const { loginUser, currentUser } = useAuth();

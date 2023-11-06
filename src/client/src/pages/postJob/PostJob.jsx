@@ -7,67 +7,8 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 
-const typeWorks = [
-  { id: 1, name: "Nhân viên chính thức" },
-  { id: 2, name: "Bán thời gian" },
-  { id: 3, name: "Tự do" },
-  { id: 4, name: "Thực tập" },
-];
+import { typeWorks, levelJob, experienceJob } from "../../config/data";
 
-const levelJob = [
-  {
-    id: 1,
-    name: "Không yêu cầu",
-    value: "Không yêu cầu",
-  },
-  {
-    id: 2,
-    name: "Đại học",
-    value: "Đại học",
-  },
-  {
-    id: 3,
-    name: "Cao đẳng",
-    value: "Cao đẳng",
-  },
-  {
-    id: 4,
-    name: "Trung cấp",
-    value: "Trung cấp",
-  },
-  {
-    id: 5,
-    name: "Trung học",
-    value: "Trung học",
-  },
-];
-
-const experienceJob = [
-  {
-    id: 1,
-    name: "Không yêu cầu",
-  },
-  {
-    id: 2,
-    name: "1 năm",
-  },
-  {
-    id: 3,
-    name: "1 - 2 năm",
-  },
-  {
-    id: 4,
-    name: "2 - 5 năm",
-  },
-  {
-    id: 5,
-    name: "5 - 10 năm",
-  },
-  {
-    id: 6,
-    name: "Trên 10 năm",
-  },
-];
 
 export default function PostJob() {
   const { currentCompany } = useAuth();
@@ -89,7 +30,7 @@ export default function PostJob() {
   const [salaryDiscuss, setSalaryDiscuss] = useState(false);
   const [typeWork, setTypeWork] = useState(typeWorks[0].name);
   const [level, setLevel] = useState(levelJob[0].name);
-  const [experience, setExperience] = useState(experience[0].name)
+  const [experience, setExperience] = useState(experienceJob[0].name);
 
   const [inputs, setInputs] = useState({
     idField: "",
@@ -103,8 +44,9 @@ export default function PostJob() {
     typeWork: "",
     level: "",
     sex: "",
-    experience: ""
+    experience: "",
   });
+
 
   const handleChange = (e) => {
     e.preventDefault();

@@ -1,24 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdownItem.scss";
-import filter from "../../config/filter";
 
 export default function DropdownItem({ type }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef();
 
-  useEffect(() => {
-    const handleMousedown = (e) => {
-      if (!dropdownRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleMousedown);
-    return () => document.removeEventListener("mousedown", handleMousedown);
-  });
+  // useEffect(() => {
+  //   const handleMousedown = (e) => {
+  //     if (!dropdownRef.current.contains(e.target)) {
+  //       setOpen(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleMousedown);
+  //   return () => document.removeEventListener("mousedown", handleMousedown);
+  // });
 
   return (
     <>
-      {filter &&
+      {/* {filter &&
         filter
           .filter((item) => item.name === type)
           .map((group) => (
@@ -41,7 +40,7 @@ export default function DropdownItem({ type }) {
                 </div>
               )}
             </div>
-          ))}
+          ))} */}
     </>
   );
 }

@@ -89,7 +89,7 @@ export default function DetailCompany() {
                     </h4>
                     <div className="detailCompany__wrapper__header__main__text__address">
                       <i className="fa-solid fa-location-dot"></i>
-                      <span>{company?.address ? company?.address : "..."}</span>
+                      <span>{company?.province ? company?.province : "..."}</span>
                     </div>
                     <div className="detailCompany__wrapper__header__main__text__scale">
                       <i className="fa-solid fa-building"></i>

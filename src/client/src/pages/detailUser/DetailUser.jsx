@@ -224,7 +224,7 @@ export default function DetailUser() {
 
                     <div className="detailUser__wrapper__body__left__content">
                       {searchParams.get("tag") === null && (
-                        <IntroUser intro={user?.intro} />
+                        <IntroUser id={id}/>
                       )}
                       {searchParams.get("tag") === "info" && <InfoUser />}
                       {searchParams.get("tag") === "apply" && <AppliedJobs />}

@@ -3,6 +3,7 @@
 .signinCompany {
   @include themify($themes) {
     width: 100%;
+    max-width: 380px;
     &__header {
       @include flex(center, unset);
       flex-direction: column;

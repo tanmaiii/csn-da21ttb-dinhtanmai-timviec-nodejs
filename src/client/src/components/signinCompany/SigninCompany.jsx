@@ -3,7 +3,6 @@ import logo from "../../assets/images/logoJobQuest.png";
 import "./signinCompany.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import checkEmail from "../../config/checkEmail";
 
 export default function SigninCompany() {
   const { currentCompany, loginCompany } = useAuth();

@@ -37,6 +37,8 @@
           font-size: $font-size-s;
           color: themed("text1");
           font-weight: 400;
+          padding: 20px;
+          line-height: 1.6;
         }
         &__edit {
           .quill {

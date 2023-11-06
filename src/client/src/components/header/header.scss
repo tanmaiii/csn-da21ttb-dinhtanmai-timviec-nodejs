@@ -2,6 +2,9 @@
 
 .header {
   @include themify($themes) {
+    ul{
+      list-style: none;
+    }
     .header__wrapper {
       z-index: 9999;
       // box-shadow: themed(box-shadow);
@@ -66,6 +69,7 @@
             height: 100%;
             @include flex(center, space-between);
             gap: 20px;
+            list-style: none;
             li {
               height: 100%;
               a {

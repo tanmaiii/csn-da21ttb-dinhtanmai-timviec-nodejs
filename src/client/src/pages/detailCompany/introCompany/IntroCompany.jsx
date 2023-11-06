@@ -4,6 +4,7 @@ import ReactQuill from "react-quill";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
 
+
 export default function IntroCompany({ intro, companyId }) {
   const [edit, setEdit] = useState(false);
   const { currentCompany } = useAuth();

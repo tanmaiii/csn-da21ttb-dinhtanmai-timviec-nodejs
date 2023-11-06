@@ -10,6 +10,8 @@ import Modal from "../../components/modal/Modal";
 import ApplyJob from "../../components/applyJob/ApplyJob";
 import { useState } from "react";
 
+import img from '../../assets/images/bannerSearch.jpg'
+
 const sort = [
   {
     displayName: "Mới nhất",
@@ -42,7 +44,7 @@ export default function Search() {
         <div className="search__wrapper">
           <div className="container">
             <div className="search__banner">
-              <div className="search__banner__wrapper">
+              <div className="search__banner__wrapper" style={{backgroundImage: `url(${img})`}}>
                 <div className="search__banner__wrapper__input">
                   <div className="search__banner__wrapper__input__career">
                     <SearchCareer />

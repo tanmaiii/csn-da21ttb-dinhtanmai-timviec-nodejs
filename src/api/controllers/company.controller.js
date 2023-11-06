@@ -4,7 +4,7 @@ import { db } from "../config/connect.js";
 export const getCompany = (req, res) => {
   const id = req.params.id;
   const q =
-    "SELECT nameCompany, address, avatarPic, intro, scale, web, id  FROM companies WHERE id=?";
+    "SELECT nameCompany, avatarPic, intro, scale, web, c.id, p.name as province FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id and c.id=?";
   if (id) {
     db.query(q, id, (err, data) => {
       if (!data.length) {

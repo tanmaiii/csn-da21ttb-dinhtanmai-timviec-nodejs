@@ -18,7 +18,6 @@
             border-radius: $border-radius-20;
             @include flex(center, unset);
             flex-direction: column;
-            background-image: url("https://img.freepik.com/free-vector/professional-people-work_24908-58137.jpg?w=1800&t=st=1698553289~exp=1698553889~hmac=d8164851e89426bb9719062b0b31f7ea569b4beeaa5ad36e2efdf89aad4913e4");
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -140,6 +139,7 @@
               position:sticky;
               top: $height-header;
               &__wrapper {
+                overflow: hidden;
                 border-radius: $border-radius-20;
                 background-color: themed("bg2");
                 height: 100%;

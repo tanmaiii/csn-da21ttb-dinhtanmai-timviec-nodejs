@@ -1,6 +1,7 @@
 @use "../../scss/" as *;
 
 .previewJob {
+  
   @include themify($themes) {
     overflow-y: scroll;
     height: calc(100vh - 244px);
