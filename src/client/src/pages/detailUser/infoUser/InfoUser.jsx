@@ -4,12 +4,9 @@ import Select from "../../../components/select/Select";
 import { useAuth } from "../../../context/authContext";
 import { useParams } from "react-router-dom";
 import { makeRequest } from "../../../axios";
+import moment from "moment";
 
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function InfoUser() {
   const { currentUser } = useAuth();
@@ -25,8 +22,6 @@ export default function InfoUser() {
     idProvince: "",
     cv: "",
   });
-
-  const { id } = useParams();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -46,7 +41,9 @@ export default function InfoUser() {
     getProvinces();
   }, []);
 
-  const { isLoading, error, data } = useQuery(["info", id], async () => {
+  const queryClient = useQueryClient();
+
+  const { isLoading, error, data } = useQuery(["user"], async () => {
     await makeRequest.get("/user/owner/").then((res) => {
       setInputs({
         name: res.data.name,
@@ -57,30 +54,11 @@ export default function InfoUser() {
         cv: res.data.cv,
       });
       setUser(res.data);
-      return res.data
-    })
+      return res.data;
+    });
   });
 
-  // useEffect(() => {
-  //   setErr();
-  //   const getUser = async () => {
-  //     try {
-  //       const res = await makeRequest.get("/user/owner/" + id);
-  //       setInputs({
-  //         name: res.data.name,
-  //         birthDay: res.data.birthDay,
-  //         email: res.data.email,
-  //         phone: res.data.phone,
-  //         idProvince: res.data.idProvince,
-  //         cv: res.data.cv,
-  //       });
-  //       setUser(res.data);
-  //     } catch (error) {
-  //       setErr("Lỗi !");
-  //     }
-  //   };
-  //   getUser();
-  // }, [id]);
+  console.log(user);
 
   return (
     <div className="infoUser">
@@ -97,7 +75,7 @@ export default function InfoUser() {
           name="birthDay"
           handleChange={handleChange}
           title={"Ngày sinh :"}
-          desc={user?.birthDay}
+          desc={moment(user?.birthDay).format("DD/MM/YYYY")}
           type={"date"}
         />
         <ItemInfo
@@ -128,7 +106,7 @@ export default function InfoUser() {
           title={"Địa chỉ :"}
           select={true}
           options={provinces}
-          desc={user?.address}
+          desc={user?.province}
         />
       </div>
     </div>
@@ -144,19 +122,31 @@ function ItemInfo({
   options,
   handleChange,
   setInputs,
-  inputs
+  inputs,
 }) {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(desc);
-  const [selectedOption, setSelectedOption] = useState();
+  const [selectedOption, setSelectedOption] = useState(inputs.idProvince);
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    () => {
+      return makeRequest.put("/user/update", inputs);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["user"]);
+      },
+    }
+  );
 
   const handleSumbit = () => {
-    if (select) {
-      console.log("sadasd");
-      setInputs((prev) => ({ ...prev, idProvince: selectedOption?.pId }));
+    if(select){
+      inputs.idProvince = selectedOption?.pId;
     }
-
     setEdit(false);
+    mutation.mutate();
   };
 
   return (
@@ -171,7 +161,6 @@ function ItemInfo({
             options={options}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
-            onChange={() => console.log("xin chao")}
           />
         ) : (
           <input
@@ -185,7 +174,8 @@ function ItemInfo({
       <div className="personalInformation__wrapper__item__right">
         {!edit ? (
           <button className="btn-edit" onClick={() => setEdit(true)}>
-            Thay đổi
+            <i className="fa-solid fa-pen-to-square"></i>
+            <span>Chỉnh sửa</span>
           </button>
         ) : (
           <>
@@ -201,5 +191,3 @@ function ItemInfo({
     </div>
   );
 }
-
-

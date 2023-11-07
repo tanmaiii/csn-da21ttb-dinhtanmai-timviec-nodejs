@@ -11,21 +11,12 @@ import {
   useQueryClient,
 } from "react-query";
 
-export default function IntroUser() {
-  const [intro, setIntro] = useState("");
+export default function IntroUser({intro}) {
   const [edit, setEdit] = useState(false);
-  const [valueIntro, setValueIntro] = useState();
+  const [valueIntro, setValueIntro] = useState(intro);
   const { currentUser } = useAuth();
   const { id } = useParams();
   const queryClient = useQueryClient();
-
-  const { isLoading, error, data } = useQuery(["intro"], () => {
-    makeRequest.get("/user/find/" + id).then((res) => {
-      setIntro(res?.data?.intro)
-      setValueIntro(res?.data.intro)
-      return res.data
-    })
-  });
 
   const mutation = useMutation(
     () => {
@@ -33,12 +24,12 @@ export default function IntroUser() {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["intro"]);
+        queryClient.invalidateQueries(["user"]);
       },
     }
   );
 
-  const handleSumbitSave = () => {
+  const handleSubmitSave = () => {
     mutation.mutate();
     setEdit(false);
   };
@@ -59,13 +50,11 @@ export default function IntroUser() {
                 <>
                   <button
                     className="btn-save"
-                    onClick={() => handleSumbitSave()}
+                    onClick={() => handleSubmitSave()}
                   >
-                    <i className="fa-solid fa-pen-to-square"></i>
                     <span>Lưu</span>
                   </button>
                   <button className="btn-cancel" onClick={() => setEdit(false)}>
-                    <i className="fa-solid fa-pen-to-square"></i>
                     <span>Hủy</span>
                   </button>
                 </>
@@ -83,7 +72,6 @@ export default function IntroUser() {
             <div className="introUser__wrapper__body__edit">
               <ReactQuill
                 theme="snow"
-                defaultValue={intro}
                 value={valueIntro}
                 onChange={setValueIntro}
               />

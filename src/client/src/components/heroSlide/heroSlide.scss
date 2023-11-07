@@ -1,6 +1,9 @@
 @use "../../scss/" as *;
 
 .HeroSlide {
+  ul{
+    list-style: none;
+  }
   @include themify($themes) {
     background-position: center;
     // height: calc(100vh - $height-header);

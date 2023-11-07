@@ -14,7 +14,10 @@ import { useSearchParams, useParams } from "react-router-dom";
 import jobs from "../../config/jobs";
 import companies from "../../config/companies";
 import { useAuth } from "../../context/authContext";
-import { makeRequest } from "../../axios";
+import { makeRequest,apiImage } from "../../axios";
+import moment from "moment";
+
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function DetailUser() {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -24,23 +27,47 @@ export default function DetailUser() {
   const controlMbRef = useRef();
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState();
+  const queryClient = useQueryClient();
 
   const { id } = useParams();
 
-  useEffect(() => {
-    setLoading(true);
-    setErr();
-    const getUser = async () => {
+  const getUser = async () => {
+    try {
+      const res = await makeRequest.get("/user/find/"+ id);
+      setUser(res.data)
+    } catch (error) {
+        setErr('id không đúng')
+    }
+  }
+
+  const { isLoading, error, data } = useQuery(["user", id], () => {
+    return getUser();
+  });
+
+  const mutation = useMutation(
+    () => {
+      return getUser()
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["user"]);
+      },
+    }
+  );
+
+  const handleChangeInputFile = async (e) => {
       try {
-        const res = await makeRequest.get("/user/find/" + id);
-        setUser(res.data);
-      } catch (err) {
-        setErr("id không hợp lệ");
+        const formData = new FormData();
+        formData.append("file", e.target.files[0]);
+        const postImage = await makeRequest.post("/upload", formData);
+        await makeRequest.put("/user/uploadImage", {avatarPic: postImage.data})
+        getUser()
+        return postImage.data
+      } catch (error) {
+        console.log(error);
       }
-    };
-    getUser();
-    setLoading(false);
-  }, [id]);
+      mutation.mutate();
+  } 
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -72,13 +99,16 @@ export default function DetailUser() {
                 <div className="detailUser__wrapper__header__main">
                   <div className="detailUser__wrapper__header__main__image">
                     <img
-                      src={user?.avatarPic ? user?.avatarPic : avatar}
+                      src={user?.avatarPic ? (apiImage + user?.avatarPic): avatar}
                       alt=""
                     />
                     {user?.id === currentUser?.id && (
-                      <label htmlFor="input-avt-user" className="detailUser__wrapper__header__main__image__edit">
-                        <i class="fa-solid fa-upload"></i>
-                        <input id="input-avt-user" type="file" />
+                      <label
+                        htmlFor="input-avt-user"
+                        className="detailUser__wrapper__header__main__image__edit"
+                      >
+                        <i className="fa-solid fa-upload"></i>
+                        <input id="input-avt-user" type="file" onChange={(e) => handleChangeInputFile(e)}/>
                       </label>
                     )}
                   </div>
@@ -89,7 +119,9 @@ export default function DetailUser() {
                     <div className="detailUser__wrapper__header__main__text__date">
                       <i className="fa-solid fa-calendar-days"></i>
                       <span>
-                        {user?.brithDay ? user?.brithDay : "00/00/0000"}
+                        {user?.birthDay
+                          ? moment(user?.birthDay).format("DD/MM/YYYY")
+                          : "00/00/0000"}
                       </span>
                     </div>
                   </div>
@@ -224,7 +256,7 @@ export default function DetailUser() {
 
                     <div className="detailUser__wrapper__body__left__content">
                       {searchParams.get("tag") === null && (
-                        <IntroUser id={id}/>
+                        <IntroUser intro={user?.intro} />
                       )}
                       {searchParams.get("tag") === "info" && <InfoUser />}
                       {searchParams.get("tag") === "apply" && <AppliedJobs />}

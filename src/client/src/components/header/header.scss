@@ -133,7 +133,7 @@
             background-color: transparent;
             padding: 10px;
             border-radius: $border-radius-10;
-            border: 1.6px solid themed("text1");
+            border: 1.6px solid themed("border");
             cursor: pointer;
             @include flex(center, center);
             i {

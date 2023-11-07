@@ -66,6 +66,13 @@ $themes: (
   -webkit-box-orient: vertical;
 }
 
+@mixin hideText($width) {
+  width: $width;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 @mixin button($color, $bg) {
   padding: 10px 16px;
   background-color: $bg;

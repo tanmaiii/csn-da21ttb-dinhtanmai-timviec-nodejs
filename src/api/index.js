@@ -4,6 +4,8 @@ import { db } from "./config/connect.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from "cors";
+import multer from 'multer'
+import path from 'path'
 
 import authUserRouter from "./routers/authUser.router.js";
 import authCompanyRouter from "./routers/authCompany.router.js";
@@ -12,8 +14,11 @@ import companyRouter from "./routers/company.router.js";
 import jobRouter from "./routers/job.router.js";
 import fieldsRouter from "./routers/fields.router.js";
 import provinesRouter from "./routers/provinces.router.js";
+import { fileURLToPath } from "url";
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
@@ -26,6 +31,7 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+app.use("/images", express.static(path.join(__dirname, "/images")));
 
 dotenv.config();
 
@@ -39,6 +45,22 @@ db.connect(function (err) {
     console.log("Connecting mysql");
   }
 });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'images')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage });
+
+app.post("/api/upload", upload.single("file"), (req, res) => {
+  const file = req.file;
+  res.status(200).json(file.filename);
+})
 
 app.use("/api/authUser", authUserRouter);
 app.use("/api/authCompany", authCompanyRouter);

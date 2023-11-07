@@ -1,50 +1,102 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./infoCompany.scss";
 import Select from "../../../components/select/Select";
-import scale from "../../../config/scale";
-import province from "../../../config/province";
+import { scale } from "../../../config/data";
 import { useParams } from "react-router-dom";
 import { makeRequest } from "../../../axios";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function InfoCompany() {
   const [company, setCompany] = useState();
   const [err, setErr] = useState();
   const [loading, setLoading] = useState();
+  const [provinces, setProvinces] = useState();
   const { id } = useParams();
+  const [inputs, setInputs] = useState();
 
+  const handleChange = (e) => {
+    e.preventDefault();
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   useEffect(() => {
-    const getCompany = async () => {
+    const getProvinces = async () => {
       try {
-        const res = await makeRequest.get("/company/owner/" + id);
-        setCompany(res.data);
-      } catch (err) {
-        setErr("id không hợp lệ");
+        const res = await makeRequest("/provinces");
+        setProvinces(res.data);
+      } catch (error) {
+        setErr(error);
       }
     };
-    getCompany();
+    getProvinces();
   }, []);
+
+  const { isLoading, error, data } = useQuery(["company"], async () => {
+    await makeRequest.get("/company/owner/").then((res) => {
+      setInputs(res.data);
+      setCompany(res.data);
+      return res.data;
+    });
+  });
+
+  console.log(inputs);
 
   return (
     <div className="infoCompany">
       <div className="infoCompany__wrapper">
         <div className="infoCompany__wrapper__header"></div>
         <div className="infoCompany__wrapper__body">
-          <ItemInfoCompany title={"Tên công ty"} desc={company?.nameCompany} />
-          <ItemInfoCompany title={"Tên người đại diện"} desc={company?.nameAdmin} />
-          <ItemInfoCompany title={"Email"} desc={company?.email} />
-          <ItemInfoCompany title={"Điện thoại"} desc={company?.phone} />
-          <ItemInfoCompany title={"Web"} desc={company?.web}/>
           <ItemInfoCompany
-            title={"Địa chỉ"}
-            desc={company?.address}
-            select={true}
-            options={province}
+            inputs={inputs}
+            handleChange={handleChange}
+            name={"nameCompany"}
+            title={"Tên công ty"}
+            desc={company?.nameCompany}
           />
           <ItemInfoCompany
+            inputs={inputs}
+            handleChange={handleChange}
+            name={"nameAdmin"}
+            title={"Tên người đại diện"}
+            desc={company?.nameAdmin}
+          />
+          <ItemInfoCompany
+            inputs={inputs}
+            handleChange={handleChange}
+            name={"email"}
+            title={"Email"}
+            desc={company?.email}
+          />
+          <ItemInfoCompany
+            inputs={inputs}
+            handleChange={handleChange}
+            name={"phone"}
+            title={"Điện thoại"}
+            desc={company?.phone}
+          />
+          <ItemInfoCompany
+            inputs={inputs}
+            handleChange={handleChange}
+            name={"web"}
+            title={"Web"}
+            desc={company?.web}
+          />
+          <ItemInfoCompany
+            inputs={inputs}
+            handleChange={handleChange}
+            name={"idProvince"}
+            title={"Địa chỉ"}
+            desc={company?.province}
+            select={'province'}
+            options={provinces}
+          />
+          <ItemInfoCompany
+            inputs={inputs}
+            handleChange={handleChange}
+            name={"scale"}
             title={"Quy mô"}
             desc={company?.scale}
-            select={true}
+            select={'scale'}
             options={scale}
           />
         </div>
@@ -53,19 +105,61 @@ export default function InfoCompany() {
   );
 }
 
-function ItemInfoCompany({ title, desc, type = "text", select, options }) {
+function ItemInfoCompany({
+  title,
+  desc,
+  type = "text",
+  select,
+  options,
+  inputs,
+  handleChange,
+  name,
+}) {
   const [edit, setEdit] = useState(false);
+  const [selectedOption, setSelectedOption] = useState();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    () => {
+      return makeRequest.put("/company/update", inputs);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["company"]);
+      },
+    }
+  );
+
+  const handleSubmitSave = () => {
+    if (select == 'province') {
+      inputs.idProvince = selectedOption?.pId;
+    }else if (select == 'scale'){
+      inputs.scale = selectedOption?.name;
+    }
+    mutation.mutate();
+    setEdit(false);
+  };
 
   return (
     <div className="infoCompany__wrapper__body__item">
       <div className="infoCompany__wrapper__body__item__left">
         <h6>{title}</h6>
         {!edit ? (
-          <span>{desc || '...'}</span>
+          <span>{desc || "..."}</span>
         ) : select ? (
-          <Select options={options} />
+          <Select
+            name={name}
+            options={options}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
         ) : (
-          <input type={type} defaultValue={desc} />
+          <input
+            type={type}
+            defaultValue={desc}
+            name={name}
+            onChange={handleChange}
+          />
         )}
       </div>
       <div className="infoCompany__wrapper__body__item__right">
@@ -75,7 +169,7 @@ function ItemInfoCompany({ title, desc, type = "text", select, options }) {
           </button>
         ) : (
           <>
-            <button className="btn-save" onClick={() => setEdit(false)}>
+            <button className="btn-save" onClick={() => handleSubmitSave()}>
               Lưu
             </button>
             <button className="btn-cancel" onClick={() => setEdit(false)}>

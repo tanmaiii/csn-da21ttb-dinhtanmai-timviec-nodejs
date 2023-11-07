@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
+import checkEmail from "../middlewares/checkEmail.middleware.js";
+import multer from "multer";
 
 export const getUser = (req, res) => {
   const id = req.params.id;
@@ -20,14 +22,15 @@ export const getUser = (req, res) => {
 };
 
 export const getOwnerUser = (req, res) => {
-  const q = "SELECT * FROM users WHERE id=?";
+  let q = `SELECT u.* , p.name as province FROM job.users as u
+           LEFT JOIN job.provinces as p ON u.idProvince = p.id where u.id = ?`;
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     db.query(q, userInfo.id, (err, data) => {
-      if (!data.length) {
+      if (!data?.length) {
         return res.status(401).json("Không tồn tại !");
       } else {
         const { password, ...others } = data[0];
@@ -43,11 +46,20 @@ export const updateUser = (req, res) => {
 
   const { name, birthDay, email, phone, idProvince, cv } = req.body;
 
+  if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
       "UPDATE job.users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ? , `idProvince`= ?, `cv` = ? WHERE id = ? ";
-    const values = [name, email, phone, birthDay, idProvince, cv, userInfo.id];
+    const values = [
+      name,
+      email,
+      phone,
+      new Date(birthDay),
+      idProvince,
+      cv,
+      userInfo.id,
+    ];
 
     db.query(q, values, (err, data) => {
       if (!err) return res.status(200).json(data);
@@ -80,6 +92,20 @@ export const updateIntroUser = (req, res) => {
       if (!err) return res.status(200).json(data);
       if (data?.affectedRows > 0) return res.json("Update");
       return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+    });
+  });
+};
+
+export const uploadImage = (req, res) => {
+  const avatarPic = req.body.avatarPic;
+  const q = "UPDATE users SET avatarPic = ? WHERE id = ? ";
+
+  const token = req.cookies?.accessToken;
+  if (!token) return res.status(403).json("Chưa đăng nhập !");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    db.query(q, [avatarPic, userInfo.id], (err, data) => {
+      if (!err) return res.status(200).json("Lưu ảnh thành công !");
+      return res.status(401).json("Lỗi!");
     });
   });
 };

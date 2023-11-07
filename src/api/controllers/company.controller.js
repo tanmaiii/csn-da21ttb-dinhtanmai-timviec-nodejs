@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
+import  checkEmail from '../middlewares/checkEmail.middleware.js'
 
 export const getCompany = (req, res) => {
   const id = req.params.id;
@@ -23,7 +24,8 @@ export const getOwnerCompany = (req, res) => {
 
   if (!token) return res.status(401).json("Not logged in!");
 
-  const q = "SELECT * FROM companies WHERE id=?";
+  const q = `SELECT c.* , p.name as province FROM job.companies as c
+             LEFT JOIN job.provinces as p ON c.idProvince = p.id where c.id = ?`;
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     db.query(q, userInfo.id, (err, data) => {
@@ -57,28 +59,49 @@ export const getAllCompany = (req, res) => {
 
 export const updateCompany = (req, res) => {
   const token = req.cookies?.accessToken;
+
+  const { nameCompany, nameAdmin, email, phone, idProvince, web, scale } =
+    req.body;
+  if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
+
   if (!token) return res.status(401).json("Not logged in!");
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
 
     const q =
-      "UPDATE companies SET `nameCompany`= ?,`nameAdmin`= ?,  `email`= ?, `phone`= ?, `address`= ?,  `intro`= ? , `scale`=? WHERE id = ? ";
+      "UPDATE companies SET `nameCompany`= ?,`nameAdmin`= ?,  `email`= ?, `phone`= ?, `idProvince`= ?,`web` = ?, `scale`= ? WHERE id = ? ";
 
     const values = [
-      req.body.nameCompany,
-      req.body.nameAdmin,
-      req.body.email,
-      req.body.phone,
-      req.body.address,
-      req.body.intro,
-      req.body.scale,
-      userInfo.id,
+      nameCompany,
+      nameAdmin,
+      email,
+      phone,
+      idProvince,
+      web,
+      scale,
+      userInfo.id
     ];
 
     db.query(q, values, (err, data) => {
       if (!err) return res.status(200).json(err);
-      if (data.affectedRows > 0) return res.json("Update");
+      if (data?.affectedRows > 0) return res.json("Update");
+      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+    });
+  });
+};
+
+export const updateIntroCompany = (req, res) => {
+  const token = req.cookies?.accessToken;
+  if (!token) return res.status(401).json("Not logged in!");
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token không trùng !");
+    const q = "UPDATE job.companies SET `intro` = ? WHERE id = ? ";
+
+    db.query(q, [req.body.intro, userInfo.id], (err, data) => {
+      if (!err) return res.status(200).json(data);
+      if (data?.affectedRows > 0) return res.json("Update");
       return res.status(403).json("Chỉ thay đổi được thông tin của mình");
     });
   });

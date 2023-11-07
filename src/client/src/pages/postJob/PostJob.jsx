@@ -87,6 +87,7 @@ export default function PostJob() {
       console.log(inputs);
       await makeRequest.post("/job", inputs);
       setMess("Đăng thành công!");
+      navigate(`/nha-tuyen-dung/${currentCompany.id}`)
     } catch (err) {
       setErr(err?.response?.data);
     }

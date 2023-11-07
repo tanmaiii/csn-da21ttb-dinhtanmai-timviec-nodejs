@@ -44,7 +44,7 @@
                 object-fit: contain;
               }
               &:hover .detailUser__wrapper__header__main__image__edit {
-                  display: flex;
+                display: flex;
               }
               &__edit {
                 position: absolute;
@@ -72,8 +72,10 @@
               gap: 8px;
               @include mobile {
                 align-items: center;
+                text-align: center;
               }
               &__name {
+                @include hideText(240px);
                 font-size: $font-size-l;
                 color: themed("text1");
                 font-weight: 500;
@@ -160,11 +162,11 @@
                 span {
                   @include text(3);
                 }
-                &.active{
+                &.active {
                   background-color: themed("bg1");
                   border: 1px solid themed("border");
                 }
-                &:hover{
+                &:hover {
                   background-color: themed("bg1");
                   border: 1px solid themed("border");
                 }
@@ -180,12 +182,12 @@
                   @include flex(center, unset);
                   flex-direction: column;
                   background-color: themed("bg2");
-                  box-shadow: themed('box-shadow');
+                  box-shadow: themed("box-shadow");
                   border-radius: $border-radius-10;
                   z-index: 99;
                   padding: 8px;
                   gap: 8px;
-                  button{
+                  button {
                     width: 100%;
                   }
                 }
@@ -247,7 +249,6 @@
     }
   }
 }
-
 
 // .personalInformation__wrapper {
 //   @include themify($themes) {
@@ -312,4 +313,3 @@
 //     }
 //   }
 // }
-

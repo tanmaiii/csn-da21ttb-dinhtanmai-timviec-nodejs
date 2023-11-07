@@ -4,6 +4,18 @@ import moment from "moment";
 
 export const getById = (req, res) => {};
 
+export const getAll = (req, res) => {
+  const q = "SELECT * FROM job.jobs";
+
+  db.query(q, (err, data) => {
+    if (!data.length) {
+      return res.status(401).json("Không tồn tại !");
+    } else {
+      return res.json(data);
+    }
+  });
+};
+
 export const postJob = (req, res) => {
   const {
     idField,
@@ -22,13 +34,14 @@ export const postJob = (req, res) => {
 
   console.log(req.body);
 
-  if(!idField || !idProvince || !nameJob) return res.status(401).json("Các trường không để rỗng !");
+  if (!idField || !idProvince || !nameJob)
+    return res.status(401).json("Các trường không để rỗng !");
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
   const q = "SELECT * FROM companies WHERE id = ?";
-  
+
   jwt.verify(token, "secretkey", (err, companmyInfo) => {
     db.query(q, companmyInfo.id, (err, data) => {
       if (!data?.length)

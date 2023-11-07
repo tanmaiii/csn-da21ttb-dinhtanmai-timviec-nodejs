@@ -3,6 +3,7 @@ import "./dropdownUser.scss";
 import avt from "../../assets/images/avatar.png";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import { apiImage } from "../../axios";
 
 export default function DropdownUser() {
   const [openMenuUser, setOpenMenuUser] = useState(false);
@@ -31,7 +32,7 @@ export default function DropdownUser() {
         className="dropdownUser__toogle"
         onClick={() => setOpenMenuUser(!openMenuUser)}
       >
-        <img src={currentUser.avatarPic ? currentUser.avatarPic : avt} alt="" />
+        <img src={currentUser.avatarPic ? (apiImage + currentUser.avatarPic) : avt} alt="" />
         <span>{currentUser?.name}</span>
       </div>
       <div className={`dropdownUser__dropdown ${openMenuUser ? "open" : ""}`}>

@@ -14,6 +14,8 @@ import { useAuth } from "../../context/authContext";
 
 import jobs from "../../config/jobs";
 
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
 export default function DetailCompany() {
   const [paginate, setPaginate] = useState(1);
   const [err, setErr] = useState();
@@ -24,21 +26,19 @@ export default function DetailCompany() {
   const { currentCompany } = useAuth();
   const controlMbRef = useRef();
   const { id } = useParams();
+ 
+  const getCompany = async () => {
+    try {
+      const res = await makeRequest.get("/company/find/"+ id);
+      setCompany(res.data)
+    } catch (error) {
+        setErr('id không đúng')
+    }
+  }
 
-  useEffect(() => {
-    setErr();
-    setLoading(true);
-    const getCompany = async () => {
-      try {
-        const res = await makeRequest.get("/company/find/" + id);
-        setCompany(res.data);
-      } catch (err) {
-        setErr("id không hợp lệ");
-      }
-    };
-    setLoading(false);
-    getCompany();
-  }, [id]);
+  const { isLoading, error, data } = useQuery(["company", id], () => {
+    return getCompany();
+  });
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -89,7 +89,9 @@ export default function DetailCompany() {
                     </h4>
                     <div className="detailCompany__wrapper__header__main__text__address">
                       <i className="fa-solid fa-location-dot"></i>
-                      <span>{company?.province ? company?.province : "..."}</span>
+                      <span>
+                        {company?.province ? company?.province : "..."}
+                      </span>
                     </div>
                     <div className="detailCompany__wrapper__header__main__text__scale">
                       <i className="fa-solid fa-building"></i>
@@ -226,7 +228,6 @@ export default function DetailCompany() {
                       {searchParams.get("tag") === null && (
                         <IntroCompany
                           intro={company?.intro}
-                          companyId={company?.id}
                         />
                       )}
                       {searchParams.get("tag") === "jobs" && (

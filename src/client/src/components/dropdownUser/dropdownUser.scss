@@ -4,7 +4,7 @@
   @include themify($themes) {
     position: relative;
     &__toogle {
-      border: 1.6px solid themed("text1");
+      border: 1.6px solid themed("border");
       border-radius: $border-radius-10;
       padding: 6px;
       @include flex(center, center);

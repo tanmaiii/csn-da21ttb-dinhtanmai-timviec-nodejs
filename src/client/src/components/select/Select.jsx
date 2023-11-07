@@ -7,7 +7,7 @@ export default function Select({
   placeholder = "Chọn...",
   defaultValue,
   selectedOption,
-  setSelectedOption,
+  setSelectedOption
 }) {
 
   return (
