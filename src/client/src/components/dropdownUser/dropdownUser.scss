@@ -33,6 +33,7 @@
         font-size: $font-size-s;
         color: themed("text1");
         font-weight: 500;
+        @include hideText(100px);
       }
     }
     &__dropdown {

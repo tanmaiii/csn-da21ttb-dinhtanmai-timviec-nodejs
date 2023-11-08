@@ -2,18 +2,81 @@ import { db } from "../config/connect.js";
 import jwt from "jsonwebtoken";
 import moment from "moment";
 
-export const getById = (req, res) => {};
+export const getAll = async (req, res) => {
+  try {
+    const promiseDb = db.promise();
+    const { page, limit } = req.query;
+    const offset = (page - 1) * limit;
 
-export const getAll = (req, res) => {
-  const q = "SELECT * FROM job.jobs";
+    const q = `SELECT j.* , p.name as province , c.nameCompany, c.avatarPic 
+               FROM job.jobs AS j , job.companies AS c , job.provinces as p 
+               WHERE j.idCompany = c.id AND j.idProvince = p.id limit ? offset ?`;
 
-  db.query(q, (err, data) => {
-    if (!data.length) {
-      return res.status(401).json("Không tồn tại !");
-    } else {
-      return res.json(data);
+    const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
+                WHERE j.idCompany = c.id AND j.idProvince = p.id`;
+
+    const [data] = await promiseDb.query(q, [+limit, +offset]);
+    const [totalPageData] = await promiseDb.query(q2);
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
+
+    if (data && totalPageData && totalPage) {
+      return res.status(200).json({
+        data: data,
+        pagination: {
+          page: +page,
+          limit: +limit,
+          totalPage,
+        },
+      });
     }
+  } catch (error) {
+    return res.status(409).json("Lỗi !");
+  }
+};
+
+export const getById = async (req, res) => {
+  const q = `SELECT j.* , p.name as province , c.nameCompany, c.avatarPic 
+            FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+            WHERE j.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
+
+  db.query(q, req.params.id, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
   });
+};
+
+export const getByIdCompany = async (req, res) => {
+  try {
+    const promiseDb = db.promise();
+    const { id } = req.params;
+    const { page, limit } = req.query;
+    const offset = (page - 1) * limit;
+    
+    console.log(page, limit);
+    const q = `SELECT j.id, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork , p.name as province , c.nameCompany, c.avatarPic 
+               FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+               WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id limit ? offset ?`;
+
+    const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+                WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
+
+    const [data] = await promiseDb.query(q, [id, +limit, +offset]);
+    const [totalPageData] = await promiseDb.query(q2, [id]);
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
+
+    if (data && totalPageData && totalPage) {
+      return res.status(200).json({
+        data: data,
+        pagination: {
+          page: +page,
+          limit: +limit,
+          totalPage,
+        },
+      });
+    }
+  } catch (error) {
+    return res.status(409).json("Lỗi !");
+  }
 };
 
 export const postJob = (req, res) => {
@@ -31,8 +94,6 @@ export const postJob = (req, res) => {
     level,
     experience,
   } = req.body;
-
-  console.log(req.body);
 
   if (!idField || !idProvince || !nameJob)
     return res.status(401).json("Các trường không để rỗng !");

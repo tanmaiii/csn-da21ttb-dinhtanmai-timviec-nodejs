@@ -4,9 +4,10 @@ import avatar from "../../assets/images/avatarCpn.png";
 import ItemJob from "../../components/itemJob/ItemJob";
 import InfoCompany from "./infoCompany/InfoCompany";
 import IntroCompany from "./introCompany/IntroCompany";
+import JobsCompany from "./jobsCompany/JobsCompany";
 import { Link, useSearchParams, useParams } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
-import { makeRequest } from "../../axios";
+import { makeRequest, apiImage } from "../../axios";
 import NotFound from "../../pages/notFound/NotFound";
 import Loader from "../../components/loader/Loader";
 
@@ -17,7 +18,6 @@ import jobs from "../../config/jobs";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function DetailCompany() {
-  const [paginate, setPaginate] = useState(1);
   const [err, setErr] = useState();
   const [loading, setLoading] = useState();
   const [company, setCompany] = useState();
@@ -26,19 +26,34 @@ export default function DetailCompany() {
   const { currentCompany } = useAuth();
   const controlMbRef = useRef();
   const { id } = useParams();
- 
+
   const getCompany = async () => {
     try {
-      const res = await makeRequest.get("/company/find/"+ id);
-      setCompany(res.data)
+      const res = await makeRequest.get("/company/find/" + id);
+      setCompany(res.data);
     } catch (error) {
-        setErr('id không đúng')
+      setErr("id không đúng");
     }
-  }
+  };
 
   const { isLoading, error, data } = useQuery(["company", id], () => {
     return getCompany();
   });
+
+  const handleChangeInputFile = async (e) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", e.target.files[0]);
+      const postImage = await makeRequest.post("/upload", formData);
+      await makeRequest.put("/company/uploadImage", {
+        avatarPic: postImage.data,
+      });
+      getCompany();
+      return postImage.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -70,7 +85,11 @@ export default function DetailCompany() {
                 <div className="detailCompany__wrapper__header__main">
                   <div className="detailCompany__wrapper__header__main__image">
                     <img
-                      src={company?.avatarPic ? company?.avatarPic : avatar}
+                      src={
+                        company?.avatarPic
+                          ? apiImage + company?.avatarPic
+                          : avatar
+                      }
                       alt=""
                     />
                     {company?.id === currentCompany?.id && (
@@ -79,7 +98,11 @@ export default function DetailCompany() {
                         className="detailCompany__wrapper__header__main__image__edit"
                       >
                         <i className="fa-solid fa-upload"></i>
-                        <input id="input-image" type="file" />
+                        <input
+                          id="input-image"
+                          type="file"
+                          onChange={(e) => handleChangeInputFile(e)}
+                        />
                       </label>
                     )}
                   </div>
@@ -226,27 +249,9 @@ export default function DetailCompany() {
 
                     <div className="detailCompany__wrapper__body__left__content">
                       {searchParams.get("tag") === null && (
-                        <IntroCompany
-                          intro={company?.intro}
-                        />
+                        <IntroCompany intro={company?.intro} />
                       )}
-                      {searchParams.get("tag") === "jobs" && (
-                        <div className="jobsSave row">
-                          {jobs.map((job, i) => (
-                            <ItemJob
-                              job={job}
-                              key={i}
-                              className={"col pc-12"}
-                            />
-                          ))}
-                          <Pagination
-                            totalItem={30}
-                            limit={5}
-                            paginate={paginate}
-                            setPaginate={setPaginate}
-                          />
-                        </div>
-                      )}
+                      {searchParams.get("tag") === "jobs" && <JobsCompany />}
                       {searchParams.get("tag") === "info" && <InfoCompany />}
                     </div>
                   </div>

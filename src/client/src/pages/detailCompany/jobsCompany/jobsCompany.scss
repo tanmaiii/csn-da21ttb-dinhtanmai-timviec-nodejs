@@ -1,0 +1,8 @@
+@use '../../../scss/' as *;
+
+
+.jobsCompany{
+  @include themify($themes) {
+    width: 100%;
+  }
+}

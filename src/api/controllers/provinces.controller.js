@@ -12,3 +12,33 @@ export const getAll = (req, res) => {
     }
   });
 };
+
+export const getWithPage = async (req, res) => {
+  try {
+    const promiseDb = db.promise()
+    const { page, limit } = req.query;
+
+    const offset = (page - 1) * limit;
+    const q = "SELECT * from job.provinces limit ? offset ? ";
+    const q2 = "SELECT count(*) as count FROM job.provinces";
+    
+
+    const [data] = await promiseDb.query(q, [+limit, +offset]);
+    const [totalPageData] = await promiseDb.query(q2);
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+
+    //return res.status(200).json(data)
+    if (data && totalPageData && totalPage) {
+      return res.status(200).json({
+        data:data,
+        pagination:{
+          page: +page,
+          limit: + limit,
+          totalPage
+        }
+      })
+    }
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+};

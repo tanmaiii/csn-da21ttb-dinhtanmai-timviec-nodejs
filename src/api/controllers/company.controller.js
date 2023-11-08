@@ -107,6 +107,20 @@ export const updateIntroCompany = (req, res) => {
   });
 };
 
+export const uploadImage = (req, res) => {
+  const avatarPic = req.body.avatarPic;
+  const q = "UPDATE companies SET avatarPic = ? WHERE id = ? ";
+
+  const token = req.cookies?.accessToken;
+  if (!token) return res.status(403).json("Chưa đăng nhập !");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    db.query(q, [avatarPic, userInfo.id], (err, data) => {
+      if (!err) return res.status(200).json("Lưu ảnh thành công !");
+      return res.status(401).json("Lỗi!");
+    });
+  });
+};
+
 export const resetPassword = (email, password, result) => {
   db.query(
     "UPDATE companies SET password = ? WHERE email=?",

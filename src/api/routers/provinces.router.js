@@ -1,8 +1,9 @@
 import express from "express";
-import { getAll } from "../controllers/provinces.controller.js";
+import { getAll,getWithPage } from "../controllers/provinces.controller.js";
 
 const router = express.Router();
 
+router.get("/getWithPage", getWithPage)
 router.get("/", getAll);
 
 export default router;
