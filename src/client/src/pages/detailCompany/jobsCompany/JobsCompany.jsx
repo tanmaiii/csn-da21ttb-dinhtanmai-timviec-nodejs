@@ -3,31 +3,41 @@ import "./jobsCompany.scss";
 import ItemJob from "../../../components/itemJob/ItemJob";
 import Pagination from "../../../components/pagination/Pagination";
 import { useParams } from "react-router-dom";
-import { makeRequest } from "../../../axios";
+import { makeRequest, apiImage } from "../../../axios";
+import { useQuery, useSearchParams } from "react-query";
+import { Link } from "react-router-dom";
 
 export default function JobsCompany() {
   const [paginate, setPaginate] = useState(1);
   const [jobs, setJobs] = useState();
   const { id } = useParams();
+  const [totalPage, setTotalPage] = useState();
+  const limit = 5;
 
   const getJob = async () => {
     try {
-      const res = await makeRequest.get(`/job/company/${id}?page=1&limit=5`);
-      setJobs(res.data);
+      const res = await makeRequest.get(
+        `/job/company/${id}?page=${paginate}&limit=${limit}`
+      );
+      setJobs(res.data.data);
+      setTotalPage(res.data.pagination.totalPage);
     } catch (error) {}
   };
 
-  console.log(jobs);
-
   useEffect(() => {
     getJob();
-  }, []);
+  }, [paginate]);
 
   return (
     <div className="jobsCompany">
+      <div className="jobsCompany__list row">
+        {jobs?.map((job, i) => (
+          <ItemJob key={i} job={job} className={"col pc-6 t-12 m-12"} />
+        ))}
+      </div>
       <Pagination
-        totalItem={30}
-        limit={10}
+        totalPage={totalPage}
+        limit={limit}
         paginate={paginate}
         setPaginate={setPaginate}
       />

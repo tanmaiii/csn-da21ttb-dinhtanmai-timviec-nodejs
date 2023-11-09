@@ -1,5 +1,191 @@
 @use "../../scss/" as *;
 
+// .itemJob {
+//   @include themify($themes) {
+//     width: 100%;
+//     &.active {
+//       .itemJob__wrapper {
+//         border: 1px solid $color-primary;
+//       }
+//     }
+//     &__wrapper {
+//       @include flex(start, unset);
+//       gap: 10px;
+//       border: 1px solid themed("border");
+//       padding: 10px;
+//       border-radius: $border-radius-10;
+//       background-color: themed("bg2");
+//       cursor: pointer;
+//       min-height: 160px;
+//       &:hover {
+//         box-shadow: themed("box-shadow");
+//       }
+//       &__image {
+//         min-width: 80px;
+//         height: 80px;
+//         @include flex(center, unset);
+//         border: 1px solid themed("border");
+//         border-radius: $border-radius-10;
+//         overflow: hidden;
+//         @include mobile {
+//           min-width: 60px;
+//           height: 60px;
+//         }
+//         img {
+//           width: 100%;
+//           height: 100%;
+//           object-fit: cover;
+//         }
+//       }
+//       &__body {
+//         width: 100%;
+//         padding: 0 10px;
+//         & > * {
+//           margin-bottom: 8px;
+//         }
+//         &__header {
+//           @include flex(start, space-between);
+//           gap: 8px;
+//           .name {
+//             font-size: $font-size-s;
+//             color: themed("text1");
+//             font-weight: 500;
+//             @include text(2);
+//           }
+//           .button__save {
+//             background-color: transparent;
+//             cursor: pointer;
+//             i {
+//               font-size: $font-size-l;
+//               color: $color-yellow;
+//             }
+//           }
+//           .button__more {
+//             font-size: $font-size-s;
+//             position: relative;
+//             & > button {
+//               font-size: $font-size-s;
+//               @include flex(center, center);
+//               padding: 8px;
+//               //  background-color: themed("bg1");
+//               border-radius: 50%;
+//               &:hover {
+//                 background-color: themed("bg1");
+//               }
+//               i {
+//                 color: themed("text2");
+//                 font-size: 1.4rem;
+//                 width: 20px;
+//                 height: 20px;
+//               }
+//             }
+//             &__body {
+//               position: absolute;
+//               top: calc(100% + 10px);
+//               // left: 50%;
+//               // transform: translateX(-50%);
+//               right: 0;
+//               width: max-content;
+//               border: 1px solid themed("border");
+//               border-radius: $border-radius-10;
+//              // overflow: hidden;
+//               box-shadow: themed("box-shadow");
+//               padding: 12px 0;
+//               z-index: 99;
+//               background-color: themed("bg2");
+//               display: none;
+//               &::after {
+//                 content: "";
+//                 display: block;
+//                 height: 15px;
+//                 position: absolute;
+//                 transform: rotateZ(45deg);
+//                 width: 15px;
+//                 top: -8px;
+//                 right: 11px;
+//                 background-color: themed('bg2');
+//                 border-top: 1px solid themed("border");
+//                 border-left: 1px solid themed("border");
+//               }
+//               button {
+//                 width: 100%;
+//                 @include flex(center, unset);
+//                 gap: 8px;
+//                 padding: 8px 10px;
+//                 min-width: 120px;
+//                 color: themed("text1");
+//                 &:hover {
+//                   background-color: themed("primary");
+//                   color: $color-white;
+//                 }
+//                 i {
+//                   font-size: 1.2rem;
+//                 }
+//                 span {
+//                   font-size: $font-size-s;
+//                 }
+//               }
+//             }
+//           }
+//         }
+//         &__company {
+//           font-size: $font-size-s;
+//           color: themed("text2");
+//           font-weight: 400;
+//           @include text(2);
+//           cursor: pointer;
+//           &:hover {
+//             text-decoration: underline;
+//           }
+//         }
+//         &__address {
+//           @include flex(center, unset);
+//           gap: 8px;
+//           i {
+//             font-size: $font-size-m;
+//             color: themed("text2");
+//           }
+//           span {
+//             font-size: $font-size-s;
+//             color: themed("text2");
+//           }
+//         }
+//         &__bottom {
+//           @include flex(center, unset);
+//           flex-wrap: wrap;
+//           gap: 8px;
+//           .wage {
+//             background-color: themed("bg1");
+//             padding: 6px 10px;
+//             border-radius: $border-radius-10;
+//             width: max-content;
+//             @include flex(center, unset);
+//             gap: 8px;
+//             i {
+//               font-size: $font-size-s;
+//               color: themed("text2");
+//             }
+//             span {
+//               @include text(1);
+//               color: themed("text2");
+//               font-size: $font-size-s;
+//               font-weight: 500;
+//             }
+//           }
+//           .workingForm {
+//             background-color: themed("bg1");
+//             padding: 6px 10px;
+//             border-radius: $border-radius-10;
+//             color: themed("text2");
+//             font-weight: 500;
+//             width: max-content;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
 .itemJob {
   @include themify($themes) {
     width: 100%;
@@ -10,110 +196,180 @@
     }
     &__wrapper {
       @include flex(start, unset);
+      flex-direction: column;
       gap: 10px;
-      border: 1px solid themed("border");
-      padding: 10px;
+      border: 1.2px solid themed("border");
+      padding: 20px;
       border-radius: $border-radius-10;
       background-color: themed("bg2");
       cursor: pointer;
       min-height: 160px;
-      &:hover {
-        box-shadow: themed("box-shadow");
+      overflow: hidden;
+      transition: all .3s;
+      &:hover{
+        box-shadow: themed('box-shadow');
+        border-color:  $color-primary
       }
-      &__image {
-        min-width: 80px;
-        height: 80px;
-        @include flex(center, unset);
-        border: 1px solid themed("border");
-        border-radius: $border-radius-10;
-        overflow: hidden;
-        @include mobile{
-          min-width: 60px;
-          height: 60px;
+      &__header {
+        @include flex(start, space-between);
+        position: relative;
+        width: 100%;
+        margin-bottom: 10px;
+        &__infoCpn {
+          @include flex(center, space-between);
+          gap: 10px;
+          max-width: calc(100% - 80px);
+          img {
+            --size: 50px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid $color-primary;
+            object-fit: cover;
+          }
+          .text {
+            .nameCompany {
+              font-size: $font-size-m;
+              font-weight: 400;
+              color: themed("text1");
+            }
+            .place {
+              display: flex;
+              gap: 6px;
+              font-size: $font-size-s;
+              color: themed("text2");
+              i {
+                font-size: 0.9rem;
+                @include flex(center, center);
+              }
+            }
+          }
         }
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+        &__button {
+          position: absolute;
+          top: 0;
+          right: 0;
+          @include flex(center, unset);
+          gap: 4px;
+          .button__save {
+            font-size: 1.4rem;
+            color: $color-yellow;
+            border-radius: 50%;
+            padding: 10px;
+            @include flex(center, center);
+            transition: all 0.3s;
+            &:hover {
+              background-color: themed("bg1");
+            }
+            i {
+              @include flex(center, center);
+              color: themed("text2");
+              font-size: 1.2rem;
+              width: 20px;
+              height: 20px;
+            }
+          }
+          .button__more {
+            font-size: $font-size-s;
+            position: relative;
+            & > button {
+              font-size: $font-size-s;
+              @include flex(center, center);
+              padding: 10px;
+              border-radius: 50%;
+              transition: all 0.3s;
+              &:hover {
+                background-color: themed("bg1");
+              }
+              i {
+                color: themed("text2");
+                font-size: 1.4rem;
+                width: 20px;
+                height: 20px;
+              }
+            }
+            &__body {
+              position: absolute;
+              top: calc(100% + 10px);
+              // left: 50%;
+              // transform: translateX(-50%);
+              right: 0;
+              width: max-content;
+              border: 1px solid themed("border");
+              border-radius: $border-radius-10;
+              // overflow: hidden;
+              box-shadow: themed("box-shadow");
+              padding: 12px 0;
+              z-index: 99;
+              background-color: themed("bg2");
+              display: none;
+              &.active {
+                display: block;
+              }
+              &::after {
+                content: "";
+                display: block;
+                height: 15px;
+                position: absolute;
+                transform: rotateZ(45deg);
+                width: 15px;
+                top: -8px;
+                right: 11px;
+                background-color: themed("bg2");
+                border-top: 1px solid themed("border");
+                border-left: 1px solid themed("border");
+              }
+              button {
+                width: 100%;
+                @include flex(center, unset);
+                gap: 8px;
+                padding: 8px 10px;
+                min-width: 120px;
+                color: themed("text1");
+                &:hover {
+                  background-color: themed("primary");
+                  color: $color-white;
+                }
+                i {
+                  font-size: 1.2rem;
+                }
+                span {
+                  font-size: $font-size-s;
+                }
+              }
+            }
+          }
         }
       }
       &__body {
-        width: 100%;
-        padding: 0 10px;
-        & > * {
-          margin-bottom: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        .nameJob {
+          font-size: $font-size-m;
+          font-weight: 500;
+          @include text(1);
         }
-        &__header {
-          @include flex(end, space-between);
+        .inportant {
+          @include flex(center, unset);
           gap: 8px;
-          .name {
+          & > div {
+            background-color: themed("bg1");
+            width: max-content;
+            padding: 8px;
+            border-radius: $border-radius-10;
             font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 500;
-            @include text(2);
-          }
-          button {
-            background-color: transparent;
-            cursor: pointer;
-            i {
-              font-size: $font-size-l;
-              color: $color-yellow;
-            }
+            @include flex(center, unset);
+            gap: 6px;
           }
         }
-        &__company {
+        .createdAt {
           font-size: $font-size-s;
           color: themed("text2");
           font-weight: 400;
-          @include text(2);
-          cursor: pointer;
-          &:hover {
-            text-decoration: underline;
-          }
         }
-        &__address {
-          @include flex(center, unset);
-          gap: 8px;
-          i {
-            font-size: $font-size-m;
-            color: themed("text2");
-          }
-          span {
-            font-size: $font-size-s;
-            color: themed("text2");
-          }
-        }
-        &__bottom {
-          @include flex(center, unset);
-          flex-wrap: wrap;
-          gap: 8px;
-          .wage {
-            background-color: themed("bg1");
-            padding: 6px 10px;
-            border-radius: $border-radius-10;
-            width: max-content;
-            @include flex(center, unset);
-            gap: 8px;
-            i {
-              font-size: $font-size-s;
-              color: themed("text2");
-            }
-            span {
-              @include text(1);
-              color: themed("text2");
-              font-size: $font-size-s;
-              font-weight: 500;
-            }
-          }
-          .workingForm {
-            background-color: themed("bg1");
-            padding: 6px 10px;
-            border-radius: $border-radius-10;
-            color: themed("text2");
-            font-weight: 500;
-            width: max-content;
-          }
-        }
+      }
+      &__bottom {
       }
     }
   }

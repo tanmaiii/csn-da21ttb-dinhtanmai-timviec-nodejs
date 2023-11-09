@@ -39,8 +39,6 @@ export default function InfoCompany() {
     });
   });
 
-  console.log(inputs);
-
   return (
     <div className="infoCompany">
       <div className="infoCompany__wrapper">

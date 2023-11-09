@@ -5,15 +5,21 @@ import ItemJob from "../../components/itemJob/ItemJob";
 import InfoCompany from "./infoCompany/InfoCompany";
 import IntroCompany from "./introCompany/IntroCompany";
 import JobsCompany from "./jobsCompany/JobsCompany";
-import { Link, useSearchParams, useParams } from "react-router-dom";
+import {
+  Link,
+  useSearchParams,
+  useParams,
+  Route,
+  Routes,
+  useNavigate,
+  useLocation
+} from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
 import { makeRequest, apiImage } from "../../axios";
 import NotFound from "../../pages/notFound/NotFound";
 import Loader from "../../components/loader/Loader";
 
 import { useAuth } from "../../context/authContext";
-
-import jobs from "../../config/jobs";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -26,6 +32,10 @@ export default function DetailCompany() {
   const { currentCompany } = useAuth();
   const controlMbRef = useRef();
   const { id } = useParams();
+  const navigate = useNavigate()
+  const {pathname} = useLocation()
+
+  const controlPathname = pathname.split('/').filter(Boolean).pop()
 
   const getCompany = async () => {
     try {
@@ -157,17 +167,17 @@ export default function DetailCompany() {
                   <div className="detailCompany__wrapper__body__left">
                     <div className="detailCompany__wrapper__body__left__control">
                       <button
-                        onClick={() => setSearchParams()}
+                        onClick={() => navigate('')}
                         className={`${
-                          searchParams.get("tag") === null && "active"
+                          controlPathname === id && "active"
                         }`}
                       >
                         <span>Giới thiệu</span>
                       </button>
                       <button
-                        onClick={() => setSearchParams({ ["tag"]: "jobs" })}
+                        onClick={() => navigate('jobs')}
                         className={`${
-                          searchParams.get("tag") === "jobs" && "active"
+                          controlPathname === "jobs" && "active"
                         }`}
                       >
                         <span>Việc làm</span>
@@ -175,9 +185,9 @@ export default function DetailCompany() {
                       {company?.id === currentCompany?.id && (
                         <>
                           <button
-                            onClick={() => setSearchParams({ ["tag"]: "info" })}
+                            onClick={() => navigate('info')}
                             className={`${
-                              searchParams.get("tag") === "info" && "active"
+                              controlPathname === "info" && "active"
                             }`}
                           >
                             <span>Thông tin</span>
@@ -196,17 +206,17 @@ export default function DetailCompany() {
 
                     <div className="detailCompany__wrapper__body__left__control-mobile">
                       <button
-                        onClick={() => setSearchParams()}
+                        onClick={() => navigate('')}
                         className={`${
-                          searchParams.get("tag") === null && "active"
+                          controlPathname === id && "active"
                         }`}
                       >
                         <span>Giới thiệu</span>
                       </button>
                       <button
-                        onClick={() => setSearchParams({ ["tag"]: "jobs" })}
+                        onClick={() => navigate('jobs')}
                         className={`${
-                          searchParams.get("tag") === "jobs" && "active"
+                          controlPathname === "jobs" && "active"
                         }`}
                       >
                         <span>Việc làm</span>
@@ -224,11 +234,10 @@ export default function DetailCompany() {
                           {openControlMb && (
                             <div className="button__more__dropdown">
                               <button
-                                onClick={() =>
-                                  setSearchParams({ ["tag"]: "info" })
+                                onClick={() => navigate('info')
                                 }
                                 className={`${
-                                  searchParams.get("tag") === "info" && "active"
+                                  controlPathname === "info" && "active"
                                 }`}
                               >
                                 <span>Thông tin</span>
@@ -248,11 +257,11 @@ export default function DetailCompany() {
                     </div>
 
                     <div className="detailCompany__wrapper__body__left__content">
-                      {searchParams.get("tag") === null && (
-                        <IntroCompany intro={company?.intro} />
-                      )}
-                      {searchParams.get("tag") === "jobs" && <JobsCompany />}
-                      {searchParams.get("tag") === "info" && <InfoCompany />}
+                      <Routes>
+                        <Route index element={<IntroCompany intro={company?.intro} />} />
+                        <Route path="info" element={<InfoCompany />} />
+                        <Route path="jobs" element={<JobsCompany />} />
+                      </Routes>
                     </div>
                   </div>
                 </div>

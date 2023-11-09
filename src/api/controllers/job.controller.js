@@ -8,9 +8,9 @@ export const getAll = async (req, res) => {
     const { page, limit } = req.query;
     const offset = (page - 1) * limit;
 
-    const q = `SELECT j.* , p.name as province , c.nameCompany, c.avatarPic 
-               FROM job.jobs AS j , job.companies AS c , job.provinces as p 
-               WHERE j.idCompany = c.id AND j.idProvince = p.id limit ? offset ?`;
+    const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic
+               FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+               WHERE j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
 
     const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
                 WHERE j.idCompany = c.id AND j.idProvince = p.id`;
@@ -51,13 +51,12 @@ export const getByIdCompany = async (req, res) => {
     const { id } = req.params;
     const { page, limit } = req.query;
     const offset = (page - 1) * limit;
-    
-    console.log(page, limit);
-    const q = `SELECT j.id, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork , p.name as province , c.nameCompany, c.avatarPic 
-               FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
-               WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id limit ? offset ?`;
 
-    const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+    const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic
+               FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+               WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
+
+    const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
                 WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
 
     const [data] = await promiseDb.query(q, [id, +limit, +offset]);

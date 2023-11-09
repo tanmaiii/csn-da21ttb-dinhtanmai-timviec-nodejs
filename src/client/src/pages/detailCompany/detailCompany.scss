@@ -144,6 +144,9 @@
             background-color: themed("bg2");
             padding: 20px;
             border-radius: $border-radius-20;
+            @include mobile{
+              padding: 10px;
+            }
             &__control {
               @include flex(center, unset);
               gap: 8px;

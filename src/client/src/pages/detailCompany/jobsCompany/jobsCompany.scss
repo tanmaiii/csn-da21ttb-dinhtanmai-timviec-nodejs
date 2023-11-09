@@ -5,4 +5,8 @@
   @include themify($themes) {
     width: 100%;
   }
+  &__list{
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

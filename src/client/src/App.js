@@ -1,4 +1,4 @@
-import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { Route, BrowserRouter, Routes, Outlet } from "react-router-dom";
 import "https://kit.fontawesome.com/dc548344cf.js";
 import "./assets/libs/boxicons-2.1.4/css/boxicons.min.css";
 
@@ -25,6 +25,7 @@ import Signup from "./components/signup/Signup";
 
 import SigninCompany from "./components/signinCompany/SigninCompany";
 import SignupCompany from "./components/signupCompany/SignupCompany";
+import InfoCompany from "./pages/detailCompany/infoCompany/InfoCompany";
 
 function App() {
   const { darkMode } = useMode();
@@ -53,7 +54,11 @@ function App() {
             
             <Route path="/nguoi-dung/:id/" element={<DetailUser />} />
 
-            <Route path="nha-tuyen-dung/:id" element={<DetailCompany />} />
+            <Route path="nha-tuyen-dung/:id" element={<DetailCompany />} >
+                   <Route path="info" element/>
+                   <Route path="jobs" element/>
+            </Route>
+
             <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
             <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
             <Route path="nha-tuyen-dung/chinh-sua" element={<EditJob />} />

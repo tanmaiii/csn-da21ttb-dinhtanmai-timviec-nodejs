@@ -3,6 +3,7 @@ import "./dropdownCompany.scss";
 import avatar from "../../assets/images/avatar.png";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import { apiImage } from "../../axios";
 
 export default function DropdownCompany() {
   const [openMenuUser, setOpenMenuUser] = useState(false);
@@ -32,7 +33,7 @@ export default function DropdownCompany() {
         onClick={() => setOpenMenuUser(!openMenuUser)}
       >
         <img
-          src={currentCompany.avatarPic ? currentCompany.avatarPic : avatar}
+          src={currentCompany.avatarPic ? (apiImage + currentCompany.avatarPic) : avatar}
           alt=""
         />
         <span>{currentCompany.nameCompany}</span>
