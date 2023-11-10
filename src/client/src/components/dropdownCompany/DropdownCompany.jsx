@@ -11,7 +11,7 @@ export default function DropdownCompany() {
   const location = useLocation();
   const { logoutCompany, currentCompany } = useAuth();
   const id = currentCompany?.id;
-  
+
   useEffect(() => {
     const handleMouseDown = (e) => {
       if (!dropdownCompanyRef.current?.contains(e.target)) {
@@ -33,7 +33,11 @@ export default function DropdownCompany() {
         onClick={() => setOpenMenuUser(!openMenuUser)}
       >
         <img
-          src={currentCompany.avatarPic ? (apiImage + currentCompany.avatarPic) : avatar}
+          src={
+            currentCompany.avatarPic
+              ? apiImage + currentCompany.avatarPic
+              : avatar
+          }
           alt=""
         />
         <span>{currentCompany.nameCompany}</span>
@@ -45,28 +49,36 @@ export default function DropdownCompany() {
           to={`/nha-tuyen-dung/${id}`}
           className="dropdownCompany__dropdown__option"
         >
-          <i class="fa-regular fa-user"></i>
+          <i className="fa-regular fa-user"></i>
           <span>Trang cá nhân</span>
         </Link>
+
         <Link
-          to={`/nha-tuyen-dung/${id}/?tag=jobs`}
+          to={`/nha-tuyen-dung/${id}/jobs`}
           className="dropdownCompany__dropdown__option"
         >
-          <i class="fa-regular fa-rectangle-list"></i>
+          <i className="fa-regular fa-rectangle-list"></i>
           <span>Việc làm của bạn</span>
+        </Link>
+        <Link
+          to={`/nha-tuyen-dung/${id}/info`}
+          className="dropdownCompany__dropdown__option"
+        >
+         <i className="fa-regular fa-id-badge"></i>
+          <span>Thông tin cá nhân</span>
         </Link>
         <Link
           to={"/nha-tuyen-dung/ung-vien"}
           className="dropdownCompany__dropdown__option"
         >
-          <i class="fa-regular fa-address-card"></i>
+          <i className="fa-regular fa-address-card"></i>
           <span>Đơn ứng tuyển</span>
         </Link>
         <Link
           to={"/nha-tuyen-dung/dang-bai"}
           className="dropdownCompany__dropdown__option"
         >
-          <i class="fa-solid fa-plus"></i>
+          <i className="fa-solid fa-plus"></i>
           <span>Đăng ứng tuyển</span>
         </Link>
         <hr />
@@ -74,7 +86,7 @@ export default function DropdownCompany() {
           onClick={() => logoutCompany()}
           className="dropdownCompany__dropdown__option dropdownCompany__dropdown__option__logout"
         >
-          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <i className="fa-solid fa-arrow-right-from-bracket"></i>
           <span>Đăng xuất</span>
         </button>
       </div>

@@ -39,21 +39,40 @@ export const getOwnerCompany = (req, res) => {
   });
 };
 
-export const getAllCompany = (req, res) => {
-  const id = req.params.id;
-  const q = "SELECT * FROM companies WHERE id=?";
-  if (id) {
-    db.query(q, id, (err, data) => {
-      console.log(data);
-      if (!data.length) {
-        return res.status(401).json("Không tồn tại !");
-      } else {
-        const { password, ...others } = data[0];
-        return res.json(others);
-      }
-    });
-  } else {
-    return res.status(401).json("Không để rỗng !");
+export const getAllCompany = async (req, res) => {
+  try {
+    const promiseDb = db.promise();
+    const { page, limit,search } = req.query;
+    const offset = (page - 1) * limit;
+
+    console.log(page, limit, search);
+
+    const q = search !== undefined ? `SELECT c.id, nameCompany, avatarPic, intro, scale, web, c.id, p.name as province 
+                          FROM job.companies as c, job.provinces as p WHERE c.nameCompany like '%${search}%' AND c.idProvince = p.id limit ? offset ?`
+                     : `SELECT c.id, nameCompany, avatarPic, intro, scale, web, c.id, p.name as province 
+                     FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id limit ? offset ?`
+
+    const q2 = search !== undefined ? `SELECT count(*) as count FROM job.companies as c, job.provinces as p WHERE c.nameCompany like '%${search}%' AND c.idProvince = p.id`:
+                        `SELECT count(*) as count FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id`
+
+    const [data] = await promiseDb.query(q, [+limit, +offset]);
+    const [totalPageData] = await promiseDb.query(q2);
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
+
+    if (data && totalPageData && totalPage) {
+      return res.status(200).json({
+        data: data,
+        pagination: {
+          page: +page,
+          limit: +limit,
+          totalPage,
+        },
+      });
+    }else{
+         return res.status(409).json("Rỗng !");
+    }
+  } catch (error) {
+    return res.status(409).json("Lỗi !");
   }
 };
 

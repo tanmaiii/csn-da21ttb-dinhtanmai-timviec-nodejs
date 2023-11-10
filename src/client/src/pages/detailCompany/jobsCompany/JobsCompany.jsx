@@ -8,11 +8,11 @@ import { useQuery, useSearchParams } from "react-query";
 import { Link } from "react-router-dom";
 
 export default function JobsCompany() {
-  const [paginate, setPaginate] = useState(1);
   const [jobs, setJobs] = useState();
   const { id } = useParams();
+  const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState();
-  const limit = 5;
+  const limit = 4;
 
   const getJob = async () => {
     try {

@@ -7,7 +7,7 @@ import img from "../../assets/images/avatarCpn.png";
 import moment from "moment";
 import "moment/locale/vi";
 
-export default function ItemJob({ className, job }) {
+export default function ItemJob({ className, job, onClick }) {
   const [save, setSave] = useState(false);
   const [openMore, setOpenMore] = useState(false);
   const { currentCompany } = useAuth();
@@ -26,7 +26,7 @@ export default function ItemJob({ className, job }) {
   });
 
   return (
-    <div className={`itemJob ${className && className}`}>
+    <div className={`itemJob ${className && className}`} onClick={onClick}>
       <div className="itemJob__wrapper">
         <div className="itemJob__wrapper__header">
           <div className="itemJob__wrapper__header__infoCpn">
@@ -35,7 +35,9 @@ export default function ItemJob({ className, job }) {
               alt=""
             />
             <div className="text">
-              <h2 className="nameCompany">{job?.nameCompany}</h2>
+              <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
+                <h2 className="nameCompany">{job?.nameCompany}</h2>
+              </Link>
               <div className="place">
                 <i className="fa-solid fa-location-dot"></i>
                 <span>{job?.province}</span>

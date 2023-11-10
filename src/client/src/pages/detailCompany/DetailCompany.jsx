@@ -39,7 +39,7 @@ export default function DetailCompany() {
 
   const getCompany = async () => {
     try {
-      const res = await makeRequest.get("/company/find/" + id);
+      const res = await makeRequest.get("/company/" + id);
       setCompany(res.data);
     } catch (error) {
       setErr("id không đúng");

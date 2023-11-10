@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./listJobCol.scss";
 import ItemJob from "../../components/itemJob/ItemJob";
-import jobs from "../../config/jobs";
+import { makeRequest } from "../../axios";
 
-export default function ListJobCol({ name, category }) {
+export default function ListJobCol({ name, idField, idJob }) {
+  const [jobs, setJobs] = useState();
+  const limit = 6;
+  const paginate = 1;
+
+  useEffect(() => {
+    const getJob = async () => {
+      try {
+        const res = await makeRequest.get(
+          `job/field/${idField}?page=${paginate}&limit=${limit}`
+        );
+        setJobs(res.data.data);
+        console.log(res);
+      } catch (error) {}
+    };
+    getJob();
+  }, [idField]);
+
   return (
     <div className="listJobCol">
       <div className="listJobCol__wrapper">
@@ -11,19 +28,10 @@ export default function ListJobCol({ name, category }) {
           <h4>{name}</h4>
         </div>
         <div className="listJobCol__wrapper__body">
-          {jobs.slice(0, 5).map((job) => (
-            <div className="listJobCol__wrapper__body__item col pc-12 t-12 m-0">
-              <div className="listJobCol__wrapper__body__item__box">
-                <h4 className="name__job">{job.name}</h4>
-                <h6 className="name_company">{job.company}</h6>
-                <div className="wage">
-                  <i class="fa-solid fa-dollar-sign"></i>
-                  <span>{job?.wage}</span>
-                </div>
-                <p className="workingForm">{job?.workingForm}</p>
-              </div>
-            </div>
-          ))}
+          {jobs?.map((job) => {
+            if (job?.id === idJob) return;
+            return <ItemJob job={job} className={"col pc-12"} />;
+          })}
         </div>
         <div className="listJobCol__wrapper__bottom"></div>
       </div>

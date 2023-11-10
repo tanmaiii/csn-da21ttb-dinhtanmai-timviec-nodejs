@@ -4,16 +4,18 @@ import moment from "moment";
 
 export const getAll = async (req, res) => {
   try {
+    const { field } = req.query;
+
     const promiseDb = db.promise();
     const { page, limit } = req.query;
     const offset = (page - 1) * limit;
 
-    const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic
-               FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
-               WHERE j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
+    const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields
+       FROM job.jobs AS j , job.companies AS c ,  job.provinces as p , job.fields as f
+       WHERE j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt DESC limit ? offset ?`;
 
     const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
-                WHERE j.idCompany = c.id AND j.idProvince = p.id`;
+       WHERE j.idCompany = c.id AND j.idProvince = p.id`;
 
     const [data] = await promiseDb.query(q, [+limit, +offset]);
     const [totalPageData] = await promiseDb.query(q2);
@@ -34,14 +36,46 @@ export const getAll = async (req, res) => {
   }
 };
 
+export const findJobs = async (req, res) => {
+  const { field } = req.query;
+  const { page, limit } = req.query;
+  const promiseDb = db.promise();
+
+  const offset = (page - 1) * limit;
+
+  const q =
+    "SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f WHERE f.name LIKE '%" +
+    field +
+    "%' AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id  ORDER BY j.createdAt DESC limit ? offset ?";
+  const q2 =
+    "SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f WHERE f.name LIKE '%" +
+    field +
+    "%' AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt";
+
+  const [data] = await promiseDb.query(q, [+limit, +offset]);
+  const [totalPageData] = await promiseDb.query(q2);
+  const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
+
+  if (data && totalPageData && totalPage) {
+    return res.status(200).json({
+      data: data,
+      pagination: {
+        page: +page,
+        limit: +limit,
+        totalPage,
+      },
+    });
+  }
+};
+
 export const getById = async (req, res) => {
-  const q = `SELECT j.* , p.name as province , c.nameCompany, c.avatarPic 
-            FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
-            WHERE j.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
+  const q = `SELECT j.* , p.name as province , c.nameCompany, c.avatarPic , f.name as nameField
+             FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f
+             WHERE j.id = ? AND j.idField = f.id  AND j.idCompany = c.id AND j.idProvince = p.id`;
 
   db.query(q, req.params.id, (err, data) => {
     if (err) return res.status(500).json(err);
-    return res.status(200).json(data);
+    return res.status(200).json(data[0]);
   });
 };
 
@@ -133,14 +167,38 @@ export const postJob = (req, res) => {
   });
 };
 
-// {
-//   "idField": 1,
-//   "idProvince": 1,
-//   "nameJob": "1",
-//   "request": "1",
-//   "desc": "1",
-//   "other": "1",
-//   "salaryMin": "1",
-//   "salaryMax": "1",
-//   "sex": "1"
-// }
+export const getByIdField = async (req, res) => {
+  try {
+    const { page, limit } = req.query;
+    const promiseDb = db.promise();
+    const { idField } = req.params;
+
+    const offset = (page - 1) * limit;
+
+    const q =
+      "SELECT j.id, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f WHERE f.id = ? AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id  ORDER BY j.createdAt DESC limit ? offset ?";
+    const q2 =
+      "SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f WHERE f.id = ? AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt";
+
+    const [data] = await promiseDb.query(q, [+idField, +limit, +offset]);
+    const [totalPageData] = await promiseDb.query(q2, [+idField]);
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
+
+    console.log(idField);
+
+    if (data && totalPageData && totalPage) {
+      return res.status(200).json({
+        data: data,
+        pagination: {
+          page: +page,
+          limit: +limit,
+          totalPage,
+        },
+      });
+    } else {
+      return res.status(401).json("Không tìm thấy");
+    }
+  } catch (error) {
+    return res.status(401).json("Lỗi");
+  }
+};

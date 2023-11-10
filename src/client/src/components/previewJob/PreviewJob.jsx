@@ -1,26 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./previewJob.scss";
-import img from "../../assets/images/Microsoft_logo.png";
+import img from "../../assets/images/avatarCpn.png";
 import { useMode } from "../../context/ModeContext";
-import Modal from '../../components/modal/Modal'
+import Modal from "../../components/modal/Modal";
 import ApplyJob from "../applyJob/ApplyJob";
+import { makeRequest, apiImage } from "../../axios";
+import { Link } from "react-router-dom";
 
-export default function PreviewJob({setOpenModal}) {
+export default function PreviewJob({ setOpenModal, idJob }) {
   const [save, setSave] = useState(false);
   const { darkMode } = useMode();
+  const [err, setErr] = useState(false);
+  const [job, setJob] = useState();
+
+  const getJob = async () => {
+    try {
+      const res = await makeRequest.get("job/" + idJob);
+      console.log(res.data);
+      setJob(res.data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getJob();
+  }, [idJob]);
+
+  useEffect(() => {
+    const previewJobDoc = document.querySelector('.previewJob')
+    previewJobDoc.scrollTo(0, 0);
+  }, [idJob]);
 
   return (
     <>
       <div className="previewJob">
         <div className="previewJob__image">
-          <img src={img} alt="" />
+          <img src={job?.avatarPic ? apiImage + job?.avatarPic : img} alt="" />
           <div className="previewJob__image__name">
-            <h4>IT - Thực tập sinh kiểm thử phần mềm.</h4>
-            <span>Microsoft Việt Nam</span>
+            <h4>{job?.nameJob}</h4>
+            <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
+            <span>{job?.nameCompany}</span>
+            </Link>
           </div>
         </div>
         <div className="previewJob__button">
-          <button className="btn_apply" onClick={() => setOpenModal(true)}>Ứng tuyển</button>
+          <button className="btn_apply" onClick={() => setOpenModal(true)}>
+            Ứng tuyển
+          </button>
           <button className="btn_save" onClick={() => setSave(!save)}>
             {save ? (
               <>
@@ -35,66 +60,68 @@ export default function PreviewJob({setOpenModal}) {
             )}
           </button>
         </div>
-        <div
-          className={`previewJob__info__main  ${darkMode ? "dark" : ""}`}
-          style={{}}
-        >
-          <div className="previewJob__info__main__col col pc-6">
+        <div className={`previewJob__info__main ${darkMode && 'dark'}`}>
+          <div className="previewJob__info__main__col col pc-6 t-6 m-12">
             <div className="item">
               <div className="header">
                 <i class="fa-solid fa-location-dot"></i>
                 <h4>Địa điểm</h4>
               </div>
-              <div className="content">
-                <span>IT - Phần mềm</span>
-              </div>
+              <span className="content">{job?.province}</span>
             </div>
             <div className="item">
               <div className="header">
                 <i class="fa-solid fa-briefcase"></i>
                 <h4>Ngành nghề</h4>
               </div>
-              <div className="content">
-                <span>IT - Phần mềm</span>
-              </div>
+              <Link to={`/search/${job?.idField}`}>
+                <span className="content">{job?.nameField || "..."}</span>
+              </Link>
             </div>
             <div className="item">
               <div className="header">
                 <i class="fa-solid fa-dollar-sign"></i>
                 <h4>Lương</h4>
               </div>
-              <div className="content">
-                <span>20.000.000 - 30.000.000 VNĐ</span>
-              </div>
+              <span className="content">
+                {job?.salaryMin === 0 || job?.salaryMax === 0
+                  ? "Thương lượng"
+                  : `${job?.salaryMin} - ${job?.salaryMax} tr`}
+              </span>
             </div>
-          </div>
-          <div className="previewJob__info__main__col col pc-6">
             <div className="item">
               <div className="header">
-                <i class="fa-solid fa-suitcase"></i>
+                <i class="fa-solid fa-user"></i>
+                <h4>Giới tính</h4>
+              </div>
+              <span className="content">{job?.sex || "n"}</span>
+            </div>
+          </div>
+          <div className="previewJob__info__main__col col pc-6 t-6 m-12">
+            <div className="item">
+              <div className="header">
+                <i className="fa-solid fa-business-time"></i>
                 <h4>Kinh nghiệm</h4>
               </div>
-              <div className="content">
-                <span>IT - Phần mềm</span>
-              </div>
+              <span className="content">
+                {job?.experience || "Không yêu cầu"}
+              </span>
             </div>
             <div className="item">
               <div className="header">
                 <i class="fa-solid fa-chart-gantt"></i>
-                <h4>Cấp bậc</h4>
+                <h4>Hình thức</h4>
               </div>
-              <div className="content">
-                <span>IT - Phần mềm</span>
-              </div>
+              <span className="content">
+                {job?.typeWork || "Không yêu cầu"}
+              </span>
             </div>
             <div className="item">
               <div className="header">
-                <i class="fa-regular fa-clock"></i>
-                <h4>Hạn ứng tuyển</h4>
+                <i className="fa-solid fa-graduation-cap"></i>
+                <h4>Học vấn</h4>
               </div>
-              <div className="content">
-                <span>IT - Phần mềm</span>
-              </div>
+              <span className="content">{job?.level || "Không yêu cầu"}</span>
             </div>
           </div>
         </div>
@@ -103,86 +130,28 @@ export default function PreviewJob({setOpenModal}) {
             <div className="previewJob__content__item__header">
               <h4>MÔ TẢ CÔNG VIỆC</h4>
             </div>
-            <div className="previewJob__content__item__body">
-              <ul>
-                <li>-Quản lý các vấn đề kỹ thuật CNTT của Công ty</li>
-                <li>- Quản lý hệ thống mạng, thiết bị mạng, phần cứng</li>
-                <li>
-                  - Hỗ trợ người dùng sử dụng phần mềm ứng dụng, các dịch vụ
-                  mạng, thiết bị mạng, máy tính,... trong Công ty.
-                </li>
-                <li>
-                  - Xây dựng và duy trì chiến lược công nghệ, đề xuất áp dụng
-                  các giải pháp
-                </li>
-                <li>
-                  - Xây dựng và triển khai kế hoạch thực hiện các dự án công
-                  nghệ thông tin. Quản lý các dự án CNTT
-                </li>
-                <li>
-                  - Lập kế hoạch phát triển hệ thống ứng dụng đáp ứng nhu cầu
-                  theo từng giai đoạn
-                </li>
-                <li>
-                  - Chuẩn hóa các quy trình trước khi áp dụng các hệ thống CNTT
-                </li>
-                <li>
-                  - Duy trì các hệ thống CNTT hoạt động ổn định, bảo mật, an
-                  toàn dữ liệu
-                </li>
-                <li>
-                  - Nghiên cứu phát triển áp dụng CNTT vào Công ty một cách hiệu
-                  quả.
-                </li>
-                <li>- Thiết kế, xây dựng kiến trúc cơ sở hạ tầng công nghệ</li>
-                <li>
-                  - Định hướng, quản lý hoạt động và phát triển nguồn lực nhân
-                  viên Phòng IT.
-                </li>
-                <li>- Xây dựng quy định liên quan đến hệ thống CNTT</li>
-                <li>
-                  - Chi tiết công việc sẽ trao đổi rõ hơn trong buổi Phỏng vấn.
-                </li>
-              </ul>
-            </div>
+            <div
+              className="previewJob__content__item__body"
+              dangerouslySetInnerHTML={{ __html: job?.desc }}
+            ></div>
           </div>
           <div className="previewJob__content__item previewJob__content__request">
             <div className="previewJob__content__item__header">
               <h4>YÊU CẦU CÔNG VIỆC</h4>
             </div>
-            <div className="previewJob__content__item__body">
-              <ul>
-                <li>Giới tính: Không yêu cầu</li>
-                <li>
-                  Sinh viên hoặc mới tốt nghiệp ngành quản trị kinh doanh,
-                  logistics hoặc ngành có liên quan.
-                </li>
-                <li>Tư duy phân tích và ghi chép tốt.</li>
-                <li>Kiến thức cơ bản về logistics và chuỗi cung ứng.</li>
-                <li>Kỹ năng giao tiếp và thuyết phục.</li>
-                <li>
-                  Tinh thần học hỏi và mong muốn phát triển nghề nghiệp trong
-                  lĩnh vực Sales Logistic.
-                </li>
-              </ul>
-            </div>
+            <div
+              className="previewJob__content__item__body"
+              dangerouslySetInnerHTML={{ __html: job?.request }}
+            ></div>
           </div>
           <div className="previewJob__content__item previewJob__content__other">
             <div className="previewJob__content__item__header">
               <h4>THÔNG TIN KHÁC</h4>
             </div>
-            <div className="previewJob__content__item__body">
-              <ul>
-                <li>Bằng cấp: Đại học</li>
-                <li>Thời gian thử việc: 2 tháng</li>
-                <li>Độ tuổi: 30 - 45</li>
-                <li>
-                  Thời gian làm việc: Thứ 2 đến Thứ 6 (8h–18h), Nghỉ trưa
-                  (12h–13h)
-                </li>
-                <li>Lương: Cạnh tranh</li>
-              </ul>
-            </div>
+            <div
+              className="previewJob__content__item__body"
+              dangerouslySetInnerHTML={{ __html: job?.other }}
+            ></div>
           </div>
         </div>
       </div>

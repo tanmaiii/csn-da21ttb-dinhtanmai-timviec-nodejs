@@ -77,10 +77,8 @@
             }
           }
           .content {
-            span {
               color: themed("text2");
               font-size: $font-size-s;
-            }
           }
         }
       }
@@ -98,13 +96,8 @@
           }
         }
         &__body {
-          ul {
-            li {
-              line-height: 1.6;
-              font-size: $font-size-s;
-              color: themed("text1");
-            }
-          }
+          font-size: $font-size-s;
+          color: themed("text1");
         }
       }
     }

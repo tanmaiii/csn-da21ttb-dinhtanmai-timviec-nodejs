@@ -10,9 +10,9 @@ import {
 
 const router = express.Router();
 
-router.get("/", getAllCompany);
 router.get("/owner/", getOwnerCompany)
-router.get("/find/:id", getCompany);
+router.get("/:id", getCompany);
+router.get("/", getAllCompany);
 router.put("/update", updateCompany);
 router.put("/updateIntro", updateIntroCompany);
 router.put('/uploadImage', uploadImage)

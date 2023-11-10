@@ -1,34 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./company.scss";
-import province from "../../config/province";
-import companies from "../../config/companies";
-
 import ItemCompany from "../../components/itemCompany/ItemCompany";
 import Pagination from "../../components/pagination/Pagination";
+import { makeRequest } from "../../axios";
+import {scale} from '../../config/data'
 
-const scale = [
-  {
-    name: "25 - 100",
-  },
-  {
-    name: "100 - 500",
-  },
-  {
-    name: "500 - 1000",
-  },
-  {
-    name: "1000 - 5000",
-  },
-  {
-    name: "5000 - 10000",
-  },
-  {
-    name: "10000  - 20000",
-  },
-];
 
 export default function Company() {
   const [paginate, setPaginate] = useState(1);
+  const [totalPage, setTotalPage] = useState();
+  const limit = 6;
+  const [companies, setCompanies] = useState();
+  const [provinces, setProvinces] = useState();
+  const [search, setSearch] = useState("");
+
+  const getCompany = async () => {
+    try {
+      const res = await makeRequest.get(`/company?page=${paginate}&limit=${limit}&search=${search}`);
+      setCompanies(res.data.data);
+      setTotalPage(res.data.pagination.totalPage);
+    } catch (error) {}
+  };
+
+  const getProvinces = async () => {
+    try {
+      const res = await makeRequest.get(`/provinces`);
+      setProvinces(res.data);
+    } catch (error) {}
+  };
+
+  const submitSearch = () => {
+    console.log(search);
+    getCompany();
+  }
+
+  useEffect(() => {
+    getProvinces()
+  },[])
+
+  useEffect(() => {
+    getCompany();
+    window.scroll(0,0)
+  }, [paginate]);
+
   return (
     <div className="company">
       <div className="container">
@@ -37,8 +51,8 @@ export default function Company() {
             <h4>Nhà tuyển dụng hàng đầu</h4>
             <div className="company__wrapper__header__search">
               <i className="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Tìm công ty" />
-              <button>Tìm</button>
+              <input value={search} type="text" placeholder="Tìm công ty" onChange={(e) => setSearch(e.target.value)}/> 
+              <button onClick={()=> submitSearch()}>Tìm</button>
             </div>
           </div>
           <div className="company__wrapper__main row">
@@ -47,9 +61,9 @@ export default function Company() {
                 <div className="company__wrapper__main__filter__address">
                   <h6>Địa chỉ</h6>
                   <div className="company__wrapper__main__filter__address__list">
-                    {province
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((item, i) => (
+                    {provinces
+                      ?.sort((a, b) => a.name.localeCompare(b.name))
+                      ?.map((item, i) => (
                         <label
                           key={i}
                           className="company__wrapper__main__filter__address__list__item"
@@ -78,7 +92,7 @@ export default function Company() {
             </div>
             <div className="col pc-9 t-9 m-12">
               <div className="company__wrapper__main__list">
-                {companies.map((company, i) => (
+                {companies?.map((company, i) => (
                   <ItemCompany
                     company={company}
                     key={i}
@@ -86,7 +100,12 @@ export default function Company() {
                   />
                 ))}
               </div>
-              <Pagination totalItem={20} limit={8} paginate={paginate} setPaginate={setPaginate}/>
+              <Pagination
+                totalPage={totalPage}
+                limit={limit}
+                paginate={paginate}
+                setPaginate={setPaginate}
+              />
             </div>
           </div>
         </div>

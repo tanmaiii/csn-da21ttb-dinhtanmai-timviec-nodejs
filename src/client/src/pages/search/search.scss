@@ -21,6 +21,7 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+            min-height: 300px;
             @include mobile{
               padding: 20px 10px;
             }

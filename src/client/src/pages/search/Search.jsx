@@ -5,12 +5,13 @@ import SearchProvince from "../../components/searchProvince/SearchProvince";
 import DropdownItem from "../../components/dropdownItem/DropdownItem";
 import ItemJob from "../../components/itemJob/ItemJob";
 import PreviewJob from "../../components/previewJob/PreviewJob";
-import jobs from "../../config/jobs";
 import Modal from "../../components/modal/Modal";
 import ApplyJob from "../../components/applyJob/ApplyJob";
+import Pagination from "../../components/pagination/Pagination";
 import { useState } from "react";
+import { makeRequest } from "../../axios";
 
-import img from '../../assets/images/bannerSearch.jpg'
+import img from "../../assets/images/bannerSearch.jpg";
 
 const sort = [
   {
@@ -28,11 +29,30 @@ export default function Search() {
   const [openSort, setOpenSort] = useState(false);
   const [sortActive, setSortActive] = useState("Sắp xếp");
   const [openModal, setOpenModal] = useState(false);
+  const [jobs, setJobs] = useState();
+  const [paginate, setPaginate] = useState(1);
+  const [totalPage, setTotalPage] = useState();
+  const [idJobActive , setIdJobActive] = useState();
+  const limit = 5;
 
   const handleSelectSort = (item) => {
     setOpenSort(false);
     setSortActive(item.displayName);
   };
+
+  const getJob = async () => {
+    try {
+      const res = await makeRequest.get(`/job?page=${paginate}&limit=${limit}`);
+      setTotalPage(res.data.pagination.totalPage);
+      setJobs(res.data.data);
+      setIdJobActive(res.data.data[0]?.id)
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getJob();
+  }, [paginate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -41,10 +61,13 @@ export default function Search() {
   return (
     <>
       <div className="search">
-        <div className="search__wrapper">
+        <div className="search__wrapper" >
           <div className="container">
             <div className="search__banner">
-              <div className="search__banner__wrapper" style={{backgroundImage: `url(${img})`}}>
+              <div
+                className="search__banner__wrapper"
+                style={{ backgroundImage: `url(${img})` }}
+              >
                 <div className="search__banner__wrapper__input">
                   <div className="search__banner__wrapper__input__career">
                     <SearchCareer />
@@ -94,17 +117,25 @@ export default function Search() {
               </div>
               <div className="search__list__body row">
                 <div className="search__list__body__side pc-4 t-4 m-12">
-                  {jobs.map((job) => (
-                    <ItemJob job={job} className={"col pc-12 t-12 m-12"} />
+                  {jobs?.map((job, i) => (
+                    <ItemJob
+                      onClick={() => setIdJobActive(job?.id)}
+                      key={i}
+                      job={job}
+                      className={`col pc-12 t-12 m-12 ${idJobActive === job.id && 'active'}`}
+                    />
                   ))}
-                  <div className="search__list__body__side__btn">
-                    <button>Thêm</button>
-                  </div>
+                  <Pagination
+                    totalPage={totalPage}
+                    limit={limit}
+                    paginate={paginate}
+                    setPaginate={setPaginate}
+                  />
                 </div>
 
                 <div className="search__list__body__preview col pc-8 t-8 m-0">
                   <div className="search__list__body__preview__wrapper">
-                    <PreviewJob setOpenModal={setOpenModal}/>
+                    <PreviewJob setOpenModal={setOpenModal} idJob={idJobActive}/>
                   </div>
                 </div>
               </div>

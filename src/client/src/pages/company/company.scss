@@ -10,7 +10,7 @@
         &__header {
           @include flex(center, space-between);
           gap: 20px;
-          @include mobile{
+          @include mobile {
             flex-direction: column;
           }
           h4 {
@@ -42,8 +42,8 @@
         &__main {
           margin-top: 20px;
           &__filter {
-            @include mobile{
-                display: none;
+            @include mobile {
+              display: none;
             }
             &__address {
               width: 100%;
@@ -133,6 +133,7 @@
             min-height: 400px;
             display: flex;
             flex-wrap: wrap;
+            min-height: 800px;
           }
         }
       }

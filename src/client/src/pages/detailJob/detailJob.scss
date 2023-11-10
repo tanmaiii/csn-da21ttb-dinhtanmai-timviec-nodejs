@@ -6,6 +6,7 @@
     .container {
       .detailJob__wrapper {
         padding: $spacing 0;
+        flex-wrap: wrap;
         &__main {
           background-color: themed("bg2");
           border-radius: $border-radius-10;
@@ -39,20 +40,95 @@
             }
           }
           &__button {
-            @include flex(center, unset);
+            @include flex(center, space-between);
             padding: 20px;
-            gap: 10px;
-            .btn_apply {
-              @include button($color-white, $color-primary);
+            &__user {
+              @include flex(center, unset);
+              gap: 10px;
+              .btn_apply {
+                @include button($color-white, $color-primary);
+              }
+              .btn_save {
+                @include button-line($color-red, $color-white);
+                display: flex;
+                gap: 8px;
+              }
             }
-            .btn_save {
-              @include button-line($color-red, $color-white);
-              display: flex;
-              gap: 8px;
+            &__company {
+              .button__more {
+                font-size: $font-size-s;
+                position: relative;
+                & > button {
+                  font-size: $font-size-s;
+                  @include flex(center, center);
+                  padding: 10px;
+                  border-radius: 50%;
+                  transition: all 0.3s;
+                  &:hover {
+                    background-color: themed("bg1");
+                  }
+                  i {
+                    color: themed("text2");
+                    font-size: 1.4rem;
+                    width: 20px;
+                    height: 20px;
+                  }
+                }
+                &__body {
+                  position: absolute;
+                  top: calc(100% + 10px);
+                  // left: 50%;
+                  // transform: translateX(-50%);
+                  right: 0;
+                  width: max-content;
+                  border: 1px solid themed("border");
+                  border-radius: $border-radius-10;
+                  // overflow: hidden;
+                  box-shadow: themed("box-shadow");
+                  padding: 12px 0;
+                  z-index: 99;
+                  background-color: themed("bg2");
+                  display: none;
+                  &.active {
+                    display: block;
+                  }
+                  &::after {
+                    content: "";
+                    display: block;
+                    height: 15px;
+                    position: absolute;
+                    transform: rotateZ(45deg);
+                    width: 15px;
+                    top: -8px;
+                    right: 11px;
+                    background-color: themed("bg2");
+                    border-top: 1px solid themed("border");
+                    border-left: 1px solid themed("border");
+                  }
+                  button {
+                    width: 100%;
+                    @include flex(center, unset);
+                    gap: 8px;
+                    padding: 8px 10px;
+                    min-width: 120px;
+                    color: themed("text1");
+                    &:hover {
+                      background-color: themed("primary");
+                      color: $color-white;
+                    }
+                    i {
+                      font-size: 1.2rem;
+                    }
+                    span {
+                      font-size: $font-size-s;
+                    }
+                  }
+                }
+              }
             }
           }
           &__important {
-            padding:20px;
+            padding: 20px;
             width: 100%;
             background-color: #f1ffed;
             display: flex;
@@ -61,9 +137,9 @@
               background-color: #30336b;
             }
             &__col {
-              @include mobile{
+              @include mobile {
                 padding: 0;
-                &:nth-child(1){
+                &:nth-child(1) {
                   border-bottom: 1px solid themed("border");
                 }
               }
@@ -74,22 +150,26 @@
                   border: 0;
                 }
                 .header {
-                  @include flex(center, unset);
+                  @include flex(start, unset);
                   gap: 8px;
                   margin-bottom: 8px;
+                  color: themed('text1');
                   i {
-                    color: $color-txt-light;
+                    @include flex(center, center);
                     font-size: $font-size-s;
                   }
                   h4 {
-                    color: $color-txt-light;
                     font-size: $font-size-s;
                   }
                 }
                 .content {
-                  span {
-                    color: $color-txt-light-extra;
-                    font-size: $font-size-s;
+                  color: themed('text1');
+                  font-size: $font-size-s;
+                }
+                a {
+                  transition: all 0.3s;
+                  &:hover {
+                    text-decoration: underline;
                   }
                 }
               }
@@ -108,13 +188,8 @@
                 }
               }
               &__body {
-                ul {
-                  li {
-                    line-height: 1.6;
-                    font-size: $font-size-s;
-                    color: themed("text1");
-                  }
-                }
+                color: themed("text1");
+                font-size: $font-size-s;
               }
             }
           }

@@ -1,13 +1,118 @@
 @use "../../scss/" as *;
 
+// .itemCompany {
+//   @include themify($themes) {
+//     &__wrapper {
+//       background-color: themed("bg2");
+//       border: 1px solid themed('border');
+//       padding: 20px;
+//       border-radius: $border-radius-10;
+//       height: 260px;
+//       position: relative;
+//       @include flex(unset, space-between);
+//       flex-direction: column;
+//       cursor: pointer;
+//       &:hover {
+//         box-shadow: themed("box-shadow");
+//       }
+//       .btn__follow {
+//         position: absolute;
+//         top: 10px;
+//         right: 10px;
+//         background-color: transparent;
+//         cursor: pointer;
+//         padding: 8px;
+//         transition: all 0.3s;
+//         &.active {
+//           i:nth-child(1) {
+//             display: none;
+//           }
+//           i:nth-child(2) {
+//             display: block;
+//           }
+//         }
+//         // &:hover {
+//         //   i:nth-child(1) {
+//         //     display: none;
+//         //   }
+//         //   i:nth-child(2) {
+//         //     display: block;
+//         //   }
+//         // }
+//         i {
+//           font-size: $font-size-l;
+//           color: $color-red;
+//           &:nth-child(2) {
+//             display: none;
+//           }
+//         }
+//       }
+//       &__header {
+//         @include flex(unset, unset);
+//         flex-direction: column;
+//         gap: 6px;
+//         &__image {
+//           border-radius: $border-radius-10;
+//           border: 1.4px solid $color-primary;
+//           width: max-content;
+//           overflow: hidden;
+//           @include flex(center, center);
+//           img {
+//             --size: 50px;
+//             width: var(--size);
+//             height: var(--size);
+//             object-fit: cover;
+//           }
+//         }
+//         h4 {
+//           font-size: $font-size-m;
+//           color: themed("text1");
+//           @include text(1);
+//         }
+//         .desc {
+//           color: themed("text1");
+//           font-size: $font-size-s;
+//           @include text(4);
+//         }
+//       }
+//       &__body {
+//         @include flex(unset, unset);
+//         flex-direction: column;
+//         gap: 6px;
+//         .quantity {
+//           font-size: $font-size-s;
+//           color: themed("primary");
+//           font-weight: 500;
+//           cursor: pointer;
+//           &:hover {
+//             text-decoration: underline;
+//           }
+//         }
+//         .address {
+//           @include flex(center, unset);
+//           gap: 8px;
+//           i {
+//             font-size: $font-size-s;
+//             color: themed("text1");
+//           }
+//           span {
+//             font-size: $font-size-s;
+//             color: themed("text1");
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
 .itemCompany {
   @include themify($themes) {
+    height: max-content;
     &__wrapper {
       background-color: themed("bg2");
-      border: 1px solid themed('border');
+      border: 1px solid themed("border");
       padding: 20px;
       border-radius: $border-radius-10;
-      height: 260px;
       position: relative;
       @include flex(unset, space-between);
       flex-direction: column;
@@ -31,14 +136,6 @@
             display: block;
           }
         }
-        // &:hover {
-        //   i:nth-child(1) {
-        //     display: none;
-        //   }
-        //   i:nth-child(2) {
-        //     display: block;
-        //   }
-        // }
         i {
           font-size: $font-size-l;
           color: $color-red;
@@ -47,57 +144,30 @@
           }
         }
       }
-      &__header {
-        @include flex(unset, unset);
-        flex-direction: column;
-        gap: 6px;
-        &__image {
-          border-radius: $border-radius-10;
-          border: 1.4px solid $color-primary;
-          width: max-content;
-          overflow: hidden;
-          @include flex(center, center);
-          img {
-            --size: 50px;
-            width: var(--size);
-            height: var(--size);
-            object-fit: cover;
-          }
-        }
-        h4 {
+      &__image {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      &__body {
+        padding: 10px 0;
+        .name {
           font-size: $font-size-m;
           color: themed("text1");
+          margin-bottom: 8px;
           @include text(1);
         }
         .desc {
-          color: themed("text1");
-          font-size: $font-size-s;
-          @include text(4);
-        }
-      }
-      &__body {
-        @include flex(unset, unset);
-        flex-direction: column;
-        gap: 6px;
-        .quantity {
-          font-size: $font-size-s;
-          color: themed("primary");
-          font-weight: 500;
-          cursor: pointer;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-        .address {
           @include flex(center, unset);
-          gap: 8px;
-          i {
-            font-size: $font-size-s;
-            color: themed("text1");
+          gap: 10px;
+          .province {
+            @include flex(center, unset);
+            gap: 8px;
+            color: themed("text2");
           }
-          span {
-            font-size: $font-size-s;
-            color: themed("text1");
+          .job {
+            color: $color-primary;
           }
         }
       }
