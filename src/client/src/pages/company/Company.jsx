@@ -7,14 +7,16 @@ import { scale } from "../../config/data";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import Loader from "../../components/loader/Loader";
+import { motion, AnimatePresence } from "framer-motion";
+import companies from "../../config/companies";
 
 export default function Company() {
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState();
-  const limit = 6;
+  const limit = 1;
   const [loading, setLoading] = useState(false);
-  const [companies, setCompanies] = useState();
-  const [provinces, setProvinces] = useState();
+  const [companiesAll, setCompaniesAll] = useState();
+  const [companiesFilter, setCompaniesFilter] = useState();
   const [err, setErr] = useState();
   const location = useLocation();
   const { keyword } = useParams();
@@ -31,7 +33,8 @@ export default function Company() {
       } else {
         res = await makeRequest.get(`/company?page=${paginate}&limit=${limit}`);
       }
-      setCompanies(res.data.data);
+      setCompaniesFilter(res.data.data);
+      setCompaniesAll(res.data.data);
       setTotalPage(res.data.pagination.totalPage);
       setLoading(false);
     } catch (error) {
@@ -39,17 +42,6 @@ export default function Company() {
     }
     setLoading(false);
   };
-
-  const getProvinces = async () => {
-    try {
-      const res = await makeRequest.get(`/provinces`);
-      setProvinces(res.data);
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    getProvinces();
-  }, []);
 
   useEffect(() => {
     getCompany();
@@ -66,55 +58,29 @@ export default function Company() {
           </div>
           <div className="company__wrapper__main row">
             <div className="col pc-3 t-3 m-0">
-              <div className="company__wrapper__main__filter">
-                <div className="company__wrapper__main__filter__address">
-                  <h6>Địa chỉ</h6>
-                  <div className="company__wrapper__main__filter__address__list">
-                    {provinces
-                      ?.sort((a, b) => a?.name?.localeCompare(b?.name))
-                      ?.map((item, i) => (
-                        <label
-                          key={i}
-                          className="company__wrapper__main__filter__address__list__item"
-                        >
-                          <input type="checkbox" />
-                          <span>{item?.name}</span>
-                        </label>
-                      ))}
-                  </div>
-                </div>
-                <div className="company__wrapper__main__filter__scale">
-                  <h6>Quy mô</h6>
-                  <div className="company__wrapper__main__filter__scale__list">
-                    {scale.map((item, i) => (
-                      <div
-                        key={i}
-                        className="company__wrapper__main__filter__scale__list__item"
-                      >
-                        <input type="checkbox" />
-                        <span>{item?.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <FilterCompany
+                companiesAll={companiesAll}
+                setCompaniesFilter={setCompaniesFilter}
+              />
             </div>
             <div className="col pc-9 t-9 m-12">
-              <div className="company__wrapper__main__list">
-                {loading ? (
-                  <Loader />
-                ) : err ? (
-                  <div>{err}</div>
-                ) : (
-                  companies?.map((company, i) => (
-                    <ItemCompany
-                      company={company}
-                      key={i}
-                      className={"col pc-4 t-6 m-12"}
-                    />
-                  ))
-                )}
-              </div>
+              <motion.div className="company__wrapper__main__list">
+                <AnimatePresence>
+                  {loading ? (
+                    <Loader />
+                  ) : err ? (
+                    <div>{err}</div>
+                  ) : (
+                    companiesFilter?.map((company, i) => (
+                      <ItemCompany
+                        company={company}
+                        key={i}
+                        className={"col pc-4 t-6 m-12"}
+                      />
+                    ))
+                  )}
+                </AnimatePresence>
+              </motion.div>
               <Pagination
                 totalPage={totalPage}
                 limit={limit}
@@ -129,7 +95,7 @@ export default function Company() {
   );
 }
 
-export function SearchCompany({ props }) {
+function SearchCompany({ props }) {
   const [keyword, setKeyword] = useState(props?.keyword ? props.keyword : "");
   const navigate = useNavigate();
 
@@ -164,6 +130,86 @@ export function SearchCompany({ props }) {
         onChange={(e) => setKeyword(e.target.value)}
       />
       <button onClick={() => goToSearch()}>Tìm</button>
+    </div>
+  );
+}
+
+function FilterCompany(props) {
+  const { companiesAll, setCompaniesFilter } = props;
+  const [provinces, setProvinces] = useState();
+  const [filterProvince, setFilterProvince] = useState([]);
+
+  const getProvinces = async () => {
+    try {
+      const res = await makeRequest.get(`/provinces`);
+      setProvinces(res.data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getProvinces();
+  }, []);
+
+  const handleClickProvice = (e, name) => {
+    if (filterProvince.includes(name)) {
+      const newFilter = [...filterProvince];
+      newFilter.splice(filterProvince.indexOf(name), 1);
+      setFilterProvince(newFilter);
+    } else {
+      setFilterProvince((current) => [...current, name]);
+    }
+  };
+
+  const FilterCompany = () => {
+    if (filterProvince.length === 0) {
+      setCompaniesFilter(companiesAll);
+      return;
+    }
+    const companiesFilter = companiesAll?.filter((company) => {
+      return filterProvince?.includes(company?.province);
+    });
+    setCompaniesFilter(companiesFilter);
+  };
+
+  useEffect(() => {
+    FilterCompany();
+  }, [filterProvince]);
+
+  return (
+    <div className="company__wrapper__main__filter">
+      <div className="company__wrapper__main__filter__address">
+        <h6>Địa chỉ</h6>
+        <div className="company__wrapper__main__filter__address__list">
+          {provinces
+            ?.sort((a, b) => a?.name?.localeCompare(b?.name))
+            ?.map((item, i) => (
+              <label
+                key={i}
+                className="company__wrapper__main__filter__address__list__item"
+              >
+                <input
+                  type="checkbox"
+                  onClick={(e) => handleClickProvice(e, item?.name)}
+                />
+                <span>{item?.name}</span>
+              </label>
+            ))}
+        </div>
+      </div>
+      <div className="company__wrapper__main__filter__scale">
+        <h6>Quy mô</h6>
+        <div className="company__wrapper__main__filter__scale__list">
+          {scale.map((item, i) => (
+            <div
+              key={i}
+              className="company__wrapper__main__filter__scale__list__item"
+            >
+              <input type="checkbox" />
+              <span>{item?.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

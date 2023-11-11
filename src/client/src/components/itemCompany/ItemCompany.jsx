@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/images/avatarCpn.png";
 import { apiImage } from "../../axios";
 import { makeRequest } from "../../axios";
+import { motion } from "framer-motion";
 
 import {
   QueryClient,
@@ -60,7 +61,12 @@ export default function ItemCompany({ company, className, style }) {
 
   return (
     company && (
-      <div
+      <motion.div
+        layout
+        animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
         onClick={(e) => handleClick(e)}
         className={`itemCompany ${className && className}`}
       >
@@ -74,7 +80,7 @@ export default function ItemCompany({ company, className, style }) {
             <h2 className="name">{company?.nameCompany}</h2>
             <div className="desc">
               <div className="province">
-                <i class="fa-solid fa-location-dot"></i>
+                <i className="fa-solid fa-location-dot"></i>
                 <span>{company?.province}</span>
               </div>
               <span className="job">12 việc làm</span>
@@ -87,12 +93,12 @@ export default function ItemCompany({ company, className, style }) {
           >
             {follower?.includes(currentUser?.id) ? (
               <i className="fa-solid fa-heart"></i>
-              ) : (
+            ) : (
               <i className="fa-regular fa-heart"></i>
             )}
           </button>
         </div>
-      </div>
+      </motion.div>
     )
   );
 }
