@@ -5,6 +5,7 @@ import { useMode } from "../../context/ModeContext";
 import Modal from "../../components/modal/Modal";
 import ApplyJob from "../applyJob/ApplyJob";
 import { makeRequest, apiImage } from "../../axios";
+import Loader from "../loader/Loader";
 import { Link } from "react-router-dom";
 
 export default function PreviewJob({ setOpenModal, idJob }) {
@@ -12,13 +13,16 @@ export default function PreviewJob({ setOpenModal, idJob }) {
   const { darkMode } = useMode();
   const [err, setErr] = useState(false);
   const [job, setJob] = useState();
+  const [loading, setLoading] = useState(false);
 
   const getJob = async () => {
+    setLoading(true)
     try {
       const res = await makeRequest.get("job/" + idJob);
       console.log(res.data);
       setJob(res.data);
     } catch (error) {}
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -26,10 +30,12 @@ export default function PreviewJob({ setOpenModal, idJob }) {
   }, [idJob]);
 
   useEffect(() => {
-    const previewJobDoc = document.querySelector('.previewJob')
+    const previewJobDoc = document.querySelector(".previewJob");
     previewJobDoc.scrollTo(0, 0);
   }, [idJob]);
 
+  if (loading) return <Loader/>
+  
   return (
     <>
       <div className="previewJob">
@@ -38,7 +44,7 @@ export default function PreviewJob({ setOpenModal, idJob }) {
           <div className="previewJob__image__name">
             <h4>{job?.nameJob}</h4>
             <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
-            <span>{job?.nameCompany}</span>
+              <span>{job?.nameCompany}</span>
             </Link>
           </div>
         </div>
@@ -60,7 +66,7 @@ export default function PreviewJob({ setOpenModal, idJob }) {
             )}
           </button>
         </div>
-        <div className={`previewJob__info__main ${darkMode && 'dark'}`}>
+        <div className={`previewJob__info__main ${darkMode && "dark"}`}>
           <div className="previewJob__info__main__col col pc-6 t-6 m-12">
             <div className="item">
               <div className="header">

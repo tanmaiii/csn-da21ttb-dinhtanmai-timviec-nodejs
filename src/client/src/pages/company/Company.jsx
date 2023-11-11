@@ -3,23 +3,41 @@ import "./company.scss";
 import ItemCompany from "../../components/itemCompany/ItemCompany";
 import Pagination from "../../components/pagination/Pagination";
 import { makeRequest } from "../../axios";
-import {scale} from '../../config/data'
-
+import { scale } from "../../config/data";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+import queryString from "query-string";
+import Loader from "../../components/loader/Loader";
 
 export default function Company() {
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const limit = 6;
+  const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState();
   const [provinces, setProvinces] = useState();
-  const [search, setSearch] = useState("");
+  const [err, setErr] = useState();
+  const location = useLocation();
+  const { keyword } = useParams();
 
   const getCompany = async () => {
+    setLoading(true);
+    setErr();
     try {
-      const res = await makeRequest.get(`/company?page=${paginate}&limit=${limit}&search=${search}`);
+      let res;
+      if (keyword !== undefined) {
+        res = await makeRequest.get(
+          `/company?page=${paginate}&limit=${limit}&search=${keyword}`
+        );
+      } else {
+        res = await makeRequest.get(`/company?page=${paginate}&limit=${limit}`);
+      }
       setCompanies(res.data.data);
       setTotalPage(res.data.pagination.totalPage);
-    } catch (error) {}
+      setLoading(false);
+    } catch (error) {
+      setErr("Không tìm thấy");
+    }
+    setLoading(false);
   };
 
   const getProvinces = async () => {
@@ -29,19 +47,14 @@ export default function Company() {
     } catch (error) {}
   };
 
-  const submitSearch = () => {
-    console.log(search);
-    getCompany();
-  }
-
   useEffect(() => {
-    getProvinces()
-  },[])
+    getProvinces();
+  }, []);
 
   useEffect(() => {
     getCompany();
-    window.scroll(0,0)
-  }, [paginate]);
+    window.scroll(0, 0);
+  }, [paginate, keyword]);
 
   return (
     <div className="company">
@@ -49,11 +62,7 @@ export default function Company() {
         <div className="company__wrapper">
           <div className="company__wrapper__header">
             <h4>Nhà tuyển dụng hàng đầu</h4>
-            <div className="company__wrapper__header__search">
-              <i className="fa-solid fa-magnifying-glass"></i>
-              <input value={search} type="text" placeholder="Tìm công ty" onChange={(e) => setSearch(e.target.value)}/> 
-              <button onClick={()=> submitSearch()}>Tìm</button>
-            </div>
+            <SearchCompany keyword={keyword} />
           </div>
           <div className="company__wrapper__main row">
             <div className="col pc-3 t-3 m-0">
@@ -62,14 +71,14 @@ export default function Company() {
                   <h6>Địa chỉ</h6>
                   <div className="company__wrapper__main__filter__address__list">
                     {provinces
-                      ?.sort((a, b) => a.name.localeCompare(b.name))
+                      ?.sort((a, b) => a?.name?.localeCompare(b?.name))
                       ?.map((item, i) => (
                         <label
                           key={i}
                           className="company__wrapper__main__filter__address__list__item"
                         >
                           <input type="checkbox" />
-                          <span>{item.name}</span>
+                          <span>{item?.name}</span>
                         </label>
                       ))}
                   </div>
@@ -83,7 +92,7 @@ export default function Company() {
                         className="company__wrapper__main__filter__scale__list__item"
                       >
                         <input type="checkbox" />
-                        <span>{item.name}</span>
+                        <span>{item?.name}</span>
                       </div>
                     ))}
                   </div>
@@ -92,13 +101,19 @@ export default function Company() {
             </div>
             <div className="col pc-9 t-9 m-12">
               <div className="company__wrapper__main__list">
-                {companies?.map((company, i) => (
-                  <ItemCompany
-                    company={company}
-                    key={i}
-                    className={"col pc-4 t-6 m-12"}
-                  />
-                ))}
+                {loading ? (
+                  <Loader />
+                ) : err ? (
+                  <div>{err}</div>
+                ) : (
+                  companies?.map((company, i) => (
+                    <ItemCompany
+                      company={company}
+                      key={i}
+                      className={"col pc-4 t-6 m-12"}
+                    />
+                  ))
+                )}
               </div>
               <Pagination
                 totalPage={totalPage}
@@ -110,6 +125,45 @@ export default function Company() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+export function SearchCompany({ props }) {
+  const [keyword, setKeyword] = useState(props?.keyword ? props.keyword : "");
+  const navigate = useNavigate();
+
+  const goToSearch = () => {
+    if (keyword.trim().length > 0) {
+      navigate(`/nha-tuyen-dung/search/${keyword}`);
+    } else {
+      navigate(`/nha-tuyen-dung`);
+    }
+  };
+
+  useEffect(() => {
+    const enterEvent = (e) => {
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        goToSearch();
+      }
+    };
+    document.addEventListener("keyup", enterEvent);
+    return () => {
+      document.removeEventListener("keyup", enterEvent);
+    };
+  }, [keyword]);
+
+  return (
+    <div className="company__wrapper__header__search">
+      <i className="fa-solid fa-magnifying-glass"></i>
+      <input
+        value={keyword}
+        type="text"
+        placeholder="Tìm công ty"
+        onChange={(e) => setKeyword(e.target.value)}
+      />
+      <button onClick={() => goToSearch()}>Tìm</button>
     </div>
   );
 }

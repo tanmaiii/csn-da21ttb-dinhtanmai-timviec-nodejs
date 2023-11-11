@@ -12,7 +12,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const hedearItem = [
   {
-    display: "Home",
+    display: "Trang chủ",
     icon: <i className="fa-solid fa-house"></i>,
     path: "/",
   },

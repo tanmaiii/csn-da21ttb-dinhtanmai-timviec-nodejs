@@ -12,7 +12,7 @@ import {
   Route,
   Routes,
   useNavigate,
-  useLocation
+  useLocation,
 } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
 import { makeRequest, apiImage } from "../../axios";
@@ -21,21 +21,27 @@ import Loader from "../../components/loader/Loader";
 
 import { useAuth } from "../../context/authContext";
 
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 
 export default function DetailCompany() {
   const [err, setErr] = useState();
   const [loading, setLoading] = useState();
   const [company, setCompany] = useState();
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [follower, setFollower] = useState();
   const [openControlMb, setOpenControlMb] = useState(false);
-  const { currentCompany } = useAuth();
+  const { currentCompany, currentUser } = useAuth();
   const controlMbRef = useRef();
   const { id } = useParams();
-  const navigate = useNavigate()
-  const {pathname} = useLocation()
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const queryClient = useQueryClient();
 
-  const controlPathname = pathname.split('/').filter(Boolean).pop()
+  const controlPathname = pathname.split("/").filter(Boolean).pop();
 
   const getCompany = async () => {
     try {
@@ -46,9 +52,35 @@ export default function DetailCompany() {
     }
   };
 
+  const getFollower = async () => {
+    try {
+      const res = await makeRequest("follow/follower?idCompany=" + id);
+      setFollower(res.data);
+    } catch (error) {}
+  };
+
   const { isLoading, error, data } = useQuery(["company", id], () => {
     return getCompany();
   });
+
+  const { isLoading: loadingFollow, data: dataFollow } = useQuery(
+    ["follower", id],
+    () => {
+      return getFollower();
+    }
+  );
+
+  const mutationFollow = useMutation(
+    (following) => {
+      if (following) return makeRequest.delete("/follow?idCompany=" + id);
+      return makeRequest.post("/follow?idCompany=" + id);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["follower"]);
+      },
+    }
+  );
 
   const handleChangeInputFile = async (e) => {
     try {
@@ -63,6 +95,11 @@ export default function DetailCompany() {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleSubmitFollow = () => {
+    if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
+    mutationFollow.mutate(follower?.includes(currentUser?.id));
   };
 
   useEffect(() => {
@@ -81,7 +118,7 @@ export default function DetailCompany() {
 
   useEffect(() => {
     setOpenControlMb(false);
-  }, [searchParams]);
+  }, [controlPathname]);
 
   return (
     <>
@@ -135,9 +172,7 @@ export default function DetailCompany() {
                     <div className="detailCompany__wrapper__header__main__text__follow">
                       <i className="fa-solid fa-user-group"></i>
                       <span>
-                        {company?.follow
-                          ? `${company?.follow} người theo dõi`
-                          : "..."}
+                        {follower ? follower?.length : "0"} người theo dõi
                       </span>
                     </div>
                     <div className="detailCompany__wrapper__header__main__text__link">
@@ -155,10 +190,15 @@ export default function DetailCompany() {
                     <button>Chỉnh sửa</button>
                   </div>
                 ) : (
-                  <div className="detailCompany__wrapper__header__button__follow">
-                    <span>4 lượt theo dõi</span>
-                    <button className="btn-follow">Theo dõi công ty</button>
-                    {/* <button className="btn-unFollow">Đang theo dõi</button> */}
+                  <div
+                    className="detailCompany__wrapper__header__button__follow"
+                    onClick={() => handleSubmitFollow()}
+                  >
+                    {follower?.includes(currentUser?.id) ? (
+                      <button className="btn-unFollow">Đang theo dõi</button>
+                    ) : (
+                      <button className="btn-follow">Theo dõi công ty</button>
+                    )}
                   </div>
                 )}
               </div>
@@ -167,25 +207,21 @@ export default function DetailCompany() {
                   <div className="detailCompany__wrapper__body__left">
                     <div className="detailCompany__wrapper__body__left__control">
                       <button
-                        onClick={() => navigate('')}
-                        className={`${
-                          controlPathname === id && "active"
-                        }`}
+                        onClick={() => navigate("")}
+                        className={`${controlPathname === id && "active"}`}
                       >
                         <span>Giới thiệu</span>
                       </button>
                       <button
-                        onClick={() => navigate('jobs')}
-                        className={`${
-                          controlPathname === "jobs" && "active"
-                        }`}
+                        onClick={() => navigate("jobs")}
+                        className={`${controlPathname === "jobs" && "active"}`}
                       >
                         <span>Việc làm</span>
                       </button>
                       {company?.id === currentCompany?.id && (
                         <>
                           <button
-                            onClick={() => navigate('info')}
+                            onClick={() => navigate("info")}
                             className={`${
                               controlPathname === "info" && "active"
                             }`}
@@ -206,18 +242,14 @@ export default function DetailCompany() {
 
                     <div className="detailCompany__wrapper__body__left__control-mobile">
                       <button
-                        onClick={() => navigate('')}
-                        className={`${
-                          controlPathname === id && "active"
-                        }`}
+                        onClick={() => navigate("")}
+                        className={`${controlPathname === id && "active"}`}
                       >
                         <span>Giới thiệu</span>
                       </button>
                       <button
-                        onClick={() => navigate('jobs')}
-                        className={`${
-                          controlPathname === "jobs" && "active"
-                        }`}
+                        onClick={() => navigate("jobs")}
+                        className={`${controlPathname === "jobs" && "active"}`}
                       >
                         <span>Việc làm</span>
                       </button>
@@ -234,8 +266,7 @@ export default function DetailCompany() {
                           {openControlMb && (
                             <div className="button__more__dropdown">
                               <button
-                                onClick={() => navigate('info')
-                                }
+                                onClick={() => navigate("info")}
                                 className={`${
                                   controlPathname === "info" && "active"
                                 }`}
@@ -258,7 +289,10 @@ export default function DetailCompany() {
 
                     <div className="detailCompany__wrapper__body__left__content">
                       <Routes>
-                        <Route index element={<IntroCompany intro={company?.intro} />} />
+                        <Route
+                          index
+                          element={<IntroCompany intro={company?.intro} />}
+                        />
                         <Route path="info" element={<InfoCompany />} />
                         <Route path="jobs" element={<JobsCompany />} />
                       </Routes>

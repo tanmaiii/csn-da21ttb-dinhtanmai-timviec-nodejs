@@ -1,6 +1,5 @@
 import { Route, BrowserRouter, Routes, Outlet } from "react-router-dom";
 import "https://kit.fontawesome.com/dc548344cf.js";
-import "./assets/libs/boxicons-2.1.4/css/boxicons.min.css";
 
 import { useState } from "react";
 import "./App.scss";
@@ -38,26 +37,35 @@ function App() {
 
             <Route index element={<Home />} />
             <Route path="/tim-kiem" element={<Search />} />
+            <Route path="/nha-tuyen-dung/search/:keyword" element={<Company />} />
             <Route path="/nha-tuyen-dung" element={<Company />} />
-
-            <Route path="/nguoi-dung" element={<Auth />}>
-              <Route path="dang-nhap" index element={<Signin />} />
-              <Route path="dang-ky" element={<Signup />} />
-            </Route>
 
             <Route path="/nha-tuyen-dung" element={<Auth />}>
               <Route path="dang-nhap" index element={<SigninCompany />} />
               <Route path="dang-ky" element={<SignupCompany />} />
             </Route>
 
-            <Route path="/cong-viec/:id" element={<DetailJob />} />
-            
-            <Route path="/nguoi-dung/:id/" element={<DetailUser />} />
-
-            <Route path="nha-tuyen-dung/:id" element={<DetailCompany />} >
-                   <Route path="info" element/>
-                   <Route path="jobs" element/>
+            <Route path="nha-tuyen-dung/:id" element={<DetailCompany />}>
+              <Route path="info" element />
+              <Route path="jobs" element />
             </Route>
+
+            <Route path="/nguoi-dung" element={<Auth />}>
+              <Route path="dang-nhap" index element={<Signin />} />
+              <Route path="dang-ky" element={<Signup />} />
+            </Route>
+
+
+            <Route path="/cong-viec/:id" element={<DetailJob />} />
+
+            <Route path="/nguoi-dung/:id/" element={<DetailUser />}>
+              <Route path="info" element />
+              <Route path="apply" element />
+              <Route path="jobs" element />
+              <Route path="companies" element />
+            </Route>
+
+           
 
             <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
             <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />

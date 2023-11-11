@@ -109,7 +109,7 @@
   @include themify($themes) {
     height: max-content;
     &__wrapper {
-      background-color: themed("bg2");
+    background-color: themed("bg2");
       border: 1px solid themed("border");
       padding: 20px;
       border-radius: $border-radius-10;

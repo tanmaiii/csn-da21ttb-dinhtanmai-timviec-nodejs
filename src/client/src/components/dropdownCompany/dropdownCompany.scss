@@ -89,9 +89,12 @@
           font-weight: 400;
         }
         i {
-          width: 20px;
+          --size: 20px;
+          width: var(--size);
+          height: var(--size);
           font-size: $font-size-s;
           color: themed("text1");
+          @include flex(center, center);
         }
         &:hover {
           background-color: themed("bg1");

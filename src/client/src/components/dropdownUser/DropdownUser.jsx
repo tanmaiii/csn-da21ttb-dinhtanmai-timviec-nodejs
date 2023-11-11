@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdownUser.scss";
 import avt from "../../assets/images/avatar.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { apiImage } from "../../axios";
 
@@ -11,6 +11,7 @@ export default function DropdownUser() {
   const location = useLocation();
   const { logoutUser, currentUser } = useAuth();
   const id = currentUser?.id;
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleMouseDown = (e) => {
@@ -32,7 +33,10 @@ export default function DropdownUser() {
         className="dropdownUser__toogle"
         onClick={() => setOpenMenuUser(!openMenuUser)}
       >
-        <img src={currentUser.avatarPic ? (apiImage + currentUser.avatarPic) : avt} alt="" />
+        <img
+          src={currentUser.avatarPic ? apiImage + currentUser.avatarPic : avt}
+          alt=""
+        />
         <span>{currentUser?.name}</span>
       </div>
       <div className={`dropdownUser__dropdown ${openMenuUser ? "open" : ""}`}>
@@ -44,21 +48,28 @@ export default function DropdownUser() {
           <span>Trang cá nhân</span>
         </Link>
         <Link
-          to={`/nguoi-dung/${id}/?tag=apply`}
+          to={`/nguoi-dung/${id}/info`}
+          className="dropdownUser__dropdown__option"
+        >
+          <i className="fa-regular fa-id-badge"></i>
+          <span>Thông tin</span>
+        </Link>
+        <Link
+          to={`/nguoi-dung/${id}/apply`}
           className="dropdownUser__dropdown__option"
         >
           <i className="fa-regular fa-paper-plane"></i>
           <span>Ứng tuyển</span>
         </Link>
         <Link
-          to={`/nguoi-dung/${id}/?tag=jobs`}
+          to={`/nguoi-dung/${id}/jobs`}
           className="dropdownUser__dropdown__option"
         >
           <i className="fa-regular fa-bookmark"></i>
           <span>Việc làm</span>
         </Link>
         <Link
-          to={`/nguoi-dung/${id}/?tag=companies`}
+          to={`/nguoi-dung/${id}/companies`}
           className="dropdownUser__dropdown__option"
         >
           <i className="fa-regular fa-heart"></i>

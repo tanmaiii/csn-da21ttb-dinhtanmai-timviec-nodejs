@@ -44,8 +44,9 @@ export default function Signin() {
   }, [currentUser]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+     window.scrollTo(0, 0);
   }, []);
+
   return (
     <div className="signin">
       <div className="signin__header ">

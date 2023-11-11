@@ -14,6 +14,7 @@ import companyRouter from "./routers/company.router.js";
 import jobRouter from "./routers/job.router.js";
 import fieldsRouter from "./routers/fields.router.js";
 import provinesRouter from "./routers/provinces.router.js";
+import followRouter from './routers/follow.router.js'
 import { fileURLToPath } from "url";
 
 const app = express();
@@ -69,6 +70,7 @@ app.use("/api/company", companyRouter);
 app.use("/api/job", jobRouter);
 app.use("/api/fields", fieldsRouter);
 app.use("/api/provinces", provinesRouter);
+app.use("/api/follow", followRouter);
 
 app.listen(8800, (req, res) => {
   console.log("Backend running");

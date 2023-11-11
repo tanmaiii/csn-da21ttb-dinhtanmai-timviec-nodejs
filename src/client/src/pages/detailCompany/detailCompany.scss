@@ -3,10 +3,10 @@
 .detailCompany {
   @include themify($themes) {
     margin-top: $height-header;
-    min-height: 100vh;
     padding: $spacing 0;
     .container {
       .detailCompany__wrapper {
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         gap: 18px;

@@ -1,11 +1,10 @@
 import React from "react";
-import loader from "../../assets/svg/loader.svg";
-import './loader.scss'
+import "./loader.scss";
 
 export default function Loader() {
   return (
-    <div className="loader">
-      <img src={loader} alt="" />
-    </div>
+    <button className="box-loader">
+      <div className="loader"></div>
+    </button>
   );
 }

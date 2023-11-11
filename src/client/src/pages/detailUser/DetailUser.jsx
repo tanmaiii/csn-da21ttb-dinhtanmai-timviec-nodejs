@@ -2,19 +2,24 @@ import React, { useEffect, useRef, useState } from "react";
 import "./detailUser.scss";
 import avatar from "../../assets/images/avatar.png";
 
-import ItemJob from "../../components/itemJob/ItemJob";
-import ItemCompany from "../../components/itemCompany/ItemCompany";
 import Loader from "../../components/loader/Loader";
 import NotFound from "../notFound/NotFound";
 import InfoUser from "./infoUser/InfoUser";
 import IntroUser from "./introUser/IntroUser";
 import AppliedJobs from "./appliedJobs/AppliedJobs";
+import CompaniesSave from "./companiesSave/CompaniesSave";
 
-import { useSearchParams, useParams } from "react-router-dom";
-import jobs from "../../config/jobs";
-import companies from "../../config/companies";
+import {
+  useSearchParams,
+  useParams,
+  useNavigate,
+  useLocation,
+  Route,
+  Routes,
+  Link,
+} from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import { makeRequest,apiImage } from "../../axios";
+import { makeRequest, apiImage } from "../../axios";
 import moment from "moment";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -28,17 +33,20 @@ export default function DetailUser() {
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const { id } = useParams();
+  const controlPathname = pathname.split("/").filter(Boolean).pop();
 
   const getUser = async () => {
     try {
-      const res = await makeRequest.get("/user/find/"+ id);
-      setUser(res.data)
+      const res = await makeRequest.get("/user/find/" + id);
+      setUser(res.data);
     } catch (error) {
-        setErr('id không đúng')
+      setErr("id không đúng");
     }
-  }
+  };
 
   const { isLoading, error, data } = useQuery(["user", id], () => {
     return getUser();
@@ -46,7 +54,7 @@ export default function DetailUser() {
 
   const mutation = useMutation(
     () => {
-      return getUser()
+      return getUser();
     },
     {
       onSuccess: () => {
@@ -56,18 +64,18 @@ export default function DetailUser() {
   );
 
   const handleChangeInputFile = async (e) => {
-      try {
-        const formData = new FormData();
-        formData.append("file", e.target.files[0]);
-        const postImage = await makeRequest.post("/upload", formData);
-        await makeRequest.put("/user/uploadImage", {avatarPic: postImage.data})
-        getUser()
-        return postImage.data
-      } catch (error) {
-        console.log(error);
-      }
-      mutation.mutate();
-  } 
+    try {
+      const formData = new FormData();
+      formData.append("file", e.target.files[0]);
+      const postImage = await makeRequest.post("/upload", formData);
+      await makeRequest.put("/user/uploadImage", { avatarPic: postImage.data });
+      getUser();
+      return postImage.data;
+    } catch (error) {
+      console.log(error);
+    }
+    mutation.mutate();
+  };
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -85,7 +93,8 @@ export default function DetailUser() {
 
   useEffect(() => {
     setOpenControlMb(false);
-  }, [searchParams]);
+    window.scroll(0, 0);
+  }, [controlPathname]);
 
   return (
     <>
@@ -99,7 +108,9 @@ export default function DetailUser() {
                 <div className="detailUser__wrapper__header__main">
                   <div className="detailUser__wrapper__header__main__image">
                     <img
-                      src={user?.avatarPic ? (apiImage + user?.avatarPic): avatar}
+                      src={
+                        user?.avatarPic ? apiImage + user?.avatarPic : avatar
+                      }
                       alt=""
                     />
                     {user?.id === currentUser?.id && (
@@ -108,7 +119,11 @@ export default function DetailUser() {
                         className="detailUser__wrapper__header__main__image__edit"
                       >
                         <i className="fa-solid fa-upload"></i>
-                        <input id="input-avt-user" type="file" onChange={(e) => handleChangeInputFile(e)}/>
+                        <input
+                          id="input-avt-user"
+                          type="file"
+                          onChange={(e) => handleChangeInputFile(e)}
+                        />
                       </label>
                     )}
                   </div>
@@ -134,81 +149,75 @@ export default function DetailUser() {
                 <div className=" col pc-9 t-9 m-12">
                   <div className="detailUser__wrapper__body__left">
                     <div className="detailUser__wrapper__body__left__control">
-                      <button
-                        onClick={() => setSearchParams()}
-                        className={`${
-                          searchParams.get("tag") === null && "active"
-                        }`}
+                      <Link
+                        to={`/nguoi-dung/${id}/`}
+                        className={`${controlPathname === id && "active"}`}
                       >
                         <span>Giới thiệu</span>
-                      </button>
+                      </Link>
 
                       {user?.id === currentUser?.id && (
                         <>
-                          <button
-                            onClick={() => setSearchParams({ ["tag"]: "info" })}
+                          <Link
+                            to={`/nguoi-dung/${id}/info`}
                             className={`${
-                              searchParams.get("tag") === "info" && "active"
+                              controlPathname === "info" && "active"
                             }`}
                           >
                             <span>Thông tin</span>
-                          </button>
-                          <button
-                            onClick={() =>
-                              setSearchParams({ ["tag"]: "apply" })
-                            }
+                          </Link>
+                          <Link
+                            to={`/nguoi-dung/${id}/apply`}
                             className={`${
-                              searchParams.get("tag") === "apply" && "active"
+                              controlPathname === "apply" && "active"
                             }`}
                           >
                             <span>Ứng tuyển</span>
-                          </button>
-                          <button
-                            onClick={() => setSearchParams({ ["tag"]: "jobs" })}
+                          </Link>
+                          <Link
+                            to={`/nguoi-dung/${id}/jobs`}
                             className={`${
-                              searchParams.get("tag") === "jobs" && "active"
+                              controlPathname === "jobs" && "active"
                             }`}
                           >
-                            <span>Công việc</span>
-                          </button>
-                          <button
-                            onClick={() =>
-                              setSearchParams({ ["tag"]: "companies" })
-                            }
+                            <span>Việc làm</span>
+                          </Link>
+                          <Link
+                            to={`/nguoi-dung/${id}/companies`}
                             className={`${
-                              searchParams.get("tag") === "companies" &&
-                              "active"
+                              controlPathname === "companies" && "active"
                             }`}
                           >
-                            <span>Công ty</span>
-                          </button>
+                            <span>Theo dõi</span>
+                          </Link>
                         </>
                       )}
                     </div>
 
                     <div className="detailUser__wrapper__body__left__control-mobile">
-                      <button
+                      <Link
+                        to={`/nguoi-dung/${id}/`}
                         onClick={() => setSearchParams()}
-                        className={`${
-                          searchParams.get("tag") === null && "active"
-                        }`}
+                        className={`${controlPathname === id && "active"}`}
                       >
                         <span>Giới thiệu</span>
-                      </button>
+                      </Link>
                       {currentUser?.id === user.id && (
-                        <button
-                          onClick={() => setSearchParams({ ["tag"]: "info" })}
+                        <Link
+                          to={`/nguoi-dung/${id}/info`}
                           className={`${
-                            searchParams.get("tag") === "info" && "active"
+                            controlPathname === "info" && "active"
                           }`}
                         >
                           <span>Thông tin</span>
-                        </button>
+                        </Link>
                       )}
                       {currentUser?.id === user.id && (
                         <div className="button__more" ref={controlMbRef}>
                           <button
-                            className="button__more__toggle"
+                            className={`button__more__toggle ${
+                              openControlMb && "active"
+                            }`}
                             onClick={() => setOpenControlMb(!openControlMb)}
                           >
                             <span>Thêm</span>
@@ -216,38 +225,30 @@ export default function DetailUser() {
                           </button>
                           {openControlMb && (
                             <div className="button__more__dropdown">
-                              <button
-                                onClick={() =>
-                                  setSearchParams({ ["tag"]: "apply" })
-                                }
+                              <Link
+                                to={`/nguoi-dung/${id}/apply`}
                                 className={`${
-                                  searchParams.get("tag") === "apply" &&
-                                  "active"
+                                  controlPathname === "apply" && "active"
                                 }`}
                               >
                                 <span>Ứng tuyển</span>
-                              </button>
-                              <button
-                                onClick={() =>
-                                  setSearchParams({ ["tag"]: "jobs" })
-                                }
+                              </Link>
+                              <Link
+                                to={`/nguoi-dung/${id}/jobs`}
                                 className={`${
-                                  searchParams.get("tag") === "jobs" && "active"
+                                  controlPathname === "jobs" && "active"
                                 }`}
                               >
                                 <span>Công việc</span>
-                              </button>
-                              <button
-                                onClick={() =>
-                                  setSearchParams({ ["tag"]: "companies" })
-                                }
+                              </Link>
+                              <Link
+                                to={`/nguoi-dung/${id}/companies`}
                                 className={`${
-                                  searchParams.get("tag") === "companies" &&
-                                  "active"
+                                  controlPathname === "companies" && "active"
                                 }`}
                               >
                                 <span>Công ty</span>
-                              </button>
+                              </Link>
                             </div>
                           )}
                         </div>
@@ -255,33 +256,16 @@ export default function DetailUser() {
                     </div>
 
                     <div className="detailUser__wrapper__body__left__content">
-                      {searchParams.get("tag") === null && (
-                        <IntroUser intro={user?.intro} />
-                      )}
-                      {searchParams.get("tag") === "info" && <InfoUser />}
-                      {searchParams.get("tag") === "apply" && <AppliedJobs />}
-                      {searchParams.get("tag") === "jobs" && (
-                        <div className="jobsSave row">
-                          {jobs.map((job, i) => (
-                            <ItemJob
-                              job={job}
-                              key={i}
-                              className={"col pc-12"}
-                            />
-                          ))}
-                        </div>
-                      )}
-                      {searchParams.get("tag") === "companies" && (
-                        <div className="companiesSave row">
-                          {companies.map((company, i) => (
-                            <ItemCompany
-                              company={company}
-                              key={i}
-                              className={"col pc-6"}
-                            />
-                          ))}
-                        </div>
-                      )}
+                      <Routes>
+                        <Route
+                          index
+                          element={<IntroUser intro={user?.intro} />}
+                        />
+                        <Route path="info" element={<InfoUser />} />
+                        <Route path="apply" element={<AppliedJobs />} />
+                        <Route path="jobs" element={<></>} />
+                        <Route path="companies" element={<CompaniesSave />} />
+                      </Routes>
                     </div>
                   </div>
                 </div>
