@@ -4,10 +4,10 @@ import moment from "moment";
 
 export const getAll = async (req, res) => {
   try {
-    const { field } = req.query;
-
     const promiseDb = db.promise();
-    const { page, limit } = req.query;
+    const page = req.query?.page || 1;
+    const limit = req.query?.limit || 10;
+
     const offset = (page - 1) * limit;
 
     const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields
@@ -18,16 +18,17 @@ export const getAll = async (req, res) => {
        WHERE j.idCompany = c.id AND j.idProvince = p.id`;
 
     const [data] = await promiseDb.query(q, [+limit, +offset]);
-    const [totalPageData] = await promiseDb.query(q2);
-    const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
+    const [totalData] = await promiseDb.query(q2);
+    const totalPage = Math.ceil(+totalData[0]?.count / limit);
 
-    if (data && totalPageData && totalPage) {
+    if (data && totalData && totalPage) {
       return res.status(200).json({
         data: data,
         pagination: {
           page: +page,
           limit: +limit,
           totalPage,
+          total: totalData[0]?.count,
         },
       });
     } else {
@@ -41,7 +42,8 @@ export const getAll = async (req, res) => {
 export const findJobs = async (req, res) => {
   try {
     const { field } = req.query;
-    const { page, limit } = req.query;
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
     const promiseDb = db.promise();
 
     const offset = (page - 1) * limit;
@@ -73,7 +75,6 @@ export const findJobs = async (req, res) => {
     }
   } catch (error) {
     res.status(401).json(error);
-
   }
 };
 
@@ -92,7 +93,8 @@ export const getByIdCompany = async (req, res) => {
   try {
     const promiseDb = db.promise();
     const { id } = req.params;
-    const { page, limit } = req.query;
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
     const offset = (page - 1) * limit;
 
     const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic
@@ -103,16 +105,17 @@ export const getByIdCompany = async (req, res) => {
                 WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
 
     const [data] = await promiseDb.query(q, [id, +limit, +offset]);
-    const [totalPageData] = await promiseDb.query(q2, [id]);
-    const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
+    const [totalData] = await promiseDb.query(q2, [id]);
+    const totalPage = Math.ceil(+totalData[0]?.count / limit);
 
-    if (data && totalPageData && totalPage) {
+    if (data && totalData && totalPage) {
       return res.status(200).json({
         data: data,
         pagination: {
           page: +page,
           limit: +limit,
           totalPage,
+          total: totalData[0].count,
         },
       });
     } else {

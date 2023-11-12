@@ -113,11 +113,11 @@
                   @include flex(center, unset);
                   gap: 10px;
                   padding: 8px 0;
+                  cursor: pointer;
                   input {
                     --size: 20px;
                     width: var(--size);
                     height: var(--size);
-                    cursor: pointer;
                   }
                   span {
                     font-size: $font-size-s;

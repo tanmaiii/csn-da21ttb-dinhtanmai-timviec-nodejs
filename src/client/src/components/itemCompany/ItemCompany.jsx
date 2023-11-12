@@ -18,6 +18,7 @@ export default function ItemCompany({ company, className, style }) {
   const btnRef = useRef();
   const navigate = useNavigate();
   const [follower, setFollower] = useState();
+  const [jobQty, setJobQty] = useState(0);
   const queryClient = useQueryClient();
   const { currentUser } = useAuth();
 
@@ -27,19 +28,33 @@ export default function ItemCompany({ company, className, style }) {
     }
   };
 
-  const { isLoading: loadingFollow, data: dataFollow } = useQuery(
-    ["follower", company?.id],
-    () => {
-      return getFollower();
-    }
-  );
-
   const getFollower = async () => {
     try {
       const res = await makeRequest("follow/follower?idCompany=" + company?.id);
       setFollower(res.data);
     } catch (error) {}
   };
+
+  const getJobQty = async () => {
+    try {
+      const res = await makeRequest.get(`/job/company/${company?.id}`);
+      setJobQty(res.data.pagination.total);
+    } catch (error) {}
+  };
+
+  const { isLoading: loadingJob, data: dataJob } = useQuery(
+    ["job", company?.id],
+    () => {
+      return getJobQty();
+    }
+  );
+
+  const { isLoading: loadingFollow, data: dataFollow } = useQuery(
+    ["follower", company?.id],
+    () => {
+      return getFollower();
+    }
+  );
 
   const mutationFollow = useMutation(
     (following) => {
@@ -61,12 +76,7 @@ export default function ItemCompany({ company, className, style }) {
 
   return (
     company && (
-      <motion.div
-        layout
-        animate={{ opacity: 1 }}
-        initial={{ opacity: 0 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+      <div
         onClick={(e) => handleClick(e)}
         className={`itemCompany ${className && className}`}
       >
@@ -83,7 +93,7 @@ export default function ItemCompany({ company, className, style }) {
                 <i className="fa-solid fa-location-dot"></i>
                 <span>{company?.province}</span>
               </div>
-              <span className="job">12 việc làm</span>
+              <span className="job">{jobQty ? jobQty : "0"} việc làm</span>
             </div>
           </div>
           <button
@@ -98,7 +108,7 @@ export default function ItemCompany({ company, className, style }) {
             )}
           </button>
         </div>
-      </motion.div>
+      </div>
     )
   );
 }

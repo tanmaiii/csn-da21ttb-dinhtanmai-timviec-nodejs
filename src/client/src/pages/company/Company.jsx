@@ -13,10 +13,12 @@ import companies from "../../config/companies";
 export default function Company() {
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState();
-  const limit = 1;
+  const limit = 6;
   const [loading, setLoading] = useState(false);
-  const [companiesAll, setCompaniesAll] = useState();
-  const [companiesFilter, setCompaniesFilter] = useState();
+  const [companies, setCompanies] = useState();
+  const [filterProvince, setFilterProvince] = useState([]);
+  const [filterScale, setFilterScale] = useState([]);
+
   const [err, setErr] = useState();
   const location = useLocation();
   const { keyword } = useParams();
@@ -25,16 +27,27 @@ export default function Company() {
     setLoading(true);
     setErr();
     try {
-      let res;
+      let url = `/company?page=${paginate}&limit=${limit}`;
+
       if (keyword !== undefined) {
-        res = await makeRequest.get(
-          `/company?page=${paginate}&limit=${limit}&search=${keyword}`
-        );
-      } else {
-        res = await makeRequest.get(`/company?page=${paginate}&limit=${limit}`);
+        url += `&search=${keyword}`;
       }
-      setCompaniesFilter(res.data.data);
-      setCompaniesAll(res.data.data);
+
+      if (filterProvince !== undefined) {
+        filterProvince.map((province) => {
+          url += `&province[]=${province}`;
+        });
+      }
+
+      if (filterScale !== undefined) {
+        filterScale.map((scale) => {
+          url += `&scale[]=${scale}`;
+        });
+      }
+
+      const res = await makeRequest.get(url);
+
+      setCompanies(res.data.data);
       setTotalPage(res.data.pagination.totalPage);
       setLoading(false);
     } catch (error) {
@@ -46,7 +59,7 @@ export default function Company() {
   useEffect(() => {
     getCompany();
     window.scroll(0, 0);
-  }, [paginate, keyword]);
+  }, [paginate, keyword, filterProvince, filterScale]);
 
   return (
     <div className="company">
@@ -59,8 +72,10 @@ export default function Company() {
           <div className="company__wrapper__main row">
             <div className="col pc-3 t-3 m-0">
               <FilterCompany
-                companiesAll={companiesAll}
-                setCompaniesFilter={setCompaniesFilter}
+                filterProvince={filterProvince}
+                setFilterProvince={setFilterProvince}
+                filterScale={filterScale}
+                setFilterScale={setFilterScale}
               />
             </div>
             <div className="col pc-9 t-9 m-12">
@@ -71,7 +86,7 @@ export default function Company() {
                   ) : err ? (
                     <div>{err}</div>
                   ) : (
-                    companiesFilter?.map((company, i) => (
+                    companies?.map((company, i) => (
                       <ItemCompany
                         company={company}
                         key={i}
@@ -135,9 +150,9 @@ function SearchCompany({ props }) {
 }
 
 function FilterCompany(props) {
-  const { companiesAll, setCompaniesFilter } = props;
+  const { filterProvince, setFilterProvince, setFilterScale, filterScale } =
+    props;
   const [provinces, setProvinces] = useState();
-  const [filterProvince, setFilterProvince] = useState([]);
 
   const getProvinces = async () => {
     try {
@@ -150,7 +165,7 @@ function FilterCompany(props) {
     getProvinces();
   }, []);
 
-  const handleClickProvice = (e, name) => {
+  const handleClickProvice = (name) => {
     if (filterProvince.includes(name)) {
       const newFilter = [...filterProvince];
       newFilter.splice(filterProvince.indexOf(name), 1);
@@ -160,20 +175,16 @@ function FilterCompany(props) {
     }
   };
 
-  const FilterCompany = () => {
-    if (filterProvince.length === 0) {
-      setCompaniesFilter(companiesAll);
-      return;
+  const handleClickScale = (name) => {
+    if (filterScale.includes(name)) {
+      const newFilter = [...filterScale];
+      newFilter.splice(filterScale.indexOf(name), 1);
+      setFilterScale(newFilter);
+    } else {
+      setFilterScale((current) => [...current, name]);
     }
-    const companiesFilter = companiesAll?.filter((company) => {
-      return filterProvince?.includes(company?.province);
-    });
-    setCompaniesFilter(companiesFilter);
-  };
 
-  useEffect(() => {
-    FilterCompany();
-  }, [filterProvince]);
+  };
 
   return (
     <div className="company__wrapper__main__filter">
@@ -189,7 +200,7 @@ function FilterCompany(props) {
               >
                 <input
                   type="checkbox"
-                  onClick={(e) => handleClickProvice(e, item?.name)}
+                  onClick={() => handleClickProvice(item?.name)}
                 />
                 <span>{item?.name}</span>
               </label>
@@ -200,13 +211,16 @@ function FilterCompany(props) {
         <h6>Quy mô</h6>
         <div className="company__wrapper__main__filter__scale__list">
           {scale.map((item, i) => (
-            <div
+            <label
               key={i}
               className="company__wrapper__main__filter__scale__list__item"
             >
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                onClick={() => handleClickScale(item?.name)}
+              />
               <span>{item?.name}</span>
-            </div>
+            </label>
           ))}
         </div>
       </div>

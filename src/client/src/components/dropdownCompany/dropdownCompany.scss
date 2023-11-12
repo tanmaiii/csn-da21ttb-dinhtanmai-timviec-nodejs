@@ -18,12 +18,13 @@
         height: max-content;
       }
       img {
-        height: 100%;
-        width: auto;
+        height: 30px;
+        width: 30px;
         overflow: hidden;
         border-radius: 50%;
         object-fit: cover;
         border: 1px solid $color-primary;
+        object-fit: cover;
         @include tablet {
           width: 80px;
           height: 80px;

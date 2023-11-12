@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
-import  checkEmail from '../middlewares/checkEmail.middleware.js'
+import checkEmail from "../middlewares/checkEmail.middleware.js";
 
 export const getCompany = (req, res) => {
   const id = req.params.id;
@@ -42,21 +42,41 @@ export const getOwnerCompany = (req, res) => {
 export const getAllCompany = async (req, res) => {
   try {
     const promiseDb = db.promise();
-    const { page, limit,search } = req.query;
+    const { page, limit } = req.query;
+    const search = req.query?.search;
+    const province = req.query?.province;
+    const scale = req.query?.scale;
     const offset = (page - 1) * limit;
 
-    console.log(page, limit, search);
+    let q = `SELECT c.id, nameCompany, avatarPic, intro, scale, web, c.id, p.name as province 
+                          FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id`;
 
-    const q = search !== undefined ? `SELECT c.id, nameCompany, avatarPic, intro, scale, web, c.id, p.name as province 
-                          FROM job.companies as c, job.provinces as p WHERE c.nameCompany like '%${search}%' AND c.idProvince = p.id limit ? offset ?`
-                     : `SELECT c.id, nameCompany, avatarPic, intro, scale, web, c.id, p.name as province 
-                     FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id limit ? offset ?`
+    let q2 = `SELECT count(*) as count FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id `;
 
-    const q2 = search !== undefined ? `SELECT count(*) as count FROM job.companies as c, job.provinces as p WHERE c.nameCompany like '%${search}%' AND c.idProvince = p.id`:
-                        `SELECT count(*) as count FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id`
+    if (search) {
+      q += ` AND c.nameCompany like '%${search}%' `;
+      q2 += ` AND c.nameCompany like '%${search}%' `;
+    }
 
-    const [data] = await promiseDb.query(q, [+limit, +offset]);
+    if (province) {
+      let provinceFilter = province.join("','");
+      q += ` AND p.name in ('${provinceFilter}') `;
+      q2 += ` AND p.name in ('${provinceFilter}') `;
+    }
+
+    if (scale) {
+      let scaleFilter = scale.join("','");
+      q += ` AND c.scale in ('${scaleFilter}') `;
+      q2 += ` AND c.scale in ('${scaleFilter}') `;
+    }
+
+    const [data] = await promiseDb.query(`${q} limit ? offset ?`, [
+      +limit,
+      +offset,
+    ]);
+
     const [totalPageData] = await promiseDb.query(q2);
+
     const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
 
     if (data && totalPageData && totalPage) {
@@ -68,8 +88,8 @@ export const getAllCompany = async (req, res) => {
           totalPage,
         },
       });
-    }else{
-         return res.status(409).json("Rỗng !");
+    } else {
+      return res.status(200).json("Rỗng !");
     }
   } catch (error) {
     return res.status(409).json("Lỗi !");
@@ -99,7 +119,7 @@ export const updateCompany = (req, res) => {
       idProvince,
       web,
       scale,
-      userInfo.id
+      userInfo.id,
     ];
 
     db.query(q, values, (err, data) => {
