@@ -183,7 +183,6 @@ function FilterCompany(props) {
     } else {
       setFilterScale((current) => [...current, name]);
     }
-
   };
 
   return (

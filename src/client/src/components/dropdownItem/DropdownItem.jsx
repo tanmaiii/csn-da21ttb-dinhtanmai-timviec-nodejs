@@ -1,9 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdownItem.scss";
+import formatStr from '../../config/formatStr'
 
-export default function DropdownItem({title, option, optionActive, setOptionActive}) {
+export default function DropdownItem(props) {
+  const {
+    title = "Lựa chọn",
+    option,
+    optionActive,
+    setOptionActive,
+    search = false,
+  } = props;
+
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
   const dropdownRef = useRef();
+
+  const handleClickOption = (name) => {
+    if (optionActive.includes(name)) {
+      const newFilter = [...optionActive];
+      newFilter.splice(optionActive.indexOf(name), 1);
+      setOptionActive(newFilter);
+    } else {
+      setOptionActive((current) => [...current, name]);
+    }
+  };
 
   useEffect(() => {
     const handleMousedown = (e) => {
@@ -17,17 +37,44 @@ export default function DropdownItem({title, option, optionActive, setOptionActi
 
   return (
     <div className="dropdown" ref={dropdownRef}>
-      <div className="dropdown__toggle" onClick={() => setOpen(!open)}>
-        <span className="text">Heder</span>
+      <div
+        className={`dropdown__toggle ${optionActive?.length > 0 && "active"}`}
+        onClick={() => setOpen(!open)}
+      >
+        <span className="text">{title}</span>
         <i className={`fa-solid fa-angle-down ${open ? "open" : ""}`}></i>
       </div>
       {open && (
         <div className="dropdown__menu">
-          <div className="dropdown__menu__item">
-            <label htmlFor={"item.id"}>
-              <input type="checkbox" name="" id={"item.id"} />
-              <span>option</span>
-            </label>
+          {search && (
+            <div className="dropdown__menu__search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="text"
+                placeholder="Tìm kiếm"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+              />
+            </div>
+          )}
+          <div className="dropdown__menu__list">
+            {}
+            {option
+              ?.filter((asd) => formatStr(asd.name).includes(formatStr(value)))
+              .map((option, i) => (
+                <div key={i} className="dropdown__menu__list__item">
+                  <label htmlFor={i}>
+                    <input
+                      type="checkbox"
+                      checked={optionActive.includes(option?.name)}
+                      name=""
+                      id={i}
+                      onClick={() => handleClickOption(option?.name)}
+                    />
+                    <span>{option?.name}</span>
+                  </label>
+                </div>
+              ))}
           </div>
         </div>
       )}

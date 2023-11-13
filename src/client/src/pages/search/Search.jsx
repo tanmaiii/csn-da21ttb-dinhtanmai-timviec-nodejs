@@ -40,6 +40,9 @@ export default function Search() {
   const [idJobActive, setIdJobActive] = useState();
   const limit = 9;
 
+  const [optionActiveProvince, setOptionActiveProvince] = useState([]);
+  const [optionActiveField, setOptionActiveField] = useState([]);
+
   const handleSelectSort = (item) => {
     setOpenSort(false);
     setSortActive(item);
@@ -49,9 +52,23 @@ export default function Search() {
     try {
       let url = `/job?page=${paginate}&limit=${limit}`;
 
-      if (sortActive !== "Sắp xêp") {
+      if (sortActive) {
         url += `&sort=${sortActive?.value}`;
       }
+
+      if(optionActiveProvince) {
+        optionActiveProvince?.map(province => {
+          url += `&province[]=${province}`
+        })
+      }
+
+      if(optionActiveField) {
+        optionActiveField?.map(province => {
+          url += `&field[]=${province}`
+        })
+      }
+
+      console.log(url);
 
       const res = await makeRequest.get(url);
       setTotalPage(res.data.pagination.totalPage);
@@ -64,7 +81,7 @@ export default function Search() {
   useEffect(() => {
     window.scrollTo(0, 0);
     getJob();
-  }, [paginate, sortActive]);
+  }, [paginate, sortActive, optionActiveProvince, optionActiveField]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -75,7 +92,12 @@ export default function Search() {
       <div className="search">
         <div className="search__wrapper">
           <div className="container">
-            <BannerSearch />
+            <BannerSearch
+              optionActiveProvince={optionActiveProvince}
+              setOptionActiveProvince={setOptionActiveProvince}
+              optionActiveField={optionActiveField}
+              setOptionActiveField={setOptionActiveField}
+            />
             <div className="search__list">
               <div className="search__list__header">
                 <h4>{totalJobs && totalJobs} việc làm</h4>
@@ -136,12 +158,14 @@ export default function Search() {
   );
 }
 
-function BannerSearch() {
+function BannerSearch({
+  optionActiveProvince,
+  setOptionActiveProvince,
+  optionActiveField,
+  setOptionActiveField,
+}) {
   const [province, setProvince] = useState();
-  const [selectedOptionProvince, setSelectedOptionProvince] = useState();
-
   const [field, setField] = useState();
-  const [selectedOptionField, setSelectedOptionField] = useState();
 
   useEffect(() => {
     const getProvinces = async () => {
@@ -177,27 +201,20 @@ function BannerSearch() {
           </button>
         </div>
         <div className="search__banner__wrapper__filter">
-          <div className="search__banner__wrapper__filter__item">
-            <Select
-              placeholder={"Tỉnh thành"}
-              options={province}
-              selectedOption={selectedOptionProvince}
-              setSelectedOption={setSelectedOptionProvince}
-            />
-          </div>
-          <div className="search__banner__wrapper__filter__item">
-            <Select placeholder={"Ngành nghề"} options={field}    selectedOption={selectedOptionField}
-              setSelectedOption={setSelectedOptionField}/>
-          </div>
-          <div className="search__banner__wrapper__filter__item">
-            <Select placeholder={"Tỉnh thành"} />
-          </div>
-          <div className="search__banner__wrapper__filter__item">
-            <Select placeholder={"Tỉnh thành"} />
-          </div>
-          {/* <DropdownItem type={"rank"} />
-          <DropdownItem type={"type"} />
-          <DropdownItem type={"academic"} /> */}
+          <DropdownItem
+            title={"Tỉnh thành"}
+            option={province}
+            optionActive={optionActiveProvince}
+            setOptionActive={setOptionActiveProvince}
+            search={true}
+          />
+          <DropdownItem
+            title={"Ngành nghề"}
+            option={field}
+            optionActive={optionActiveField}
+            setOptionActive={setOptionActiveField}
+            search={true}
+          />
         </div>
       </div>
     </div>

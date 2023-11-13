@@ -15,6 +15,11 @@
       transition: all 0.3s;
       user-select: none;
       z-index: 1;
+      &.active {
+        background-color: $color-primary;
+        border-color: $color-primary;
+        color: $color-white;
+      }
       &:hover {
         background-color: themed("bg2");
       }
@@ -28,9 +33,9 @@
       i {
         @include flex(center, center);
         font-size: $font-size-s;
-        transition: all .3s;
-        &.open{
-          transform:rotate(-180deg);
+        transition: all 0.3s;
+        &.open {
+          transform: rotate(-180deg);
         }
       }
     }
@@ -38,31 +43,54 @@
       position: absolute;
       top: calc(100% + 10px);
       left: 0;
-      width: 100%;
-      background-color: themed("bg1");
+      width: max-content;
+      min-width: 240px;
+      background-color: themed("bg2");
       box-shadow: themed("box-shadow");
       border-radius: $border-radius-10;
       overflow: hidden;
       display: block;
       z-index: 99;
-      &__item {
-        label {
+      &__search {
+        width: 100%;
+        @include flex(center, unset);
+        background-color: themed("bg1");
+        padding: 8px;
+        i {
           padding: 10px;
-          cursor: pointer;
-          @include flex(center, unset);
-          gap: 10px;
-          transition: all 0.3s;
-          &:hover {
-            background-color: themed("bg2");
-          }
-          input {
-            min-height: 20px;
-            min-width: 20px;
+          font-size: 1.1rem;
+          color: themed("text1");
+        }
+        input {
+          flex: 1;
+          font-size: $font-size-s;
+          color: themed("text1");
+          padding: 8px 0;
+        }
+      }
+      &__list {
+        max-height: 340px;
+        height: max-content;
+        overflow-y: scroll;
+        &__item {
+          label {
+            padding: 10px;
             cursor: pointer;
-          }
-          span {
-            color: themed("text1");
-            font-size: $font-size-s;
+            @include flex(center, unset);
+            gap: 10px;
+            transition: all 0.3s;
+            &:hover {
+              background-color: themed("bg1");
+            }
+            input {
+              min-height: 20px;
+              min-width: 20px;
+              cursor: pointer;
+            }
+            span {
+              color: themed("text1");
+              font-size: $font-size-s;
+            }
           }
         }
       }
