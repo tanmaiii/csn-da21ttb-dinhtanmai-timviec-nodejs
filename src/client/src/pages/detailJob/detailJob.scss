@@ -153,7 +153,7 @@
                   @include flex(start, unset);
                   gap: 8px;
                   margin-bottom: 8px;
-                  color: themed('text1');
+                  color: themed("text1");
                   i {
                     @include flex(center, center);
                     font-size: $font-size-s;
@@ -163,7 +163,7 @@
                   }
                 }
                 .content {
-                  color: themed('text1');
+                  color: themed("text1");
                   font-size: $font-size-s;
                 }
                 a {
@@ -190,6 +190,11 @@
               &__body {
                 color: themed("text1");
                 font-size: $font-size-s;
+                p,
+                strong,
+                span {
+                  color: themed("text1") !important;
+                }
               }
             }
           }

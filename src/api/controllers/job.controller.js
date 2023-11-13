@@ -7,17 +7,26 @@ export const getAll = async (req, res) => {
     const promiseDb = db.promise();
     const page = req.query?.page || 1;
     const limit = req.query?.limit || 10;
+    const sort = req.query?.sort || "new";
 
     const offset = (page - 1) * limit;
 
-    const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields
+    let q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields
        FROM job.jobs AS j , job.companies AS c ,  job.provinces as p , job.fields as f
-       WHERE j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt DESC limit ? offset ?`;
+       WHERE j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
-    const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
+    let q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
        WHERE j.idCompany = c.id AND j.idProvince = p.id`;
 
-    const [data] = await promiseDb.query(q, [+limit, +offset]);
+    if(sort === 'new') {
+      q += ` ORDER BY j.createdAt DESC `
+    }else if(sort === 'maxToMin'){
+      q += ` ORDER BY j.salaryMin DESC `
+    }else if(sort === 'minToMax'){
+      q += ` ORDER BY j.salaryMin ASC `
+    }
+
+    const [data] = await promiseDb.query(`${q} limit ${+limit} offset ${ +offset}`);
     const [totalData] = await promiseDb.query(q2);
     const totalPage = Math.ceil(+totalData[0]?.count / limit);
 

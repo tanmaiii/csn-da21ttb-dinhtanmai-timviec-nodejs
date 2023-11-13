@@ -8,6 +8,7 @@ import InfoUser from "./infoUser/InfoUser";
 import IntroUser from "./introUser/IntroUser";
 import AppliedJobs from "./appliedJobs/AppliedJobs";
 import CompaniesSave from "./companiesSave/CompaniesSave";
+import JobsSave from "./jobsSave/JobsSave";
 
 import {
   useSearchParams,
@@ -263,7 +264,7 @@ export default function DetailUser() {
                         />
                         <Route path="info" element={<InfoUser />} />
                         <Route path="apply" element={<AppliedJobs />} />
-                        <Route path="jobs" element={<></>} />
+                        <Route path="jobs" element={<JobsSave />} />
                         <Route path="companies" element={<CompaniesSave />} />
                       </Routes>
                     </div>

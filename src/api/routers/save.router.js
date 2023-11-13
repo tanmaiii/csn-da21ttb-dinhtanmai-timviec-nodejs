@@ -2,8 +2,11 @@ import express from "express";
 
 const router = express.Router();
 
-import { getJobSave } from '../controllers/save.controller.js'
+import { getJobSave,getUser,  addSave, removeSave } from '../controllers/save.controller.js'
  
-router.get("/:idUser", getJobSave);
+router.get("/user/", getUser);
+router.get("/", getJobSave);
+router.post("/", addSave);
+router.delete("/", removeSave);
 
 export default router;

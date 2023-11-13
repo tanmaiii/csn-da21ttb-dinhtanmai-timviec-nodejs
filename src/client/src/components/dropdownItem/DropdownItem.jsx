@@ -1,46 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdownItem.scss";
 
-export default function DropdownItem({ type }) {
+export default function DropdownItem({title, option, optionActive, setOptionActive}) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef();
 
-  // useEffect(() => {
-  //   const handleMousedown = (e) => {
-  //     if (!dropdownRef.current.contains(e.target)) {
-  //       setOpen(false);
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handleMousedown);
-  //   return () => document.removeEventListener("mousedown", handleMousedown);
-  // });
+  useEffect(() => {
+    const handleMousedown = (e) => {
+      if (!dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => document.removeEventListener("mousedown", handleMousedown);
+  });
 
   return (
-    <>
-      {/* {filter &&
-        filter
-          .filter((item) => item.name === type)
-          .map((group) => (
-            <div className="dropdown" ref={dropdownRef}>
-              <div className="dropdown__toggle" onClick={() => setOpen(!open)}>
-                {group?.icon}
-                <span className="text">{group.displayName}</span>
-                <i className={`fa-solid fa-angle-down ${open ? 'open' : ''}`}></i>
-              </div>
-              {open && (
-                <div className="dropdown__menu">
-                  {group.list.map((item, i) => (
-                    <div className="dropdown__menu__item">
-                      <label htmlFor={item.id}>
-                        <input type="checkbox" name="" id={item.id} />
-                        <span>{item.displayName}</span>
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))} */}
-    </>
+    <div className="dropdown" ref={dropdownRef}>
+      <div className="dropdown__toggle" onClick={() => setOpen(!open)}>
+        <span className="text">Heder</span>
+        <i className={`fa-solid fa-angle-down ${open ? "open" : ""}`}></i>
+      </div>
+      {open && (
+        <div className="dropdown__menu">
+          <div className="dropdown__menu__item">
+            <label htmlFor={"item.id"}>
+              <input type="checkbox" name="" id={"item.id"} />
+              <span>option</span>
+            </label>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

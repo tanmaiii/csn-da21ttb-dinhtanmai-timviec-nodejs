@@ -39,8 +39,8 @@
           visibility: hidden;
         }
         button:hover{
-          background-color: $color-primary;
-          color: $color-white;
+          background-color:themed('bg2');
+          color:themed('text1');
         }
       }
       &__btn__right {
@@ -48,8 +48,8 @@
           visibility: hidden;
         }
          button:hover{
-          background-color: $color-primary;
-          color: $color-white;
+          background-color:themed('bg2');
+          color:themed('text1');
         }
       }
     }

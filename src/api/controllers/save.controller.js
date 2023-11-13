@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
+import moment from "moment";
 
 export const getJobSave = async (req, res) => {
   try {
     const promiseDb = db.promise();
-    const idUser = req.params.idUser;
+    const idUser = req.query.idUser;
     const page = req.query.page || 1;
     const limit = req.query.limit || 10;
 
@@ -37,8 +38,22 @@ export const getJobSave = async (req, res) => {
     }
   } catch (error) {
     return res.status(409).json("Lỗi !");
-  }
+  }getUser
 };
+
+export const getUser = async (req, res) => {
+  try {
+    const q =
+      "SELECT id_user FROM job.save_job as s WHERE s.id_job = ?";
+
+    db.query(q, [req.query.idJob], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json(data.map((user) => user.id_user));
+    });
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+}
 
 export const addSave = (req, res) => {
   const token = req.cookies.accessToken;
@@ -48,8 +63,9 @@ export const addSave = (req, res) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q =
-      "INSERT INTO job.follow_company (`id_user`, `id_company`) VALUES (?)";
-    const values = [userInfo.id, req.query.idCompany];
+      "INSERT INTO job.save_job (`id_user`, `id_job`, `createdAt`) VALUES (?)";
+
+    const values = [userInfo.id, req.query.idJob, moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")];
 
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
@@ -66,9 +82,9 @@ export const removeSave = (req, res) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q =
-      "DELETE FROM job.follow_company WHERE `id_user` = ? AND `id_company` = ?";
+      "DELETE FROM job.save_job WHERE `id_user` = ? AND `id_job` = ?";
 
-    db.query(q, [userInfo.id, req.query.idCompany], (err, data) => {
+    db.query(q, [userInfo.id, req.query.idJob], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json("Thành công!");
     });

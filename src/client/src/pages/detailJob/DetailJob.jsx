@@ -6,25 +6,34 @@ import Modal from "../../components/modal/Modal";
 import ApplyJob from "../../components/applyJob/ApplyJob";
 import Loader from "../../components/loader/Loader";
 import { makeRequest, apiImage } from "../../axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { useMode } from "../../context/ModeContext";
+import PreviewJob from "../../components/previewJob/PreviewJob";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 
 export default function DetailJob() {
   const [openModal, setOpenModal] = useState(false);
   const [save, setSave] = useState(false);
   const [err, setErr] = useState(false);
+  const [userSave, setUserSave] = useState();
   const [job, setJob] = useState();
   const [openMore, setOpenMore] = useState(false);
-  const { id } = useParams();
-  const { currentCompany } = useAuth();
-  const {darkMode} = useMode();
+  const { idJob } = useParams();
+  const { currentCompany, currentUser } = useAuth();
+  const { darkMode } = useMode();
   const buttonMoreRef = useRef();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const getJob = async () => {
     try {
-      const res = await makeRequest.get("job/" + id);
-      console.log(res.data);
+      const res = await makeRequest.get("job/" + idJob);
       setJob(res.data);
     } catch (error) {}
   };
@@ -32,7 +41,7 @@ export default function DetailJob() {
   useEffect(() => {
     getJob();
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [idJob]);
 
   useEffect(() => {
     if (currentCompany?.id === job?.idCompany) {
@@ -45,6 +54,34 @@ export default function DetailJob() {
       return () => document.removeEventListener("mousedown", handleMousedown);
     }
   });
+
+  const getUserSave = async () => {
+    try {
+      const res = await makeRequest.get(`save/user?idJob=${job?.id}`);
+      setUserSave(res.data);
+    } catch (error) {}
+  };
+
+  const { isLoading, error, data } = useQuery(["save", job?.id], () => {
+    return getUserSave();
+  });
+
+  const mutationSave = useMutation(
+    (saved) => {
+      if (saved) return makeRequest.delete("/save?idJob=" + job?.id);
+      return makeRequest.post("/save?idJob=" + job?.id);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["save"]);
+      },
+    }
+  );
+
+  const handleSubmitSave = () => {
+    if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
+    mutationSave.mutate(userSave?.includes(currentUser?.id));
+  };
 
   return (
     <>
@@ -72,8 +109,8 @@ export default function DetailJob() {
                   >
                     Ứng tuyển
                   </button>
-                  <button className="btn_save" onClick={() => setSave(!save)}>
-                    {save ? (
+                  <button className="btn_save" onClick={() => handleSubmitSave()}>
+                    {userSave?.includes(currentUser?.id) ? (
                       <>
                         <i class="fa-solid fa-heart"></i>
                         <span>Đã Lưu</span>

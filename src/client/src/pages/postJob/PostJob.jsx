@@ -213,7 +213,7 @@ export default function PostJob() {
                   </div>
                 </div>
                 <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__scale">
-                  <h6>Mức lương</h6>
+                  <h6>Mức lương (triệu)</h6>
                   <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__scale__input">
                     <input
                       type="number"

@@ -6,7 +6,15 @@ import Modal from "../../components/modal/Modal";
 import ApplyJob from "../applyJob/ApplyJob";
 import { makeRequest, apiImage } from "../../axios";
 import Loader from "../loader/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
+
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 
 export default function PreviewJob({ setOpenModal, idJob }) {
   const [save, setSave] = useState(false);
@@ -14,15 +22,18 @@ export default function PreviewJob({ setOpenModal, idJob }) {
   const [err, setErr] = useState(false);
   const [job, setJob] = useState();
   const [loading, setLoading] = useState(false);
+  const [userSave, setUserSave] = useState();
+  const { currentUser } = useAuth();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const getJob = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await makeRequest.get("job/" + idJob);
-      console.log(res.data);
       setJob(res.data);
     } catch (error) {}
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -34,8 +45,37 @@ export default function PreviewJob({ setOpenModal, idJob }) {
     previewJobDoc.scrollTo(0, 0);
   }, [idJob]);
 
-  if (loading) return <Loader/>
-  
+  // save job
+  const getUserSave = async () => {
+    try {
+      const res = await makeRequest.get(`save/user?idJob=${idJob}`);
+      setUserSave(res.data);
+    } catch (error) {}
+  };
+
+  const { isLoading, error, data } = useQuery(["save", idJob], () => {
+    return getUserSave();
+  });
+
+  const mutationSave = useMutation(
+    (saved) => {
+      if (saved) return makeRequest.delete("/save?idJob=" + idJob);
+      return makeRequest.post("/save?idJob=" + idJob);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["save"]);
+      },
+    }
+  );
+
+  const handleSubmitSave = () => {
+    if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
+    mutationSave.mutate(userSave?.includes(currentUser?.id));
+  };
+
+  if (loading) return <Loader />;
+
   return (
     <>
       <div className="previewJob">
@@ -52,8 +92,8 @@ export default function PreviewJob({ setOpenModal, idJob }) {
           <button className="btn_apply" onClick={() => setOpenModal(true)}>
             Ứng tuyển
           </button>
-          <button className="btn_save" onClick={() => setSave(!save)}>
-            {save ? (
+          <button className="btn_save" onClick={() => handleSubmitSave()}>
+            {userSave?.includes(currentUser?.id) ? (
               <>
                 <i class="fa-solid fa-heart"></i>
                 <span>Đã Lưu</span>

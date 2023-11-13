@@ -56,7 +56,7 @@ function App() {
             </Route>
 
 
-            <Route path="/cong-viec/:id" element={<DetailJob />} />
+            <Route path="/viec-lam/:idJob" element={<DetailJob />} />
 
             <Route path="/nguoi-dung/:id/" element={<DetailUser />}>
               <Route path="info" element />

@@ -10,66 +10,12 @@
         & > * {
           margin-bottom: 20px;
         }
-        .search__banner {
-          z-index: 1;
-          &__wrapper {
-            background-color: themed("bg2");
-            padding: $spacing;
-            border-radius: $border-radius-20;
-            @include flex(center, unset);
-            flex-direction: column;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            min-height: 300px;
-            @include mobile{
-              padding: 20px 10px;
-            }
-            &__input {
-              background-color: themed("bg1");
-              border-radius: $border-radius-10;
-              @include flex(center, unset);
-              width: max-content;
-              gap: 8px;
-              @include mobile{
-                width: 100%;
-              }
-              &__career {
-                position: relative;
-                &::after {
-                  content: "";
-                  position: absolute;
-                  height: 50%;
-                  width: 1px;
-                  background-color: themed("border");
-                  right: -4px;
-                  top: 50%;
-                  transform: translateY(-50%);
-                }
-              }
-              &__province {
-                @include mobile{
-                  display: none
-                }
-              }
-              &__btn-search {
-                @include button($color-white, $color-primary);
-                margin: 10px 10px;
-              }
-              
-            }
-            &__filter {
-              margin-top: 20px;
-              @include flex(center, center);
-              flex-wrap: wrap;
-              gap: 10px;
-            }
-          }
-        }
+
         .search__list {
           &__header {
             @include flex(center, space-between);
             padding: 10px 0;
+            margin-bottom: 20px;
             h4 {
               font-size: $font-size-m;
               color: themed("text1");
@@ -79,6 +25,10 @@
             &__sort {
               @include flex(center, unset);
               gap: 8px;
+              span {
+                font-size: $font-size-s;
+                color: themed("text1");
+              }
               .dropdown {
                 position: relative;
                 .header {
@@ -124,31 +74,84 @@
             }
           }
           &__body {
-            flex-wrap: wrap;
+            width: 100%;
             &__side {
-              &__btn {
-                @include flex(center, center);
-                padding: 20px 0;
-                button {
-                  @include button($color-white, $color-primary);
-                }
-              }
+              flex-wrap: wrap;
             }
-            &__preview {
-              width: 100%;
-              height: calc(100vh - $height-header);
-              position:sticky;
-              top: $height-header;
-              &__wrapper {
-                overflow: hidden;
-                border-radius: $border-radius-20;
-                background-color: themed("bg2");
-                height: 100%;
-                width: 100%;
-              }
-            }
+            // &__preview {
+            //   width: 100%;
+            //   height: calc(100vh - $height-header);
+            //   position:sticky;
+            //   top: $height-header;
+            //   &__wrapper {
+            //     overflow: hidden;
+            //     border-radius: $border-radius-20;
+            //     background-color: themed("bg2");
+            //     height: 100%;
+            //     width: 100%;
+            //   }
+            // }
           }
-         
+        }
+      }
+    }
+  }
+}
+
+.search__banner {
+  @include themify($themes) {
+    z-index: 1;
+    &__wrapper {
+      background-color: themed("bg2");
+      padding: $spacing;
+      border-radius: $border-radius-20;
+      @include flex(center, unset);
+      flex-direction: column;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      min-height: 300px;
+      @include mobile {
+        padding: 20px 10px;
+      }
+      &__input {
+        background-color: themed("bg2");
+        border-radius: $border-radius-10;
+        @include flex(center, unset);
+        width: max-content;
+        gap: 8px;
+        border: 1px solid themed("border");
+        @include mobile {
+          width: 100%;
+        }
+        i {
+          font-size: $font-size-m;
+          padding: 10px;
+          color: themed("text2");
+        }
+        input {
+          width: 280px;
+          padding: 8px 10px;
+          font-size: $font-size-s;
+          color: themed("text1");
+          @include mobile {
+            flex: 1;
+          }
+        }
+        &__btn-search {
+          @include button($color-white, $color-primary);
+          margin: 10px 10px;
+        }
+      }
+      &__filter {
+        margin-top: 20px;
+        @include flex(center, center);
+        flex-wrap: wrap;
+        gap: 10px;
+        &__item {
+          width: max-content;
+          background-color: themed('bg2');
+          border-radius: $border-radius-10;
         }
       }
     }

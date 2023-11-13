@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Pagination from "../../../components/pagination/Pagination";
-import ItemCompany from "../../../components/itemCompany/ItemCompany";
+import ItemJob from "../../../components/itemJob/ItemJob";
 import { makeRequest } from "../../../axios";
 import { useParams } from "react-router-dom";
 import Loader from "../../../components/loader/Loader";
-import "./companiesSave.scss";
+import "./jobsSave.scss";
 
 import {
   QueryClient,
@@ -13,53 +13,45 @@ import {
   useQueryClient,
 } from "react-query";
 
-export default function CompaniesSave() {
-  const [companies, setCompanies] = useState();
+export default function JobsSave() {
+  const [jobs, setJobs] = useState();
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [loading, setLoading] = useState(false);
-  const limit = 6;
+  const limit = 4;
   const { id } = useParams();
 
-  const getCompanies = async () => {
+  const getJobs = async () => {
     setLoading(true);
     try {
       const res = await makeRequest.get(
-        `/follow/company/${id}?page=${paginate}&limit=${limit}`
+        `/save?idUser=${id}&limit=${limit}&page=${paginate}`
       );
       console.log(res);
-      setCompanies(res.data.data);
+      setJobs(res.data.data);
       setTotalPage(res.data.pagination.totalPage);
       setLoading(false);
     } catch (error) {}
     setLoading(false);
   };
 
-  const { isLoading: loadingFollow, data: dataFollow } = useQuery(
-    ["follower", id],
-    () => {
-      return getCompanies();
-    }
-  );
+  const { isLoading, data } = useQuery(["save"], () => {
+    return getJobs();
+  });
 
   useEffect(() => {
-    getCompanies();
-    window.scroll(0,0)
-
+    getJobs();
+    window.scroll(0, 0);
   }, [paginate]);
 
   return (
-    <div className="companiesSave">
-      <div className="companiesSave__wrapper row">
+    <div className="jobsSave">
+      <div className="jobsSave__list row">
         {loading ? (
           <Loader />
         ) : (
-          companies?.map((company, i) => (
-            <ItemCompany
-              key={i}
-              company={company}
-              className={"col pc-4 t-6 m-12"}
-            />
+          jobs?.map((job, i) => (
+            <ItemJob key={i} job={job} className={"col pc-6 m-12 t-12"} />
           ))
         )}
       </div>

@@ -12,6 +12,7 @@ import {
   useQuery,
   useQueryClient,
 } from "react-query";
+
 import { useAuth } from "../../context/authContext";
 
 export default function ItemCompany({ company, className, style }) {
