@@ -4,6 +4,7 @@ import formatStr from '../../config/formatStr'
 
 export default function DropdownItem(props) {
   const {
+    icon,
     title = "Lựa chọn",
     option,
     optionActive,
@@ -41,6 +42,7 @@ export default function DropdownItem(props) {
         className={`dropdown__toggle ${optionActive?.length > 0 && "active"}`}
         onClick={() => setOpen(!open)}
       >
+        {icon && icon}
         <span className="text">{title}</span>
         <i className={`fa-solid fa-angle-down ${open ? "open" : ""}`}></i>
       </div>
@@ -48,13 +50,16 @@ export default function DropdownItem(props) {
         <div className="dropdown__menu">
           {search && (
             <div className="dropdown__menu__search">
-              <i class="fa-solid fa-magnifying-glass"></i>
+              <i className="fa-solid fa-magnifying-glass"></i>
               <input
                 type="text"
                 placeholder="Tìm kiếm"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
               />
+              {value.length > 0 && <button className="btn-clear" onClick={() => setValue('')}>
+                  <i className="fa-solid fa-xmark"></i>
+              </button>}
             </div>
           )}
           <div className="dropdown__menu__list">

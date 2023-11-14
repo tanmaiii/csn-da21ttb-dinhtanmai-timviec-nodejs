@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import "./search.scss";
 import DropdownItem from "../../components/dropdownItem/DropdownItem";
 import ItemJob from "../../components/itemJob/ItemJob";
-import PreviewJob from "../../components/previewJob/PreviewJob";
-import Modal from "../../components/modal/Modal";
-import ApplyJob from "../../components/applyJob/ApplyJob";
 import Pagination from "../../components/pagination/Pagination";
+import NotFoundData from "../../components/notFoundData/NotFoundData";
+import Loader from "../../components/loader/Loader";
 import { useState } from "react";
 import { makeRequest } from "../../axios";
-import Select from "../../components/select/Select";
-
 import img from "../../assets/images/bannerSearch.jpg";
+
+import { typeWorks } from "../../config/data";
+import { useNavigate, useParams } from "react-router-dom";
 
 const sort = [
   {
@@ -34,14 +34,17 @@ export default function Search() {
   const [openSort, setOpenSort] = useState(false);
   const [sortActive, setSortActive] = useState(sort[0]);
   const [jobs, setJobs] = useState();
+  const [loading, setLoading] = useState(false);
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [totalJobs, setTotalJobs] = useState(0);
   const [idJobActive, setIdJobActive] = useState();
-  const limit = 9;
+  const limit = 6;
+  const { keyword } = useParams();
 
   const [optionActiveProvince, setOptionActiveProvince] = useState([]);
   const [optionActiveField, setOptionActiveField] = useState([]);
+  const [optionActiveTypeWork, setOptionActiveTypeWork] = useState([]);
 
   const handleSelectSort = (item) => {
     setOpenSort(false);
@@ -49,6 +52,7 @@ export default function Search() {
   };
 
   const getJob = async () => {
+    setLoading(true);
     try {
       let url = `/job?page=${paginate}&limit=${limit}`;
 
@@ -56,32 +60,50 @@ export default function Search() {
         url += `&sort=${sortActive?.value}`;
       }
 
-      if(optionActiveProvince) {
-        optionActiveProvince?.map(province => {
-          url += `&province[]=${province}`
-        })
+      if (keyword !== undefined) {
+        url += `&search=${keyword}`;
       }
 
-      if(optionActiveField) {
-        optionActiveField?.map(province => {
-          url += `&field[]=${province}`
-        })
+      if (optionActiveProvince) {
+        optionActiveProvince?.map((province) => {
+          url += `&province[]=${province}`;
+        });
       }
 
-      console.log(url);
+      if (optionActiveField) {
+        optionActiveField?.map((province) => {
+          url += `&field[]=${province}`;
+        });
+      }
+
+      if (optionActiveTypeWork) {
+        optionActiveTypeWork?.map((typeWork) => {
+          url += `&typeWork[]=${typeWork}`;
+        });
+      }
 
       const res = await makeRequest.get(url);
-      setTotalPage(res.data.pagination.totalPage);
-      setTotalJobs(res.data.pagination.total);
-      setJobs(res.data.data);
+      console.log(res);
+      setJobs(res.data.data || []);
+      setTotalPage(res.data?.pagination.totalPage || 0);
+      setTotalJobs(res.data?.pagination.total || 0);
       setIdJobActive(res.data.data[0]?.id);
+      setLoading(false);
     } catch (error) {}
+    setLoading(false);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     getJob();
-  }, [paginate, sortActive, optionActiveProvince, optionActiveField]);
+  }, [
+    paginate,
+    sortActive,
+    optionActiveProvince,
+    optionActiveField,
+    optionActiveTypeWork,
+    keyword,
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -97,10 +119,13 @@ export default function Search() {
               setOptionActiveProvince={setOptionActiveProvince}
               optionActiveField={optionActiveField}
               setOptionActiveField={setOptionActiveField}
+              optionActiveTypeWork={optionActiveTypeWork}
+              setOptionActiveTypeWork={setOptionActiveTypeWork}
             />
+            {jobs?.length === 0 && <NotFoundData />}
             <div className="search__list">
               <div className="search__list__header">
-                <h4>{totalJobs && totalJobs} việc làm</h4>
+                <h4>{totalJobs && totalJobs} việc làm {keyword && keyword}</h4>
                 <div className="search__list__header__sort">
                   <span>Sắp xếp :</span>
                   <div className="dropdown">
@@ -132,16 +157,20 @@ export default function Search() {
               </div>
               <div className="search__list__body">
                 <div className="search__list__body__side row">
-                  {jobs?.map((job, i) => (
-                    <ItemJob
-                      onClick={() => setIdJobActive(job?.id)}
-                      key={i}
-                      job={job}
-                      className={`col pc-4 t-6 m-12 ${
-                        idJobActive === job.id && "active"
-                      }`}
-                    />
-                  ))}
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    jobs?.map((job, i) => (
+                      <ItemJob
+                        onClick={() => setIdJobActive(job?.id)}
+                        key={i}
+                        job={job}
+                        className={`col pc-4 t-6 m-12 ${
+                          idJobActive === job.id && "active"
+                        }`}
+                      />
+                    ))
+                  )}
                 </div>
                 <Pagination
                   totalPage={totalPage}
@@ -163,6 +192,8 @@ function BannerSearch({
   setOptionActiveProvince,
   optionActiveField,
   setOptionActiveField,
+  optionActiveTypeWork,
+  setOptionActiveTypeWork,
 }) {
   const [province, setProvince] = useState();
   const [field, setField] = useState();
@@ -193,15 +224,10 @@ function BannerSearch({
         className="search__banner__wrapper"
         style={{ backgroundImage: `url(${img})` }}
       >
-        <div className="search__banner__wrapper__input">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Tên công ty, công việc..." />
-          <button className="search__banner__wrapper__input__btn-search">
-            Tìm kiếm
-          </button>
-        </div>
+        <InputSearch />
         <div className="search__banner__wrapper__filter">
           <DropdownItem
+            icon={<i className="fa-solid fa-location-dot"></i>}
             title={"Tỉnh thành"}
             option={province}
             optionActive={optionActiveProvince}
@@ -209,14 +235,129 @@ function BannerSearch({
             search={true}
           />
           <DropdownItem
+            icon={<i className="fa-solid fa-rectangle-list"></i>}
             title={"Ngành nghề"}
             option={field}
             optionActive={optionActiveField}
             setOptionActive={setOptionActiveField}
             search={true}
           />
+          <DropdownItem
+            icon={<i className="fa-solid fa-location-dot"></i>}
+            title={"Vị trí"}
+            option={typeWorks}
+            optionActive={optionActiveTypeWork}
+            setOptionActive={setOptionActiveTypeWork}
+          />
         </div>
       </div>
+    </div>
+  );
+}
+
+function InputSearch() {
+  const [keyword, setKeyWord] = useState();
+  const [searchHistory, setSearchHistory] = useState([]);
+  const [openHistory, setOpenHistory] = useState(false);
+  const inputRef = useRef();
+  const inputSearchRef = useRef();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const enterEvent = (e) => {
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        goToSearch();
+      }
+    };
+    document.addEventListener("keyup", enterEvent);
+    return () => {
+      document.removeEventListener("keyup", enterEvent);
+    };
+  }, [keyword]);
+
+  const goToSearch = () => {
+    setOpenHistory(false);
+    if (keyword?.trim().length > 0) {
+      navigate(`/tim-kiem/${keyword.trim()}`);
+      handleSaveHistory(keyword.trim());
+    } else {
+      navigate(`/tim-kiem`);
+    }
+  };
+
+  const handleSaveHistory = (item) => {
+    item = item.trim();
+    if (!searchHistory?.includes(item)) {
+      const updateHistory = [item, ...searchHistory.slice(0, 4)];
+      setSearchHistory(updateHistory);
+      localStorage.setItem("searchHistory", JSON.stringify(updateHistory));
+    }
+  };
+
+  const handleSubmitHistory = (item) => {
+    setKeyWord(item);
+    navigate(`/tim-kiem/${item}`);
+  };
+
+  useEffect(() => {
+    const storedHistory = localStorage.getItem("searchHistory");
+    if (storedHistory) {
+      setSearchHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  useEffect(() => {
+    let handleMousedown = (e) => {
+      if (!inputSearchRef.current.contains(e.target)) {
+        setOpenHistory(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => {
+      document.removeEventListener("mousedown", handleMousedown);
+    };
+  });
+
+  useEffect(() => {
+    if (inputRef) {
+      inputRef.current.addEventListener("focus", () => {
+        setOpenHistory(true);
+      });
+    }
+  }, []);
+
+  return (
+    <div className="inputSearch" ref={inputSearchRef}>
+      <div className="inputSearch__input">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="text"
+          placeholder="Tên công ty, công việc..."
+          onChange={(e) => setKeyWord(e.target.value)}
+          value={keyword}
+          ref={inputRef}
+        />
+        <button
+          className={`inputSearch__input__btn-search`}
+          onClick={() => goToSearch()}
+        >
+          <span>Tìm kiếm</span>
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+      {searchHistory && (
+        <div className={`inputSearch__history  ${openHistory ? "active" : ""}`}>
+          <ul>
+            {searchHistory?.map((item, i) => (
+              <li onClick={() => handleSubmitHistory(item)}>
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

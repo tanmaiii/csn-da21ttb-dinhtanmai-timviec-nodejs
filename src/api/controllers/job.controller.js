@@ -10,6 +10,8 @@ export const getAll = async (req, res) => {
     const sort = req.query?.sort || "new";
     const province = req.query?.province;
     const field = req.query?.field;
+    const typeWork = req.query?.typeWork;
+    const search = req.query?.search;
 
     const offset = (page - 1) * limit;
 
@@ -19,6 +21,11 @@ export const getAll = async (req, res) => {
 
     let q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p ,job.fields as f
        WHERE j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
+
+    if (search) {
+      q += ` AND j.nameJob like '%${search}%' `;
+      q2 += ` AND j.nameJob like '%${search}%' `;
+    }
 
     if (province) {
       let provinceFilter = province.join("','");
@@ -30,6 +37,12 @@ export const getAll = async (req, res) => {
       let fieldFilter = field.join("','");
       q += ` AND f.name in ('${fieldFilter}') `;
       q2 += ` AND f.name in ('${fieldFilter}') `;
+    }
+
+    if (typeWork) {
+      let typeWorkFilter = typeWork.join("','");
+      q += ` AND j.typeWork in ('${typeWorkFilter}') `;
+      q2 += ` AND j.typeWork in ('${typeWorkFilter}') `;
     }
 
     console.log(q);

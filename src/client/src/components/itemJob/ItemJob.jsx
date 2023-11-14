@@ -208,9 +208,9 @@ export default function ItemJob({ className, job, onClick }) {
                   : `${job?.salaryMin} - ${job?.salaryMax} triệu`}
               </span>
             </div>
-            {/* <div className="typeWork">
+            <div className="typeWork">
               <span>{job?.typeWork}</span>
-            </div> */}
+            </div>
             <div className="province">
               <i className="fa-solid fa-location-dot"></i>
               <span>{job?.province}</span>

@@ -5,9 +5,9 @@
   @include themify($themes) {
     .dropdown__toggle {
       padding: 12px 20px;
-      background-color: themed("bg1");
+      background-color: themed("bg2");
       border-radius: $border-radius-30;
-      border: 2px solid themed("bg1");
+      border: 1px solid themed("border");
       @include flex(center, unset);
       cursor: pointer;
       gap: 6px;
@@ -30,7 +30,10 @@
       span {
         font-size: $font-size-s;
       }
-      i {
+      i:nth-child(1) {
+        font-size: $font-size-s;
+      }
+      i:nth-child(2) {
         @include flex(center, center);
         font-size: $font-size-s;
         transition: all 0.3s;
@@ -51,11 +54,16 @@
       overflow: hidden;
       display: block;
       z-index: 99;
+      @include mobile{
+        left: 50%;
+        transform: translateX(-50%);
+      }
       &__search {
         width: 100%;
         @include flex(center, unset);
         background-color: themed("bg1");
         padding: 8px;
+        position: relative;
         i {
           padding: 10px;
           font-size: 1.1rem;
@@ -66,6 +74,26 @@
           font-size: $font-size-s;
           color: themed("text1");
           padding: 8px 0;
+        }
+        .btn-clear {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 4px;
+          border-radius: 50%;
+          padding: 6px;
+          transition: all .3s;
+          &:hover{
+            background-color: themed('bg2');
+          }
+          i {
+            @include flex(center, center);
+            --size: 20px;
+            width: var(--size);
+            height: var(--size);
+            font-size: 1.1rem;
+            color: themed("text1");
+          }
         }
       }
       &__list {

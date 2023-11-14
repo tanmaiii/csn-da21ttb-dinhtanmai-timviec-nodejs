@@ -56,7 +56,7 @@ export default function SearchCareer() {
     inputCareerRef.current.addEventListener("focus", () => {
       setOpenCareer(true);
     });
-  });
+  },[]);
 
   useEffect(() => {
     let handleMousedown = (e) => {

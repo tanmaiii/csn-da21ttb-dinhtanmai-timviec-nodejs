@@ -115,7 +115,7 @@ function SearchCompany({ props }) {
   const navigate = useNavigate();
 
   const goToSearch = () => {
-    if (keyword.trim().length > 0) {
+    if (keyword.trim()?.length > 0) {
       navigate(`/nha-tuyen-dung/search/${keyword}`);
     } else {
       navigate(`/nha-tuyen-dung`);

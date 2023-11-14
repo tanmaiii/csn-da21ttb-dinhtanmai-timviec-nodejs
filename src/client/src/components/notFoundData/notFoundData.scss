@@ -1,0 +1,23 @@
+@use "../../scss/" as *;
+
+.notFoundData {
+  @include themify($themes) {
+    @include flex(center, center);
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: 500px;
+    gap: 20px;
+    img {
+      --size: 260px;
+      height: var(--size);
+      width: auto;
+      object-fit: cover;
+    }
+    h4 {
+        font-size: $font-size-m;
+        font-weight: 600;
+        color: themed('text1');
+    }
+  }
+}

@@ -37,6 +37,8 @@ function App() {
 
             <Route index element={<Home />} />
             <Route path="/tim-kiem" element={<Search />} />
+            <Route path="/tim-kiem/:keyword" element={<Search />} />
+
             <Route path="/nha-tuyen-dung/search/:keyword" element={<Company />} />
             <Route path="/nha-tuyen-dung" element={<Company />} />
 
