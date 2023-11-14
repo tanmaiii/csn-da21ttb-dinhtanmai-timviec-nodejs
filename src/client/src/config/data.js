@@ -5,7 +5,7 @@ export const typeWorks = [
   { id: 4, name: "Thực tập" },
 ];
 
-export const levelJob = [
+export const educationJob = [
   {
     id: 1,
     name: "Không yêu cầu",

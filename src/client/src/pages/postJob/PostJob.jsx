@@ -7,7 +7,7 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 
-import { typeWorks, levelJob, experienceJob } from "../../config/data";
+import { typeWorks, educationJob, experienceJob } from "../../config/data";
 
 
 export default function PostJob() {
@@ -29,7 +29,7 @@ export default function PostJob() {
   const [salaryMax, setSalaryMax] = useState(0);
   const [salaryDiscuss, setSalaryDiscuss] = useState(false);
   const [typeWork, setTypeWork] = useState(typeWorks[0].name);
-  const [level, setLevel] = useState(levelJob[0].name);
+  const [education, setEducation] = useState(educationJob[0].name);
   const [experience, setExperience] = useState(experienceJob[0].name);
 
   const [inputs, setInputs] = useState({
@@ -42,7 +42,7 @@ export default function PostJob() {
     salaryMin: "",
     salaryMax: "",
     typeWork: "",
-    level: "",
+    education: "",
     sex: "",
     experience: "",
   });
@@ -59,7 +59,7 @@ export default function PostJob() {
 
     if (!selectedOptionFields || !selectedOptionProvince)
       setErr("Chưa chọn ngành nghề và địa chỉ.");
-    if (!sex || !typeWork || !level)
+    if (!sex || !typeWork || !education)
       setErr("Chọn các mục trong yêu cầu chung.");
     if (!request || !desc) return setErr("Mô tả, yêu cầu không được rỗng.");
 
@@ -75,7 +75,7 @@ export default function PostJob() {
       inputs.request = request;
       inputs.other = other;
       inputs.typeWork = typeWork;
-      inputs.level = level;
+      inputs.education = education;
       inputs.experience = experience;
       if (salaryDiscuss == true) {
         inputs.salaryMin = 0;
@@ -266,7 +266,7 @@ export default function PostJob() {
                 <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__jobLevel">
                   <h6>Bằng cấp</h6>
                   <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__jobLevel__input">
-                    {levelJob.map((item, i) => (
+                    {educationJob?.map((item, i) => (
                       <div
                         key={i}
                         className="postJob__wrapper__body__form__content__item__input__child "
@@ -277,7 +277,7 @@ export default function PostJob() {
                           id={`jobLevel${item.id}`}
                           type="radio"
                           value={item.name}
-                          onChange={(e) => setLevel(e.target.value)}
+                          onChange={(e) => setEducation(e.target.value)}
                         />
                         <label htmlFor={`jobLevel${item.id}`}>
                           {item.name}

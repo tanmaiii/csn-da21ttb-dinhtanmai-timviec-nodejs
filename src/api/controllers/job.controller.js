@@ -8,14 +8,16 @@ export const getAll = async (req, res) => {
     const page = req.query?.page || 1;
     const limit = req.query?.limit || 10;
     const sort = req.query?.sort || "new";
+    const search = req.query?.search;
     const province = req.query?.province;
     const field = req.query?.field;
     const typeWork = req.query?.typeWork;
-    const search = req.query?.search;
+    const exp = req.query?.exp;
+    const edu = req.query?.edu;
 
     const offset = (page - 1) * limit;
 
-    let q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameField
+    let q = `SELECT j.id, j.experience, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameField
        FROM job.jobs AS j , job.companies AS c ,  job.provinces as p , job.fields as f
        WHERE j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
@@ -44,8 +46,18 @@ export const getAll = async (req, res) => {
       q += ` AND j.typeWork in ('${typeWorkFilter}') `;
       q2 += ` AND j.typeWork in ('${typeWorkFilter}') `;
     }
+    
+    if (exp) {
+      let expFilter = exp.join("','");
+      q += ` AND j.experience in ('${expFilter}') `;
+      q2 += ` AND j.experience in ('${expFilter}') `;
+    }
 
-    console.log(q);
+    if (edu) {
+      let eduFilter = edu.join("','");
+      q += ` AND j.education in ('${eduFilter}') `;
+      q2 += ` AND j.education in ('${eduFilter}') `;
+    }
 
     if (sort === "new") {
       q += ` ORDER BY j.createdAt DESC `;

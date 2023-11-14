@@ -213,7 +213,7 @@ export default function DetailJob() {
                       <h4>Học vấn</h4>
                     </div>
                     <span className="content">
-                      {job?.level || "Không yêu cầu"}
+                      {job?.education || "Không yêu cầu"}
                     </span>
                   </div>
                 </div>

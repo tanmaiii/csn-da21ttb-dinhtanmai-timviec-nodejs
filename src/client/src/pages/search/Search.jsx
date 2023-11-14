@@ -9,7 +9,7 @@ import { useState } from "react";
 import { makeRequest } from "../../axios";
 import img from "../../assets/images/bannerSearch.jpg";
 
-import { typeWorks } from "../../config/data";
+import { typeWorks, experienceJob, educationJob } from "../../config/data";
 import { useNavigate, useParams } from "react-router-dom";
 
 const sort = [
@@ -45,6 +45,8 @@ export default function Search() {
   const [optionActiveProvince, setOptionActiveProvince] = useState([]);
   const [optionActiveField, setOptionActiveField] = useState([]);
   const [optionActiveTypeWork, setOptionActiveTypeWork] = useState([]);
+  const [optionActiveExperience, setOptionActiveExperience] = useState([]);
+  const [optionActiveEducation, setOptionActiveEducation] = useState([]);
 
   const handleSelectSort = (item) => {
     setOpenSort(false);
@@ -82,6 +84,18 @@ export default function Search() {
         });
       }
 
+      if (optionActiveExperience) {
+        optionActiveExperience?.map((exp) => {
+          url += `&exp[]=${exp}`;
+        });
+      }
+
+      if (optionActiveEducation) {
+        optionActiveEducation?.map((edu) => {
+          url += `&edu[]=${edu}`;
+        });
+      }
+
       const res = await makeRequest.get(url);
       console.log(res);
       setJobs(res.data.data || []);
@@ -102,6 +116,8 @@ export default function Search() {
     optionActiveProvince,
     optionActiveField,
     optionActiveTypeWork,
+    optionActiveExperience,
+    optionActiveEducation,
     keyword,
   ]);
 
@@ -121,11 +137,17 @@ export default function Search() {
               setOptionActiveField={setOptionActiveField}
               optionActiveTypeWork={optionActiveTypeWork}
               setOptionActiveTypeWork={setOptionActiveTypeWork}
+              optionActiveExperience={optionActiveExperience}
+              setOptionActiveExperience={setOptionActiveExperience}
+              optionActiveEducation={optionActiveEducation}
+              setOptionActiveEducation={setOptionActiveEducation}
             />
             {jobs?.length === 0 && <NotFoundData />}
             <div className="search__list">
               <div className="search__list__header">
-                <h4>{totalJobs && totalJobs} việc làm {keyword && keyword}</h4>
+                <h4>
+                  {totalJobs && totalJobs} việc làm {keyword && keyword}
+                </h4>
                 <div className="search__list__header__sort">
                   <span>Sắp xếp :</span>
                   <div className="dropdown">
@@ -194,6 +216,10 @@ function BannerSearch({
   setOptionActiveField,
   optionActiveTypeWork,
   setOptionActiveTypeWork,
+  optionActiveExperience,
+  setOptionActiveExperience,
+  optionActiveEducation,
+  setOptionActiveEducation,
 }) {
   const [province, setProvince] = useState();
   const [field, setField] = useState();
@@ -235,7 +261,7 @@ function BannerSearch({
             search={true}
           />
           <DropdownItem
-            icon={<i className="fa-solid fa-rectangle-list"></i>}
+            icon={<i className="fa-solid fa-briefcase"></i>}
             title={"Ngành nghề"}
             option={field}
             optionActive={optionActiveField}
@@ -243,11 +269,32 @@ function BannerSearch({
             search={true}
           />
           <DropdownItem
-            icon={<i className="fa-solid fa-location-dot"></i>}
-            title={"Vị trí"}
+            icon={<i className="fa-solid fa-dollar-sign"></i>}
+            title={"Mức lương"}
+            // option={typeWorks}
+            // optionActive={optionActiveTypeWork}
+            // setOptionActive={setOptionActiveTypeWork}
+          />
+          <DropdownItem
+            icon={<i className="fa-solid fa-chart-gantt"></i>}
+            title={"loại công việc"}
             option={typeWorks}
             optionActive={optionActiveTypeWork}
             setOptionActive={setOptionActiveTypeWork}
+          />
+          <DropdownItem
+            icon={<i className="fa-solid fa-business-time"></i>}
+            title={"Kinh nghiệm"}
+            option={experienceJob}
+            optionActive={optionActiveExperience}
+            setOptionActive={setOptionActiveExperience}
+          />
+          <DropdownItem
+            icon={<i className="fa-solid fa-graduation-cap"></i>}
+            title={"Học vấn"}
+            option={educationJob}
+            optionActive={optionActiveEducation}
+            setOptionActive={setOptionActiveEducation}
           />
         </div>
       </div>
@@ -296,6 +343,7 @@ function InputSearch() {
   };
 
   const handleSubmitHistory = (item) => {
+    setOpenHistory(false);
     setKeyWord(item);
     navigate(`/tim-kiem/${item}`);
   };
