@@ -14,6 +14,7 @@ export const getAll = async (req, res) => {
     const typeWork = req.query?.typeWork;
     const exp = req.query?.exp;
     const edu = req.query?.edu;
+    const salary = req.query?.salary;
 
     const offset = (page - 1) * limit;
 
@@ -46,7 +47,7 @@ export const getAll = async (req, res) => {
       q += ` AND j.typeWork in ('${typeWorkFilter}') `;
       q2 += ` AND j.typeWork in ('${typeWorkFilter}') `;
     }
-    
+
     if (exp) {
       let expFilter = exp.join("','");
       q += ` AND j.experience in ('${expFilter}') `;
@@ -58,6 +59,13 @@ export const getAll = async (req, res) => {
       q += ` AND j.education in ('${eduFilter}') `;
       q2 += ` AND j.education in ('${eduFilter}') `;
     }
+
+    if (salary) {
+      q += ` AND j.salaryMax >= ${salary[0]} and j.salaryMin <= ${salary[1]} `;
+      q2 += ` AND j.salaryMax >= ${salary[0]} and j.salaryMin <= ${salary[1]}`;
+    }
+
+    console.log(q);
 
     if (sort === "new") {
       q += ` ORDER BY j.createdAt DESC `;

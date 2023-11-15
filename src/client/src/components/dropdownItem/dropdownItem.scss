@@ -54,7 +54,7 @@
       overflow: hidden;
       display: block;
       z-index: 99;
-      @include mobile{
+      @include mobile {
         left: 50%;
         transform: translateX(-50%);
       }
@@ -82,9 +82,9 @@
           right: 4px;
           border-radius: 50%;
           padding: 6px;
-          transition: all .3s;
-          &:hover{
-            background-color: themed('bg2');
+          transition: all 0.3s;
+          &:hover {
+            background-color: themed("bg2");
           }
           i {
             @include flex(center, center);
@@ -121,6 +121,126 @@
             }
           }
         }
+      }
+    }
+  }
+}
+
+.dropdown__menu__salary {
+  @include themify($themes) {
+    padding: 10px 20px;
+    @include flex(start, unset);
+    flex-direction: column;
+    gap: 10px;
+    h4 {
+      font-size: $font-size-s;
+      color: themed("text1");
+    }
+    &__slider {
+      background-color: themed("bg1");
+      border-radius: $border-radius-10;
+      height: 8px;
+      position: relative;
+      width: 100%;
+      margin: 30px 0 10px 0;
+      .slider-track {
+        height: 100%;
+        position: absolute;
+        background-color: $color-primary;
+        border-radius: $border-radius-10;
+      }
+      input {
+        position: absolute;
+        width: 100%;
+        background-color: none;
+        pointer-events: none;
+        top: 50%;
+        transform: translateY(-50%);
+        appearance: none;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        border: 2px solid $color-primary;
+        background: #fff;
+        pointer-events: auto;
+        appearance: none;
+        cursor: pointer;
+        box-shadow: 0 0.125rem 0.5625rem -0.125rem rgba($color: #000000, $alpha:
+              0.6);
+      }
+      input[type="range"]::-moz-range-thumb {
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        border: 2px solid $color-primary;
+        background: #fff;
+        pointer-events: auto;
+        -moz-appearance: none;
+        cursor: pointer;
+        box-shadow: 0 0.125rem 0.5625rem -0.125rem rgba($color: #000000, $alpha:
+              0.6);
+      }
+      .tooltip {
+        padding: 0.25rem 0.5rem;
+        border: 0;
+        background-color: themed("text1");
+        color: themed("bg2");
+        font-size: 0.75rem;
+        line-height: 1.2;
+        border-radius: 0.25rem;
+        bottom: 120%;
+        display: block;
+        position: absolute;
+        text-align: center;
+        white-space: nowrap;
+        &.min-tooltip {
+          left: 50%;
+          transform: translate(-50%, -10px);
+          z-index: 5;
+        }
+        &.max-tooltip {
+          right: 50%;
+          transform: translate(50%, -10px);
+          z-index: 5;
+        }
+      }
+    }
+
+    &__input {
+      @include flex(center, space-between);
+      gap: 12px;
+      display: none;
+      & > div {
+        background-color: themed("bg1");
+        padding: 6px 10px;
+        border-radius: $border-radius-20;
+        width: max-content;
+        input {
+          padding: 6px;
+          font-size: $font-size-s;
+          color: themed("text1");
+          width: 40px;
+        }
+        span {
+          color: themed("text2");
+        }
+      }
+      &__min {
+      }
+      &__max {
+      }
+    }
+    &__button {
+      @include flex(center, space-between);
+      gap: 4px;
+      width: 100%;
+      .btn-submit {
+        @include button($color-white, $color-primary);
+      }
+      .btn-remove {
+        @include button-line($color-red, $color-white);
       }
     }
   }

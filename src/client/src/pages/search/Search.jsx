@@ -22,8 +22,6 @@ const sort = [
     id: 2,
     displayName: "Lương cao đến thấp",
     value: "maxToMin",
-  },
-  {
     id: 3,
     displayName: "Lương thấp đến cao",
     value: "minToMax",
@@ -47,6 +45,7 @@ export default function Search() {
   const [optionActiveTypeWork, setOptionActiveTypeWork] = useState([]);
   const [optionActiveExperience, setOptionActiveExperience] = useState([]);
   const [optionActiveEducation, setOptionActiveEducation] = useState([]);
+  const [salaryFilter, setSalaryFilter] = useState([]);
 
   const handleSelectSort = (item) => {
     setOpenSort(false);
@@ -96,8 +95,11 @@ export default function Search() {
         });
       }
 
+      if (salaryFilter?.length > 0) {
+        url += `&salary[]=${salaryFilter[0]}&salary[]=${salaryFilter[1]}`;
+      }
+
       const res = await makeRequest.get(url);
-      console.log(res);
       setJobs(res.data.data || []);
       setTotalPage(res.data?.pagination.totalPage || 0);
       setTotalJobs(res.data?.pagination.total || 0);
@@ -118,6 +120,7 @@ export default function Search() {
     optionActiveTypeWork,
     optionActiveExperience,
     optionActiveEducation,
+    salaryFilter,
     keyword,
   ]);
 
@@ -141,6 +144,8 @@ export default function Search() {
               setOptionActiveExperience={setOptionActiveExperience}
               optionActiveEducation={optionActiveEducation}
               setOptionActiveEducation={setOptionActiveEducation}
+              salaryFilter={salaryFilter}
+              setSalaryFilter={setSalaryFilter}
             />
             {jobs?.length === 0 && <NotFoundData />}
             <div className="search__list">
@@ -220,6 +225,8 @@ function BannerSearch({
   setOptionActiveExperience,
   optionActiveEducation,
   setOptionActiveEducation,
+  salaryFilter,
+  setSalaryFilter,
 }) {
   const [province, setProvince] = useState();
   const [field, setField] = useState();
@@ -271,9 +278,9 @@ function BannerSearch({
           <DropdownItem
             icon={<i className="fa-solid fa-dollar-sign"></i>}
             title={"Mức lương"}
-            // option={typeWorks}
-            // optionActive={optionActiveTypeWork}
-            // setOptionActive={setOptionActiveTypeWork}
+            salary={true}
+            salaryFilter={salaryFilter}
+            setSalaryFilter={setSalaryFilter}
           />
           <DropdownItem
             icon={<i className="fa-solid fa-chart-gantt"></i>}
@@ -343,8 +350,8 @@ function InputSearch() {
   };
 
   const handleSubmitHistory = (item) => {
-    setOpenHistory(false);
     setKeyWord(item);
+    setOpenHistory(false);
     navigate(`/tim-kiem/${item}`);
   };
 
