@@ -161,6 +161,8 @@ function DropdownMenuSalary({ setSalaryFilter, salaryFilter }) {
     setSalaryFilter([]);
     setMinVal(1);
     setMaxVal(50);
+    setMinTooltip(min)
+    setMaxTooltip(max)
     minValRef.current.value = min;
     maxValRef.current.value = max;
     setArea()

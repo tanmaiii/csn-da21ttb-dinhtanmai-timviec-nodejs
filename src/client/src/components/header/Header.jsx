@@ -127,17 +127,21 @@ export default function Header() {
               {currentUser ? (
                 <DropdownUser />
               ) : (
-                <button className="header__wrapper__auth__user">
-                  <Link to={"/nguoi-dung/dang-nhap"}>Đăng nhập</Link>
-                </button>
+                <Link to={"/nguoi-dung/dang-nhap"}>
+                  <button className="header__wrapper__auth__user">
+                    Đăng nhập
+                  </button>
+                </Link>
               )}
-              <hr className="hr-col"/> 
+              <hr className="hr-col" />
               {currentCompany ? (
                 <DropdownCompany />
               ) : (
-                <button className="header__wrapper__auth__company">
-                  <Link to={"/nha-tuyen-dung/dang-nhap"}>Nhà tuyển dụng</Link>
-                </button>
+                <Link to={"/nha-tuyen-dung/dang-nhap"}>
+                  <button className="header__wrapper__auth__company">
+                    Nhà tuyển dụng
+                  </button>
+                </Link>
               )}
             </div>
             <div
@@ -193,9 +197,7 @@ export default function Header() {
                 {!currentUser && (
                   <li>
                     <button className="">
-                      <Link to={"/nguoi-dung/dang-nhap"}>
-                        Người tìm việc
-                      </Link>
+                      <Link to={"/nguoi-dung/dang-nhap"}>Người tìm việc</Link>
                     </button>
                   </li>
                 )}

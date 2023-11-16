@@ -149,12 +149,10 @@
             @include button($color-white, $color-primary);
           }
           &__company {
-            a {
               font-size: $font-size-s;
               font-weight: 500;
               color: themed("text1");
               font-weight: 500;
-            }
           }
           .hr-col {
             height: calc($height-header - 40px);

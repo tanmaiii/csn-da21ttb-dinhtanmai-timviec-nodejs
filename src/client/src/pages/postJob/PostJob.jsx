@@ -9,7 +9,6 @@ import { makeRequest } from "../../axios";
 
 import { typeWorks, educationJob, experienceJob } from "../../config/data";
 
-
 export default function PostJob() {
   const { currentCompany } = useAuth();
   const [fields, setFields] = useState();
@@ -46,7 +45,6 @@ export default function PostJob() {
     sex: "",
     experience: "",
   });
-
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -87,7 +85,7 @@ export default function PostJob() {
       console.log(inputs);
       await makeRequest.post("/job", inputs);
       setMess("Đăng thành công!");
-      navigate(`/nha-tuyen-dung/${currentCompany.id}`)
+      navigate(`/nha-tuyen-dung/${currentCompany.id}`);
     } catch (err) {
       setErr(err?.response?.data);
     }
@@ -212,22 +210,36 @@ export default function PostJob() {
                     </div>
                   </div>
                 </div>
-                <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__scale">
-                  <h6>Mức lương (triệu)</h6>
+                <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__salary">
+                  <h6>Mức lương trên tháng (từ 1 đến 50 triệu)</h6>
                   <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__scale__input">
                     <input
                       type="number"
-                      onChange={(e) => setSalaryMin(parseInt(e.target.value))}
+                      onChange={(e) =>
+                        parseInt(e.target.value) < 1 ||
+                        parseInt(e.target.value) > 50
+                          ? setSalaryMin(1)
+                          : setSalaryMin(parseInt(e.target.value))
+                      }
                       name="salaryMin"
                       value={salaryMin}
                       placeholder="Tối thiểu"
+                      min={1}
+                      max={50}
                     />
                     <input
                       type="number"
-                      onChange={(e) => setSalaryMax(parseInt(e.target.value))}
+                      onChange={(e) =>
+                        parseInt(e.target.value) < 1 ||
+                        parseInt(e.target.value) > 50
+                          ? setSalaryMax(50)
+                          : setSalaryMax(parseInt(e.target.value))
+                      }
                       name="salaryMax"
                       value={salaryMax}
                       placeholder="Tối đa"
+                      min={1}
+                      max={50}
                     />
                     <div className="postJob__wrapper__body__form__content__item__input__child">
                       <input

@@ -19,15 +19,15 @@ export const getAll = async (req, res) => {
     const offset = (page - 1) * limit;
 
     let q = `SELECT j.id, j.experience, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameField
-       FROM job.jobs AS j , job.companies AS c ,  job.provinces as p , job.fields as f
+       FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f
        WHERE j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     let q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p ,job.fields as f
        WHERE j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     if (search) {
-      q += ` AND j.nameJob like '%${search}%' `;
-      q2 += ` AND j.nameJob like '%${search}%' `;
+      q += ` AND (j.nameJob like '%${search}%' or c.nameCompany like '%${search}%') `;
+      q2 += ` AND (j.nameJob like '%${search}%' or c.nameCompany like '%${search}%') `;
     }
 
     if (province) {
@@ -198,7 +198,7 @@ export const postJob = (req, res) => {
     salaryMax,
     sex,
     typeWork,
-    level,
+    education,
     experience,
   } = req.body;
 
@@ -216,7 +216,7 @@ export const postJob = (req, res) => {
         return res.status(401).json("Người dùng không hợp lệ !");
 
       const q =
-        "INSERT INTO jobs (`idCompany`, `idField`, `idProvince` , `nameJob`, `request`, `desc`, `other`, `salaryMin`, `salaryMax`,`sex`, `typeWork` , `level`, `experience`,  `createdAt`) VALUE (?)";
+        "INSERT INTO jobs (`idCompany`, `idField`, `idProvince` , `nameJob`, `request`, `desc`, `other`, `salaryMin`, `salaryMax`,`sex`, `typeWork` , `education`, `experience`,  `createdAt`) VALUE (?)";
       const values = [
         companmyInfo.id,
         idField,
@@ -229,7 +229,7 @@ export const postJob = (req, res) => {
         salaryMax,
         sex,
         typeWork,
-        level,
+        education,
         experience,
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       ];

@@ -230,6 +230,8 @@ function BannerSearch({
 }) {
   const [province, setProvince] = useState();
   const [field, setField] = useState();
+  const [qtyFilter, setQtyFilter] = useState(0);
+  const [btnDelete, setBtnDelete] = useState(false);
 
   useEffect(() => {
     const getProvinces = async () => {
@@ -250,6 +252,46 @@ function BannerSearch({
     };
     getField();
   }, []);
+
+  const handleDeleteFilter = () => {
+    setOptionActiveProvince([]);
+    setOptionActiveField([]);
+    setOptionActiveTypeWork([]);
+    setOptionActiveExperience([]);
+    setOptionActiveEducation([]);
+    setSalaryFilter([]);
+  };
+
+  useEffect(() => {
+    setQtyFilter(
+      optionActiveProvince.length +
+        optionActiveField.length +
+        optionActiveTypeWork.length +
+        optionActiveExperience.length +
+        optionActiveEducation.length +
+        salaryFilter.length
+    );
+
+    if (
+      optionActiveProvince.length > 0 ||
+      optionActiveField.length > 0 ||
+      optionActiveTypeWork.length > 0 ||
+      optionActiveExperience.length > 0 ||
+      optionActiveEducation.length > 0 ||
+      salaryFilter.length > 0
+    ) {
+      setBtnDelete(true);
+    } else {
+      setBtnDelete(false);
+    }
+  }, [
+    optionActiveProvince,
+    optionActiveField,
+    optionActiveTypeWork,
+    optionActiveExperience,
+    optionActiveEducation,
+    salaryFilter,
+  ]);
 
   return (
     <div className="search__banner">
@@ -303,6 +345,15 @@ function BannerSearch({
             optionActive={optionActiveEducation}
             setOptionActive={setOptionActiveEducation}
           />
+          {btnDelete && (
+            <button
+              className="button-delete-filter"
+              onClick={() => handleDeleteFilter()}
+            >
+              <i class="fa-regular fa-trash-can"></i>
+              <span>Xóa lọc ({qtyFilter})</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
