@@ -38,7 +38,7 @@ export default function SectionCompany({ title }) {
               <ItemCompany
                 key={i}
                 company={company}
-                className="col pc-3 t-6 m-6"
+                className="col pc-3 t-6 m-12"
               />
             ))}
         </div>

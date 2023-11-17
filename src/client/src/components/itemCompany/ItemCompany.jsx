@@ -82,11 +82,12 @@ export default function ItemCompany({ company, className, style }) {
         className={`itemCompany ${className && className}`}
       >
         <div className="itemCompany__wrapper">
-          <img
-            className="itemCompany__wrapper__image"
-            src={company?.avatarPic ? apiImage + company?.avatarPic : img}
-            alt=""
-          />
+          <div className="itemCompany__wrapper__image">
+            <img
+              src={company?.avatarPic ? apiImage + company?.avatarPic : img}
+              alt=""
+            />
+          </div>
           <div className="itemCompany__wrapper__body">
             <h2 className="name">{company?.nameCompany}</h2>
             <div className="desc">

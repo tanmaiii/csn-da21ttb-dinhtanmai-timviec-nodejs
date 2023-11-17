@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdownItem.scss";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import formatStr from "../../config/formatStr";
+import queryString from "query-string";
 
 export default function DropdownItem(props) {
   const {
@@ -17,6 +19,9 @@ export default function DropdownItem(props) {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate()
+  const params = queryString.parse(location.search)
   const dropdownRef = useRef();
 
   const handleClickOption = (name) => {
@@ -26,6 +31,9 @@ export default function DropdownItem(props) {
       setOptionActive(newFilter);
     } else {
       setOptionActive((current) => [...current, name]);
+    }
+    if(params.field || params.province) {
+      navigate('/tim-kiem')
     }
   };
 
@@ -49,9 +57,13 @@ export default function DropdownItem(props) {
         }`}
         onClick={() => setOpen(!open)}
       >
-        {icon && icon}
-        <span className="text">{title}</span>
-        <i className={`fa-solid fa-angle-down ${open ? "open" : ""}`}></i>
+        <div className="dropdown__toggle__title">
+          {icon && icon}
+          <span className="text">{title}</span>
+        </div>
+        <i
+          className={`fa-solid fa-angle-down icon-down ${open ? "open" : ""}`}
+        ></i>
       </div>
       {open && (
         <div className="dropdown__menu">
@@ -161,11 +173,11 @@ function DropdownMenuSalary({ setSalaryFilter, salaryFilter }) {
     setSalaryFilter([]);
     setMinVal(1);
     setMaxVal(50);
-    setMinTooltip(min)
-    setMaxTooltip(max)
+    setMinTooltip(min);
+    setMaxTooltip(max);
     minValRef.current.value = min;
     maxValRef.current.value = max;
-    setArea()
+    setArea();
   };
 
   useEffect(() => {
@@ -238,4 +250,3 @@ function DropdownMenuSalary({ setSalaryFilter, salaryFilter }) {
     </div>
   );
 }
-

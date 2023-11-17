@@ -8,9 +8,10 @@ import Loader from "../../components/loader/Loader";
 import { useState } from "react";
 import { makeRequest } from "../../axios";
 import img from "../../assets/images/bannerSearch.jpg";
+import queryString from 'query-string' 
 
 import { typeWorks, experienceJob, educationJob } from "../../config/data";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const sort = [
   {
@@ -22,6 +23,8 @@ const sort = [
     id: 2,
     displayName: "Lương cao đến thấp",
     value: "maxToMin",
+  },
+  {
     id: 3,
     displayName: "Lương thấp đến cao",
     value: "minToMax",
@@ -39,6 +42,7 @@ export default function Search() {
   const [idJobActive, setIdJobActive] = useState();
   const limit = 6;
   const { keyword } = useParams();
+  const location = useLocation()
 
   const [optionActiveProvince, setOptionActiveProvince] = useState([]);
   const [optionActiveField, setOptionActiveField] = useState([]);
@@ -46,6 +50,16 @@ export default function Search() {
   const [optionActiveExperience, setOptionActiveExperience] = useState([]);
   const [optionActiveEducation, setOptionActiveEducation] = useState([]);
   const [salaryFilter, setSalaryFilter] = useState([]);
+
+  useEffect(() => {
+    const params = queryString.parse(location.search)
+    console.log(params);
+    if(params.field) {
+      setOptionActiveField([params.field])
+    }else if(params.province){
+      setOptionActiveProvince([params.province])
+    }
+  },[location])
 
   const handleSelectSort = (item) => {
     setOpenSort(false);
@@ -147,66 +161,69 @@ export default function Search() {
               salaryFilter={salaryFilter}
               setSalaryFilter={setSalaryFilter}
             />
-            {jobs?.length === 0 && <NotFoundData />}
-            <div className="search__list">
-              <div className="search__list__header">
-                <h4>
-                  {totalJobs && totalJobs} việc làm {keyword && keyword}
-                </h4>
-                <div className="search__list__header__sort">
-                  <span>Sắp xếp :</span>
-                  <div className="dropdown">
-                    <div
-                      className="header"
-                      onClick={() => setOpenSort(!openSort)}
-                    >
-                      <span>{sortActive && sortActive?.displayName}</span>
-                      <i class="fa-solid fa-angle-down"></i>
-                    </div>
-                    {openSort && (
-                      <div className="list">
-                        {sort.map((item) => (
-                          <span
-                            className={`list__item ${
-                              sortActive?.displayName === item?.displayName
-                                ? "active"
-                                : ""
-                            }`}
-                            onClick={() => handleSelectSort(item)}
-                          >
-                            {item.displayName}
-                          </span>
-                        ))}
+            {jobs?.length === 0 ? (
+              <NotFoundData />
+            ) : (
+              <div className="search__list">
+                <div className="search__list__header">
+                  <h4>
+                    {totalJobs && totalJobs} việc làm {keyword && keyword}
+                  </h4>
+                  <div className="search__list__header__sort">
+                    <span>Sắp xếp :</span>
+                    <div className="dropdown">
+                      <div
+                        className="header"
+                        onClick={() => setOpenSort(!openSort)}
+                      >
+                        <span>{sortActive && sortActive?.displayName}</span>
+                        <i class="fa-solid fa-angle-down"></i>
                       </div>
-                    )}
+                      {openSort && (
+                        <div className="list">
+                          {sort.map((item) => (
+                            <span
+                              className={`list__item ${
+                                sortActive?.displayName === item?.displayName
+                                  ? "active"
+                                  : ""
+                              }`}
+                              onClick={() => handleSelectSort(item)}
+                            >
+                              {item.displayName}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="search__list__body">
-                <div className="search__list__body__side row">
-                  {loading ? (
-                    <Loader />
-                  ) : (
-                    jobs?.map((job, i) => (
-                      <ItemJob
-                        onClick={() => setIdJobActive(job?.id)}
-                        key={i}
-                        job={job}
-                        className={`col pc-4 t-6 m-12 ${
-                          idJobActive === job.id && "active"
-                        }`}
-                      />
-                    ))
-                  )}
+                <div className="search__list__body">
+                  <div className="search__list__body__side row">
+                    {loading ? (
+                      <Loader />
+                    ) : (
+                      jobs?.map((job, i) => (
+                        <ItemJob
+                          onClick={() => setIdJobActive(job?.id)}
+                          key={i}
+                          job={job}
+                          className={`col pc-4 t-6 m-12 ${
+                            idJobActive === job.id && "active"
+                          }`}
+                        />
+                      ))
+                    )}
+                  </div>
+                  <Pagination
+                    totalPage={totalPage}
+                    limit={limit}
+                    paginate={paginate}
+                    setPaginate={setPaginate}
+                  />
                 </div>
-                <Pagination
-                  totalPage={totalPage}
-                  limit={limit}
-                  paginate={paginate}
-                  setPaginate={setPaginate}
-                />
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -232,6 +249,8 @@ function BannerSearch({
   const [field, setField] = useState();
   const [qtyFilter, setQtyFilter] = useState(0);
   const [btnDelete, setBtnDelete] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getProvinces = async () => {
@@ -260,6 +279,7 @@ function BannerSearch({
     setOptionActiveExperience([]);
     setOptionActiveEducation([]);
     setSalaryFilter([]);
+    navigate('/tim-kiem')
   };
 
   useEffect(() => {
@@ -301,59 +321,71 @@ function BannerSearch({
       >
         <InputSearch />
         <div className="search__banner__wrapper__filter">
-          <DropdownItem
-            icon={<i className="fa-solid fa-location-dot"></i>}
-            title={"Tỉnh thành"}
-            option={province}
-            optionActive={optionActiveProvince}
-            setOptionActive={setOptionActiveProvince}
-            search={true}
-          />
-          <DropdownItem
-            icon={<i className="fa-solid fa-briefcase"></i>}
-            title={"Ngành nghề"}
-            option={field}
-            optionActive={optionActiveField}
-            setOptionActive={setOptionActiveField}
-            search={true}
-          />
-          <DropdownItem
-            icon={<i className="fa-solid fa-dollar-sign"></i>}
-            title={"Mức lương"}
-            salary={true}
-            salaryFilter={salaryFilter}
-            setSalaryFilter={setSalaryFilter}
-          />
-          <DropdownItem
-            icon={<i className="fa-solid fa-chart-gantt"></i>}
-            title={"loại công việc"}
-            option={typeWorks}
-            optionActive={optionActiveTypeWork}
-            setOptionActive={setOptionActiveTypeWork}
-          />
-          <DropdownItem
-            icon={<i className="fa-solid fa-business-time"></i>}
-            title={"Kinh nghiệm"}
-            option={experienceJob}
-            optionActive={optionActiveExperience}
-            setOptionActive={setOptionActiveExperience}
-          />
-          <DropdownItem
-            icon={<i className="fa-solid fa-graduation-cap"></i>}
-            title={"Học vấn"}
-            option={educationJob}
-            optionActive={optionActiveEducation}
-            setOptionActive={setOptionActiveEducation}
-          />
-          {btnDelete && (
-            <button
-              className="button-delete-filter"
-              onClick={() => handleDeleteFilter()}
-            >
-              <i class="fa-regular fa-trash-can"></i>
-              <span>Xóa lọc ({qtyFilter})</span>
-            </button>
-          )}
+          <button
+            className="button-filter"
+            onClick={() => setOpenFilter(!openFilter)}
+          >
+            <i class="fa-solid fa-filter"></i>
+          </button>
+          <div
+            className={`search__banner__wrapper__filter__list ${
+              openFilter && "open"
+            }`}
+          >
+            <DropdownItem
+              icon={<i className="fa-solid fa-location-dot"></i>}
+              title={"Tỉnh thành"}
+              option={province}
+              optionActive={optionActiveProvince}
+              setOptionActive={setOptionActiveProvince}
+              search={true}
+            />
+            <DropdownItem
+              icon={<i className="fa-solid fa-briefcase"></i>}
+              title={"Ngành nghề"}
+              option={field}
+              optionActive={optionActiveField}
+              setOptionActive={setOptionActiveField}
+              search={true}
+            />
+            <DropdownItem
+              icon={<i className="fa-solid fa-dollar-sign"></i>}
+              title={"Mức lương"}
+              salary={true}
+              salaryFilter={salaryFilter}
+              setSalaryFilter={setSalaryFilter}
+            />
+            <DropdownItem
+              icon={<i className="fa-solid fa-chart-gantt"></i>}
+              title={"loại công việc"}
+              option={typeWorks}
+              optionActive={optionActiveTypeWork}
+              setOptionActive={setOptionActiveTypeWork}
+            />
+            <DropdownItem
+              icon={<i className="fa-solid fa-business-time"></i>}
+              title={"Kinh nghiệm"}
+              option={experienceJob}
+              optionActive={optionActiveExperience}
+              setOptionActive={setOptionActiveExperience}
+            />
+            <DropdownItem
+              icon={<i className="fa-solid fa-graduation-cap"></i>}
+              title={"Học vấn"}
+              option={educationJob}
+              optionActive={optionActiveEducation}
+              setOptionActive={setOptionActiveEducation}
+            />
+            {btnDelete && (
+              <button
+                className="button-delete-filter"
+                onClick={() => handleDeleteFilter()}
+              >
+                <i class="fa-regular fa-trash-can"></i>
+                <span>Xóa lọc ({qtyFilter})</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

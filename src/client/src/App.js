@@ -10,6 +10,7 @@ import Layout from "./layout/Layout";
 
 import Home from "./pages/home/Home";
 import Search from "./pages/search/Search";
+import SearchQuick from "./pages/searchQuick/SearchQuick";
 import Company from "./pages/company/Company";
 import Auth from "./pages/auth/Auth";
 import DetailJob from "./pages/detailJob/DetailJob";
@@ -39,6 +40,9 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/tim-kiem" element={<Search />} />
             <Route path="/tim-kiem/:keyword" element={<Search />} />
+
+            <Route path="/tim-viec-lam-nhanh" element={<SearchQuick />} />
+
 
             <Route path="/nha-tuyen-dung/search/:keyword" element={<Company />} />
             <Route path="/nha-tuyen-dung" element={<Company />} />

@@ -1,8 +1,11 @@
 @use "../../scss/" as *;
 
 .dropdown {
-  position: relative;
   @include themify($themes) {
+    position: relative;
+    @include mobile {
+      width: 100%;
+    }
     .dropdown__toggle {
       padding: 12px 20px;
       background-color: themed("bg2");
@@ -15,6 +18,10 @@
       transition: all 0.3s;
       user-select: none;
       z-index: 1;
+      @include mobile {
+        border-radius: $border-radius-10;
+        @include flex(center, space-between);
+      }
       &.active {
         background-color: $color-primary;
         border-color: $color-primary;
@@ -27,13 +34,17 @@
         background-color: $color-primary;
         color: $color-white;
       }
-      span {
-        font-size: $font-size-s;
+      &__title {
+        @include flex(center, unset);
+        gap: 8px;
+        span {
+          font-size: $font-size-s;
+        }
+        i:nth-child(1) {
+          font-size: $font-size-s;
+        }
       }
-      i:nth-child(1) {
-        font-size: $font-size-s;
-      }
-      i:nth-child(2) {
+      .icon-down {
         @include flex(center, center);
         font-size: $font-size-s;
         transition: all 0.3s;
@@ -54,6 +65,9 @@
       overflow: hidden;
       display: block;
       z-index: 99;
+      @include mobile{
+        width: 100%;
+      }
       @include mobile {
         left: 50%;
         transform: translateX(-50%);

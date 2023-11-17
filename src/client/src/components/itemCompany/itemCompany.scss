@@ -147,10 +147,11 @@
       &__image {
         width: 100%;
         height: 260px;
-        object-fit: cover;
         border-radius: 12px;
-        @include mobile {
-          height: 160px;
+        img {
+          width: 100%;
+          object-fit: cover;
+          height: 100%;
         }
       }
       &__body {

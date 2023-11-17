@@ -1,0 +1,116 @@
+@use "../../scss/" as *;
+
+.searchQuick {
+  @include themify($themes) {
+    min-height: 100vh;
+    margin-top: $height-header;
+    &__wrapper {
+      padding: $spacing 0;
+      width: 100%;
+      //   background-color: themed("bg1");
+      &__header {
+        margin-bottom: $spacing;
+        color: themed("text1");
+      }
+      &__content {
+        width: 100%;
+        & > div {
+          min-height: 100vh;
+        }
+        &__popular {
+          background-color: themed("bg2");
+          padding: 20px;
+          border-radius: $border-radius-10;
+          .header {
+            font-size: $font-size-m;
+            color: themed("text1");
+            margin-bottom: 20px;
+          }
+          .list {
+            @include flex(start, unset);
+            flex-direction: column;
+            .item {
+              @include flex(center, unset);
+              gap: 8px;
+              padding: 10px 0;
+              border-bottom: 1px solid themed('border');
+              &:hover{
+                text-decoration: underline;
+                text-decoration-color: themed('text1');
+              }
+              h6 {
+                font-size: $font-size-s;
+                color: themed("text1");
+                font-weight: 400;
+              }
+              span {
+                font-size: $font-size-s;
+                color: themed("text2");
+                font-weight: 400;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.searchQuick__wrapper__content__item {
+  @include themify($themes) {
+    &.province {
+      .searchQuick__wrapper__content__item__list {
+        columns: 200px 4;
+        gap: 15px;
+      }
+    }
+    h4 {
+      width: 100%;
+      font-size: $font-size-m;
+      color: themed("text1");
+      padding: 10px 0;
+      border-bottom: 1px solid themed("text1");
+    }
+    &__list {
+      columns: 200px 3;
+      gap: 15px;
+      &__group {
+        display: inline-block;
+        width: 100%;
+        .header {
+          color: $color-primary;
+          font-size: $font-size-m;
+          border-bottom: 1.2px solid $color-primary;
+          width: max-content;
+          line-height: 1.4;
+          width: 100%;
+        }
+        .list {
+          list-style: none;
+          margin: 10px 0;
+          .item {
+            line-height: 1.4;
+            @include flex(center, unset);
+            gap: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            &:hover {
+              text-decoration: underline;
+              text-decoration-color: themed("text1");
+            }
+            h6 {
+              font-size: $font-size-s;
+              color: themed("text1");
+              font-weight: 400;
+            }
+            span {
+              font-size: $font-size-s;
+              color: themed("text2");
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+  }
+}

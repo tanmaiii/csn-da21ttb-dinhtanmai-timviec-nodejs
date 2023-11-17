@@ -12,7 +12,7 @@ export default function Auth() {
 
   return (
     <div className="auth">
-      <h2>Tham gia ngay hôm nay</h2>
+      <h2 className="auth__header">Tham gia ngay hôm nay</h2>
       <div className="container">
         <div className="auth__container">
           <div className="auth__container__left col pc-6 t-5 m-0">

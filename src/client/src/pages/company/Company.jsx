@@ -5,10 +5,9 @@ import Pagination from "../../components/pagination/Pagination";
 import { makeRequest } from "../../axios";
 import { scale } from "../../config/data";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import queryString from "query-string";
 import Loader from "../../components/loader/Loader";
 import { motion, AnimatePresence } from "framer-motion";
-import companies from "../../config/companies";
+import NotFoundData from "../../components/notFoundData/NotFoundData";
 
 export default function Company() {
   const [paginate, setPaginate] = useState(1);
@@ -18,6 +17,7 @@ export default function Company() {
   const [companies, setCompanies] = useState();
   const [filterProvince, setFilterProvince] = useState([]);
   const [filterScale, setFilterScale] = useState([]);
+  const [filterMobile, setFilterMobile] = useState(false);
 
   const [err, setErr] = useState();
   const location = useLocation();
@@ -67,7 +67,15 @@ export default function Company() {
         <div className="company__wrapper">
           <div className="company__wrapper__header">
             <h4>Nhà tuyển dụng hàng đầu</h4>
-            <SearchCompany keyword={keyword} />
+            <div>
+              <SearchCompany keyword={keyword} />
+              <button
+                className="button-filter"
+                onClick={() => setFilterMobile(!filterMobile)}
+              >
+                <i class="fa-solid fa-filter"></i>
+              </button>
+            </div>
           </div>
           <div className="company__wrapper__main row">
             <div className="col pc-3 t-3 m-0">
@@ -84,7 +92,7 @@ export default function Company() {
                   {loading ? (
                     <Loader />
                   ) : err ? (
-                    <div>{err}</div>
+                    <NotFoundData />
                   ) : (
                     companies?.map((company, i) => (
                       <ItemCompany
@@ -105,6 +113,20 @@ export default function Company() {
             </div>
           </div>
         </div>
+      </div>
+      <div className={`company__modal__filter ${filterMobile && "active"}`}>
+        <button
+          className="button__close__filter"
+          onClick={() => setFilterMobile(false)}
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <FilterCompany
+          filterProvince={filterProvince}
+          setFilterProvince={setFilterProvince}
+          filterScale={filterScale}
+          setFilterScale={setFilterScale}
+        />
       </div>
     </div>
   );
@@ -153,6 +175,7 @@ function FilterCompany(props) {
   const { filterProvince, setFilterProvince, setFilterScale, filterScale } =
     props;
   const [provinces, setProvinces] = useState();
+  const [qtyFilter, setQtyFilter] = useState(0);
 
   const getProvinces = async () => {
     try {
@@ -188,7 +211,14 @@ function FilterCompany(props) {
   return (
     <div className="company__wrapper__main__filter">
       <div className="company__wrapper__main__filter__address">
-        <h6>Địa chỉ</h6>
+        <div className="company__wrapper__main__filter__address__header">
+          <h6>Địa chỉ</h6>
+          {filterProvince.length > 0 && (
+            <button onClick={() => setFilterProvince([])}>
+              Xóa lọc ({filterProvince.length})
+            </button>
+          )}
+        </div>
         <div className="company__wrapper__main__filter__address__list">
           {provinces
             ?.sort((a, b) => a?.name?.localeCompare(b?.name))
@@ -198,6 +228,7 @@ function FilterCompany(props) {
                 className="company__wrapper__main__filter__address__list__item"
               >
                 <input
+                  checked={filterProvince.includes(item?.name)}
                   type="checkbox"
                   onClick={() => handleClickProvice(item?.name)}
                 />
@@ -207,7 +238,14 @@ function FilterCompany(props) {
         </div>
       </div>
       <div className="company__wrapper__main__filter__scale">
-        <h6>Quy mô</h6>
+        <div className="company__wrapper__main__filter__scale__header">
+          <h6>Quy mô</h6>
+          {filterScale.length > 0 && (
+            <button onClick={() => setFilterScale([])}>
+              Xóa lọc ({filterScale.length})
+            </button>
+          )}
+        </div>
         <div className="company__wrapper__main__filter__scale__list">
           {scale.map((item, i) => (
             <label
@@ -215,6 +253,7 @@ function FilterCompany(props) {
               className="company__wrapper__main__filter__scale__list__item"
             >
               <input
+                checked={filterScale.includes(item?.name)}
                 type="checkbox"
                 onClick={() => handleClickScale(item?.name)}
               />

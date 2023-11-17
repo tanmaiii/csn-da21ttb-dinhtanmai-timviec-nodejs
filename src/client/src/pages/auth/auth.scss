@@ -6,11 +6,10 @@
     flex-direction: column;
     margin-top: $height-header;
     min-height: 100vh;
-    h2 {
-      padding: 20px;
+    .auth__header {
+      padding: $spacing;
       color: themed("text1");
       font-size: $font-size-l;
-      margin-bottom: $spacing;
     }
     .container {
       width: 100%;
