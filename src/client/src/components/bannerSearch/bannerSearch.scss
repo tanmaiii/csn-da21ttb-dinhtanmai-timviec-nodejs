@@ -1,0 +1,160 @@
+@use "../../scss/" as *;
+
+.search__banner {
+  @include themify($themes) {
+    z-index: 1;
+    &__wrapper {
+      background-color: themed("bg2");
+      padding: $spacing;
+      border-radius: $border-radius-20;
+      @include flex(center, unset);
+      flex-direction: column;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      // min-height: 300px;
+      @include mobile {
+        padding: 20px 10px;
+      }
+      &__filter {
+        margin-top: 20px;
+        @include flex(center, center);
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+        .button-filter {
+          padding: 12px;
+          background-color: themed("bg2");
+          border-radius: $border-radius-10;
+          color: themed("text1");
+          transition: all 0.3s;
+          margin-left: auto;
+          display: none;
+          @include mobile {
+            display: block;
+          }
+          &:hover {
+            background-color: themed("bg1");
+          }
+          i {
+            @include flex(center, center);
+            --size: 20px;
+            width: var(--size);
+            height: var(--size);
+          }
+        }
+        &__list {
+          @include flex(center, center);
+          flex-wrap: wrap;
+          gap: 10px;
+          @include mobile {
+            transform: translateY(-2em);
+            z-index: -1;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s;
+            display: none;
+            &.open {
+              visibility: visible;
+              opacity: 1;
+              z-index: 1;
+              transform: translateY(0%);
+              display: flex;
+            }
+          }
+          .button-delete-filter {
+            color: $color-red;
+            @include flex(center, center);
+            gap: 8px;
+            font-size: $font-size-s;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.inputSearch {
+  @include themify($themes) {
+    position: relative;
+    @include mobile {
+      width: 100%;
+    }
+    &__input {
+      background-color: themed("bg2");
+      border-radius: $border-radius-10;
+      @include flex(center, unset);
+      width: max-content;
+      border: 1px solid themed("border");
+      @include mobile {
+        width: 100%;
+      }
+      & > i {
+        font-size: $font-size-m;
+        padding: 10px;
+        color: themed("text2");
+        @include mobile {
+          display: none;
+        }
+      }
+      input {
+        width: 280px;
+        padding: 8px 10px;
+        font-size: $font-size-s;
+        color: themed("text1");
+        @include mobile {
+          flex: 1;
+        }
+      }
+      &__btn-search {
+        @include button($color-white, $color-primary);
+        margin: 10px 10px;
+        i {
+          display: none;
+        }
+        @include mobile {
+          span {
+            display: none;
+          }
+          i {
+            display: block;
+          }
+        }
+      }
+    }
+    &__history {
+      position: absolute;
+      top: calc(100% + 10px);
+      background-color: themed("bg2");
+      z-index: 99;
+      width: 100%;
+      border-radius: $border-radius-10;
+      overflow: hidden;
+      overflow: themed("overflow");
+      display: none;
+      &.active {
+        display: block;
+      }
+      ul {
+        li {
+          padding: 12px 18px;
+          @include flex(center, unset);
+          color: themed("text1");
+          gap: 8px;
+          transition: all 0.3s;
+          cursor: pointer;
+          &:hover {
+            background-color: themed("bg1");
+          }
+          span {
+            @include hideText(100%);
+            font-size: $font-size-s;
+          }
+        }
+      }
+    }
+  }
+}

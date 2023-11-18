@@ -17,9 +17,9 @@ const hedearItem = [
     path: "/",
   },
   {
-    display: "Tìm kiếm",
+    display: "Tìm kiếm nhanh",
     icon: <i className="fa-solid fa-magnifying-glass"></i>,
-    path: "/tim-kiem",
+    path: "/tim-viec-lam-nhanh",
   },
   {
     display: "Công ty",

@@ -1,202 +1,14 @@
-import React, { useEffect, useRef } from "react";
-import "./search.scss";
-import DropdownItem from "../../components/dropdownItem/DropdownItem";
-import ItemJob from "../../components/itemJob/ItemJob";
-import Pagination from "../../components/pagination/Pagination";
-import NotFoundData from "../../components/notFoundData/NotFoundData";
-import Loader from "../../components/loader/Loader";
-import { useState } from "react";
-import { makeRequest } from "../../axios";
+import React,{useEffect, useState, useRef} from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import img from "../../assets/images/bannerSearch.jpg";
+
+import './bannerSearch.scss'
+import DropdownItem from '../dropdownItem/DropdownItem'
+import { makeRequest } from "../../axios";
 import queryString from "query-string";
-
 import { typeWorks, experienceJob, educationJob } from "../../config/data";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-const sort = [
-  {
-    id: 1,
-    displayName: "Mới nhất",
-    value: "new",
-  },
-  {
-    id: 2,
-    displayName: "Lương cao đến thấp",
-    value: "maxToMin",
-  },
-  {
-    id: 3,
-    displayName: "Lương thấp đến cao",
-    value: "minToMax",
-  },
-];
-
-export default function Search() {
-  const [openSort, setOpenSort] = useState(false);
-  const [sortActive, setSortActive] = useState(sort[0]);
-  const [jobs, setJobs] = useState();
-  const [loading, setLoading] = useState(false);
-  const [paginate, setPaginate] = useState(1);
-  const [totalPage, setTotalPage] = useState();
-  const [totalJobs, setTotalJobs] = useState(0);
-  const [idJobActive, setIdJobActive] = useState();
-  const limit = 6;
-  const { keyword } = useParams();
-  const location = useLocation();
-
-  const handleSelectSort = (item) => {
-    setOpenSort(false);
-    setSortActive(item);
-  };
-
-  const getJob = async () => {
-    const params = queryString.parse(location.search, {
-      arrayFormat: "bracket-separator",
-      arrayFormatSeparator: "|",
-    });
-
-    setLoading(true);
-    try {
-      let url = `/job?page=${paginate}&limit=${limit}`;
-
-      if (sortActive) {
-        url += `&sort=${sortActive?.value}`;
-      }
-
-      if (keyword !== undefined) {
-        url += `&search=${keyword}`;
-      }
-
-      if (params?.province) {
-        params?.province?.map((province) => {
-          url += `&province[]=${province}`;
-        });
-      }
-
-      if (params?.field) {
-        params?.field?.map((province) => {
-          url += `&field[]=${province}`;
-        });
-      }
-
-      if (params?.typeWork) {
-        params?.typeWork?.map((typeWork) => {
-          url += `&typeWork[]=${typeWork}`;
-        });
-      }
-
-      if (params?.exp) {
-        params?.exp?.map((exp) => {
-          url += `&exp[]=${exp}`;
-        });
-      }
-
-      if (params?.edu) {
-        params?.edu?.map((edu) => {
-          url += `&edu[]=${edu}`;
-        });
-      }
-
-      if (params?.salary) {
-        url += `&salary[]=${params?.salary[0]}&salary[]=${params?.salary[1]}`;
-      }
-
-      const res = await makeRequest.get(url);
-      setJobs(res.data.data || []);
-      setTotalPage(res.data?.pagination.totalPage || 0);
-      setTotalJobs(res.data?.pagination.total || 0);
-      setIdJobActive(res.data.data[0]?.id);
-      setLoading(false);
-    } catch (error) {}
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    getJob();
-  }, [paginate, sortActive, location, keyword]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return (
-    <>
-      <div className="search">
-        <div className="search__wrapper">
-          <div className="container">
-            <BannerSearch />
-            {jobs?.length === 0 ? (
-              <NotFoundData />
-            ) : (
-              <div className="search__list">
-                <div className="search__list__header">
-                  <h4>
-                    {totalJobs && totalJobs} việc làm {keyword && keyword}
-                  </h4>
-                  <div className="search__list__header__sort">
-                    <span>Sắp xếp :</span>
-                    <div className="dropdown">
-                      <div
-                        className="header"
-                        onClick={() => setOpenSort(!openSort)}
-                      >
-                        <span>{sortActive && sortActive?.displayName}</span>
-                        <i class="fa-solid fa-angle-down"></i>
-                      </div>
-                      {openSort && (
-                        <div className="list">
-                          {sort.map((item) => (
-                            <span
-                              className={`list__item ${
-                                sortActive?.displayName === item?.displayName
-                                  ? "active"
-                                  : ""
-                              }`}
-                              onClick={() => handleSelectSort(item)}
-                            >
-                              {item.displayName}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="search__list__body">
-                  <div className="search__list__body__side row">
-                    {loading ? (
-                      <Loader />
-                    ) : (
-                      jobs?.map((job, i) => (
-                        <ItemJob
-                          onClick={() => setIdJobActive(job?.id)}
-                          key={i}
-                          job={job}
-                          className={`col pc-4 t-6 m-12 ${
-                            idJobActive === job.id && "active"
-                          }`}
-                        />
-                      ))
-                    )}
-                  </div>
-                  <Pagination
-                    totalPage={totalPage}
-                    limit={limit}
-                    paginate={paginate}
-                    setPaginate={setPaginate}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function BannerSearch() {
+export default function BannerSearch() {
   const [province, setProvince] = useState();
   const [field, setField] = useState();
   const [qtyFilter, setQtyFilter] = useState(0);
@@ -231,7 +43,7 @@ function BannerSearch() {
     let params = "";
     if (optionActiveProvince.length > 0) {
       const filter = optionActiveProvince.join("|");
-      params += `&province[]=${filter}` 
+      params += `&province[]=${filter}`;
     }
     if (optionActiveTypeWork.length > 0) {
       const filter = optionActiveTypeWork.join("|");
@@ -405,6 +217,7 @@ function BannerSearch() {
     </div>
   );
 }
+
 
 function InputSearch() {
   const [keyword, setKeyWord] = useState(useParams().keyword || undefined) ;

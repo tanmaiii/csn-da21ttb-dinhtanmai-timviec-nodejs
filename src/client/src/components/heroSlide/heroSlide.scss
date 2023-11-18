@@ -1,16 +1,16 @@
 @use "../../scss/" as *;
 
 .HeroSlide {
-  ul{
+  ul {
     list-style: none;
   }
   @include themify($themes) {
     background-position: center;
     // height: calc(100vh - $height-header);
-     height: calc(102vh);
+    height: calc(102vh);
     background-repeat: no-repeat;
     background-size: cover;
-    @include mobile{
+    @include mobile {
       height: max-content;
     }
     .container {
@@ -31,16 +31,16 @@
           & > * {
             margin-bottom: 20px;
           }
-          h4 {
+          & > h4 {
             font-size: $font-size-xl;
             color: themed("text1");
           }
-          span {
+          & > span {
             font-size: $font-size-s;
             color: themed("text2");
             display: block;
           }
-          ul {
+          &__list-company {
             @include flex(center, unset);
             flex-wrap: wrap;
             gap: 20px;
@@ -72,6 +72,101 @@
             }
           }
         }
+      }
+    }
+  }
+}
+
+.searchHeroSlide {
+  @include themify($themes) {
+    width: 100%;
+    &__wrapper {
+      background-color: themed("bg2");
+      border-radius: $border-radius-10;
+      @include flex(center, space-around);
+
+      &__item {
+        flex: 1;
+        padding: 10px;
+        width: 100%;
+        border: 2px solid transparent;
+        border-radius: $border-radius-10;
+        position: relative;
+        &:focus-within {
+          border: 2px solid $color-primary;
+        }
+        &__input {
+          @include flex(center, unset);
+          flex-wrap: nowrap;
+          width: 100%;
+          position: relative;
+          & > i {
+            --size: 20px;
+            width: var(--size);
+            height: var(--size);
+            font-size: 1.2rem;
+            color: themed("text1");
+          }
+          input {
+            height: 100%;
+            width: 100%;
+            flex: 1;
+            font-size: $font-size-s;
+            padding: 10px 8px;
+          }
+          .btn-clear {
+            position: absolute;
+            top: 50%;
+            right: 4px;
+            transform: translateY(-50%);
+            i {
+              color: themed("text2");
+              font-size: 1.1rem;
+            }
+          }
+        }
+        &__list {
+          position: absolute;
+          top: calc(100% + 10px);
+          left: 0;
+          background-color: themed("bg2");
+          width: 100%;
+          border-radius: $border-radius-10;
+          overflow: hidden;
+          z-index: 99;
+          display: none;
+          &.open {
+            display: block;
+          }
+          ul {
+            @include flex(unset, unset);
+            flex-direction: column;
+            align-items: start;
+            max-height: 280px;
+            overflow-y: scroll;
+            li {
+              padding: 12px;
+              width: 100%;
+              cursor: pointer;
+              @include flex(center, unset);
+              gap: 8px;
+              color: themed("text1");
+              &:hover {
+                background-color: themed("bg1");
+              }
+            }
+          }
+        }
+      }
+      &__item__province {
+        @include mobile {
+          display: none;
+        }
+      }
+
+      .btn-search {
+        @include button($color-white, $color-primary);
+        margin: 10px 10px;
       }
     }
   }

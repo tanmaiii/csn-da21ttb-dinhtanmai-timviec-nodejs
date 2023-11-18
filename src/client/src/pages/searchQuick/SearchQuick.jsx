@@ -7,6 +7,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
+import BannerSearch from '../../components/bannerSearch/BannerSearch'
 
 export default function SearchQuick() {
   const [popular, setPopular] = useState();
@@ -35,6 +36,7 @@ export default function SearchQuick() {
           <div className="searchQuick__wrapper__header">
             <h2>Tìm kiếm việc làm nhanh</h2>
           </div>
+          <BannerSearch/>
           <div className="searchQuick__wrapper__content row">
             <div className="col pc-9 t-8 m-12">
               <SearchQuickFields />

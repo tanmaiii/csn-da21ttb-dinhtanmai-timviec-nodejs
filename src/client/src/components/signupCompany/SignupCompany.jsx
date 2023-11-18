@@ -3,7 +3,6 @@ import logo from "../../assets/images/logoJobQuest.png";
 import "./signupCompany.scss";
 import { Link, useNavigate } from "react-router-dom";
 import {scale} from "../../config/data";
-import SearchProvince from "../../components/searchProvince/SearchProvince";
 import Select from "../select/Select";
 import { makeRequest } from "../../axios";
 
