@@ -6,6 +6,7 @@ import queryString from "query-string";
 
 export default function DropdownItem(props) {
   const {
+    name,
     icon,
     title = "Lựa chọn",
     option,
@@ -17,11 +18,12 @@ export default function DropdownItem(props) {
     search = false,
   } = props;
 
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const location = useLocation();
-  const navigate = useNavigate()
-  const params = queryString.parse(location.search)
+  const navigate = useNavigate();
+  const params = queryString.parse(location.search);
   const dropdownRef = useRef();
 
   const handleClickOption = (name) => {
@@ -32,8 +34,8 @@ export default function DropdownItem(props) {
     } else {
       setOptionActive((current) => [...current, name]);
     }
-    if(params.field || params.province) {
-      navigate('/tim-kiem')
+    if (params.field || params.province) {
+      navigate("/tim-kiem");
     }
   };
 
@@ -93,6 +95,7 @@ export default function DropdownItem(props) {
                   <div key={i} className="dropdown__menu__list__item">
                     <label htmlFor={i}>
                       <input
+                        defaultChecked={optionActive.includes(option?.name)}
                         type="checkbox"
                         checked={optionActive.includes(option?.name)}
                         name=""

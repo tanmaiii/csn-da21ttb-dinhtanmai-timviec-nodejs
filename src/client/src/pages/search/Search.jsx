@@ -8,7 +8,7 @@ import Loader from "../../components/loader/Loader";
 import { useState } from "react";
 import { makeRequest } from "../../axios";
 import img from "../../assets/images/bannerSearch.jpg";
-import queryString from 'query-string' 
+import queryString from "query-string";
 
 import { typeWorks, experienceJob, educationJob } from "../../config/data";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -42,24 +42,7 @@ export default function Search() {
   const [idJobActive, setIdJobActive] = useState();
   const limit = 6;
   const { keyword } = useParams();
-  const location = useLocation()
-
-  const [optionActiveProvince, setOptionActiveProvince] = useState([]);
-  const [optionActiveField, setOptionActiveField] = useState([]);
-  const [optionActiveTypeWork, setOptionActiveTypeWork] = useState([]);
-  const [optionActiveExperience, setOptionActiveExperience] = useState([]);
-  const [optionActiveEducation, setOptionActiveEducation] = useState([]);
-  const [salaryFilter, setSalaryFilter] = useState([]);
-
-  useEffect(() => {
-    const params = queryString.parse(location.search)
-    console.log(params);
-    if(params.field) {
-      setOptionActiveField([params.field])
-    }else if(params.province){
-      setOptionActiveProvince([params.province])
-    }
-  },[location])
+  const location = useLocation();
 
   const handleSelectSort = (item) => {
     setOpenSort(false);
@@ -67,6 +50,11 @@ export default function Search() {
   };
 
   const getJob = async () => {
+    const params = queryString.parse(location.search, {
+      arrayFormat: "bracket-separator",
+      arrayFormatSeparator: "|",
+    });
+
     setLoading(true);
     try {
       let url = `/job?page=${paginate}&limit=${limit}`;
@@ -79,38 +67,38 @@ export default function Search() {
         url += `&search=${keyword}`;
       }
 
-      if (optionActiveProvince) {
-        optionActiveProvince?.map((province) => {
+      if (params?.province) {
+        params?.province?.map((province) => {
           url += `&province[]=${province}`;
         });
       }
 
-      if (optionActiveField) {
-        optionActiveField?.map((province) => {
+      if (params?.field) {
+        params?.field?.map((province) => {
           url += `&field[]=${province}`;
         });
       }
 
-      if (optionActiveTypeWork) {
-        optionActiveTypeWork?.map((typeWork) => {
+      if (params?.typeWork) {
+        params?.typeWork?.map((typeWork) => {
           url += `&typeWork[]=${typeWork}`;
         });
       }
 
-      if (optionActiveExperience) {
-        optionActiveExperience?.map((exp) => {
+      if (params?.exp) {
+        params?.exp?.map((exp) => {
           url += `&exp[]=${exp}`;
         });
       }
 
-      if (optionActiveEducation) {
-        optionActiveEducation?.map((edu) => {
+      if (params?.edu) {
+        params?.edu?.map((edu) => {
           url += `&edu[]=${edu}`;
         });
       }
 
-      if (salaryFilter?.length > 0) {
-        url += `&salary[]=${salaryFilter[0]}&salary[]=${salaryFilter[1]}`;
+      if (params?.salary) {
+        url += `&salary[]=${params?.salary[0]}&salary[]=${params?.salary[1]}`;
       }
 
       const res = await makeRequest.get(url);
@@ -126,17 +114,7 @@ export default function Search() {
   useEffect(() => {
     window.scrollTo(0, 0);
     getJob();
-  }, [
-    paginate,
-    sortActive,
-    optionActiveProvince,
-    optionActiveField,
-    optionActiveTypeWork,
-    optionActiveExperience,
-    optionActiveEducation,
-    salaryFilter,
-    keyword,
-  ]);
+  }, [paginate, sortActive, location, keyword]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -147,20 +125,7 @@ export default function Search() {
       <div className="search">
         <div className="search__wrapper">
           <div className="container">
-            <BannerSearch
-              optionActiveProvince={optionActiveProvince}
-              setOptionActiveProvince={setOptionActiveProvince}
-              optionActiveField={optionActiveField}
-              setOptionActiveField={setOptionActiveField}
-              optionActiveTypeWork={optionActiveTypeWork}
-              setOptionActiveTypeWork={setOptionActiveTypeWork}
-              optionActiveExperience={optionActiveExperience}
-              setOptionActiveExperience={setOptionActiveExperience}
-              optionActiveEducation={optionActiveEducation}
-              setOptionActiveEducation={setOptionActiveEducation}
-              salaryFilter={salaryFilter}
-              setSalaryFilter={setSalaryFilter}
-            />
+            <BannerSearch />
             {jobs?.length === 0 ? (
               <NotFoundData />
             ) : (
@@ -231,26 +196,73 @@ export default function Search() {
   );
 }
 
-function BannerSearch({
-  optionActiveProvince,
-  setOptionActiveProvince,
-  optionActiveField,
-  setOptionActiveField,
-  optionActiveTypeWork,
-  setOptionActiveTypeWork,
-  optionActiveExperience,
-  setOptionActiveExperience,
-  optionActiveEducation,
-  setOptionActiveEducation,
-  salaryFilter,
-  setSalaryFilter,
-}) {
+function BannerSearch() {
   const [province, setProvince] = useState();
   const [field, setField] = useState();
   const [qtyFilter, setQtyFilter] = useState(0);
   const [btnDelete, setBtnDelete] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const params = queryString.parse(location.search, {
+    arrayFormat: "bracket-separator",
+    arrayFormatSeparator: "|",
+  });
+
+  const [optionActiveProvince, setOptionActiveProvince] = useState(
+    params?.province || []
+  );
+  const [optionActiveField, setOptionActiveField] = useState(
+    params?.field || []
+  );
+  const [optionActiveTypeWork, setOptionActiveTypeWork] = useState(
+    params?.typeWork || []
+  );
+  const [optionActiveExperience, setOptionActiveExperience] = useState(
+    params?.exp || []
+  );
+  const [optionActiveEducation, setOptionActiveEducation] = useState(
+    params?.edu || []
+  );
+  const [salaryFilter, setSalaryFilter] = useState(params?.salary || []);
+
+  useEffect(() => {
+    let params = "";
+    if (optionActiveProvince.length > 0) {
+      const filter = optionActiveProvince.join("|");
+      params += `&province[]=${filter}`;
+    }
+    if (optionActiveTypeWork.length > 0) {
+      const filter = optionActiveTypeWork.join("|");
+      params += `&typeWork[]=${filter}`;
+    }
+    if (optionActiveField.length > 0) {
+      const filter = optionActiveField.join("|");
+      params += `&field[]=${filter}`;
+    }
+    if (optionActiveExperience.length > 0) {
+      const filter = optionActiveExperience.join("|");
+      params += `&exp[]=${filter}`;
+    }
+    if (optionActiveEducation.length > 0) {
+      const filter = optionActiveEducation.join("|");
+      params += `&edu[]=${filter}`;
+    }
+    if (salaryFilter.length > 0) {
+      const filter = salaryFilter.join("|");
+      params += `&salary[]=${filter}`;
+    }
+
+    navigate(`?${params}`);
+  }, [
+    optionActiveProvince,
+    optionActiveField,
+    optionActiveTypeWork,
+    optionActiveExperience,
+    optionActiveEducation,
+    salaryFilter,
+  ]);
 
   useEffect(() => {
     const getProvinces = async () => {
@@ -279,7 +291,7 @@ function BannerSearch({
     setOptionActiveExperience([]);
     setOptionActiveEducation([]);
     setSalaryFilter([]);
-    navigate('/tim-kiem')
+    location.search = null;
   };
 
   useEffect(() => {
@@ -333,6 +345,7 @@ function BannerSearch({
             }`}
           >
             <DropdownItem
+              name={"province"}
               icon={<i className="fa-solid fa-location-dot"></i>}
               title={"Tỉnh thành"}
               option={province}
@@ -341,6 +354,7 @@ function BannerSearch({
               search={true}
             />
             <DropdownItem
+              name={"field"}
               icon={<i className="fa-solid fa-briefcase"></i>}
               title={"Ngành nghề"}
               option={field}
@@ -399,6 +413,7 @@ function InputSearch() {
   const inputRef = useRef();
   const inputSearchRef = useRef();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const enterEvent = (e) => {
@@ -416,7 +431,7 @@ function InputSearch() {
   const goToSearch = () => {
     setOpenHistory(false);
     if (keyword?.trim().length > 0) {
-      navigate(`/tim-kiem/${keyword.trim()}`);
+      navigate(`/tim-kiem/${keyword.trim()}${location.search}`);
       handleSaveHistory(keyword.trim());
     } else {
       navigate(`/tim-kiem`);

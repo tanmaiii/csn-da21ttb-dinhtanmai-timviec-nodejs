@@ -20,7 +20,7 @@ export default function SearchQuick() {
   };
 
   const handleClick = (value) => {
-    navigate(`/tim-kiem?field=${value}`)
+    navigate(`/tim-kiem?field[]=${value}`)
   };
 
   useEffect(() => {
@@ -36,11 +36,11 @@ export default function SearchQuick() {
             <h2>Tìm kiếm việc làm nhanh</h2>
           </div>
           <div className="searchQuick__wrapper__content row">
-            <div className="col pc-9 t-9 m-12">
+            <div className="col pc-9 t-8 m-12">
               <SearchQuickFields />
               <SearchQuickProvince />
             </div>
-            <div className="col pc-3 t-3 m-0">
+            <div className="col pc-3 t-4 m-0">
               <div className="searchQuick__wrapper__content__popular">
                 <h4 className="header">Ngành nghề phổ biến</h4>
                 <ul className="list">
@@ -66,8 +66,6 @@ export default function SearchQuick() {
 function SearchQuickFields() {
   const [fields, setFields] = useState();
   const navigate = useNavigate();
-  //const [searchParams, setSearchParams] = useSearchParams();
-
   const groupBy = (arr, key) => {
     return Object.values(
       arr.reduce((acc, item) => {
@@ -92,7 +90,7 @@ function SearchQuickFields() {
   };
 
   const handleClick = (value) => {
-    navigate(`/tim-kiem?field=${value}`)
+    navigate(`/tim-kiem?field[]=${value}`)
   };
 
   useEffect(() => {
@@ -145,14 +143,13 @@ function SearchQuickProvince() {
   const getProvince = async () => {
     try {
       const res = await makeRequest.get("provinces/type");
-      console.log(res.data);
       setProvinces(groupArraysByFirstLetter(res.data, "name"));
     } catch (error) {}
   };
 
   
   const handleClick = (value) => {
-    navigate(`/tim-kiem?province=${value}`)
+    navigate(`/tim-kiem?province[]=${value}`)
   };
 
   useEffect(() => {

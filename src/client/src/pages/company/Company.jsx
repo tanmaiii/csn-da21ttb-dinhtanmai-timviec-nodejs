@@ -8,6 +8,7 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { motion, AnimatePresence } from "framer-motion";
 import NotFoundData from "../../components/notFoundData/NotFoundData";
+import queryString from "query-string";
 
 export default function Company() {
   const [paginate, setPaginate] = useState(1);
@@ -15,15 +16,16 @@ export default function Company() {
   const limit = 6;
   const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState();
-  const [filterProvince, setFilterProvince] = useState([]);
-  const [filterScale, setFilterScale] = useState([]);
   const [filterMobile, setFilterMobile] = useState(false);
-
   const [err, setErr] = useState();
   const location = useLocation();
   const { keyword } = useParams();
 
   const getCompany = async () => {
+    const params = queryString.parse(location.search, {
+      arrayFormat: "bracket",
+    });
+
     setLoading(true);
     setErr();
     try {
@@ -33,14 +35,14 @@ export default function Company() {
         url += `&search=${keyword}`;
       }
 
-      if (filterProvince !== undefined) {
-        filterProvince.map((province) => {
+      if (params?.province?.length > 0) {
+        params?.province?.map((province) => {
           url += `&province[]=${province}`;
         });
       }
 
-      if (filterScale !== undefined) {
-        filterScale.map((scale) => {
+      if (params?.scale?.length > 0) {
+        params.scale.map((scale) => {
           url += `&scale[]=${scale}`;
         });
       }
@@ -59,7 +61,7 @@ export default function Company() {
   useEffect(() => {
     getCompany();
     window.scroll(0, 0);
-  }, [paginate, keyword, filterProvince, filterScale]);
+  }, [paginate, location]);
 
   return (
     <div className="company">
@@ -68,7 +70,7 @@ export default function Company() {
           <div className="company__wrapper__header">
             <h4>Nhà tuyển dụng hàng đầu</h4>
             <div>
-              <SearchCompany keyword={keyword} />
+              <SearchCompany />
               <button
                 className="button-filter"
                 onClick={() => setFilterMobile(!filterMobile)}
@@ -79,12 +81,7 @@ export default function Company() {
           </div>
           <div className="company__wrapper__main row">
             <div className="col pc-3 t-3 m-0">
-              <FilterCompany
-                filterProvince={filterProvince}
-                setFilterProvince={setFilterProvince}
-                filterScale={filterScale}
-                setFilterScale={setFilterScale}
-              />
+              <FilterCompany />
             </div>
             <div className="col pc-9 t-9 m-12">
               <motion.div className="company__wrapper__main__list">
@@ -121,24 +118,20 @@ export default function Company() {
         >
           <i class="fa-solid fa-xmark"></i>
         </button>
-        <FilterCompany
-          filterProvince={filterProvince}
-          setFilterProvince={setFilterProvince}
-          filterScale={filterScale}
-          setFilterScale={setFilterScale}
-        />
+        <FilterCompany />
       </div>
     </div>
   );
 }
 
-function SearchCompany({ props }) {
-  const [keyword, setKeyword] = useState(props?.keyword ? props.keyword : "");
+function SearchCompany() {
+  const [keyword, setKeyword] = useState(useParams().keyword || undefined);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const goToSearch = () => {
     if (keyword.trim()?.length > 0) {
-      navigate(`/nha-tuyen-dung/search/${keyword}`);
+      navigate(`/nha-tuyen-dung/search/${keyword}${location.search}`);
     } else {
       navigate(`/nha-tuyen-dung`);
     }
@@ -171,11 +164,12 @@ function SearchCompany({ props }) {
   );
 }
 
-function FilterCompany(props) {
-  const { filterProvince, setFilterProvince, setFilterScale, filterScale } =
-    props;
+function FilterCompany() {
+  const [filterProvince, setFilterProvince] = useState([]);
+  const [filterScale, setFilterScale] = useState([]);
   const [provinces, setProvinces] = useState();
-  const [qtyFilter, setQtyFilter] = useState(0);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const getProvinces = async () => {
     try {
@@ -197,6 +191,24 @@ function FilterCompany(props) {
       setFilterProvince((current) => [...current, name]);
     }
   };
+
+  useEffect(() => {
+    let params = ``;
+
+    if (filterProvince.length > 0) {
+      filterProvince.map((province) => {
+        params += `&province[]=${province}`;
+      });
+    }
+
+    if (filterScale.length > 0) {
+      filterScale.map((province) => {
+        params += `&scale[]=${province}`;
+      });
+    }
+
+    navigate(`?${params}`);
+  }, [filterProvince, filterScale]);
 
   const handleClickScale = (name) => {
     if (filterScale.includes(name)) {
@@ -230,7 +242,7 @@ function FilterCompany(props) {
                 <input
                   checked={filterProvince.includes(item?.name)}
                   type="checkbox"
-                  onClick={() => handleClickProvice(item?.name)}
+                  onChange={() => handleClickProvice(item?.name)}
                 />
                 <span>{item?.name}</span>
               </label>
@@ -255,7 +267,7 @@ function FilterCompany(props) {
               <input
                 checked={filterScale.includes(item?.name)}
                 type="checkbox"
-                onClick={() => handleClickScale(item?.name)}
+                onChange={() => handleClickScale(item?.name)}
               />
               <span>{item?.name}</span>
             </label>

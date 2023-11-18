@@ -34,6 +34,8 @@
               gap: 8px;
               padding: 10px 0;
               border-bottom: 1px solid themed('border');
+              cursor: pointer;
+              width: 100%;
               &:hover{
                 text-decoration: underline;
                 text-decoration-color: themed('text1');
