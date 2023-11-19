@@ -7,7 +7,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import BannerSearch from '../../components/bannerSearch/BannerSearch'
+import BannerSearch from "../../components/bannerSearch/BannerSearch";
 
 export default function SearchQuick() {
   const [popular, setPopular] = useState();
@@ -21,13 +21,13 @@ export default function SearchQuick() {
   };
 
   const handleClick = (value) => {
-    navigate(`/tim-kiem?field[]=${value}`)
+    navigate(`/tim-kiem?field[]=${value}`);
   };
 
   useEffect(() => {
     getFields();
+    window.scroll(0,0)
   }, []);
-
 
   return (
     <div className="searchQuick">
@@ -36,7 +36,6 @@ export default function SearchQuick() {
           <div className="searchQuick__wrapper__header">
             <h2>Tìm kiếm việc làm nhanh</h2>
           </div>
-          <BannerSearch/>
           <div className="searchQuick__wrapper__content row">
             <div className="col pc-9 t-8 m-12">
               <SearchQuickFields />
@@ -50,10 +49,13 @@ export default function SearchQuick() {
                     ?.sort((a, b) => b.countJobs - a.countJobs)
                     .slice(0, 10)
                     .map((item, i) => (
-                        <li className="item" onClick={() => handleClick(item?.name)}>
-                          <h6>{item.name}</h6>
-                          <span>({item.countJobs})</span>
-                        </li>
+                      <li
+                        className="item"
+                        onClick={() => handleClick(item?.name)}
+                      >
+                        <h6>{item.name}</h6>
+                        <span>({item.countJobs})</span>
+                      </li>
                     ))}
                 </ul>
               </div>
@@ -92,7 +94,7 @@ function SearchQuickFields() {
   };
 
   const handleClick = (value) => {
-    navigate(`/tim-kiem?field[]=${value}`)
+    navigate(`/tim-kiem?field[]=${value}`);
   };
 
   useEffect(() => {
@@ -149,9 +151,8 @@ function SearchQuickProvince() {
     } catch (error) {}
   };
 
-  
   const handleClick = (value) => {
-    navigate(`/tim-kiem?province[]=${value}`)
+    navigate(`/tim-kiem?province[]=${value}`);
   };
 
   useEffect(() => {
@@ -172,7 +173,11 @@ function SearchQuickProvince() {
               <h4 className="header">{gr[0]?.name[0]}</h4>
               <div className="list">
                 {gr.map((item, i) => (
-                  <div onClick={() => handleClick(item?.name)} className="item" key={i}>
+                  <div
+                    onClick={() => handleClick(item?.name)}
+                    className="item"
+                    key={i}
+                  >
                     <h6>{item?.name}</h6>
                     <span>({item?.countJobs})</span>
                   </div>

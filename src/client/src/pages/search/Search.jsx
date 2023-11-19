@@ -231,7 +231,7 @@ function BannerSearch() {
     let params = "";
     if (optionActiveProvince.length > 0) {
       const filter = optionActiveProvince.join("|");
-      params += `&province[]=${filter}` 
+      params += `&province[]=${filter}`;
     }
     if (optionActiveTypeWork.length > 0) {
       const filter = optionActiveTypeWork.join("|");
@@ -407,8 +407,10 @@ function BannerSearch() {
 }
 
 function InputSearch() {
-  const [keyword, setKeyWord] = useState(useParams().keyword || undefined) ;
-  const [searchHistory, setSearchHistory] = useState([]);
+  const [keyword, setKeyWord] = useState(useParams().keyword || undefined);
+  const [searchHistory, setSearchHistory] = useState(
+    JSON.parse(localStorage?.getItem("searchHistory" || null))
+  );
   const [openHistory, setOpenHistory] = useState(false);
   const inputRef = useRef();
   const inputSearchRef = useRef();
@@ -441,7 +443,7 @@ function InputSearch() {
   const handleSaveHistory = (item) => {
     item = item.trim();
     if (!searchHistory?.includes(item)) {
-      const updateHistory = [item, ...searchHistory.slice(0, 4)];
+      const updateHistory = [item, ...searchHistory];
       setSearchHistory(updateHistory);
       localStorage.setItem("searchHistory", JSON.stringify(updateHistory));
     }
@@ -452,13 +454,6 @@ function InputSearch() {
     setOpenHistory(false);
     navigate(`/tim-kiem/${item}`);
   };
-
-  useEffect(() => {
-    const storedHistory = localStorage.getItem("searchHistory");
-    if (storedHistory) {
-      setSearchHistory(JSON.parse(storedHistory));
-    }
-  }, []);
 
   useEffect(() => {
     let handleMousedown = (e) => {
@@ -502,7 +497,7 @@ function InputSearch() {
       {searchHistory && (
         <div className={`inputSearch__history  ${openHistory ? "active" : ""}`}>
           <ul>
-            {searchHistory?.map((item, i) => (
+            {searchHistory?.slice(0, 4).map((item, i) => (
               <li onClick={() => handleSubmitHistory(item)}>
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <span>{item}</span>

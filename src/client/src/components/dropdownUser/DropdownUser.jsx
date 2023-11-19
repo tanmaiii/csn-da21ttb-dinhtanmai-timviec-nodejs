@@ -11,7 +11,7 @@ export default function DropdownUser() {
   const location = useLocation();
   const { logoutUser, currentUser } = useAuth();
   const id = currentUser?.id;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleMouseDown = (e) => {
@@ -33,11 +33,14 @@ export default function DropdownUser() {
         className="dropdownUser__toogle"
         onClick={() => setOpenMenuUser(!openMenuUser)}
       >
-        <img
-          src={currentUser.avatarPic ? apiImage + currentUser.avatarPic : avt}
-          alt=""
-        />
-        <span>{currentUser?.name}</span>
+        <div className="dropdownUser__toogle__text">
+          <img
+            src={currentUser.avatarPic ? apiImage + currentUser.avatarPic : avt}
+            alt=""
+          />
+          <span>{currentUser?.name}</span>
+        </div>
+        <i class="fa-solid fa-angle-down"></i>
       </div>
       <div className={`dropdownUser__dropdown ${openMenuUser ? "open" : ""}`}>
         <Link

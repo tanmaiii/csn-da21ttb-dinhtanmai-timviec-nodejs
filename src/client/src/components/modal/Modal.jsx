@@ -5,12 +5,13 @@ export default function Modal({ children, title, openModal, setOpenModal }) {
   const modalBodyRef = useState(false);
 
   useEffect(() => {
-    if (openModal) {
+    if (openModal === true) {
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
     }
-  });
+    if (openModal === false) {
+      document.body.style.overflow = "unset";
+    }
+  }, [openModal]);
 
   useEffect(() => {
     const handleMousedown = (e) => {

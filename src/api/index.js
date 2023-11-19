@@ -4,8 +4,8 @@ import { db } from "./config/connect.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from "cors";
-import multer from 'multer'
-import path from 'path'
+import multer from "multer";
+import path from "path";
 
 import authUserRouter from "./routers/authUser.router.js";
 import authCompanyRouter from "./routers/authCompany.router.js";
@@ -14,14 +14,15 @@ import companyRouter from "./routers/company.router.js";
 import jobRouter from "./routers/job.router.js";
 import fieldsRouter from "./routers/fields.router.js";
 import provinesRouter from "./routers/provinces.router.js";
-import followRouter from './routers/follow.router.js'
-import saveRouter from './routers/save.router.js'
+import followRouter from "./routers/follow.router.js";
+import saveRouter from "./routers/save.router.js";
+import applyRouter from "./routers/apply.router.js";
 
 import { fileURLToPath } from "url";
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
@@ -51,19 +52,19 @@ db.connect(function (err) {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'images')
+    cb(null, "images");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname)
-  }
-})
+    cb(null, Date.now() + file.originalname);
+  },
+});
 
 const upload = multer({ storage: storage });
 
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
   res.status(200).json(file.filename);
-})
+});
 
 app.use("/api/authUser", authUserRouter);
 app.use("/api/authCompany", authCompanyRouter);
@@ -74,6 +75,7 @@ app.use("/api/fields", fieldsRouter);
 app.use("/api/provinces", provinesRouter);
 app.use("/api/follow", followRouter);
 app.use("/api/save", saveRouter);
+app.use("/api/apply", applyRouter);
 
 app.listen(8800, (req, res) => {
   console.log("Backend running");

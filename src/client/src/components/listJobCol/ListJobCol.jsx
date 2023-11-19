@@ -9,16 +9,17 @@ export default function ListJobCol({ name, idField, idJob }) {
   const paginate = 1;
 
   useEffect(() => {
-    const getJob = async () => {
-      try {
-        const res = await makeRequest.get(
-          `job/field/${idField}?page=${paginate}&limit=${limit}`
-        );
-        setJobs(res.data.data);
-        console.log(res);
-      } catch (error) {}
-    };
-    getJob();
+    if (idField) {
+      const getJob = async () => {
+        try {
+          const res = await makeRequest.get(
+            `job/field/${idField}?page=${paginate}&limit=${limit}`
+          );
+          setJobs(res.data.data);
+        } catch (error) {}
+      };
+      getJob();
+    }
   }, [idField]);
 
   return (

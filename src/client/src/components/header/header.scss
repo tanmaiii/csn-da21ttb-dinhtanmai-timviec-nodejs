@@ -2,13 +2,11 @@
 
 .header {
   @include themify($themes) {
-    ul{
+    ul {
       list-style: none;
     }
     .header__wrapper {
       z-index: 9999;
-      // box-shadow: themed(box-shadow);
-      // background-color: themed("bg2");
       background-color: transparent;
       position: fixed;
       top: 0;
@@ -21,8 +19,6 @@
       &.bg {
         box-shadow: themed(box-shadow);
         background-color: themed("bg2");
-      }
-      @include mobile {
       }
       .container {
         @include flex(center, space-between);
@@ -79,6 +75,7 @@
                 padding: 0 10px;
                 position: relative;
                 i {
+                  @include flex(center, center);
                   --size: 20px;
                   width: var(--size);
                   height: var(--size);
@@ -149,10 +146,10 @@
             @include button($color-white, $color-primary);
           }
           &__company {
-              font-size: $font-size-s;
-              font-weight: 500;
-              color: themed("text1");
-              font-weight: 500;
+            font-size: $font-size-s;
+            font-weight: 500;
+            color: themed("text1");
+            font-weight: 500;
           }
           .hr-col {
             height: calc($height-header - 40px);
@@ -175,6 +172,7 @@
           @include flex(start, space-between);
           height: 100vh;
           flex-direction: column;
+          overflow: auto;
           @include mobile {
             display: flex;
           }
@@ -224,16 +222,10 @@
               border: none;
             }
           }
-          &__option__logout {
-            width: 100%;
-            padding: 10px;
-            @include flex(center, unset);
-            gap: 8px;
-            color: themed("text1");
-          }
         }
         .header__wrapper__btn-mobile {
           display: none;
+
           @include mobile {
             display: block;
           }

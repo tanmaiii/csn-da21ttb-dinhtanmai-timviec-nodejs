@@ -17,9 +17,14 @@ const hedearItem = [
     path: "/",
   },
   {
-    display: "Tìm kiếm nhanh",
-    icon: <i className="fa-solid fa-magnifying-glass"></i>,
+    display: "Ngành nghề/Địa điểm",
+    icon: <i class="fa-solid fa-briefcase"></i>,
     path: "/tim-viec-lam-nhanh",
+  },
+  {
+    display: "Tìm kiếm",
+    icon: <i className="fa-solid fa-magnifying-glass"></i>,
+    path: "/tim-kiem",
   },
   {
     display: "Công ty",
@@ -212,25 +217,6 @@ export default function Header() {
                   </li>
                 )}
               </ul>
-              {currentUser && (
-                <Link
-                  className="header__wrapper__control-mobile__option header__wrapper__control-mobile__option__logout"
-                  onClick={() => logoutUser()}
-                >
-                  <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                  <span>Đăng xuất</span>
-                </Link>
-              )}
-
-              {currentCompany && (
-                <Link
-                  className="header__wrapper__control-mobile__option header__wrapper__control-mobile__option__logout"
-                  onClick={() => logoutCompany()}
-                >
-                  <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                  <span>Đăng xuất</span>
-                </Link>
-              )}
             </div>
           </div>
         </div>

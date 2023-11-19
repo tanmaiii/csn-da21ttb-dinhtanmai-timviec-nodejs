@@ -58,8 +58,6 @@ export default function InfoUser() {
     });
   });
 
-  console.log(user);
-
   return (
     <div className="infoUser">
       <div className="infoUser__wrapper">
@@ -127,6 +125,7 @@ function ItemInfo({
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(desc);
   const [selectedOption, setSelectedOption] = useState(inputs.idProvince);
+  const { setCurrentUser } = useAuth();
 
   const queryClient = useQueryClient();
 
@@ -142,7 +141,7 @@ function ItemInfo({
   );
 
   const handleSumbit = () => {
-    if(select){
+    if (select) {
       inputs.idProvince = selectedOption?.pId;
     }
     setEdit(false);

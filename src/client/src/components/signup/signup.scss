@@ -29,54 +29,6 @@
     }
     &__body {
       width: 100%;
-      // .item {
-      //   @include flex(unset, unset);
-      //   margin-bottom: 20px;
-      //   flex-direction: column;
-      //   gap: 8px;
-      //   width: 100%;
-      //   position: relative;
-
-      //   input {
-      //     background-color: themed("bg2");
-      //     padding: 20px 20px;
-      //     font-size: $font-size-s;
-      //     width: 100%;
-      //     border-radius: $border-radius;
-      //     border: 1px solid themed("border");
-      //     color: themed("text1");
-      //     &:focus {
-      //       border-color: $color-primary;
-      //     }
-      //     &:not(:placeholder-shown) + label,
-      //     &:focus + label {
-      //       top: 0;
-      //     }
-      //   }
-      //   label {
-      //     font-size: $font-size-s;
-      //     font-weight: 500;
-      //     color: themed("text2");
-      //     user-select: none;
-      //     position: absolute;
-      //     top: 50%;
-      //     transform: translateY(-50%);
-      //     left: 14px;
-      //     transition: all .3s;
-      //     background-color: themed('bg2');
-      //     padding: 8px;
-      //     border-radius: $border-radius-10;
-      //   }
-      //   .tooglePassword {
-      //     position: absolute;
-      //     top: 50%;
-      //     transform: translateY(-50%);
-      //     right: 10px;
-      //     cursor: pointer;
-      //     color: themed('text2');
-      //     font-size: 1.2rem;
-      //   }
-      // }
       .item {
         @include flex(center, unset);
         margin-bottom: 20px;

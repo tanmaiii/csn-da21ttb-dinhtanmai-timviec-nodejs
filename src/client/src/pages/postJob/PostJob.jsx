@@ -56,9 +56,9 @@ export default function PostJob() {
     setMess();
 
     if (!selectedOptionFields || !selectedOptionProvince)
-      setErr("Chưa chọn ngành nghề và địa chỉ.");
+      return setErr("Chưa chọn ngành nghề và địa chỉ.");
     if (!sex || !typeWork || !education)
-      setErr("Chọn các mục trong yêu cầu chung.");
+      return setErr("Chọn các mục trong yêu cầu chung.");
     if (!request || !desc) return setErr("Mô tả, yêu cầu không được rỗng.");
 
     if (salaryMax < salaryMin)
@@ -82,7 +82,6 @@ export default function PostJob() {
         inputs.salaryMin = salaryMin;
         inputs.salaryMax = salaryMax;
       }
-      console.log(inputs);
       await makeRequest.post("/job", inputs);
       setMess("Đăng thành công!");
       navigate(`/nha-tuyen-dung/${currentCompany.id}`);
@@ -120,7 +119,7 @@ export default function PostJob() {
   }, []);
 
   useEffect(() => {
-    if (!currentCompany) return navigate("/");
+    if (!currentCompany) return navigate("/nha-tuyen-dung/dang-nhap");
   }, [currentCompany]);
 
   return (

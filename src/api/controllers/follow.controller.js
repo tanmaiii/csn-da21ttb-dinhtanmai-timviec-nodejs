@@ -9,10 +9,10 @@ export const getCompanies = async (req, res) => {
     const offset = (page - 1) * limit;
 
     const q = `SELECT nameCompany, avatarPic, scale, web, c.id, p.name as province FROM job.follow_company AS f, job.companies AS c, job.provinces as p 
-              WHERE f.id_user = ? AND f.id_company = c.id AND c.idProvince = p.id limit ? offset ?`;
+              WHERE f.idUser = ? AND f.idCompany = c.id AND c.idProvince = p.id limit ? offset ?`;
 
     const q2 = `SELECT count(*) as count FROM job.follow_company AS f, job.companies AS c 
-                WHERE f.id_user = ? AND f.id_company = c.id`;
+                WHERE f.idUser = ? AND f.idCompany = c.id`;
 
     const [data] = await promiseDb.query(q, [idUser, +limit, +offset]);
     const [totalPageData] = await promiseDb.query(q2, idUser);
@@ -38,11 +38,11 @@ export const getCompanies = async (req, res) => {
 export const getFollower = (req, res) => {
   try {
     const q =
-      "SELECT id_user FROM job.follow_company as f WHERE f.id_company = ?";
+      "SELECT idUser FROM job.follow_company as f WHERE f.idCompany = ?";
 
     db.query(q, [req.query.idCompany], (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json(data.map((user) => user.id_user));
+      return res.status(200).json(data.map((user) => user.idUser));
     });
   } catch (error) {
     return res.status(401).json(error);
@@ -57,7 +57,7 @@ export const addFollow = (req, res) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q =
-      "INSERT INTO job.follow_company (`id_user`, `id_company`) VALUES (?)";
+      "INSERT INTO job.follow_company (`idUser`, `idCompany`) VALUES (?)";
     const values = [userInfo.id, req.query.idCompany];
 
     db.query(q, [values], (err, data) => {
@@ -75,7 +75,7 @@ export const removeFollow = (req, res) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q =
-      "DELETE FROM job.follow_company WHERE `id_user` = ? AND `id_company` = ?";
+      "DELETE FROM job.follow_company WHERE `idUser` = ? AND `idCompany` = ?";
 
     db.query(q, [userInfo.id, req.query.idCompany], (err, data) => {
       if (err) return res.status(500).json(err);

@@ -32,15 +32,18 @@ export default function DropdownCompany() {
         className="dropdownCompany__toogle"
         onClick={() => setOpenMenuUser(!openMenuUser)}
       >
-        <img
-          src={
-            currentCompany.avatarPic
-              ? apiImage + currentCompany.avatarPic
-              : avatar
-          }
-          alt=""
-        />
-        <span>{currentCompany.nameCompany}</span>
+        <div className="dropdownCompany__toogle__text">
+          <img
+            src={
+              currentCompany.avatarPic
+                ? apiImage + currentCompany.avatarPic
+                : avatar
+            }
+            alt=""
+          />
+          <span>{currentCompany.nameCompany}</span>
+        </div>
+        <i class="fa-solid fa-angle-down"></i>
       </div>
       <div
         className={`dropdownCompany__dropdown ${openMenuUser ? "open" : ""}`}
@@ -64,7 +67,7 @@ export default function DropdownCompany() {
           to={`/nha-tuyen-dung/${id}/info`}
           className="dropdownCompany__dropdown__option"
         >
-         <i className="fa-regular fa-id-badge"></i>
+          <i className="fa-regular fa-id-badge"></i>
           <span>Thông tin cá nhân</span>
         </Link>
         <Link

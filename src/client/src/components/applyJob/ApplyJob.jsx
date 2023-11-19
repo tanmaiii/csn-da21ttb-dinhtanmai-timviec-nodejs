@@ -1,38 +1,153 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./applyJob.scss";
+import { useAuth } from "../../context/authContext";
+import { useNavigate } from "react-router-dom";
+import { makeRequest } from "../../axios";
+import ReactQuill from "react-quill";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 
-export default function ApplyJob() {
+export default function ApplyJob({ job }) {
+  const { currentUser } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState(false);
+  const [userApply, setUserApply] = useState();
+  const [letter, setLetter] = useState();
+  const [inputs, setInputs] = useState({
+    idJob: "",
+    name: "",
+    email: "",
+    phone: "",
+    letter: "",
+    linkCv: "",
+  });
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const postApply = async () => {
+    setErr();
+    if (!inputs?.name || !inputs?.email || !inputs?.phone)
+      return setErr("Các trường không được rỗng.");
+    if (!job) return;
+    try {
+      inputs.idJob = job?.id;
+      inputs.letter = letter;
+      console.log(inputs);
+      await makeRequest.post("/apply", inputs);
+      navigate(`/viec-lam/${job?.id}`);
+    } catch (err) {
+      setErr(err?.response?.data);
+    }
+  };
+
+  const mutationApply = useMutation(
+    () => {
+      return postApply();
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["apply"]);
+      },
+    }
+  );
+
+  const getUserApply = async () => {
+    try {
+      const res = await makeRequest.get("/apply/user?idJob=" + job?.id);
+      setUserApply(res.data);
+    } catch (error) {}
+  };
+
+  const { isLoading, error, data } = useQuery(["apply", job.id], () => {
+    return getUserApply();
+  });
+
+  useEffect(() => {
+    if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
+  }, []);
+
   return (
     <div className="applyJob">
       <div className="applyJob__header">
-        <h6>IT - Thực tập sinh kiểm thử phần mềm.</h6>
+        <h6>{job && job?.nameJob}</h6>
       </div>
       <div className="applyJob__body">
         <div className="applyJob__body__item">
-          <label>Họ tên: </label>
-          <input type="text" defaultValue={"Đinh Tấn Mãi"} />
+          <i class="fa-solid fa-user"></i>
+          <input
+            type="text"
+            placeholder=" "
+            value={inputs?.name}
+            id="name"
+            name="name"
+            onChange={handleChange}
+          />
+          <label htmlFor="name">Tên hiển thị với nhà tuyển dụng</label>
         </div>
         <div className="applyJob__body__item">
-          <label>Email: </label>
-          <input type="text" defaultValue={"tanmai@gmail.com"} />
+          <i class="fa-solid fa-envelope"></i>
+          <input
+            type="email"
+            placeholder=" "
+            value={inputs?.email}
+            id="email"
+            name="email"
+            onChange={handleChange}
+          />
+          <label htmlFor="email">Email hiển thị với nhà tuyển dụng</label>
         </div>
-        <div className="applyJob__body__item__textarea">
+        <div className="applyJob__body__item">
+          <i class="fa-solid fa-phone"></i>
+          <input
+            type="number"
+            placeholder=" "
+            id="phone"
+            name="phone"
+            value={inputs?.phone}
+            onChange={handleChange}
+          />
+          <label htmlFor="phone">
+            Số điện thoại hiển thị với nhà tuyển dụng
+          </label>
+        </div>
+        <div className="applyJob__body__item">
+          <i class="fa-solid fa-address-card"></i>
+          <input
+            type="text"
+            placeholder=" "
+            id="linkCv"
+            name="linkCv"
+            value={inputs?.linkCv}
+            onChange={handleChange}
+          />
+          <label htmlFor="linkCv">Cv của bạn</label>
+        </div>
+        <div className="applyJob__body__item__letter">
           <label htmlFor="">Thư xin việc</label>
-          <textarea name="" id="" cols="30" rows="10"></textarea>
-        </div>
-        <div className="applyJob__body__item__input">
-          <h6>Hồ sơ của bạn</h6>
-          <div className="applyJob__body__item__input__body" htmlFor="">
-            <h6>Kéo thả vào hoặc </h6>
-            <label htmlFor="">
-              <span>Chọn file</span>
-              <input type="file" />
-            </label>
+          <div className="applyJob__body__item__letter__input">
+            <ReactQuill value={letter} onChange={setLetter} />
           </div>
         </div>
       </div>
+      {err && <span className="err">{err}</span>}
       <div className="applyJob__bottom">
-        <button>Nộp đơn ngay</button>
+        {userApply?.includes(currentUser?.id) ? (
+          <div className="applyJob__bottom__applied">
+            <i class="fa-regular fa-circle-check"></i>
+            <span>Bạn đã ứng tuyển</span>
+          </div>
+        ) : (
+          <button className="applyJob__bottom__button" onClick={() => mutationApply.mutate()}>Nộp đơn ngay</button>
+        )}
       </div>
     </div>
   );

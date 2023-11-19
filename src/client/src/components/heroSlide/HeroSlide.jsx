@@ -65,7 +65,7 @@ function SearchHeroSlide() {
   const [province, setProvince] = useState();
   const [openSearch, setOpenSearch] = useState();
   const [searchHistory, setSearchHistory] = useState(
-    JSON.parse(localStorage.getItem("searchHistory") || null)
+    JSON.parse(localStorage?.getItem("searchHistory" || null))
   );
   const [openProvince, setOpenProvince] = useState();
   const [keywordSearch, setKeywordSearch] = useState("");
@@ -133,7 +133,7 @@ function SearchHeroSlide() {
   const handleSaveHistory = (item) => {
     item = item.trim();
     if (!searchHistory?.includes(item)) {
-      const updateHistory = [item, ...searchHistory.slice(0, 4)];
+      const updateHistory = [item, searchHistory];
       setSearchHistory(updateHistory);
       localStorage.setItem("searchHistory", JSON.stringify(updateHistory));
     }
@@ -158,7 +158,10 @@ function SearchHeroSlide() {
               placeholder="Nhập tên công việc..."
             />
             {keywordSearch?.length > 0 && (
-              <button className="btn-clear" onClick={() => setKeywordSearch('')}>
+              <button
+                className="btn-clear"
+                onClick={() => setKeywordSearch("")}
+              >
                 <i class="fa-solid fa-circle-xmark"></i>
               </button>
             )}
@@ -169,7 +172,7 @@ function SearchHeroSlide() {
             }`}
           >
             <ul>
-              {searchHistory.map((item, i) => (
+              {searchHistory?.slice(0, 4).map((item, i) => (
                 <li key={i} onClick={() => setKeywordSearch(item)}>
                   <i class="fa-regular fa-clock"></i>
                   <span>{item}</span>
@@ -194,7 +197,10 @@ function SearchHeroSlide() {
               placeholder="Nhập tỉnh , thành phố..."
             />
             {keywordProvince?.length > 0 && (
-              <button className="btn-clear" onClick={() => setKeywordProvince('')}>
+              <button
+                className="btn-clear"
+                onClick={() => setKeywordProvince("")}
+              >
                 <i class="fa-solid fa-circle-xmark"></i>
               </button>
             )}

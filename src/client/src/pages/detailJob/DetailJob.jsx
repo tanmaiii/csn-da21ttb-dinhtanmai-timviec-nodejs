@@ -9,7 +9,7 @@ import { makeRequest, apiImage } from "../../axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { useMode } from "../../context/ModeContext";
-import PreviewJob from "../../components/previewJob/PreviewJob";
+
 import {
   QueryClient,
   useMutation,
@@ -22,7 +22,7 @@ export default function DetailJob() {
   const [save, setSave] = useState(false);
   const [err, setErr] = useState(false);
   const [userSave, setUserSave] = useState();
-  const [job, setJob] = useState();
+  const [job, setJob] = useState([]);
   const [openMore, setOpenMore] = useState(false);
   const { idJob } = useParams();
   const { currentCompany, currentUser } = useAuth();
@@ -109,7 +109,10 @@ export default function DetailJob() {
                   >
                     Ứng tuyển
                   </button>
-                  <button className="btn_save" onClick={() => handleSubmitSave()}>
+                  <button
+                    className="btn_save"
+                    onClick={() => handleSubmitSave()}
+                  >
                     {userSave?.includes(currentUser?.id) ? (
                       <>
                         <i class="fa-solid fa-heart"></i>
@@ -263,7 +266,7 @@ export default function DetailJob() {
         openModal={openModal}
         setOpenModal={setOpenModal}
       >
-        <ApplyJob />
+        {openModal && <ApplyJob job={job && job} />}
       </Modal>
     </>
   );

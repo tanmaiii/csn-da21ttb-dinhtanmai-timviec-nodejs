@@ -27,7 +27,6 @@ export default function JobsSave() {
       const res = await makeRequest.get(
         `/save?idUser=${id}&limit=${limit}&page=${paginate}`
       );
-      console.log(res);
       setJobs(res.data.data);
       setTotalPage(res.data.pagination.totalPage);
       setLoading(false);

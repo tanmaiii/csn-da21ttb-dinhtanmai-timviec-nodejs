@@ -113,7 +113,7 @@
       &__list {
         max-height: 340px;
         height: max-content;
-        overflow-y: scroll;
+        overflow-y: auto;
         &__item {
           label {
             padding: 10px;

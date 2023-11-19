@@ -72,7 +72,7 @@ export default function SectionCategories() {
     <div className="sectionCategories">
       <div className="sectionCategories__header">
         <h4>Ngành nghề phổ biến</h4>
-        <Link className="sectionCategories__header__link">
+        <Link className="sectionCategories__header__link" to={'/tim-viec-lam-nhanh'}>
           <span>Xem tất cả</span> <i class="fa-solid fa-chevron-right"></i>
         </Link>
       </div>
@@ -87,7 +87,7 @@ export default function SectionCategories() {
         )}
         
         <div ref={sectionListRef} className="sectionCategories__body__list row">
-          {categories.map((item, i) => (
+          {categories?.map((item, i) => (
             <div
               key={i}
               className="sectionCategories__body__list__item col pc-2-4 t-3 m-6"

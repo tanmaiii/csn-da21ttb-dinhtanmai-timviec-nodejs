@@ -4,7 +4,7 @@
   @include themify($themes) {
     min-height: 100vh;
     // margin-top: calc($height-header + 12px);
-     margin-top: 0;
+    margin-top: 0;
     background-color: themed("bg1");
     .home-body {
       .container {
@@ -54,28 +54,32 @@
       &__btn {
         @include flex(center, unset);
         gap: 10px;
-        button:nth-child(1) {
-          @include button($color-white, $color-primary);
-          span {
-            color: $color-white;
-            margin-right: 10px;
-          }
-          &:hover {
+        a:nth-child(1) {
+          button {
+            @include button($color-white, $color-primary);
             span {
-              color: $color-primary;
+              color: $color-white;
+              margin-right: 10px;
+            }
+            &:hover {
+              span {
+                color: $color-primary;
+              }
             }
           }
         }
-        button:nth-child(2) {
-          @include button-line(themed("text1"), $color-primary);
-          span {
-            color: themed("text1");
-            margin-right: 10px;
-          }
-          &:hover {
-            span,
-            i {
-              color: themed("bg1");
+        a:nth-child(2) {
+          button {
+            @include button-line(themed("text1"), $color-primary);
+            span {
+              color: themed("text1");
+              margin-right: 10px;
+            }
+            &:hover {
+              span,
+              i {
+                color: themed("bg1");
+              }
             }
           }
         }
