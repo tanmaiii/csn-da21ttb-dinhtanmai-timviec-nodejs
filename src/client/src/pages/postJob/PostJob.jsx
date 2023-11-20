@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./postJob.scss";
-import jobs from "../../config/jobs";
 import ReactQuill from "react-quill";
 import Select from "../../components/select/Select";
 import { useAuth } from "../../context/authContext";

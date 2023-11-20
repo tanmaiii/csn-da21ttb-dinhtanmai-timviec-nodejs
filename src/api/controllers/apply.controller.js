@@ -86,7 +86,7 @@ export const applyJob = (req, res) => {
       name,
       email,
       phone,
-      "Đã gửi",
+      1,
       letter,
       linkCv,
       moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),

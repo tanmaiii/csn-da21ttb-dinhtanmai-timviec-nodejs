@@ -67,7 +67,7 @@ export default function ApplyJob({ job }) {
     } catch (error) {}
   };
 
-  const { isLoading, error, data } = useQuery(["apply", job.id], () => {
+  const { isLoading, error, data } = useQuery(["apply"], () => {
     return getUserApply();
   });
 

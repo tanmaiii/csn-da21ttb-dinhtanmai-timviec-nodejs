@@ -45,6 +45,16 @@
             &__user {
               @include flex(center, unset);
               gap: 10px;
+              .btn_applied {
+                border-radius: $border-radius-10;
+                padding: 12px 18px;
+                font-weight: 500;
+                font-size: $font-size-s;
+                color: $color-white;
+                background-color: $color-green;
+                @include flex(center, unset);
+                gap: 8px;
+              }
               .btn_apply {
                 @include button($color-white, $color-primary);
               }

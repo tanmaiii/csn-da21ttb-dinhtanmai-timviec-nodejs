@@ -4,6 +4,7 @@
   @include themify($themes) {
     &__wrapper {
       &__item {
+        flex-wrap: wrap;
         margin-bottom: 20px;
         padding: 10px;
         border-radius: $border-radius-10;
@@ -12,8 +13,9 @@
         cursor: pointer;
         transition: all 0.3s;
         @include flex(center, space-between);
+        transition: all 0.3s;
         &:hover {
-          background-color: themed("bg1");
+          border-color: $color-primary;
         }
         &__left {
           @include flex(unset, unset);
@@ -185,19 +187,36 @@
           flex-direction: column;
           height: 100%;
           gap: 10px;
-          span {
+          @include mobile {
+            @include flex(center, start);
+            flex-direction: row;
+          }
+          .header {
             font-size: $font-size-s;
             color: themed("text1");
             font-weight: 500;
             text-align: center;
           }
-          button {
-            background-color: $color-primary;
+          .status {
             color: $color-white;
             font-size: $font-size-s;
             font-weight: 500;
             padding: 10px 16px;
             border-radius: $border-radius-10;
+            @include flex(center, unset);
+            gap: 8px;
+            &.status-1 {
+              background-color: $color-primary;
+            }
+            &.status-2 {
+              background-color: $color-yellow;
+            }
+            &.status-3 {
+              background-color: $color-red;
+            }
+            &.status-4 {
+              background-color: $color-green;
+            }
           }
         }
       }

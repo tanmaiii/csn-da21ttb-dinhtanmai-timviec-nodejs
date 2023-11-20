@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-//import jobs from "../../../config/jobs";
 import "./appliedJobs.scss";
 import { makeRequest, apiImage } from "../../../axios";
 import Pagination from "../../../components/pagination/Pagination";
 import img from "../../../assets/images/avatarCpn.png";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { status } from "../../../config/data.js";
 
 export default function AppliedJobs() {
   const [jobs, setJobs] = useState();
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [loading, setLoading] = useState(false);
-  const limit = 2;
+  const limit = 3;
 
   const getJobs = async () => {
     try {
@@ -35,7 +35,7 @@ export default function AppliedJobs() {
       <div className="appliedJobs__wrapper">
         {jobs?.map((job, i) => (
           <div key={i} className="appliedJobs__wrapper__item">
-            <div className="col pc-9 t-9 m-7">
+            <div className="col pc-9 t-9 m-12">
               <div className="appliedJobs__wrapper__item__left ">
                 <div className="appliedJobs__wrapper__item__left__header">
                   <img
@@ -43,7 +43,7 @@ export default function AppliedJobs() {
                     alt=""
                   />
                   <div className="text">
-                    <Link to={`/viec-lam/${job?.id}`}>
+                    <Link to={`/viec-lam/${job?.idJob}`}>
                       <h4 className="nameJob">{job?.nameJob}</h4>
                     </Link>
                     <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
@@ -77,10 +77,18 @@ export default function AppliedJobs() {
                 </div>
               </div>
             </div>
-            <div className="col pc-3 t-3 m-4">
+            <div className="col pc-3 t-3 m-12">
               <div className="appliedJobs__wrapper__item__right">
-                <span>Trạng thái</span>
-                <button>{job?.status}</button>
+                <span className="header">Trạng thái</span>
+                {status.map(
+                  (status) =>
+                    status.id === parseInt(job?.status) && (
+                      <div className={`status status-${job?.status}`}>
+                        {status?.icon}
+                        <span className={job?.status}>{status?.name}</span>
+                      </div>
+                    )
+                )}
               </div>
             </div>
           </div>

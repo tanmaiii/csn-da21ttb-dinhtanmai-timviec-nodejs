@@ -22,6 +22,7 @@ export default function DetailJob() {
   const [save, setSave] = useState(false);
   const [err, setErr] = useState(false);
   const [userSave, setUserSave] = useState();
+  const [userApply, setUserApply] = useState();
   const [job, setJob] = useState([]);
   const [openMore, setOpenMore] = useState(false);
   const { idJob } = useParams();
@@ -66,6 +67,21 @@ export default function DetailJob() {
     return getUserSave();
   });
 
+  const getUseApply = async () => {
+    try {
+      const res = await makeRequest.get(`apply/user?idJob=${job?.id}`);
+      setUserApply(res.data);
+    } catch (error) {}
+  };
+
+  const {
+    isLoading: isLoadingApply,
+    error: errorLoading,
+    data: dataLoading,
+  } = useQuery(["apply", job?.id], () => {
+    return getUseApply();
+  });
+
   const mutationSave = useMutation(
     (saved) => {
       if (saved) return makeRequest.delete("/save?idJob=" + job?.id);
@@ -103,12 +119,19 @@ export default function DetailJob() {
               </div>
               <div className="detailJob__wrapper__main__button">
                 <div className="detailJob__wrapper__main__button__user">
-                  <button
-                    className="btn_apply"
-                    onClick={() => setOpenModal(true)}
-                  >
-                    Ứng tuyển
-                  </button>
+                  {userApply?.includes(currentUser?.id) ? (
+                    <button className="btn_applied">
+                      <i class="fa-regular fa-circle-check"></i>
+                      <span>Đã ứng tuyển</span>
+                    </button>
+                  ) : (
+                    <button
+                      className="btn_apply"
+                      onClick={() => setOpenModal(true)}
+                    >
+                      Ứng tuyển
+                    </button>
+                  )}
                   <button
                     className="btn_save"
                     onClick={() => handleSubmitSave()}

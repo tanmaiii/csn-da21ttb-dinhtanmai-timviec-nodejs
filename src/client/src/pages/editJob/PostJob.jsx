@@ -1,8 +1,5 @@
 import React from "react";
 import "./editJob.scss";
-import jobs from "../../config/jobs";
-import province from "../../config/province";
-import career from "../../config/career";
 import ReactQuill from "react-quill";
 
 export default function EditJob() {
@@ -10,9 +7,7 @@ export default function EditJob() {
     <div className="editJob">
       <div className="container">
         <div className="editJob__wrapper">
-          <h2 className="editJob__wrapper__header">
-            Chĩnh sửa bài tuyển dụng
-          </h2>
+          <h2 className="editJob__wrapper__header">Chĩnh sửa bài tuyển dụng</h2>
           <div className="editJob__wrapper__body">
             {/* thông tin */}
             <div className="editJob__wrapper__body__form">
