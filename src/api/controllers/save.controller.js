@@ -8,9 +8,7 @@ export const getJobSave = async (req, res) => {
     const idUser = req.query.idUser;
     const page = req.query.page || 1;
     const limit = req.query.limit || 10;
-    const token = req.cookies.accessToken;
-    if (!token) return res.status(401).json("Chưa đăng nhập !");
-    
+
     const offset = (page - 1) * limit;
 
     const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields 
@@ -45,8 +43,7 @@ export const getJobSave = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
-    const q =
-      "SELECT idUser FROM job.save_job as s WHERE s.idJob = ?";
+    const q = "SELECT idUser FROM job.save_job as s WHERE s.idJob = ?";
 
     db.query(q, [req.query.idJob], (err, data) => {
       if (err) return res.status(500).json(err);
@@ -55,7 +52,7 @@ export const getUser = async (req, res) => {
   } catch (error) {
     return res.status(401).json(error);
   }
-}
+};
 
 export const addSave = (req, res) => {
   const token = req.cookies.accessToken;
@@ -67,7 +64,11 @@ export const addSave = (req, res) => {
     const q =
       "INSERT INTO job.save_job (`idUser`, `idJob`, `createdAt`) VALUES (?)";
 
-    const values = [userInfo.id, req.query.idJob, moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")];
+    const values = [
+      userInfo.id,
+      req.query.idJob,
+      moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+    ];
 
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
@@ -83,8 +84,7 @@ export const removeSave = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
-    const q =
-      "DELETE FROM job.save_job WHERE `idUser` = ? AND `idJob` = ?";
+    const q = "DELETE FROM job.save_job WHERE `idUser` = ? AND `idJob` = ?";
 
     db.query(q, [userInfo.id, req.query.idJob], (err, data) => {
       if (err) return res.status(500).json(err);

@@ -152,7 +152,7 @@
             visibility: hidden;
             opacity: 0;
             transition: all 0.3s;
-            display: none; 
+            display: none;
             &.open {
               visibility: visible;
               opacity: 1;
@@ -162,7 +162,7 @@
             }
           }
           .button-delete-filter {
-            color: $color-red;
+            color: red;
             @include flex(center, center);
             gap: 8px;
             font-size: $font-size-s;

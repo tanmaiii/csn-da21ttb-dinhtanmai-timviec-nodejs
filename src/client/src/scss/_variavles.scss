@@ -1,23 +1,31 @@
-$color-body-light: #F3F4FA;
+$color-body-light: #f3f4fa;
 $color-main-light: #fff;
-$color-txt-light : #2d2d2d;
+$color-bg3-light: #f9fcff;
+$color-txt-light: #2d2d2d;
 $color-txt-light-extra: #6a6a6a;
 
-// $color-body-dark: #212324;
-// $color-main-dark: #202020;
 $color-body-dark: #121212;
-$color-main-dark:#202020 ;
-$color-txt-dark : #fff;
+$color-main-dark: #202020;
+$color-bg3-dark: #323232;
+$color-txt-dark: #fff;
 $color-txt-dark-extra: #cacaca;
 
 $color-primary: #007aff;
 $color-black: #000000;
 $color-white: #ffffff;
-$color-blue: #3498db;
-$color-green: #2ecc71;
-$color-yellow: #ff9f0a;
-$color-red: #ff453a;
-$color-orange: #FF9066;
+
+$color-blue: #e6f2fe;
+$color-txt-blue: #007aff;
+$color-green: #e0f5ee;
+$color-txt-green: #37be95;
+$color-yellow: #fff1e4;
+$color-txt-yellow: #ffa654;
+$color-red: #ffa19c;
+$color-txt-red: #ff4d44;
+$color-orange: #fff1e4;
+$color-txt-orange: #ffa654;
+$color-purple: #e7e9fd;
+$color-txt-purple: #5c69ee;
 
 $font-size-s: 1rem;
 $font-size-m: 1.225rem;
@@ -27,8 +35,14 @@ $font-size-xl: 2rem;
 $spacing: 48px;
 $spacing-mobile: 24px;
 
-$rgba-dark: rgba($color: #ffffff, $alpha: 0.24);  
-$rgba-light:  rgba($color: #000000, $alpha: 0.24);
+$rgba-dark: rgba(
+  $color: #ffffff,
+  $alpha: 0.24,
+);
+$rgba-light: rgba(
+  $color: #000000,
+  $alpha: 0.24,
+);
 
 $box-shadow-light: rgba(100, 100, 111, 0.103) 0px 7px 29px 0px;
 $box-shadow-dark: rgba(74, 73, 73, 0.218) 0px 4px 16px 4px;
@@ -46,7 +60,4 @@ $height-header: 60px;
 $mobile-width: 700px;
 $tablet-width: 1366px;
 
-$transition: all .3s;
-
-
-
+$transition: all 0.3s;

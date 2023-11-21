@@ -18,21 +18,268 @@
         }
         &__body {
           &__control {
-            @include flex(center, unset);
+            @include flex(end, space-between);
             gap: 10px;
-            margin-bottom: $spacing;
-            h4 {
-              font-size: $font-size-s;
-              color: themed("text1");
-              font-weight: 500;
+            margin-bottom: 20px;
+            @include mobile {
+              flex-direction: column;
+              align-items: center;
             }
-            &__select {
-              width: 380px;
+            &__left {
+              @include mobile {
+                width: 100%;
+              }
+              &__search {
+                border-radius: $border-radius-10;
+                border: 1px solid themed("border");
+                padding: 0 10px;
+                @include flex(center, unset);
+                gap: 8px;
+                position: relative;
+                input {
+                  font-size: $font-size-s;
+                  color: themed("text1");
+                  width: 300px;
+                  padding: 16px 0;
+                  margin-right: 18px;
+                }
+                .icon-glass {
+                  font-size: 1.2rem;
+                  color: themed("text1");
+                }
+                .button-clear {
+                  cursor: pointer;
+                  position: absolute;
+                  --size: 18px;
+                  width: var(--size);
+                  top: 50%;
+                  right: 8px;
+                  transform: translateY(-50%);
+                  height: var(--size);
+                  i {
+                    font-size: 1.1rem;
+                    color: themed("text1");
+                  }
+                }
+              }
+            }
+            &__right {
+              @include flex(center, unset);
+              gap: 8px;
+              flex-wrap: wrap;
+              @include mobile {
+                width: 100%;
+              }
+              &__select {
+                @include mobile {
+                  width: 100%;
+                  display: flex;
+                  align-items: end;
+                }
+                .button-sort {
+                  @include flex(center, unset);
+                  gap: 8px;
+                  position: relative;
+                  .toogle {
+                    font-size: $font-size-s;
+                    color: themed("text1");
+                    font-weight: 600;
+                    padding: 12px 20px;
+                    background-color: themed("bg2");
+                    border-radius: $border-radius-10;
+                    border: 1px solid themed("border");
+                    cursor: pointer;
+                    @include flex(center, unset);
+                    gap: 8px;
+                  }
+                  .list {
+                    position: absolute;
+                    background-color: themed("bg2");
+                    box-shadow: themed("box-shadow");
+                    border-radius: $border-radius-10;
+                    min-width: 100%;
+                    width: max-content;
+                    @include flex(start, unset);
+                    flex-direction: column;
+                    right: 0;
+                    top: calc(100% + 8px);
+                    overflow: hidden;
+                    z-index: 99;
+                    &__item {
+                      padding: 10px;
+                      font-size: $font-size-s;
+                      color: themed("text1");
+                      font-weight: 400;
+                      cursor: pointer;
+                      text-align: left;
+                      width: 100%;
+                      &.active {
+                        font-weight: 600;
+                      }
+                      &:hover {
+                        background-color: themed("bg1");
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
           &__list {
             overflow: hidden;
             width: 100%;
+          }
+          &__pgn {
+            @include flex(center, space-between);
+            &__left {
+              span {
+                font-size: $font-size-s;
+                font-weight: 500;
+                color: themed("text2");
+              }
+            }
+            &__right {
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.selectJob {
+  @include themify($themes) {
+    position: relative;
+    @include mobile {
+      width: 100%;
+    }
+    &__toggle {
+      padding: 12px 20px;
+      background-color: themed("bg2");
+      border-radius: $border-radius-10;
+      border: 1px solid themed("border");
+      @include flex(center, space-between);
+      cursor: pointer;
+      gap: 6px;
+      color: themed("text1");
+      transition: all 0.3s;
+      user-select: none;
+      z-index: 1;
+      width: max-content;
+      width: 200px;
+      @include mobile {
+        border-radius: $border-radius-10;
+        @include flex(center, space-between);
+      }
+      &.active {
+        background-color: $color-primary;
+        border-color: $color-primary;
+        color: $color-white;
+      }
+      &__title {
+        @include flex(center, unset);
+        gap: 8px;
+        span {
+          font-size: $font-size-s;
+          @include text(1);
+        }
+        i:nth-child(1) {
+          font-size: $font-size-s;
+        }
+      }
+      .icon-down {
+        @include flex(center, center);
+        font-size: $font-size-s;
+        transition: all 0.3s;
+        &.open {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+    &__menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: max-content;
+      min-width: 100%;
+      background-color: themed("bg2");
+      box-shadow: themed("box-shadow");
+      border-radius: $border-radius-10;
+      overflow: hidden;
+      display: block;
+      z-index: 99;
+      @include mobile {
+        width: 100%;
+      }
+      @include mobile {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      &__search {
+        width: 100%;
+        @include flex(center, unset);
+        background-color: themed("bg1");
+        padding: 8px;
+        position: relative;
+        i {
+          padding: 10px;
+          font-size: 1.1rem;
+          color: themed("text1");
+        }
+        input {
+          flex: 1;
+          font-size: $font-size-s;
+          color: themed("text1");
+          padding: 8px 0;
+        }
+        .btn-clear {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 4px;
+          border-radius: 50%;
+          padding: 6px;
+          transition: all 0.3s;
+          &:hover {
+            background-color: themed("bg2");
+          }
+          i {
+            @include flex(center, center);
+            --size: 20px;
+            width: var(--size);
+            height: var(--size);
+            font-size: 1.1rem;
+            color: themed("text1");
+          }
+        }
+      }
+      &__list {
+        max-height: 340px;
+        height: max-content;
+        overflow-y: auto;
+        &__item {
+          padding: 10px;
+          cursor: pointer;
+          @include flex(center, unset);
+          gap: 10px;
+          transition: all 0.3s;
+          min-width: 100%;
+          max-width: 300px;
+          width: max-content;
+          &.active {
+            font-weight: 600;
+            background-color: themed("bg1");
+          }
+          &:hover {
+            background-color: themed("bg1");
+          }
+          span {
+            color: themed("text1");
+            @include text(1);
+            font-size: $font-size-s;
+            @include mobile {
+              width: 100%;
+            }
           }
         }
       }

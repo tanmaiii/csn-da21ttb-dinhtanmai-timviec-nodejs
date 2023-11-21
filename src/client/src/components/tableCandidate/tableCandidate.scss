@@ -1,79 +1,117 @@
 @use "../../scss/" as *;
 
-.table {
+.table__candidate {
   @include themify($themes) {
-    width: 100%;
-    border-radius: $border-radius-10;
-    overflow-y: auto;
-    // background-color: themed("bg2");
-    @include tablet {
-      max-width: 100%;
-    }
-    @include mobile {
-    }
-    table {
-      border-spacing: 0;
-      border-radius: $border-radius-10;
-      border-collapse: collapse;
+    &__header {
       width: 100%;
-      overflow: hidden;
-      thead {
-        tr {
-          border-bottom: 1px solid themed("border");
-          background-color: $color-primary;
-          color: $color-white;
-          th {
-            text-transform: capitalize;
-            padding: 20px;
-            font-weight: 600;
-            color: themed("tex1");
-            align-items: center;
-            @include mobile {
-              display: none;
-            }
-          }
-        }
+      display: grid;
+      grid-template-columns: 0.5fr 2fr 1.5fr 3fr 1.5fr 1fr;
+      padding: 20px 10px;
+      gap: 8px;
+      background-color: themed("bg1");
+      border-radius: $border-radius-10;
+      margin-bottom: 8px;
+      border: 1px solid themed("border");
+      align-items: center;
+      text-align: center;
+      @include tablet {
+        display: none;
       }
-      tbody {
-        tr {
-          border-bottom: 1px solid themed("border");
-          width: 100%;
-          &:nth-of-type(even) {
-            background-color: themed("bg1");
-          }
-          td {
-            cursor: pointer;
-            text-align: left;
-            padding: 10px;
-            color: themed("text2");
-            @include mobile {
-              width: 100%;
-              display: grid;
-              grid-template-columns: 11ch auto;
-              padding: 0.5rem 1rem;
-              gap: 0.5rem;
-              &::before {
-                content: attr(data-cell) ": ";
-                font-weight: 500;
-              }
+      & > span {
+        font-size: $font-size-s;
+        color: themed("text2");
+        width: 100%;
+      }
+    }
+    &__body {
+      @include flex(center, unset);
+      flex-direction: column;
+      gap: 8px;
+      &__row {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 0.5fr 2fr 1.5fr 3fr 1.5fr 1fr;
+        padding: 10px;
+        gap: 8px;
+        border-radius: $border-radius-10;
+        border: 1px solid themed("border");
+        background-color: themed("bg2");
+        align-items: center;
+        transition: all 0.3s;
+        @include tablet {
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+        }
+        &:hover {
+          border: 1px solid $color-primary;
+        }
+        &__item {
+          color: themed("text1");
+          font-size: $font-size-s;
+          text-align: center;
+          @include tablet {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 11ch auto;
+            padding: 0.5rem 1rem;
+            gap: 0.5rem;
+            text-align: start;
+            &::before {
+              content: attr(data-cell) ": ";
+              font-weight: 500;
             }
-            .td-item {
-              @include flex(center, unset);
+          }
+          &__info {
+            @include flex(start, start);
+            flex-direction: column;
+            & > div {
+              @include flex(center, start);
               gap: 8px;
-              flex-wrap: wrap;
-              h6 {
+              h6,
+              span {
                 font-size: $font-size-s;
-                font-weight: 500;
+                color: themed("text1");
               }
             }
-            button {
-              @include button-line(themed("text1"), themed("bg1"));
+          }
+          .status {
+            color: $color-white;
+            font-size: $font-size-s;
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: $border-radius-10;
+            @include flex(center, center);
+            gap: 8px;
+            width: max-content;
+            margin: 0 auto;
+            &.status-1 {
+              background-color: $color-blue;
+              color: $color-txt-blue;
+            }
+            &.status-2 {
+              background-color: $color-yellow;
+              color: $color-txt-yellow;
+            }
+            &.status-3 {
+              background-color: $color-red;
+              color: $color-txt-red;
+            }
+            &.status-4 {
+              background-color: $color-green;
+              color: $color-txt-green;
             }
           }
-          &:hover {
-            background-color: $color-primary;
-            color: $color-white;
-            td {
+          .button-eye {
+            padding: 16px 20px;
+            border-radius: $border-radius-10;
+            background-color: $color-purple;
+            color: $color-txt-purple;
+            font-size: $font-size-s;
+            font-weight: 500;
+            transition: all 0.3s;
+            &:hover {
+              background-color: $color-txt-purple;
               color: $color-white;
             }
           }

@@ -6,7 +6,6 @@ import queryString from "query-string";
 
 export default function DropdownItem(props) {
   const {
-    name,
     icon,
     title = "Lựa chọn",
     option,
@@ -17,7 +16,6 @@ export default function DropdownItem(props) {
     salaryFilter,
     search = false,
   } = props;
-
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -34,6 +32,9 @@ export default function DropdownItem(props) {
     } else {
       setOptionActive((current) => [...current, name]);
     }
+
+    console.log(optionActive);
+
     if (params.field || params.province) {
       navigate("/tim-kiem");
     }
@@ -216,31 +217,6 @@ function DropdownMenuSalary({ setSalaryFilter, salaryFilter }) {
         <div className="tooltip min-tooltip">{minTooltip}tr</div>
         <div className="tooltip max-tooltip">{maxTooltip}tr</div>
       </div>
-      {/* <div className="dropdown__menu__salary__input">
-        <div className="dropdown__menu__salary__input__min">
-          <input
-            ref={minInputRef}
-            type="number"
-            defaultValue={1}
-            min={1}
-            max={50}
-            value={minInput}
-          />
-          <span>triệu</span>
-        </div>
-        -
-        <div className="dropdown__menu__salary__input__max">
-          <input
-            ref={maxInputRef}
-            type="number"
-            defaultValue={50}
-            min={1}
-            max={50}
-            value={maxInput}
-          />
-          <span>triệu</span>
-        </div>
-      </div> */}
       <div className="dropdown__menu__salary__button">
         <button className="btn-submit" onClick={() => handleClickSubmit()}>
           Áp dụng

@@ -186,6 +186,21 @@ export const getByIdCompany = async (req, res) => {
   }
 };
 
+export const getNameJob = (req, res) => {
+  const { id } = req.params;
+
+  const q = "SELECT j.id, j.nameJob as name, j.idCompany FROM job.jobs as j Where j.idCompany = ?";
+
+  db.query(q, [id] ,(err, data) => {
+    if (!data.length) {
+      return res.status(401).json("Không tồn tại !");
+    } else {
+      return res.json(data);
+    }
+  });
+
+}
+
 export const postJob = (req, res) => {
   const {
     idField,

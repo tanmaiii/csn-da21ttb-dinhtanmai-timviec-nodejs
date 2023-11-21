@@ -11,8 +11,8 @@ export default function AppliedJobs() {
   const [jobs, setJobs] = useState();
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState();
-  const [loading, setLoading] = useState(false);
   const limit = 3;
+  const [loading, setLoading] = useState(false);
 
   const getJobs = async () => {
     try {

@@ -30,7 +30,7 @@
               }
               span {
                 font-size: $font-size-s;
-                color: $color-blue;
+                color: $color-txt-blue;
                 transition: all 0.3s;
                 cursor: pointer;
                 &:hover {
@@ -50,8 +50,8 @@
                 padding: 12px 18px;
                 font-weight: 500;
                 font-size: $font-size-s;
-                color: $color-white;
                 background-color: $color-green;
+                color: $color-txt-green;
                 @include flex(center, unset);
                 gap: 8px;
               }
@@ -59,7 +59,7 @@
                 @include button($color-white, $color-primary);
               }
               .btn_save {
-                @include button-line($color-red, $color-white);
+                @include button-line($color-txt-red, $color-white);
                 display: flex;
                 gap: 8px;
               }

@@ -7,7 +7,6 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import BannerSearch from "../../components/bannerSearch/BannerSearch";
 
 export default function SearchQuick() {
   const [popular, setPopular] = useState();

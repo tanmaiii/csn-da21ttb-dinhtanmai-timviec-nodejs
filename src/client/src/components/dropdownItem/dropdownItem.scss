@@ -9,7 +9,7 @@
     .dropdown__toggle {
       padding: 12px 20px;
       background-color: themed("bg2");
-      border-radius: $border-radius-30;
+      border-radius: $border-radius-10;
       border: 1px solid themed("border");
       @include flex(center, unset);
       cursor: pointer;
@@ -58,7 +58,7 @@
       top: calc(100% + 10px);
       left: 0;
       width: max-content;
-      min-width: 240px;
+      min-width: 100%;
       background-color: themed("bg2");
       box-shadow: themed("box-shadow");
       border-radius: $border-radius-10;
@@ -254,7 +254,7 @@
         @include button($color-white, $color-primary);
       }
       .btn-remove {
-        @include button-line($color-red, $color-white);
+        @include button-line($color-txt-red, $color-white);
       }
     }
   }

@@ -14,12 +14,15 @@
         font-size: $font-size-s;
         width: var(--size);
         height: var(--size);
-        border-radius: 50%;
+        border-radius: $border-radius-10;
         @include flex(center, center);
         cursor: pointer;
         color: themed("text1");
         font-weight: 500;
+        border: 1px solid themed('border');
+        background-color: themed("bg3");
         &:hover {
+          border: 1px solid $color-primary;
           background-color: themed("bg2");
         }
       }
@@ -35,21 +38,21 @@
         }
       }
       &__btn__left {
-        &.hidden{
+        &.hidden {
           visibility: hidden;
         }
-        button:hover{
-          background-color:themed('bg2');
-          color:themed('text1');
+        button:hover {
+          background-color: themed("bg2");
+          color: themed("text1");
         }
       }
       &__btn__right {
-        &.hidden{
+        &.hidden {
           visibility: hidden;
         }
-         button:hover{
-          background-color:themed('bg2');
-          color:themed('text1');
+        button:hover {
+          background-color: themed("bg2");
+          color: themed("text1");
         }
       }
     }

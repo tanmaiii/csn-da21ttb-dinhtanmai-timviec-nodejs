@@ -49,6 +49,69 @@ export const getJobApply = (req, res) => {
   }
 };
 
+export const getUserByCpn = (req, res) => {
+  try {
+    const promiseDb = db.promise();
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+    const sort = req.query.sort || "new";
+    const idJob = req.query.idJob;
+    const search = req.query.search;
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+    const offset = (page - 1) * limit;
+
+    let q = `SELECT a.* , j.nameJob, u.avatarPic FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+             WHERE c.id = ? AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
+
+    let q2 = `SELECT count(*) as count 
+              FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+              WHERE c.id = ? AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
+
+    if (idJob) {
+      q += ` AND a.idJob = ${idJob} `;
+      q2 += ` AND a.idJob = ${idJob} `;
+    }
+
+    if (search) {
+      q += ` AND (a.name LIKE '%${search}%' OR a.email LIKE '%${search}%' OR a.phone LIKE '%${search}%') `;
+      q2 += ` AND (a.name LIKE '%${search}%' OR a.email LIKE '%${search}%' OR a.phone LIKE '%${search}%') `;
+    }
+
+    if (sort === "new") {
+      q += ` ORDER BY a.createdAt DESC `;
+    } else if (sort === "old") {
+      q += ` ORDER BY a.createdAt ASC `;
+    }
+
+    jwt.verify(token, "secretkey", async (err, cpn) => {
+      const [data] = await promiseDb.query(
+        `${q} limit ${+limit} offset ${+offset}`,
+        [cpn.id]
+      );
+      const [total] = await promiseDb.query(q2, cpn.id);
+      const totalPage = Math.ceil(+total[0]?.count / limit);
+
+      if (data && total && limit && page) {
+        return res.status(200).json({
+          data: data,
+          pagination: {
+            page: +page,
+            limit: +limit,
+            totalPage,
+            total: total[0]?.count,
+          },
+        });
+      } else {
+        return res.status(409).json("Rỗng !");
+      }
+    });
+  } catch (error) {
+    return res.status(409).json("Lỗi !");
+  }
+};
+
 export const getUser = async (req, res) => {
   try {
     const q =
@@ -93,23 +156,6 @@ export const applyJob = (req, res) => {
     ];
 
     db.query(q, [values], (err, data) => {
-      if (err) return res.status(500).json(err);
-      return res.status(200).json("Thành công!");
-    });
-  });
-};
-
-export const removeFollow = (req, res) => {
-  const token = req.cookies.accessToken;
-  if (!token) return res.status(401).json("Chưa đăng nhập !");
-
-  jwt.verify(token, "secretkey", (err, userInfo) => {
-    if (err) return res.status(401).json("Token is not invalid");
-
-    const q =
-      "DELETE FROM job.follow_company WHERE `id_user` = ? AND `id_company` = ?";
-
-    db.query(q, [userInfo.id, req.query.idCompany], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json("Thành công!");
     });
