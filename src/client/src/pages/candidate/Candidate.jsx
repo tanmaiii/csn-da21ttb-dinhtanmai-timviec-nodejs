@@ -5,6 +5,7 @@ import Pagination from "../../components/pagination/Pagination";
 import { makeRequest } from "../../axios";
 import { useAuth } from "../../context/authContext";
 import NotFoundData from "../../components/notFoundData/NotFoundData";
+import { useNavigate } from "react-router-dom";
 
 const sort = [
   {
@@ -31,6 +32,7 @@ export default function Candidate() {
   const [keyword, setKeyword] = useState();
   const [search, setSearch] = useState();
   const { currentCompany } = useAuth();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getJob = async () => {
@@ -97,6 +99,10 @@ export default function Candidate() {
     setOpenSort(false);
     setSortActive(item);
   };
+
+  useEffect(() => {
+      if(!currentCompany) navigate('/nha-tuyen-dung/dang-nhap')
+  }, [])
 
   return (
     <div className="candidate">

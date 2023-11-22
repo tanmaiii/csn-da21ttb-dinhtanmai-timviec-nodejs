@@ -50,6 +50,7 @@
           color: themed("text1");
           font-size: $font-size-s;
           text-align: center;
+          @include text(1);
           @include tablet {
             width: 100%;
             display: grid;
@@ -63,28 +64,36 @@
             }
           }
           &__info {
-            @include flex(start, start);
-            flex-direction: column;
-            & > div {
-              @include flex(center, start);
-              gap: 8px;
-              h6,
-              span {
-                font-size: $font-size-s;
-                color: themed("text1");
-              }
+            @include flex(center, start);
+            gap: 10px;
+            &__image {
+              --size: 40px;
+              width: var(--size);
+              height: var(--size);
+              object-fit: cover;
+              border-radius: 50%;
+            }
+            span {
+              font-size: $font-size-s;
+              font-weight: 500;
+              @include text(1);
+              color: themed("text1");
+              text-align: left;
             }
           }
           .status {
             color: $color-white;
             font-size: $font-size-s;
             font-weight: 500;
-            padding: 10px 16px;
+            padding: 12px 20px;
             border-radius: $border-radius-10;
             @include flex(center, center);
             gap: 8px;
             width: max-content;
             margin: 0 auto;
+            @include tablet {
+              width: 100%;
+            }
             &.status-1 {
               background-color: $color-blue;
               color: $color-txt-blue;
@@ -103,7 +112,7 @@
             }
           }
           .button-eye {
-            padding: 16px 20px;
+            padding: 12px 20px;
             border-radius: $border-radius-10;
             background-color: $color-purple;
             color: $color-txt-purple;

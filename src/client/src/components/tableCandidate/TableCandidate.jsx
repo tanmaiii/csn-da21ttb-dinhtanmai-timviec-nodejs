@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import img from "../../assets/images/avatar.png";
 import "./tableCandidate.scss";
 import Modal from "../../components/modal/Modal";
 import DetailCandidate from "../../components/detailCandidate/DetailCandidate";
 import moment from "moment";
 import { status } from "../../config/data.js";
+import { apiImage } from "../../axios.js";
 
 export default function TableCandidate({ data }) {
   const [openModal, setOpenModal] = useState(false);
@@ -39,20 +41,11 @@ export default function TableCandidate({ data }) {
                 data-cell={"Thông tin"}
               >
                 <div className="table__candidate__body__row__item__info">
-                  <div>
-                    <h6>Họ tên: </h6>
-                    <span>{item.name}</span>
-                  </div>
-
-                  <div>
-                    <h6>Email: </h6>
-                    <span>{item.email}</span>
-                  </div>
-
-                  <div>
-                    <h6>SDT: </h6>
-                    <span>{item.phone}</span>
-                  </div>
+                  <img
+                    className="table__candidate__body__row__item__info__image"
+                    src={apiImage + item?.avatarPic || img}
+                  />
+                  <span>{item?.name}</span>
                 </div>
               </div>
               <div
