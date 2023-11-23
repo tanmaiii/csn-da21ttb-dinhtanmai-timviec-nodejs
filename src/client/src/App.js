@@ -1,12 +1,13 @@
 import { Route, BrowserRouter, Routes, Outlet } from "react-router-dom";
-//import "https://kit.fontawesome.com/dc548344cf.js";
-import './assets/libs/fontawesome-free-6.4.2-web/css/all.min.css'
-
 import { useState } from "react";
+//import "https://kit.fontawesome.com/dc548344cf.js";
+import "./assets/libs/fontawesome-free-6.4.2-web/css/all.min.css";
+
 import "./App.scss";
 import { useMode } from "./context/ModeContext";
 
-import Layout from "./layout/Layout";
+import MainLayout from "./layout/mainLayout/MainLayout";
+import AuthLayout from "./layout/authLayout/AuthLayout";
 
 import Home from "./pages/home/Home";
 import Search from "./pages/search/Search";
@@ -34,7 +35,7 @@ function App() {
     <div className={`theme-${darkMode ? "dark" : "light"}`}>
       <div className={`App`}>
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<MainLayout />}>
             <Route path="*" element={<NotFound />} />
 
             <Route index element={<Home />} />
@@ -43,25 +44,16 @@ function App() {
 
             <Route path="/tim-viec-lam-nhanh" element={<SearchQuick />} />
 
-
-            <Route path="/nha-tuyen-dung/search/:keyword" element={<Company />} />
+            <Route
+              path="/nha-tuyen-dung/search/:keyword"
+              element={<Company />}
+            />
             <Route path="/nha-tuyen-dung" element={<Company />} />
-
-            <Route path="/nha-tuyen-dung" element={<Auth />}>
-              <Route path="dang-nhap" index element={<SigninCompany />} />
-              <Route path="dang-ky" element={<SignupCompany />} />
-            </Route>
 
             <Route path="nha-tuyen-dung/:id" element={<DetailCompany />}>
               <Route path="info" element />
               <Route path="jobs" element />
             </Route>
-
-            <Route path="/nguoi-dung" element={<Auth />}>
-              <Route path="dang-nhap" index element={<Signin />} />
-              <Route path="dang-ky" element={<Signup />} />
-            </Route>
-
 
             <Route path="/viec-lam/:idJob" element={<DetailJob />} />
 
@@ -72,11 +64,17 @@ function App() {
               <Route path="companies" element />
             </Route>
 
-           
-
             <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
             <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
             <Route path="nha-tuyen-dung/chinh-sua" element={<EditJob />} />
+          </Route>
+          <Route path="/dang-ky" element={<AuthLayout />}>
+            <Route index path="nguoi-dung" element={<Signup />} />
+            <Route path="nha-tuyen-dung" element={<SignupCompany />} />
+          </Route>
+          <Route path="/dang-nhap" element={<AuthLayout />}>
+            <Route index path="nguoi-dung" element={<Signin />} />
+            <Route path="nha-tuyen-dung" element={<SigninCompany />} />
           </Route>
         </Routes>
       </div>

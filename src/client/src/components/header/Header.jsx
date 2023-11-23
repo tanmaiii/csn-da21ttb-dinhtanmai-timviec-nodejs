@@ -132,7 +132,7 @@ export default function Header() {
               {currentUser ? (
                 <DropdownUser />
               ) : (
-                <Link to={"/nguoi-dung/dang-nhap"}>
+                <Link to={"/dang-nhap/nguoi-dung"}>
                   <button className="header__wrapper__auth__user">
                     Đăng nhập
                   </button>
@@ -142,7 +142,7 @@ export default function Header() {
               {currentCompany ? (
                 <DropdownCompany />
               ) : (
-                <Link to={"/nha-tuyen-dung/dang-nhap"}>
+                <Link to={"/dang-nhap/nha-tuyen-dung"}>
                   <button className="header__wrapper__auth__company">
                     Nhà tuyển dụng
                   </button>
@@ -202,7 +202,7 @@ export default function Header() {
                 {!currentUser && (
                   <li>
                     <button className="">
-                      <Link to={"/nguoi-dung/dang-nhap"}>Người tìm việc</Link>
+                      <Link to={"/dang-nhap/nguoi-dung"}>Người tìm việc</Link>
                     </button>
                   </li>
                 )}
@@ -210,7 +210,7 @@ export default function Header() {
                 {!currentCompany && (
                   <li>
                     <button className="">
-                      <Link to={"/nha-tuyen-dung/dang-nhap"}>
+                      <Link to={"/dang-nhap/nha-tuyen-dung"}>
                         Nhà tuyển dụng
                       </Link>
                     </button>

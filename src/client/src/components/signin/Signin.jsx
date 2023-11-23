@@ -50,10 +50,8 @@ export default function Signin() {
   return (
     <div className="signin">
       <div className="signin__header ">
-        <div className="signin__header__logo">
-          <img src={logo} alt="" />
-        </div>
-        <h2>Đăng nhập vào JobQuest</h2>
+        <h4>Chào mừng bạn đã quay trở lại</h4>
+        <span>Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng</span>
       </div>
       {err && <p className="err">{err}</p>}
       <div className="signin__body">
@@ -100,7 +98,7 @@ export default function Signin() {
 
         <span className="link-signup">
           Bạn chưa có tài khoản ?
-          <Link to={"/nguoi-dung/dang-ky"}> Đăng ký</Link>
+          <Link to={"/dang-ky/nguoi-dung"}> Đăng ký</Link>
         </span>
       </div>
     </div>

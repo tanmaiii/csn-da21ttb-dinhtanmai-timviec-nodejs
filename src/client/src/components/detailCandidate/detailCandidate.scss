@@ -3,11 +3,11 @@
 .detailCandidate {
   @include themify($themes) {
     &__wrapper {
-      padding: 0 20px 20px;
+      padding: 20px 20px;
       overflow-y: scroll;
       height: 500px;
-      width: 60vw;
-      @include mobile{
+      width: 100%;
+      @include mobile {
         width: 100%;
       }
       &__control {
@@ -20,7 +20,7 @@
           color: $color-primary;
           padding: 8px;
         }
-        &__select{
+        &__select {
           width: 200px;
         }
       }
@@ -50,22 +50,182 @@
           }
           &__item__letters {
             background-color: themed("bg1");
-            padding: 8px;
+            padding: 20px;
             border-radius: $border-radius-10;
-            span {
-              font-size: $font-size-s;
-              color: themed("text1");
-            }
+            color: themed("text1");
+            font-size: $font-size-s;
           }
           &__item__cv {
             padding: 8px;
             a {
               font-size: $font-size-s;
-              color: $color-blue;
+              color: $color-txt-blue;
               transition: all 0.3s;
               &:hover {
                 text-decoration: underline;
               }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.SelectStatus {
+  @include themify($themes) {
+    position: relative;
+    @include mobile {
+      width: 100%;
+    }
+    &__toggle {
+      padding: 12px 20px;
+      background-color: themed("bg2");
+      border-radius: $border-radius-10;
+      border: 1px solid themed("border");
+      @include flex(center, space-between);
+      cursor: pointer;
+      gap: 6px;
+      color: themed("text1");
+      transition: all 0.3s;
+      user-select: none;
+      z-index: 1;
+      width: max-content;
+      width: 200px;
+      @include mobile {
+        width: 100%;
+      }
+      @include mobile {
+        border-radius: $border-radius-10;
+        @include flex(center, space-between);
+      }
+      &.active {
+        background-color: $color-primary;
+        border-color: $color-primary;
+        color: $color-white;
+      }
+      &__title {
+        @include flex(center, unset);
+        gap: 8px;
+        span {
+          font-size: $font-size-s;
+          @include text(1);
+        }
+        i:nth-child(1) {
+          font-size: $font-size-s;
+        }
+      }
+      .icon-down {
+        @include flex(center, center);
+        font-size: $font-size-s;
+        transition: all 0.3s;
+        &.open {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+    &__menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: max-content;
+      min-width: 100%;
+      background-color: themed("bg2");
+      box-shadow: themed("box-shadow");
+      border-radius: $border-radius-10;
+      overflow: hidden;
+      display: block;
+      z-index: 99;
+      @include mobile {
+        width: 100%;
+      }
+      @include mobile {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      &__search {
+        width: 100%;
+        @include flex(center, unset);
+        background-color: themed("bg1");
+        padding: 8px;
+        position: relative;
+        i {
+          padding: 10px;
+          font-size: 1.1rem;
+          color: themed("text1");
+        }
+        input {
+          flex: 1;
+          font-size: $font-size-s;
+          color: themed("text1");
+          padding: 8px 0;
+        }
+        .btn-clear {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 4px;
+          border-radius: 50%;
+          padding: 6px;
+          transition: all 0.3s;
+          &:hover {
+            background-color: themed("bg2");
+          }
+          i {
+            @include flex(center, center);
+            --size: 20px;
+            width: var(--size);
+            height: var(--size);
+            font-size: 1.1rem;
+            color: themed("text1");
+          }
+        }
+      }
+      &__list {
+        max-height: 340px;
+        height: max-content;
+        overflow-y: auto;
+        &__item {
+          padding: 10px;
+          cursor: pointer;
+          @include flex(center, unset);
+          gap: 10px;
+          transition: all 0.3s;
+          min-width: 100%;
+          max-width: 300px;
+          width: max-content;
+          @include flex(center, unset);
+          gap: 10px;
+          &.status-1 {
+            background-color: $color-blue;
+            color: $color-txt-blue;
+          }
+          &.status-2 {
+            background-color: $color-yellow;
+            color: $color-txt-yellow;
+          }
+          &.status-3 {
+            background-color: $color-red;
+            color: $color-txt-red;
+          }
+          &.status-4 {
+            background-color: $color-green;
+            color: $color-txt-green;
+          }
+          &.active {
+            font-weight: 600;
+          }
+          &:hover {
+            font-weight: 600;
+          }
+          i {
+            font-size: 1.2rem;
+          }
+          span {
+            @include text(1);
+            font-size: $font-size-s;
+            @include mobile {
+              width: 100%;
             }
           }
         }

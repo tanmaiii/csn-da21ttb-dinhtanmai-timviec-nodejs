@@ -58,10 +58,8 @@ export default function Signup() {
   return (
     <div className="signup">
       <div className="signup__header ">
-        <div className="signup__header__logo">
-          <img src={logo} alt="" />
-        </div>
-        <h2>Đăng ký tham gia JobQuest</h2>
+        <h4>Chào mừng bạn đến với JobQuest</h4>
+        <span>Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng</span>
       </div>
       {err && <p className="err">{err}</p>}
       {mess && <p className="mess">{mess}</p>}
@@ -153,7 +151,7 @@ export default function Signup() {
         )}
         <span className="link-signin">
           Bạn đã có tài khoản ?
-          <Link to={"/nguoi-dung/dang-nhap"}> Đăng nhập</Link>
+          <Link to={"/dang-nhap/nguoi-dung"}> Đăng nhập</Link>
         </span>
       </div>
     </div>

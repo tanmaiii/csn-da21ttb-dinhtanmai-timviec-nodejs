@@ -21,6 +21,7 @@
             @include flex(end, space-between);
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
             @include mobile {
               flex-direction: column;
               align-items: center;
@@ -167,6 +168,9 @@
       z-index: 1;
       width: max-content;
       width: 200px;
+      @include mobile {
+        width: 100%;
+      }
       @include mobile {
         border-radius: $border-radius-10;
         @include flex(center, space-between);

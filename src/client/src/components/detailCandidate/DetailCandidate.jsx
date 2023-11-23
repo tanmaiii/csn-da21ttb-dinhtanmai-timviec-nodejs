@@ -1,27 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./detailCandidate.scss";
 import Select from "../select/Select";
-
-const options = [
-  {
-    value: "Chưa xem",
-    label: "Chưa xem"
-  },
-  {
-    value: "Đã xem",
-    label: "Đã xem"
-  },
-  {
-    value: "Chấp nhận",
-    label: "Chấp nhận"
-  },
-  {
-    value: "Từ chối",
-    label: "Từ chối"
-  },
-]
+import { status } from "../../config/data.js";
 
 export default function DetailCandidate({ candidate }) {
+  const [optionActive, setOptionActive] = useState();
 
   return (
     candidate && (
@@ -32,7 +15,13 @@ export default function DetailCandidate({ candidate }) {
               Trạng thái hồ sơ
             </h4>
             <div className="detailCandidate__wrapper__control__select">
-              <Select options={options} />
+              {/* <Select options={status} defaultValue={activeStatus} /> */}
+              <SelectStatus
+                option={status}
+                optionActive={optionActive}
+                setOptionActive={setOptionActive}
+                defaultActive={candidate?.status}
+              />
             </div>
           </div>
           <div className="detailCandidate__wrapper__group">
@@ -67,122 +56,10 @@ export default function DetailCandidate({ candidate }) {
               Thư xin việc
             </h4>
             <div className="detailCandidate__wrapper__group__content">
-              <div className="detailCandidate__wrapper__group__content__item__letters">
-                <span>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic
-                  illo architecto perferendis praesentium nobis explicabo nemo
-                  vel temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil! Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!Lorem
-                  ipsum, dolor sit amet consectetur adipisicing elit. Hic illo
-                  architecto perferendis praesentium nobis explicabo nemo vel
-                  temporibus ea repellendus, necessitatibus eius dolores
-                  similique, doloremque totam, eum minus distinctio nihil!
-                </span>
-              </div>
+              <div
+                className="detailCandidate__wrapper__group__content__item__letters"
+                dangerouslySetInnerHTML={{ __html: candidate?.letter }}
+              ></div>
             </div>
           </div>
           <div className="detailCandidate__wrapper__group">
@@ -191,14 +68,78 @@ export default function DetailCandidate({ candidate }) {
             </h4>
             <div className="detailCandidate__wrapper__group__content">
               <div className="detailCandidate__wrapper__group__content__item__cv">
-                <a href="https://drive.google.com/file/d/12YACDCDYGxxk-hMVwJxzD1s7HvwvZNAm/view?usp=sharing">
-                    Truy cập
-                </a>
+                {candidate?.linkCv ? (
+                  <a href={candidate?.linkCv}>Truy cập</a>
+                ) : (
+                  <span>Không có liên kết</span>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
     )
+  );
+}
+
+function SelectStatus({
+  icon,
+  option,
+  optionActive,
+  setOptionActive,
+  defaultActive,
+}) {
+  const [open, setOpen] = useState(false);
+  const SelectStatusRef = useRef();
+
+  const handleClickOption = (item) => {
+    setOptionActive(item);
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const handleMousedown = (e) => {
+      if (!SelectStatusRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => document.removeEventListener("mousedown", handleMousedown);
+  });
+  return (
+    <div className="SelectStatus" ref={SelectStatusRef}>
+      <div
+        className={`SelectStatus__toggle ${
+          optionActive !== undefined ? "active" : ""
+        }`}
+        onClick={() => setOpen(!open)}
+      >
+        <div className="SelectStatus__toggle__title">
+          {icon && icon}
+          <span className="text"></span>
+        </div>
+        <i
+          className={`fa-solid fa-angle-down icon-down ${open ? "open" : ""}`}
+        ></i>
+      </div>
+      {open && (
+        <div className="SelectStatus__menu">
+          <div className={`SelectStatus__menu__list`}>
+            {option?.map((option, i) => (
+              <div
+                key={i}
+                className={`SelectStatus__menu__list__item  status-${
+                  option?.id
+                } ${optionActive === option?.id ? "active" : ""}`}
+                onClick={() => handleClickOption(option?.id)}
+              >
+                {option?.icon}
+                <span>{option?.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

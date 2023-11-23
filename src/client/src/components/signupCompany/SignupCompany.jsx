@@ -2,21 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 import logo from "../../assets/images/logoJobQuest.png";
 import "./signupCompany.scss";
 import { Link, useNavigate } from "react-router-dom";
-import {scale} from "../../config/data";
+import { scale } from "../../config/data";
 import Select from "../select/Select";
 import { makeRequest } from "../../axios";
+import { useAuth } from "../../context/authContext";
 
 export default function SignupCompany() {
   const [showPass, setShowPass] = useState(true);
   const [showRePass, setShowRePass] = useState(true);
   const [selectedOptionProvince, setSelectedOptionProvince] = useState();
   const [selectedOptionScale, setSelectedOptionScale] = useState();
-  const [provinces , setProvinces] = useState();
+  const [provinces, setProvinces] = useState();
   const [err, setErr] = useState();
   const [mess, setMess] = useState();
   const [loading, setLoading] = useState(false);
   const passwordRef = useRef();
   const rePasswordRef = useRef();
+  const { currentCompany } = useAuth();
   const navigate = useNavigate();
 
   const [inputs, setInputs] = useState({
@@ -69,16 +71,21 @@ export default function SignupCompany() {
   }, []);
 
   useEffect(() => {
+    if (currentCompany) return navigate("/");
+  }, [currentCompany]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [err]);
 
   return (
     <div className="signupCompany">
       <div className="signupCompany__header ">
-        <div className="signupCompany__header__logo">
-          <img src={logo} alt="" />
-        </div>
-        <h4>Nhà tuyển dụng đăng ký</h4>
+        <h4>Đăng ký nhà tuyển dụng</h4>
+        <span>
+          Hãy cùng chúng tôi xây dựng cơ hội tuyển dụng tốt nhất cho doanh
+          nghiệp của bạn
+        </span>
       </div>
       {err && <span className="err">{err}</span>}
       {mess && <span className="mess">{mess}</span>}
@@ -213,7 +220,7 @@ export default function SignupCompany() {
         )}
         <span className="link-signin">
           Bạn đã có tài khoản ?
-          <Link to={"/nha-tuyen-dung/dang-nhap"}> Đăng nhập</Link>
+          <Link to={"/dang-nhap/nha-tuyen-dung"}> Đăng nhập</Link>
         </span>
       </div>
     </div>

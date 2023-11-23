@@ -9,26 +9,23 @@
       flex-direction: column;
       margin-bottom: 20px;
       gap: 10px;
-      &__logo {
-        @include flex(center, unset);
-        flex-direction: column;
-        img {
-          --size: 50px;
-          width: var(--size);
-          height: var(--size);
-          object-fit: cover;
-        }
-      }
       h4 {
-        font-size: $font-size-l;
-        color: themed("primary");
-        font-weight: 500;
+        font-size: $font-size-m;
+        color: themed("text1");
+        font-weight: 600;
+        text-align: center;
+      }
+      span {
+        font-size: $font-size-s;
+        color: themed("text2");
+        font-weight: 400;
+        text-align: center;
       }
     }
     &__body {
       width: 100%;
       .header {
-        font-size: $font-size-m;
+        font-size: $font-size-s;
         font-weight: 500;
         color: themed("text1");
         padding: 20px 0;
@@ -107,7 +104,7 @@
           }
         }
       }
-      .btn-signupCompany {
+      .btn-auth {
         margin-top: 20px;
         @include button($color-white, $color-primary);
         width: 100%;

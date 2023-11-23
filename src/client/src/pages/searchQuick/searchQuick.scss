@@ -3,11 +3,11 @@
 .searchQuick {
   @include themify($themes) {
     min-height: 100vh;
-    margin-top: $height-header;
+    margin-top: calc($height-header) ;
     &__wrapper {
-      padding: $spacing 0;
+      padding:  $spacing 20px;
       width: 100%;
-      //   background-color: themed("bg1");
+      border-radius: $border-radius-10;
       &__header {
         margin-bottom: $spacing;
         color: themed("text1");
@@ -15,11 +15,15 @@
       &__content {
         width: 100%;
         margin-top: $spacing;
+        background-color: themed("bg2");
+        border-radius: $border-radius-20;
+        padding: 20px;
         & > div {
           min-height: 100vh;
         }
         &__popular {
-          background-color: themed("bg2");
+          background-color: themed("bg1");
+          border: $border-radius-10;
           padding: 20px;
           border-radius: $border-radius-10;
           .header {
@@ -34,12 +38,12 @@
               @include flex(center, unset);
               gap: 8px;
               padding: 10px 0;
-              border-bottom: 1px solid themed('border');
+              border-bottom: 1px solid themed("border");
               cursor: pointer;
               width: 100%;
-              &:hover{
+              &:hover {
                 text-decoration: underline;
-                text-decoration-color: themed('text1');
+                text-decoration-color: themed("text1");
               }
               h6 {
                 font-size: $font-size-s;

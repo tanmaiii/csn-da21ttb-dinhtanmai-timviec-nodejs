@@ -49,10 +49,11 @@ export default function SigninCompany() {
   return (
     <div className="signinCompany">
       <div className="signinCompany__header ">
-        <div className="signinCompany__header__logo">
-          <img src={logo} alt="" />
-        </div>
-        <h2>Nhà tuyển dụng đăng nhập.</h2>
+        <h4>Chào mừng nhà tuyển dụng đã quay trở lại</h4>
+        <span>
+          Hãy cùng chúng tôi làm nổi bật doanh nghiệp của bạn với trải nghiệm
+          tuyển dụng tiên tiến
+        </span>
       </div>
       {err && <p className="err">{err}</p>}
       <div className="signinCompany__body">
@@ -98,7 +99,7 @@ export default function SigninCompany() {
         )}
         <span className="link-signup">
           Bạn chưa có tài khoản ?
-          <Link to={"/nha-tuyen-dung/dang-ky"}> Đăng ký</Link>
+          <Link to={"/dang-ky/nha-tuyen-dung"}> Đăng ký</Link>
         </span>
       </div>
     </div>

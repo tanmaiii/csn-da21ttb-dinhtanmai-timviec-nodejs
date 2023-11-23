@@ -25,13 +25,13 @@ export default function SearchQuick() {
 
   useEffect(() => {
     getFields();
-    window.scroll(0,0)
+    window.scroll(0, 0);
   }, []);
 
   return (
     <div className="searchQuick">
-      <div className="searchQuick__wrapper">
-        <div className="container">
+      <div className="container">
+        <div className="searchQuick__wrapper">
           <div className="searchQuick__wrapper__header">
             <h2>Tìm kiếm việc làm nhanh</h2>
           </div>
