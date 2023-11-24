@@ -436,14 +436,13 @@ function InputSearch() {
       navigate(`/tim-kiem/${keyword.trim()}${location.search}`);
       handleSaveHistory(keyword.trim());
     } else {
-      navigate(`/tim-kiem`);
+      navigate(`/tim-kiem${location.search}`);
     }
   };
 
   const handleSaveHistory = (item) => {
-    item = item.trim();
     if (!searchHistory?.includes(item)) {
-      const updateHistory = [item, ...searchHistory];
+      const updateHistory = [item.trim(), ...searchHistory];
       setSearchHistory(updateHistory);
       localStorage.setItem("searchHistory", JSON.stringify(updateHistory));
     }

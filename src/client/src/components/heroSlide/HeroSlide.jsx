@@ -18,7 +18,7 @@ export default function HeroSlide() {
   return (
     <div
       className="HeroSlide"
-      style={{ backgroundImage: `url(${darkMode ? bg2 : bg1})` }}
+      style={{ backgroundImage: ` url(${darkMode ? bg2 : bg1})` }}
     >
       <div className="container">
         <div className="HeroSlide__wrapper row">
@@ -131,13 +131,26 @@ function SearchHeroSlide() {
   };
 
   const handleSaveHistory = (item) => {
-    item = item.trim();
+    //  / item = item?.trim();
     if (!searchHistory?.includes(item)) {
-      const updateHistory = [item, searchHistory];
+      const updateHistory = [item.trim(), ...searchHistory];
       setSearchHistory(updateHistory);
       localStorage.setItem("searchHistory", JSON.stringify(updateHistory));
     }
   };
+
+  useEffect(() => {
+    const enterEvent = (e) => {
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        goToSearch();
+      }
+    };
+    document.addEventListener("keyup", enterEvent);
+    return () => {
+      document.removeEventListener("keyup", enterEvent);
+    };
+  }, [keywordSearch, keywordProvince]);
 
   return (
     <div className="searchHeroSlide">

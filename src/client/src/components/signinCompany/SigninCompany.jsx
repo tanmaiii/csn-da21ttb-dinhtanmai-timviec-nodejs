@@ -37,6 +37,19 @@ export default function SigninCompany() {
   };
 
   useEffect(() => {
+    const enterEvent = (e) => {
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        handleSubmit();
+      }
+    };
+    document.addEventListener("keyup", enterEvent);
+    return () => {
+      document.removeEventListener("keyup", enterEvent);
+    };
+  }, [inputs]);
+
+  useEffect(() => {
     if (currentCompany) {
       navigate("/");
     }
@@ -58,9 +71,9 @@ export default function SigninCompany() {
       {err && <p className="err">{err}</p>}
       <div className="signinCompany__body">
         <div className="item">
-          <i class="fa-solid fa-envelope"></i>
+          <i className="fa-solid fa-envelope"></i>
           <input
-            autocomplete="none"
+            autoComplete="none"
             type="email"
             name="email"
             id="email"
@@ -70,9 +83,9 @@ export default function SigninCompany() {
           <label htmlFor="email">Email</label>
         </div>
         <div className="item">
-          <i class="fa-solid fa-lock"></i>
+          <i className="fa-solid fa-lock"></i>
           <input
-            autocomplete="none"
+            autoComplete="none"
             type={`${show ? "password" : "text"}`}
             name="password"
             id="password"

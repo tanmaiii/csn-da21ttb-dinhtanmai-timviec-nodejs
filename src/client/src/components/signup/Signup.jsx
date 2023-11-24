@@ -39,7 +39,7 @@ export default function Signup() {
       setLoading(true);
       await makeRequest.post("/authUser/register", inputs);
       setMess("Đăng ký thành công.");
-      navigate("/nguoi-dung/dang-nhap");
+      navigate("/dang-nhap/nguoi-dung");
       setInputs("");
     } catch (err) {
       setErr(err?.response?.data);
@@ -65,7 +65,7 @@ export default function Signup() {
       {mess && <p className="mess">{mess}</p>}
       <div className="signup__body">
         <div className="item">
-          <i class="fa-solid fa-user"></i>
+          <i className="fa-solid fa-user"></i>
           <input
             onChange={handleChange}
             name="name"
@@ -76,7 +76,7 @@ export default function Signup() {
           <label htmlFor="name">Họ và tên</label>
         </div>
         <div className="item">
-          <i class="fa-solid fa-envelope"></i>
+          <i className="fa-solid fa-envelope"></i>
           <input
             onChange={handleChange}
             name="email"
@@ -87,7 +87,7 @@ export default function Signup() {
           <label htmlFor="">Email</label>
         </div>
         <div className="item">
-          <i class="fa-solid fa-phone"></i>
+          <i className="fa-solid fa-phone"></i>
           <input
             onChange={handleChange}
             name="phone"
@@ -98,7 +98,7 @@ export default function Signup() {
           <label htmlFor="phone">Số điện thoại</label>
         </div>
         <div className="item">
-          <i class="fa-solid fa-lock"></i>
+          <i className="fa-solid fa-lock"></i>
           <input
             ref={passwordRef}
             onChange={handleChange}
@@ -113,14 +113,14 @@ export default function Signup() {
             onClick={() => setShowPass(!showPass)}
           >
             {showPass ? (
-              <i class="fa-regular fa-eye"></i>
+              <i className="fa-regular fa-eye"></i>
             ) : (
-              <i class="fa-solid fa-eye-slash"></i>
+              <i className="fa-solid fa-eye-slash"></i>
             )}
           </span>
         </div>
         <div className="item">
-          <i class="fa-solid fa-lock"></i>
+          <i className="fa-solid fa-lock"></i>
           <input
             ref={rePasswordRef}
             name="rePassword"
@@ -134,9 +134,9 @@ export default function Signup() {
             onClick={() => setShowRePass(!showRePass)}
           >
             {showRePass ? (
-              <i class="fa-regular fa-eye"></i>
+              <i className="fa-regular fa-eye"></i>
             ) : (
-              <i class="fa-solid fa-eye-slash"></i>
+              <i className="fa-solid fa-eye-slash"></i>
             )}
           </span>
         </div>

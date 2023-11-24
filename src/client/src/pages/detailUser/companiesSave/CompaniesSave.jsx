@@ -5,6 +5,7 @@ import { makeRequest } from "../../../axios";
 import { useParams } from "react-router-dom";
 import Loader from "../../../components/loader/Loader";
 import "./companiesSave.scss";
+import NotFoundData from "../../../components/notFoundData/NotFoundData";
 
 import {
   QueryClient,
@@ -27,7 +28,6 @@ export default function CompaniesSave() {
       const res = await makeRequest.get(
         `/follow/company/${id}?page=${paginate}&limit=${limit}`
       );
-      console.log(res);
       setCompanies(res.data.data);
       setTotalPage(res.data.pagination.totalPage);
       setLoading(false);
@@ -44,8 +44,7 @@ export default function CompaniesSave() {
 
   useEffect(() => {
     getCompanies();
-    window.scroll(0,0)
-
+    window.scroll(0, 0);
   }, [paginate]);
 
   return (
@@ -53,7 +52,7 @@ export default function CompaniesSave() {
       <div className="companiesSave__wrapper row">
         {loading ? (
           <Loader />
-        ) : (
+        ) : companies?.length > 0 ? (
           companies?.map((company, i) => (
             <ItemCompany
               key={i}
@@ -61,6 +60,8 @@ export default function CompaniesSave() {
               className={"col pc-4 t-6 m-12"}
             />
           ))
+        ) : (
+          <NotFoundData />
         )}
       </div>
       <Pagination

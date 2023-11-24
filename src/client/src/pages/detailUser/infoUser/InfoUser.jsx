@@ -17,16 +17,16 @@ export default function InfoUser() {
   const [inputs, setInputs] = useState({
     name: "",
     birthDay: "",
+    sex: "",
     email: "",
     phone: "",
     idProvince: "",
-    cv: "",
+    linkCv: "",
   });
 
   const handleChange = (e) => {
     e.preventDefault();
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(inputs);
   };
 
   useEffect(() => {
@@ -48,10 +48,11 @@ export default function InfoUser() {
       setInputs({
         name: res.data.name,
         birthDay: res.data.birthDay,
+        sex: res.data.sex,
         email: res.data.email,
         phone: res.data.phone,
         idProvince: res.data.idProvince,
-        cv: res.data.cv,
+        linkCv: res.data.linkCv,
       });
       setUser(res.data);
       return res.data;
@@ -74,7 +75,16 @@ export default function InfoUser() {
           handleChange={handleChange}
           title={"Ngày sinh :"}
           desc={moment(user?.birthDay).format("DD/MM/YYYY")}
-          type={"date"}
+          type={"input-date"}
+        />
+        <ItemInfo
+          inputs={inputs}
+          name="sex"
+          setInputs={setInputs}
+          handleChange={handleChange}
+          title={"Giới tính :"}
+          desc={user?.sex}
+          type={"input-radio"}
         />
         <ItemInfo
           inputs={inputs}
@@ -85,10 +95,10 @@ export default function InfoUser() {
         />
         <ItemInfo
           inputs={inputs}
-          name="cv"
+          name="linkCv"
           handleChange={handleChange}
           title={"Liên kết CV (Kết nối với Google Drive) :"}
-          desc={user?.cv}
+          desc={user?.linkCv}
         />
         <ItemInfo
           inputs={inputs}
@@ -102,9 +112,9 @@ export default function InfoUser() {
           name="province"
           setInputs={setInputs}
           title={"Địa chỉ :"}
-          select={true}
           options={provinces}
           desc={user?.province}
+          type={"select"}
         />
       </div>
     </div>
@@ -115,7 +125,7 @@ function ItemInfo({
   title,
   desc,
   name,
-  type = "text",
+  type = "input",
   select,
   options,
   handleChange,
@@ -124,7 +134,7 @@ function ItemInfo({
 }) {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(desc);
-  const [selectedOption, setSelectedOption] = useState(inputs.idProvince);
+  const [selectedOption, setSelectedOption] = useState(inputs?.idProvince);
   const { setCurrentUser } = useAuth();
 
   const queryClient = useQueryClient();
@@ -141,9 +151,10 @@ function ItemInfo({
   );
 
   const handleSumbit = () => {
-    if (select) {
+    if (type == "select") {
       inputs.idProvince = selectedOption?.pId;
     }
+
     setEdit(false);
     mutation.mutate();
   };
@@ -154,20 +165,40 @@ function ItemInfo({
         <h6>{title}</h6>
         {!edit ? (
           <span>{desc || "..."}</span>
-        ) : select ? (
-          <Select
-            name={name}
-            options={options}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-          />
         ) : (
-          <input
-            name={name}
-            type={type}
-            defaultValue={desc}
-            onChange={handleChange}
-          />
+          (type === "input" && (
+            <input
+              name={name}
+              type="text"
+              defaultValue={desc}
+              onChange={handleChange}
+            />
+          )) ||
+          (type === "input-date" && (
+            <input
+              name={name}
+              type="date"
+              defaultValue={desc}
+              onChange={handleChange}
+            />
+          )) ||
+          (type === "input-radio" && (
+            <InputRadio
+              input={inputs}
+              setInputs={setInputs}
+              desc={desc}
+              value={["Nam", "Nữ"]}
+              onChange={handleChange}
+            />
+          )) ||
+          (type === "select" && (
+            <Select
+              name={name}
+              options={options}
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
+            />
+          ))
         )}
       </div>
       <div className="personalInformation__wrapper__item__right">
@@ -186,6 +217,37 @@ function ItemInfo({
             </button>
           </>
         )}
+      </div>
+    </div>
+  );
+}
+
+function InputRadio({ inputs, setInputs, value, name, desc, onChange }) {
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  return (
+    <div className="input-radio">
+      <div className="input-radio-item">
+        <label htmlFor="">{value[0]}</label>
+        <input
+          name="sex"
+          type="radio"
+          defaultChecked={value[0] == desc}
+          onChange={handleChange}
+          value={value[0]}
+        />
+      </div>
+      <div className="input-radio-item">
+        <label htmlFor="">{value[1]}</label>
+        <input
+          name="sex"
+          type="radio"
+          defaultChecked={value[1] == desc}
+          onChange={handleChange}
+          value={value[1]}
+        />
       </div>
     </div>
   );

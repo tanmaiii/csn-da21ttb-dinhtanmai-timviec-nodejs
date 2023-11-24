@@ -18,7 +18,7 @@ import DetailJob from "./pages/detailJob/DetailJob";
 import DetailCompany from "./pages/detailCompany/DetailCompany";
 import DetailUser from "./pages/detailUser/DetailUser";
 import PostJob from "./pages/postJob/PostJob";
-import EditJob from "./pages/editJob/PostJob";
+import EditJob from "./pages/editJob/EditJob";
 import Candidate from "./pages/candidate/Candidate";
 import NotFound from "./pages/notFound/NotFound";
 
@@ -28,6 +28,7 @@ import Signup from "./components/signup/Signup";
 import SigninCompany from "./components/signinCompany/SigninCompany";
 import SignupCompany from "./components/signupCompany/SignupCompany";
 import InfoCompany from "./pages/detailCompany/infoCompany/InfoCompany";
+
 
 function App() {
   const { darkMode } = useMode();

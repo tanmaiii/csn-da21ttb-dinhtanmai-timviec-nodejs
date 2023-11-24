@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { makeRequest, apiImage } from "../../../axios";
 import { useQuery, useSearchParams } from "react-query";
 import { Link } from "react-router-dom";
+import NotFoundData from "../../../components/notFoundData/NotFoundData";
 import Loader from "../../../components/loader/Loader";
 
 export default function JobsCompany() {
@@ -37,11 +38,14 @@ export default function JobsCompany() {
 
   return (
     <div className="jobsCompany">
-      {!jobs && <span>Chưa có việc làm.</span>}
       <div className="jobsCompany__list row">
-        {jobs?.map((job, i) => (
-          <ItemJob key={i} job={job} className={"col pc-6 t-12 m-12"} />
-        ))}
+        {jobs?.length > 0 ? (
+          jobs?.map((job, i) => (
+            <ItemJob key={i} job={job} className={"col pc-6 t-12 m-12"} />
+          ))
+        ) : (
+          <NotFoundData />
+        )}
       </div>
       <Pagination
         totalPage={totalPage}

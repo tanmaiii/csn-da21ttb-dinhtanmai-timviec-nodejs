@@ -53,21 +53,28 @@ export default function Header() {
 
   let lastScrollTop = 0;
 
-  window.addEventListener("scroll", () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    if (scrollTop == 0) {
-      headerRef.current.style.top = "0";
-      headerRef.current.classList.remove("shrink");
-    } else {
-      if (scrollTop > lastScrollTop) {
-        headerRef.current.style.top = "-500px";
+  useEffect(() => {
+    const handleScrollHeader = () => {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop == 0) {
+        headerRef.current.style.top = "0";
         headerRef.current.classList.remove("shrink");
       } else {
-        headerRef.current.style.top = "0px";
-        headerRef.current.classList.add("shrink");
+        if (scrollTop > lastScrollTop) {
+          headerRef.current.style.top = "-500px";
+          headerRef.current.classList.remove("shrink");
+        } else {
+          headerRef.current.style.top = "0px";
+          headerRef.current.classList.add("shrink");
+        }
       }
-    }
-    lastScrollTop = scrollTop;
+      lastScrollTop = scrollTop;
+    };
+
+    window.addEventListener("scroll", handleScrollHeader);
+
+    return () => window.removeEventListener("scroll", handleScrollHeader);
   });
 
   useEffect(() => {

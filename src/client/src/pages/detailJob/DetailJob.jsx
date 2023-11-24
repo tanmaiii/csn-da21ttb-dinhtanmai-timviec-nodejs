@@ -95,7 +95,7 @@ export default function DetailJob() {
   );
 
   const handleSubmitSave = () => {
-    if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
+    if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
     mutationSave.mutate(userSave?.includes(currentUser?.id));
   };
 

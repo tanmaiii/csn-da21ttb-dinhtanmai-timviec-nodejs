@@ -69,6 +69,7 @@ export default function SearchQuick() {
 function SearchQuickFields() {
   const [fields, setFields] = useState();
   const navigate = useNavigate();
+  
   const groupBy = (arr, key) => {
     return Object.values(
       arr.reduce((acc, item) => {

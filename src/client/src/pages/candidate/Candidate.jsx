@@ -5,7 +5,11 @@ import Pagination from "../../components/pagination/Pagination";
 import { makeRequest } from "../../axios";
 import { useAuth } from "../../context/authContext";
 import NotFoundData from "../../components/notFoundData/NotFoundData";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { status } from "../../config/data.js";
+import queryString from "query-string";
+
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const sort = [
   {
@@ -22,17 +26,19 @@ const sort = [
 
 export default function Candidate() {
   const [openSort, setOpenSort] = useState(false);
+  const [sortActive, setSortActive] = useState(sort[0]);
   const [data, setData] = useState();
   const [jobs, seJobs] = useState();
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState(10);
   const limit = 10;
   const [optionActive, setOptionActive] = useState();
-  const [sortActive, setSortActive] = useState(sort[0]);
+  const [optionStatusActive, setOptionStatusActive] = useState();
   const [keyword, setKeyword] = useState();
   const [search, setSearch] = useState();
   const { currentCompany } = useAuth();
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getJob = async () => {
@@ -45,38 +51,65 @@ export default function Candidate() {
   }, []);
 
   const getApply = async () => {
+    const params = queryString.parse(location.search);
+    
     try {
       let url = "/apply/userApply?";
 
-      if (sortActive) {
-        url += `sort=${sortActive.label}`;
+      if (params?.sort) {
+        url += `sort=${params?.sort}`;
       }
 
-      if (optionActive) {
-        url += `&idJob=${optionActive}`;
+      if (params?.idJob) {
+        url += `&idJob=${params?.idJob}`;
       }
 
-      if (search) {
-        url += `&search=${search}`;
+      if (params?.status) {
+        url += `&status=${params?.status}`;
+      }
+
+      if (params?.search) {
+        url += `&search=${params?.search}`;
       }
 
       const res = await makeRequest.get(
         `${url}&limit=${limit}&page=${paginate}`
       );
 
-      setData(res.data.data);
-      console.log(data);
+      setData(res.data.data || []);
       setTotalPage(res.data?.pagination.totalPage || 0);
     } catch (error) {}
   };
 
   useEffect(() => {
     getApply();
-  }, [paginate, optionActive, sortActive, search]);
+  }, [paginate, location]);
 
   useEffect(() => {
     setPaginate(1);
   }, [optionActive]);
+
+  useEffect(() => {
+    let params = ``;
+
+    if (sortActive !== undefined) {
+      params += `&sort=${sortActive.label}`;
+    }
+
+    if (optionActive !== undefined) {
+      params += `&idJob=${optionActive}`;
+    }
+
+    if (optionStatusActive !== undefined) {
+      params += `&status=${optionStatusActive}`;
+    }
+
+    if (search?.length > 0) {
+      params += `&search=${search}`;
+    }
+
+    navigate(`?${params}`);
+  }, [optionActive, optionStatusActive, search, sortActive]);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -86,7 +119,7 @@ export default function Candidate() {
     const enterEvent = (e) => {
       e.preventDefault();
       if (e.keyCode === 13) {
-        setSearch(keyword);
+        setSearch(keyword?.trim());
       }
     };
     document.addEventListener("keyup", enterEvent);
@@ -101,8 +134,8 @@ export default function Candidate() {
   };
 
   useEffect(() => {
-      if(!currentCompany) navigate('/nha-tuyen-dung/dang-nhap')
-  }, [])
+    if (!currentCompany) navigate("/nha-tuyen-dung/dang-nhap");
+  }, []);
 
   return (
     <div className="candidate">
@@ -131,6 +164,14 @@ export default function Candidate() {
                 </div>
               </div>
               <div className="candidate__wrapper__body__control__right">
+                <div className="candidate__wrapper__body__control__right__select">
+                  <SelectJob
+                    search={true}
+                    option={status}
+                    optionActive={optionStatusActive}
+                    setOptionActive={setOptionStatusActive}
+                  />
+                </div>
                 <div className="candidate__wrapper__body__control__right__select">
                   <SelectJob
                     search={true}
@@ -199,14 +240,13 @@ export default function Candidate() {
   );
 }
 
-function SelectJob({ title, icon, option, optionActive, setOptionActive }) {
+function SelectJob({ name, icon, option, optionActive, setOptionActive }) {
   const [open, setOpen] = useState(false);
   const selectJobRef = useRef();
 
   const handleClickOption = (item) => {
     setOptionActive(item);
     setOpen(false);
-    console.log(optionActive);
   };
 
   useEffect(() => {

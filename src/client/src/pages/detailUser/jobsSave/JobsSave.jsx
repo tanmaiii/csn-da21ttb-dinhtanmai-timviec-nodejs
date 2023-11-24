@@ -4,6 +4,8 @@ import ItemJob from "../../../components/itemJob/ItemJob";
 import { makeRequest } from "../../../axios";
 import { useParams } from "react-router-dom";
 import Loader from "../../../components/loader/Loader";
+import NotFoundData from "../../../components/notFoundData/NotFoundData";
+
 import "./jobsSave.scss";
 
 import {
@@ -48,10 +50,12 @@ export default function JobsSave() {
       <div className="jobsSave__list row">
         {loading ? (
           <Loader />
-        ) : (
+        ) : jobs?.length > 0 ? (
           jobs?.map((job, i) => (
             <ItemJob key={i} job={job} className={"col pc-6 m-12 t-12"} />
           ))
+        ) : (
+          <NotFoundData />
         )}
       </div>
       <Pagination

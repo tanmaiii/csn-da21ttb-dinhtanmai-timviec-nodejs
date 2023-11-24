@@ -56,13 +56,14 @@ export const getUserByCpn = (req, res) => {
     const limit = req.query.limit || 10;
     const sort = req.query.sort || "new";
     const idJob = req.query.idJob;
+    const status = req.query.status;
     const search = req.query.search;
     const token = req.cookies.accessToken;
     if (!token) return res.status(401).json("Chưa đăng nhập !");
 
     const offset = (page - 1) * limit;
 
-    let q = `SELECT a.* , j.nameJob, u.avatarPic FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+    let q = `SELECT a.id, a.idUser, a.name, a.status, a.createdAt , j.nameJob, u.avatarPic FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
              WHERE c.id = ? AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     let q2 = `SELECT count(*) as count 
@@ -72,6 +73,11 @@ export const getUserByCpn = (req, res) => {
     if (idJob) {
       q += ` AND a.idJob = ${idJob} `;
       q2 += ` AND a.idJob = ${idJob} `;
+    }
+
+    if (status) {
+      q += ` AND a.status = ${status} `;
+      q2 += ` AND a.status = ${status} `;
     }
 
     if (search) {
@@ -126,6 +132,35 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const getDetailApply = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const q = `SELECT a.* , j.nameJob, u.avatarPic, u.sex FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+      WHERE a.id = ? AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id`;
+
+    db.query(q, [id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json(data[0]);
+    });
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+};
+
+export const getStatus = async (req, res) => {
+  try {
+    const id = req.query.id;    
+    const q = `SELECT a.status FROM job.apply_job as a WHERE a.id = ?`;
+
+    db.query(q, [id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json(data[0]?.status);
+    });
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+};
+
 export const applyJob = (req, res) => {
   const { idJob, name, email, phone, letter, linkCv } = req.body;
 
@@ -158,6 +193,25 @@ export const applyJob = (req, res) => {
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json("Thành công!");
+    });
+  });
+};
+
+export const updateStatusJob = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token không trùng !");
+    const q =
+      "UPDATE job.apply_job as a , job.companies as c, job.jobs  as j SET `status`= ? WHERE a.id = ? AND c.id = ? AND a.idJob = j.id AND j.idCompany = c.id";
+
+    const values = [req.query.status, req.query.id, userInfo.id];
+
+    db.query(q, values, (err, data) => {
+      if (!err) return res.status(200).json(data);
+      if (data?.affectedRows > 0) return res.json("Update");
+      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
     });
   });
 };

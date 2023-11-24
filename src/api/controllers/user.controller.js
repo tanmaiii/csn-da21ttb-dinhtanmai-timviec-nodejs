@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
 import checkEmail from "../middlewares/checkEmail.middleware.js";
+import checkUrl from "../middlewares/checkUrl.middleware.js";
 import multer from "multer";
 
 export const getUser = (req, res) => {
   const id = req.params.id;
   const q =
-    "SELECT id, name, phone, avatarPic, birthDay, intro, cv FROM users WHERE id=?";
+    "SELECT id, name, phone, avatarPic, birthDay, intro, linkCv FROM users WHERE id=?";
 
   if (id) {
     db.query(q, id, (err, data) => {
@@ -44,20 +45,23 @@ export const updateUser = (req, res) => {
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
-  const { name, birthDay, email, phone, idProvince, cv } = req.body;
+  const { name, birthDay, sex, email, phone, idProvince, linkCv } = req.body;
 
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
+  if (!checkUrl(linkCv)) return res.status(409).json("Link Cv không hợp lệ !");
+  
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
-      "UPDATE job.users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ? , `idProvince`= ?, `cv` = ? WHERE id = ? ";
+      "UPDATE job.users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ?, `sex`= ? , `idProvince`= ?, `linkCv` = ? WHERE id = ? ";
     const values = [
       name,
       email,
       phone,
       new Date(birthDay),
+      sex,
       idProvince,
-      cv,
+      linkCv,
       userInfo.id,
     ];
 
@@ -75,7 +79,7 @@ export const updateUser = (req, res) => {
 //   "email": "update@g.com",
 //   "phone": "123",
 //   "idProvince": 1,
-//   "cv": "update@g.com"
+//   "linkCv": "update@g.com"
 // }
 
 export const updateIntroUser = (req, res) => {

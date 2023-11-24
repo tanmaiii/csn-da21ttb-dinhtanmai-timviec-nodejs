@@ -15,21 +15,17 @@ export default function AuthLayout() {
     window.scroll(0, 0);
   });
 
-  const css = `backgroundImage: url(${darkMode ? img2 : img1})`;
-
   return (
     <div className="layout__auth">
-      <div className="layout__auth__main">
-        <style jsx>{`
-          .layout__auth__main {
-            background-image: url(${darkMode ? img2 : img1});
-          }
-        `}</style>
+      <div
+        className="layout__auth__main"
+        style={{ backgroundImage: `url(${darkMode ? img2 : img1})` }}
+      >
         <div className="container">
           <div className="layout__auth__main__control">
             <Link to={"/"}>
               <button>
-                <i class="fa-solid fa-chevron-left"></i>
+                <i className="fa-solid fa-chevron-left"></i>
                 <span>Trang chủ</span>
               </button>
             </Link>

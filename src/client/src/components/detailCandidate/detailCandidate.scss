@@ -2,13 +2,18 @@
 
 .detailCandidate {
   @include themify($themes) {
+    @include mobile {
+      width: 100%;
+      height: 100%;
+    }
     &__wrapper {
       padding: 20px 20px;
-      overflow-y: scroll;
+      overflow-y: auto;
       height: 500px;
       width: 100%;
       @include mobile {
         width: 100%;
+        height: 100%;
       }
       &__control {
         display: grid;
@@ -99,6 +104,23 @@
         border-radius: $border-radius-10;
         @include flex(center, space-between);
       }
+      &.status-1 {
+        background-color: $color-blue;
+        color: $color-txt-blue;
+      }
+      &.status-2 {
+        background-color: $color-yellow;
+        color: $color-txt-yellow;
+      }
+      &.status-3 {
+        background-color: $color-red;
+        color: $color-txt-red;
+      }
+      &.status-4 {
+        background-color: $color-green;
+        color: $color-txt-green;
+      }
+
       &.active {
         background-color: $color-primary;
         border-color: $color-primary;
@@ -110,9 +132,6 @@
         span {
           font-size: $font-size-s;
           @include text(1);
-        }
-        i:nth-child(1) {
-          font-size: $font-size-s;
         }
       }
       .icon-down {
@@ -195,28 +214,17 @@
           max-width: 300px;
           width: max-content;
           @include flex(center, unset);
+          background-color: themed("bg2");
           gap: 10px;
-          &.status-1 {
-            background-color: $color-blue;
-            color: $color-txt-blue;
-          }
-          &.status-2 {
-            background-color: $color-yellow;
-            color: $color-txt-yellow;
-          }
-          &.status-3 {
-            background-color: $color-red;
-            color: $color-txt-red;
-          }
-          &.status-4 {
-            background-color: $color-green;
-            color: $color-txt-green;
-          }
+
           &.active {
             font-weight: 600;
+            i {
+              font-weight: 600;
+            }
           }
           &:hover {
-            font-weight: 600;
+            background-color: themed("bg1");
           }
           i {
             font-size: 1.2rem;

@@ -38,25 +38,41 @@ export default function Signin() {
   };
 
   useEffect(() => {
+    const enterEvent = (e) => {
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        handleSubmit();
+      }
+    };
+    document.addEventListener("keyup", enterEvent);
+    return () => {
+      document.removeEventListener("keyup", enterEvent);
+    };
+  }, [inputs]);
+
+  useEffect(() => {
     if (currentUser) {
       navigate("/");
     }
   }, [currentUser]);
 
   useEffect(() => {
-     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="signin">
       <div className="signin__header ">
         <h4>Chào mừng bạn đã quay trở lại</h4>
-        <span>Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng</span>
+        <span>
+          Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý
+          tưởng
+        </span>
       </div>
       {err && <p className="err">{err}</p>}
       <div className="signin__body">
         <div className="item">
-          <i class="fa-solid fa-envelope"></i>
+          <i className="fa-solid fa-envelope"></i>
           <input
             autoComplete="none"
             type="email"
@@ -68,7 +84,7 @@ export default function Signin() {
           <label htmlFor="email">Email</label>
         </div>
         <div className="item">
-          <i class="fa-solid fa-lock"></i>
+          <i className="fa-solid fa-lock"></i>
           <input
             autoComplete="none"
             type={`${show ? "password" : "text"}`}

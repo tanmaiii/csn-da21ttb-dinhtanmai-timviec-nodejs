@@ -29,6 +29,23 @@
             border-radius: $border-radius-10;
             width: 100%;
           }
+          .input-radio {
+            @include flex(center, unset);
+            gap: 10px;
+            .input-radio-item {
+              @include flex(center, unset);
+              gap: 10px;
+              input[type="radio"] {
+                --size: 20px;
+                width: var(--size);
+                height: var(--size);
+              }
+              label {
+                font-size: $font-size-s;
+                color: themed("text1");
+              }
+            }
+          }
           .select {
             width: 100%;
           }

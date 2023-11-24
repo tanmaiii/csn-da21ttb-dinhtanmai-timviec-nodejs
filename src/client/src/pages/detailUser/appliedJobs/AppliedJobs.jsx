@@ -6,6 +6,8 @@ import img from "../../../assets/images/avatarCpn.png";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { status } from "../../../config/data.js";
+import NotFoundData from "../../../components/notFoundData/NotFoundData";
+import Loader from "../../../components/loader/Loader";
 
 export default function AppliedJobs() {
   const [jobs, setJobs] = useState();
@@ -15,13 +17,16 @@ export default function AppliedJobs() {
   const [loading, setLoading] = useState(false);
 
   const getJobs = async () => {
+    setLoading(true);
     try {
       const res = await makeRequest.get(
         `/apply?limit=${limit}&page=${paginate}`
       );
       setJobs(res.data.data);
       setTotalPage(res.data.pagination.totalPage);
+      setLoading(false);
     } catch (error) {}
+    setLoading(false);
   };
 
   console.log(jobs);
@@ -33,66 +38,71 @@ export default function AppliedJobs() {
   return (
     <div className="appliedJobs">
       <div className="appliedJobs__wrapper">
-        {jobs?.map((job, i) => (
-          <div key={i} className="appliedJobs__wrapper__item">
-            <div className="col pc-9 t-9 m-12">
-              <div className="appliedJobs__wrapper__item__left ">
-                <div className="appliedJobs__wrapper__item__left__header">
-                  <img
-                    src={job?.avatarPic ? apiImage + job?.avatarPic : img}
-                    alt=""
-                  />
-                  <div className="text">
-                    <Link to={`/viec-lam/${job?.idJob}`}>
-                      <h4 className="nameJob">{job?.nameJob}</h4>
-                    </Link>
-                    <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
-                      <h6 className="nameCompany">{job?.nameCompany}</h6>
-                    </Link>
-                  </div>
-                </div>
-                <div className="appliedJobs__wrapper__item__left__body">
-                  <div className="appliedJobs__wrapper__item__left__body__inportant">
-                    <div className="wage">
-                      <i className="fa-solid fa-dollar-sign"></i>
-                      <span>
-                        {job?.salaryMax === 0 && job?.salaryMin === 0
-                          ? "Thảo thuận"
-                          : `${job?.salaryMin} - ${job?.salaryMax} triệu`}
-                      </span>
-                    </div>
-                    <div className="typeWork">
-                      <span>{job?.typeWork}</span>
-                    </div>
-                    <div className="province">
-                      <i className="fa-solid fa-location-dot"></i>
-                      <span>{job?.province}</span>
+        {loading && <Loader />}
+        {jobs?.length > 0 ? (
+          jobs?.map((job, i) => (
+            <div key={i} className="appliedJobs__wrapper__item">
+              <div className="col pc-9 t-9 m-12">
+                <div className="appliedJobs__wrapper__item__left ">
+                  <div className="appliedJobs__wrapper__item__left__header">
+                    <img
+                      src={job?.avatarPic ? apiImage + job?.avatarPic : img}
+                      alt=""
+                    />
+                    <div className="text">
+                      <Link to={`/viec-lam/${job?.idJob}`}>
+                        <h4 className="nameJob">{job?.nameJob}</h4>
+                      </Link>
+                      <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
+                        <h6 className="nameCompany">{job?.nameCompany}</h6>
+                      </Link>
                     </div>
                   </div>
-                </div>
-                <div className="appliedJobs__wrapper__item__left__bottom">
-                  <div className="createdAt">
-                    <span>Ứng tuyển {moment(job?.createdAt).fromNow()}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col pc-3 t-3 m-12">
-              <div className="appliedJobs__wrapper__item__right">
-                <span className="header">Trạng thái</span>
-                {status.map(
-                  (status) =>
-                    status.id === parseInt(job?.status) && (
-                      <div className={`status status-${job?.status}`}>
-                        {status?.icon}
-                        <span className={job?.status}>{status?.name}</span>
+                  <div className="appliedJobs__wrapper__item__left__body">
+                    <div className="appliedJobs__wrapper__item__left__body__inportant">
+                      <div className="wage">
+                        <i className="fa-solid fa-dollar-sign"></i>
+                        <span>
+                          {job?.salaryMax === 0 && job?.salaryMin === 0
+                            ? "Thảo thuận"
+                            : `${job?.salaryMin} - ${job?.salaryMax} triệu`}
+                        </span>
                       </div>
-                    )
-                )}
+                      <div className="typeWork">
+                        <span>{job?.typeWork}</span>
+                      </div>
+                      <div className="province">
+                        <i className="fa-solid fa-location-dot"></i>
+                        <span>{job?.province}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="appliedJobs__wrapper__item__left__bottom">
+                    <div className="createdAt">
+                      <span>Ứng tuyển {moment(job?.createdAt).fromNow()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col pc-3 t-3 m-12">
+                <div className="appliedJobs__wrapper__item__right">
+                  <span className="header">Trạng thái</span>
+                  {status.map(
+                    (status) =>
+                      status.id === parseInt(job?.status) && (
+                        <div className={`status status-${job?.status}`}>
+                          {status?.icon}
+                          <span className={job?.status}>{status?.name}</span>
+                        </div>
+                      )
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <NotFoundData />
+        )}
       </div>
       <Pagination
         totalPage={totalPage}

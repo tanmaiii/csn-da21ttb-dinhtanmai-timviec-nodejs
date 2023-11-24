@@ -33,8 +33,6 @@ export default function DropdownItem(props) {
       setOptionActive((current) => [...current, name]);
     }
 
-    console.log(optionActive);
-
     if (params.field || params.province) {
       navigate("/tim-kiem");
     }

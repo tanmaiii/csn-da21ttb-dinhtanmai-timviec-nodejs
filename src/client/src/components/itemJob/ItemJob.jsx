@@ -8,7 +8,6 @@ import moment from "moment";
 import "moment/locale/vi";
 
 import {
-  QueryClient,
   useMutation,
   useQuery,
   useQueryClient,
@@ -48,7 +47,7 @@ export default function ItemJob({ className, job, onClick }) {
   );
 
   const handleSubmitSave = () => {
-    if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
+    if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
     mutationSave.mutate(userSave?.includes(currentUser?.id));
   };
 

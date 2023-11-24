@@ -2,9 +2,31 @@ import React, { useEffect, useState, useRef } from "react";
 import "./detailCandidate.scss";
 import Select from "../select/Select";
 import { status } from "../../config/data.js";
+import { makeRequest } from "../../axios.js";
 
-export default function DetailCandidate({ candidate }) {
-  const [optionActive, setOptionActive] = useState();
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
+export default function DetailCandidate({ idApply }) {
+  const [candidate, setCandidate] = useState();
+
+  // useEffect(() => {
+  //   setOptionActive(candidate?.status);
+  // }, [candidate]);
+
+  const getApply = async () => {
+    try {
+      const res = await makeRequest.get("/apply/detail/" + idApply);
+      setCandidate(res.data);
+    } catch (error) {}
+  };
+
+  const {} = useQuery(["apply", idApply], () => {
+    return getApply();
+  });
+
+  // useEffect(() => {
+  //   mutation.mutate(optionActive);
+  // }, [optionActive]);
 
   return (
     candidate && (
@@ -15,12 +37,12 @@ export default function DetailCandidate({ candidate }) {
               Trạng thái hồ sơ
             </h4>
             <div className="detailCandidate__wrapper__control__select">
-              {/* <Select options={status} defaultValue={activeStatus} /> */}
               <SelectStatus
                 option={status}
-                optionActive={optionActive}
-                setOptionActive={setOptionActive}
+                // optionActive={optionActive}
+                // setOptionActive={setOptionActive}
                 defaultActive={candidate?.status}
+                id={candidate?.id}
               />
             </div>
           </div>
@@ -82,18 +104,30 @@ export default function DetailCandidate({ candidate }) {
   );
 }
 
-function SelectStatus({
-  icon,
-  option,
-  optionActive,
-  setOptionActive,
-  defaultActive,
-}) {
+function SelectStatus({ option, defaultActive, id }) {
   const [open, setOpen] = useState(false);
+  const [optionActive, setOptionActive] = useState(defaultActive);
   const SelectStatusRef = useRef();
+  const queryClient = useQueryClient();
 
-  const handleClickOption = (item) => {
-    setOptionActive(item);
+  useEffect(() => {
+    setOptionActive(defaultActive);
+  }, [defaultActive]);
+
+  const mutation = useMutation(
+    (status) => {
+      return makeRequest.put(`/apply/status?id=${id}&status=${status}`);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["apply"]);
+      },
+    }
+  );
+
+  const handleClickOption = (status) => {
+    setOptionActive(status);
+    mutation.mutate(status);
     setOpen(false);
   };
 
@@ -106,31 +140,39 @@ function SelectStatus({
     document.addEventListener("mousedown", handleMousedown);
     return () => document.removeEventListener("mousedown", handleMousedown);
   });
+
   return (
     <div className="SelectStatus" ref={SelectStatusRef}>
-      <div
-        className={`SelectStatus__toggle ${
-          optionActive !== undefined ? "active" : ""
-        }`}
-        onClick={() => setOpen(!open)}
-      >
-        <div className="SelectStatus__toggle__title">
-          {icon && icon}
-          <span className="text"></span>
-        </div>
-        <i
-          className={`fa-solid fa-angle-down icon-down ${open ? "open" : ""}`}
-        ></i>
-      </div>
+      {optionActive &&
+        option?.map((option) => {
+          if (option.id === optionActive)
+            return (
+              <div
+                className={`SelectStatus__toggle  status-${option?.id}`}
+                onClick={() => setOpen(!open)}
+              >
+                <div className={`SelectStatus__toggle__title`}>
+                  {option?.icon}
+                  <span className="text">{option.name}</span>
+                </div>
+                <i
+                  className={`fa-solid fa-angle-down icon-down ${
+                    open ? "open" : ""
+                  }`}
+                ></i>
+              </div>
+            );
+        })}
+
       {open && (
         <div className="SelectStatus__menu">
           <div className={`SelectStatus__menu__list`}>
             {option?.map((option, i) => (
               <div
                 key={i}
-                className={`SelectStatus__menu__list__item  status-${
-                  option?.id
-                } ${optionActive === option?.id ? "active" : ""}`}
+                className={`SelectStatus__menu__list__item  ${
+                  optionActive === option?.id ? "active" : ""
+                }`}
                 onClick={() => handleClickOption(option?.id)}
               >
                 {option?.icon}

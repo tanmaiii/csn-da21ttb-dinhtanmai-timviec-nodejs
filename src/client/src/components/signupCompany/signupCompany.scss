@@ -3,7 +3,7 @@
 .signupCompany {
   @include themify($themes) {
     width: 100%;
-    max-width: 380px;
+    // max-width: 380px;
     &__header {
       @include flex(center, unset);
       flex-direction: column;
@@ -24,6 +24,25 @@
     }
     &__body {
       width: 100%;
+      @include flex(center, center);
+      flex-wrap: wrap;
+      gap: 20px;
+      @include mobile {
+        flex-direction: column;
+        gap: 8px;
+      }
+      &__info__auth {
+        width: 380px;
+        @include mobile {
+          width: 100%;
+        }
+      }
+      &__info__company {
+        width: 380px;
+        @include mobile {
+          width: 100%;
+        }
+      }
       .header {
         font-size: $font-size-s;
         font-weight: 500;
@@ -104,6 +123,8 @@
           }
         }
       }
+    }
+    &__bottom {
       .btn-auth {
         margin-top: 20px;
         @include button($color-white, $color-primary);

@@ -71,7 +71,7 @@ export default function ItemCompany({ company, className, style }) {
   );
 
   const handleSubmitFollow = () => {
-    if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
+    if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
     mutationFollow.mutate(follower?.includes(currentUser?.id));
   };
 
