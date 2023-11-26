@@ -5,6 +5,8 @@ import './mainLayout.scss'
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 
+import { Toaster } from 'sonner';
+
 export default function MainLayout() {
   return (
     <div className="layout">
@@ -13,6 +15,7 @@ export default function MainLayout() {
         <Outlet />
       </div>
       <Footer />
+      <Toaster richColors/>
     </div>
   );
 }

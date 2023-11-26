@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 import "./infoUser.scss";
 import Select from "../../../components/select/Select";
 import { useAuth } from "../../../context/authContext";
@@ -11,8 +12,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 export default function InfoUser() {
   const { currentUser } = useAuth();
   const [user, setUser] = useState();
-  const [err, setErr] = useState();
   const [provinces, setProvinces] = useState();
+  const [edit, setEdit] = useState();
 
   const [inputs, setInputs] = useState({
     name: "",
@@ -41,8 +42,6 @@ export default function InfoUser() {
     getProvinces();
   }, []);
 
-  const queryClient = useQueryClient();
-
   const { isLoading, error, data } = useQuery(["user"], async () => {
     await makeRequest.get("/user/owner/").then((res) => {
       setInputs({
@@ -63,6 +62,8 @@ export default function InfoUser() {
     <div className="infoUser">
       <div className="infoUser__wrapper">
         <ItemInfo
+          edit={edit}
+          setEdit={setEdit}
           inputs={inputs}
           handleChange={handleChange}
           name="name"
@@ -70,6 +71,8 @@ export default function InfoUser() {
           desc={user?.name}
         />
         <ItemInfo
+          edit={edit}
+          setEdit={setEdit}
           inputs={inputs}
           name="birthDay"
           handleChange={handleChange}
@@ -78,6 +81,8 @@ export default function InfoUser() {
           type={"input-date"}
         />
         <ItemInfo
+          edit={edit}
+          setEdit={setEdit}
           inputs={inputs}
           name="sex"
           setInputs={setInputs}
@@ -87,6 +92,8 @@ export default function InfoUser() {
           type={"input-radio"}
         />
         <ItemInfo
+          edit={edit}
+          setEdit={setEdit}
           inputs={inputs}
           name="email"
           handleChange={handleChange}
@@ -94,6 +101,8 @@ export default function InfoUser() {
           desc={user?.email}
         />
         <ItemInfo
+          edit={edit}
+          setEdit={setEdit}
           inputs={inputs}
           name="linkCv"
           handleChange={handleChange}
@@ -101,6 +110,8 @@ export default function InfoUser() {
           desc={user?.linkCv}
         />
         <ItemInfo
+          edit={edit}
+          setEdit={setEdit}
           inputs={inputs}
           name="phone"
           handleChange={handleChange}
@@ -108,6 +119,8 @@ export default function InfoUser() {
           desc={user?.phone}
         />
         <ItemInfo
+          edit={edit}
+          setEdit={setEdit}
           inputs={inputs}
           name="province"
           setInputs={setInputs}
@@ -131,17 +144,27 @@ function ItemInfo({
   handleChange,
   setInputs,
   inputs,
+  edit,
+  setEdit,
 }) {
-  const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(desc);
   const [selectedOption, setSelectedOption] = useState(inputs?.idProvince);
   const { setCurrentUser } = useAuth();
 
   const queryClient = useQueryClient();
 
+  const putInfo = async () => {
+    try {
+      await makeRequest.put("/user/update", inputs);
+      toast.success("Cập nhật thông tin thành công.");
+    } catch (error) {
+      toast.error(error?.response?.data);
+    }
+  };
+
   const mutation = useMutation(
     () => {
-      return makeRequest.put("/user/update", inputs);
+      return putInfo();
     },
     {
       onSuccess: () => {
@@ -154,8 +177,7 @@ function ItemInfo({
     if (type == "select") {
       inputs.idProvince = selectedOption?.pId;
     }
-
-    setEdit(false);
+    setEdit();
     mutation.mutate();
   };
 
@@ -163,7 +185,7 @@ function ItemInfo({
     <div className="personalInformation__wrapper__item">
       <div className="personalInformation__wrapper__item__left">
         <h6>{title}</h6>
-        {!edit ? (
+        {edit != name ? (
           <span>{desc || "..."}</span>
         ) : (
           (type === "input" && (
@@ -202,8 +224,8 @@ function ItemInfo({
         )}
       </div>
       <div className="personalInformation__wrapper__item__right">
-        {!edit ? (
-          <button className="btn-edit" onClick={() => setEdit(true)}>
+        {edit != name ? (
+          <button className="btn-edit" onClick={() => setEdit(name)}>
             <i className="fa-solid fa-pen-to-square"></i>
             <span>Chỉnh sửa</span>
           </button>
@@ -212,7 +234,7 @@ function ItemInfo({
             <button className="btn-save" onClick={() => handleSumbit()}>
               Lưu
             </button>
-            <button className="btn-cancel" onClick={() => setEdit(false)}>
+            <button className="btn-cancel" onClick={() => setEdit()}>
               Hủy
             </button>
           </>

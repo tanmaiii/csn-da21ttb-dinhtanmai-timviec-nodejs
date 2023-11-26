@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from 'sonner';
 import "./candidate.scss";
 import TableCandidate from "../../components/tableCandidate/TableCandidate";
 import Pagination from "../../components/pagination/Pagination";
@@ -145,6 +146,7 @@ export default function Candidate() {
     },
     {
       onSuccess: () => {
+        toast.success('Ẩn ứng viên thành công.')
         queryClient.invalidateQueries(["apply"]);
       },
     }

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import "./itemJob.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { apiImage, makeRequest } from "../../axios";
@@ -7,11 +8,7 @@ import img from "../../assets/images/avatarCpn.png";
 import moment from "moment";
 import "moment/locale/vi";
 
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function ItemJob({ className, job, onClick }) {
   const [save, setSave] = useState(false);
@@ -49,6 +46,19 @@ export default function ItemJob({ className, job, onClick }) {
   const handleSubmitSave = () => {
     if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
     mutationSave.mutate(userSave?.includes(currentUser?.id));
+    userSave?.includes(currentUser?.id)
+      ? toast.success("Đã gỡ khỏi việc làm yêu thích.", {
+          action: {
+            label: "Việc làm",
+            onClick: () => navigate(`/nguoi-dung/${currentUser?.id}/jobs`)
+          },
+        })
+      : toast.success("Đã thêm vào việc làm yêu thích.", {
+          action: {
+            label: "Việc làm",
+            onClick: () => navigate(`/nguoi-dung/${currentUser?.id}/jobs`)
+          },
+        });
   };
 
   useEffect(() => {

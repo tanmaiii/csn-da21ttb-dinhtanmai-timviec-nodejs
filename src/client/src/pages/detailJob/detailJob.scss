@@ -10,7 +10,7 @@
         top: 180px;
         right: 50px;
         height: 0;
-
+        
         &__wrapper {
           position: absolute;
           top: 50px;
@@ -18,30 +18,53 @@
           height: 0;
           &__list {
             gap: 8px;
+            box-shadow: themed('box-shadow');
             @include flex(center, unset);
             flex-direction: column;
             padding: 8px 6px;
             background-color: themed("bg2");
             border-radius: $border-radius-20;
             width: max-content;
-            border: 1px solid themed("border");
+            // border: 1px solid themed("border");
             &__item {
               transition: all 0.3s;
               position: relative;
+              &:hover {
+                &::after,
+                &::before {
+                  --scale: 1;
+                }
+              }
+
+              &::after,
               &::before {
-                content: attr(data-tooltip);
-                // content: "";
+                --arrow-size: 6px;
+                --scale: 0;
                 position: absolute;
-                font-size: 12px;
-                color: $color-white;
-                background-color: $color-black;
                 left: 50%;
-                transform: translateX(-50%) translateY(-100%);
+                transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+                transform-origin: bottom center;
+                transition: all .3s;
+                opacity: 0.8;
+              }
+              &::before {
+                --translate-y: calc(-100% - var(--arrow-size));
+                background-color: $color-black;
+                content: attr(data-tooltip);
+                color: $color-white;
+                font-size: 12px;
                 padding: 8px;
                 border-radius: $border-radius-10;
                 text-align: center;
                 width: max-content;
-                max-width: 100%;
+                max-width: 64px;
+              }
+              &::after {
+                --translate-y: calc(-1 * var(--arrow-size));
+                content: "";
+                transform-origin: top center;
+                border: var(--arrow-size) solid transparent;
+                border-top-color: $color-black;
               }
             }
           }

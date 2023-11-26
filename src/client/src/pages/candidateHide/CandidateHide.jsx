@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import "./candidateHide.scss";
 import TableCandidate from "../../components/tableCandidate/TableCandidate.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
@@ -83,6 +84,7 @@ export default function CandidateHide() {
     },
     {
       onSuccess: () => {
+        toast.success("Bỏ ẩn ứng viên thành công.")
         queryClient.invalidateQueries(["apply"]);
       },
     }

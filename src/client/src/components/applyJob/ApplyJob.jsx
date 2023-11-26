@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import "./applyJob.scss";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
@@ -14,16 +15,15 @@ import {
 export default function ApplyJob({ job }) {
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(false);
   const [userApply, setUserApply] = useState();
   const [letter, setLetter] = useState();
   const [inputs, setInputs] = useState({
     idJob: "",
-    name: "",
-    email: "",
-    phone: "",
+    name: currentUser?.name,
+    email: currentUser?.email,
+    phone: currentUser?.phone,
     letter: "",
-    linkCv: "",
+    linkCv: currentUser?.linkCv,
   });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -34,9 +34,8 @@ export default function ApplyJob({ job }) {
   };
 
   const postApply = async () => {
-    setErr();
     if (!inputs?.name || !inputs?.email || !inputs?.phone)
-      return setErr("Các trường không được rỗng.");
+      return toast.error("Các trường không được rỗng.");
     if (!job) return;
     try {
       inputs.idJob = job?.id;
@@ -44,8 +43,9 @@ export default function ApplyJob({ job }) {
       console.log(inputs);
       await makeRequest.post("/apply", inputs);
       navigate(`/viec-lam/${job?.id}`);
+      toast.success("Ứng tuyển thành công");
     } catch (err) {
-      setErr(err?.response?.data);
+      toast.error(err?.response?.data);
     }
   };
 
@@ -138,7 +138,6 @@ export default function ApplyJob({ job }) {
           </div>
         </div>
       </div>
-      {err && <span className="err">{err}</span>}
       <div className="applyJob__bottom">
         {userApply?.includes(currentUser?.id) ? (
           <div className="applyJob__bottom__applied">
@@ -146,7 +145,12 @@ export default function ApplyJob({ job }) {
             <span>Bạn đã ứng tuyển</span>
           </div>
         ) : (
-          <button className="applyJob__bottom__button" onClick={() => mutationApply.mutate()}>Nộp đơn ngay</button>
+          <button
+            className="applyJob__bottom__button"
+            onClick={() => mutationApply.mutate()}
+          >
+            Nộp đơn ngay
+          </button>
         )}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import "./detailJob.scss";
 import img from "../../assets/images/avatarCpn.png";
 import ListJobCol from "../../components/listJobCol/ListJobCol";
@@ -79,11 +80,7 @@ export default function DetailJob() {
     } catch (error) {}
   };
 
-  const {
-    isLoading: isLoadingApply,
-    error: errorLoading,
-    data: dataLoading,
-  } = useQuery(["apply", job?.id], () => {
+  const {} = useQuery(["apply", job?.id], () => {
     return getUseApply();
   });
 
@@ -102,6 +99,19 @@ export default function DetailJob() {
   const handleSubmitSave = () => {
     if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
     mutationSave.mutate(userSave?.includes(currentUser?.id));
+    userSave?.includes(currentUser?.id)
+      ? toast.success("Đã gỡ khỏi việc làm yêu thích.", {
+          action: {
+            label: "Việc làm",
+            onClick: () => navigate(`/nguoi-dung/${currentUser?.id}/jobs`),
+          },
+        })
+      : toast.success("Đã thêm vào việc làm yêu thích.", {
+          action: {
+            label: "Việc làm",
+            onClick: () => navigate(`/nguoi-dung/${currentUser?.id}/jobs`),
+          },
+        });
   };
 
   return (
@@ -111,17 +121,26 @@ export default function DetailJob() {
           <div className="detailJob__share">
             <div className="detailJob__share__wrapper">
               <div className="detailJob__share__wrapper__list">
-                <div className="detailJob__share__wrapper__list__item" data-tooltip="Chia sẻ qua Facebook">
+                <div
+                  className="detailJob__share__wrapper__list__item"
+                  data-tooltip="Chia sẻ qua Facebook"
+                >
                   <FacebookShareButton url={urlShare}>
                     <FacebookIcon size={32} round />
                   </FacebookShareButton>
                 </div>
-                <div className="detailJob__share__wrapper__list__item" data-tooltip="Chia sẻ qua Email">
+                <div
+                  className="detailJob__share__wrapper__list__item"
+                  data-tooltip="Chia sẻ qua Email"
+                >
                   <EmailShareButton url={urlShare}>
                     <EmailIcon size={32} round />
                   </EmailShareButton>
                 </div>
-                <div className="detailJob__share__wrapper__list__item" data-tooltip="Chia sẻ qua X">
+                <div
+                  className="detailJob__share__wrapper__list__item"
+                  data-tooltip="Chia sẻ qua X"
+                >
                   <TwitterShareButton url={urlShare}>
                     <TwitterIcon size={32} round />
                   </TwitterShareButton>
@@ -310,13 +329,15 @@ export default function DetailJob() {
           </div>
         </div>
       </div>
-      <Modal
-        title={"Ứng tuyển"}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-      >
-        {openModal && <ApplyJob job={job && job} />}
-      </Modal>
+      {!userApply?.includes(currentUser?.id) && (
+        <Modal
+          title={"Ứng tuyển"}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+        >
+          <ApplyJob job={job && job} />
+        </Modal>
+      )}
     </>
   );
 }

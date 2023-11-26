@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { toast } from "sonner";
 import "./itemCompany.scss";
 import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/images/avatarCpn.png";
@@ -73,6 +74,10 @@ export default function ItemCompany({ company, className, style }) {
   const handleSubmitFollow = () => {
     if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
     mutationFollow.mutate(follower?.includes(currentUser?.id));
+
+    follower?.includes(currentUser?.id)
+      ? toast.success("Đã bỏ yêu thích công ty.")
+      : toast.success("Đã thêm vào công ty yêu thích.");
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { toast } from "sonner";
 import "./infoCompany.scss";
 import Select from "../../../components/select/Select";
 import { scale } from "../../../config/data";
@@ -10,6 +11,7 @@ export default function InfoCompany() {
   const [company, setCompany] = useState();
   const [err, setErr] = useState();
   const [loading, setLoading] = useState();
+  const [edit, setEdit] = useState();
   const [provinces, setProvinces] = useState();
   const { id } = useParams();
   const [inputs, setInputs] = useState();
@@ -45,6 +47,8 @@ export default function InfoCompany() {
         <div className="infoCompany__wrapper__header"></div>
         <div className="infoCompany__wrapper__body">
           <ItemInfoCompany
+            edit={edit}
+            setEdit={setEdit}
             inputs={inputs}
             handleChange={handleChange}
             name={"nameCompany"}
@@ -52,6 +56,8 @@ export default function InfoCompany() {
             desc={company?.nameCompany}
           />
           <ItemInfoCompany
+            edit={edit}
+            setEdit={setEdit}
             inputs={inputs}
             handleChange={handleChange}
             name={"nameAdmin"}
@@ -59,6 +65,8 @@ export default function InfoCompany() {
             desc={company?.nameAdmin}
           />
           <ItemInfoCompany
+            edit={edit}
+            setEdit={setEdit}
             inputs={inputs}
             handleChange={handleChange}
             name={"email"}
@@ -66,6 +74,8 @@ export default function InfoCompany() {
             desc={company?.email}
           />
           <ItemInfoCompany
+            edit={edit}
+            setEdit={setEdit}
             inputs={inputs}
             handleChange={handleChange}
             name={"phone"}
@@ -73,6 +83,8 @@ export default function InfoCompany() {
             desc={company?.phone}
           />
           <ItemInfoCompany
+            edit={edit}
+            setEdit={setEdit}
             inputs={inputs}
             handleChange={handleChange}
             name={"web"}
@@ -80,21 +92,25 @@ export default function InfoCompany() {
             desc={company?.web}
           />
           <ItemInfoCompany
+            edit={edit}
+            setEdit={setEdit}
             inputs={inputs}
             handleChange={handleChange}
             name={"idProvince"}
             title={"Địa chỉ"}
             desc={company?.province}
-            select={'province'}
+            select={"province"}
             options={provinces}
           />
           <ItemInfoCompany
+            edit={edit}
+            setEdit={setEdit}
             inputs={inputs}
             handleChange={handleChange}
             name={"scale"}
             title={"Quy mô"}
             desc={company?.scale}
-            select={'scale'}
+            select={"scale"}
             options={scale}
           />
         </div>
@@ -112,14 +128,25 @@ function ItemInfoCompany({
   inputs,
   handleChange,
   name,
+  edit,
+  setEdit,
 }) {
-  const [edit, setEdit] = useState(false);
+  // const [edit, setEdit] = useState(false);
   const [selectedOption, setSelectedOption] = useState();
   const queryClient = useQueryClient();
 
+  const putInfo = async () => {
+    try {
+      await makeRequest.put("/company/update", inputs);
+      toast.success("Cập nhật thông tin thành công.");
+    } catch (error) {
+      toast.error(error?.response?.data);
+    }
+  };
+
   const mutation = useMutation(
     () => {
-      return makeRequest.put("/company/update", inputs);
+      return putInfo();
     },
     {
       onSuccess: () => {
@@ -129,9 +156,9 @@ function ItemInfoCompany({
   );
 
   const handleSubmitSave = () => {
-    if (select == 'province') {
+    if (select == "province") {
       inputs.idProvince = selectedOption?.pId;
-    }else if (select == 'scale'){
+    } else if (select == "scale") {
       inputs.scale = selectedOption?.name;
     }
     mutation.mutate();
@@ -142,7 +169,7 @@ function ItemInfoCompany({
     <div className="infoCompany__wrapper__body__item">
       <div className="infoCompany__wrapper__body__item__left">
         <h6>{title}</h6>
-        {!edit ? (
+        {edit != name ? (
           <span>{desc || "..."}</span>
         ) : select ? (
           <Select
@@ -161,8 +188,8 @@ function ItemInfoCompany({
         )}
       </div>
       <div className="infoCompany__wrapper__body__item__right">
-        {!edit ? (
-          <button className="btn-edit" onClick={() => setEdit(true)}>
+        {edit != name ? (
+          <button className="btn-edit" onClick={() => setEdit(name)}>
             Thay đổi
           </button>
         ) : (
@@ -170,7 +197,7 @@ function ItemInfoCompany({
             <button className="btn-save" onClick={() => handleSubmitSave()}>
               Lưu
             </button>
-            <button className="btn-cancel" onClick={() => setEdit(false)}>
+            <button className="btn-cancel" onClick={() => setEdit()}>
               Hủy
             </button>
           </>

@@ -44,7 +44,6 @@ export default function DetailCompany() {
   const queryClient = useQueryClient();
   const urlShare = window.location.href;
 
-  console.log(window.location.href);
   const controlPathname = pathname.split("/").filter(Boolean).pop();
 
   const getCompany = async () => {
