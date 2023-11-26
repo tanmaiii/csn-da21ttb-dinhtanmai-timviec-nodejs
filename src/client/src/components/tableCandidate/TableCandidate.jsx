@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import img from "../../assets/images/avatar.png";
 import "./tableCandidate.scss";
 import Modal from "../../components/modal/Modal";
@@ -10,7 +10,11 @@ import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios.js";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-export default function TableCandidate({ data }) {
+export default function TableCandidate({
+  data,
+  listCheck,
+  setListCheck
+}) {
   const [openModal, setOpenModal] = useState(false);
   const [idApply, setIdApply] = useState(null);
 
@@ -19,10 +23,29 @@ export default function TableCandidate({ data }) {
     setOpenModal(true);
   };
 
+  const handleClickAll = () => {
+    if (listCheck?.length === data?.length) {
+      setListCheck([]);
+    } else {
+      setListCheck([]);
+      data.map((item) => {
+        setListCheck((current) => [...current, item?.id]);
+      });
+    }
+  };
+
   return (
     <>
       <div className="table__candidate">
         <div className="table__candidate__header">
+          <span>
+            <input
+              onClick={() => handleClickAll()}
+              checked={listCheck?.length === data?.length}
+              type="checkbox"
+              className="table__candidate__header__checkAll"
+            />
+          </span>
           <span>STT</span>
           <span>Thông tin</span>
           <span>Nhận vào</span>
@@ -37,6 +60,8 @@ export default function TableCandidate({ data }) {
               key={i}
               item={item}
               handleClickView={handleClickView}
+              listCheck={listCheck}
+              setListCheck={setListCheck}
             />
           ))}
         </div>
@@ -52,8 +77,15 @@ export default function TableCandidate({ data }) {
   );
 }
 
-function RowTableCandidate({ item, index, handleClickView }) {
+function RowTableCandidate({
+  item,
+  index,
+  handleClickView,
+  setListCheck,
+  listCheck,
+}) {
   const [statusId, setStatusId] = useState();
+  const [active, setActive] = useState(false);
 
   const getStatus = async () => {
     try {
@@ -62,17 +94,33 @@ function RowTableCandidate({ item, index, handleClickView }) {
     } catch (error) {}
   };
 
-  useEffect(() => {
-    getStatus();
-  }, []);
-
-  const { isLoading, error, data } = useQuery(["apply", item.id], () => {
-    console.log("load lai");
+  const { isLoading, error, data } = useQuery(["apply", item?.id], () => {
     return getStatus();
   });
 
+  useEffect(() => {
+    setActive(listCheck?.includes(item?.id));
+  }, [listCheck]);
+
+  const handleClickOption = (id) => {
+    if (listCheck.includes(id)) {
+      const newFilter = [...listCheck];
+      newFilter.splice(listCheck.indexOf(id), 1);
+      setListCheck(newFilter);
+    } else {
+      setListCheck((current) => [...current, id]);
+    }
+  };
+
   return (
-    <div className="table__candidate__body__row">
+    <div className={`table__candidate__body__row ${active && "active"}`}>
+      <div className="table__candidate__body__row__item" data-cell={"Chọn"}>
+        <input
+          type="checkbox"
+          checked={listCheck?.includes(item?.id)}
+          onClick={() => handleClickOption(item?.id)}
+        />
+      </div>
       <div className="table__candidate__body__row__item" data-cell={"STT"}>
         {String(index + 1).padStart(2, "0")}
       </div>
@@ -106,15 +154,11 @@ function RowTableCandidate({ item, index, handleClickView }) {
         className="table__candidate__body__row__item"
         data-cell={"Trạng thái"}
       >
-        {status.map(
-          (status) =>
-            status.id === parseInt(statusId) && (
-              <div className={`status status-${status.id}`}>
-                {status?.icon}
-                <span className={status.id}>{status?.name}</span>
-              </div>
-            )
-        )}
+        <RowSelectStatus
+          option={status}
+          defaultActive={item?.status}
+          id={item?.id}
+        />
       </div>
       <div className="table__candidate__body__row__item" data-cell={"Chi tiết"}>
         <button
@@ -124,6 +168,87 @@ function RowTableCandidate({ item, index, handleClickView }) {
           <i class="fa-solid fa-eye"></i>
         </button>
       </div>
+    </div>
+  );
+}
+
+function RowSelectStatus({ option, defaultActive, id }) {
+  const [open, setOpen] = useState(false);
+  const [optionActive, setOptionActive] = useState(defaultActive);
+  const rowSelectStatusRef = useRef();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    setOptionActive(defaultActive);
+  }, [defaultActive]);
+
+  const mutation = useMutation(
+    (status) => {
+      return makeRequest.put(`/apply/status?id=${id}&status=${status}`);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["apply"]);
+      },
+    }
+  );
+
+  const handleClickOption = (status) => {
+    setOptionActive(status);
+    mutation.mutate(status);
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const handleMousedown = (e) => {
+      if (!rowSelectStatusRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => document.removeEventListener("mousedown", handleMousedown);
+  });
+
+  return (
+    <div className="rowSelectStatus" ref={rowSelectStatusRef}>
+      {optionActive &&
+        option?.map((option) => {
+          if (option.id === optionActive)
+            return (
+              <div
+                className={`rowSelectStatus__toggle  status-${option?.id}`}
+                onClick={() => setOpen(!open)}
+              >
+                <div className={`rowSelectStatus__toggle__title`}>
+                  {option?.icon}
+                  <span className="text">{option.name}</span>
+                </div>
+                <i
+                  className={`fa-solid fa-angle-down icon-down ${
+                    open ? "open" : ""
+                  }`}
+                ></i>
+              </div>
+            );
+        })}
+      {open && (
+        <div className="rowSelectStatus__menu">
+          <div className={`rowSelectStatus__menu__list`}>
+            {option?.map((option, i) => (
+              <div
+                key={i}
+                className={`rowSelectStatus__menu__list__item  ${
+                  optionActive === option?.id ? "active" : ""
+                }`}
+                onClick={() => handleClickOption(option?.id)}
+              >
+                {option?.icon}
+                <span>{option?.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

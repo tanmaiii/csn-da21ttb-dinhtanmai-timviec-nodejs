@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
 import checkEmail from "../middlewares/checkEmail.middleware.js";
+import checkUrl from "../middlewares/checkUrl.middleware.js"
 
 export const getCompany = (req, res) => {
   const id = req.params.id;
@@ -102,6 +103,7 @@ export const updateCompany = (req, res) => {
   const { nameCompany, nameAdmin, email, phone, idProvince, web, scale } =
     req.body;
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
+  if(!checkUrl(web)) return res.status(409).json("Link không hợp lệ !");
 
   if (!token) return res.status(401).json("Not logged in!");
 

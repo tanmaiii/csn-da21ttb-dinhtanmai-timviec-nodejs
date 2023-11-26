@@ -52,6 +52,11 @@
               font-weight: 400;
               color: themed("text1");
             }
+            a:hover {
+              span {
+                color: $color-txt-blue;
+              }
+            }
           }
           &__item__letters {
             background-color: themed("bg1");

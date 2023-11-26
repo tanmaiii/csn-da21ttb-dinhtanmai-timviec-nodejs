@@ -1,24 +1,36 @@
 @use "../../scss/" as *;
 
-.candidate {
+.candidateHide {
   @include themify($themes) {
     margin-top: $height-header;
     padding: $spacing 0;
     min-height: 100vh;
     .container {
-      .candidate__wrapper {
+      .candidateHide__wrapper {
         background-color: themed("bg2");
         border-radius: $border-radius-20;
         padding: 20px;
         &__header {
           margin-bottom: 20px;
           @include flex(center, space-between);
+          button {
+            font-size: $font-size-s;
+            color: themed("text1");
+            @include flex(center, unset);
+            gap: 8px;
+            i {
+              font-size: 1.2rem;
+              transition: all 0.3s;
+            }
+            &:hover {
+              i {
+                transform: translateX(-8px);
+              }
+            }
+          }
           h2 {
             color: $color-primary;
             font-size: $font-size-l;
-          }
-          button {
-            @include button($color-white, $color-primary);
           }
         }
         &__body {
@@ -135,6 +147,7 @@
           }
 
           &__list {
+            overflow: hidden;
             width: 100%;
             &__delete {
               margin-bottom: 20px;
@@ -148,7 +161,6 @@
                 span {
                   font-size: $font-size-s;
                   color: $color-txt-red;
-                  font-weight: 500;
                 }
                 i {
                   font-size: 1.2rem;
@@ -169,122 +181,6 @@
               }
             }
             &__right {
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-.selectCadidate {
-  @include themify($themes) {
-    position: relative;
-    @include mobile {
-      width: 100%;
-    }
-    &__header {
-      top: -8px;
-      position: absolute;
-      left: 6px;
-      font-size: 14px;
-      color: themed("text2");
-      background-color: themed("bg2");
-      border-radius: $border-radius-10;
-      padding: 0 8px;
-    }
-    &__toggle {
-      padding: 12px 20px;
-      background-color: themed("bg2");
-      border-radius: $border-radius-10;
-      border: 1px solid themed("border");
-      @include flex(center, space-between);
-      cursor: pointer;
-      gap: 6px;
-      color: themed("text1");
-      transition: all 0.3s;
-      user-select: none;
-      z-index: 1;
-      width: max-content;
-      width: 200px;
-      @include mobile {
-        width: 100%;
-      }
-      @include mobile {
-        border-radius: $border-radius-10;
-        @include flex(center, space-between);
-      }
-      &.active {
-        // background-color: $color-primary;
-        // border-color: $color-primary;
-        // color: $color-white;
-        font-weight: 500;
-      }
-      &__title {
-        @include flex(center, unset);
-        gap: 8px;
-        span {
-          font-size: $font-size-s;
-          @include text(1);
-        }
-        i:nth-child(1) {
-          font-size: $font-size-s;
-        }
-      }
-      .icon-down {
-        @include flex(center, center);
-        font-size: $font-size-s;
-        transition: all 0.3s;
-        &.open {
-          transform: rotate(-180deg);
-        }
-      }
-    }
-    &__menu {
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      width: max-content;
-      min-width: 100%;
-      background-color: themed("bg2");
-      box-shadow: themed("box-shadow");
-      border-radius: $border-radius-10;
-      overflow: hidden;
-      display: block;
-      z-index: 99;
-      @include mobile {
-        width: 100%;
-      }
-      @include mobile {
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      &__list {
-        max-height: 340px;
-        height: max-content;
-        overflow-y: auto;
-        &__item {
-          padding: 10px;
-          cursor: pointer;
-          @include flex(center, unset);
-          gap: 10px;
-          transition: all 0.3s;
-          min-width: 100%;
-          max-width: 300px;
-          width: max-content;
-          &.active {
-            font-weight: 600;
-            background-color: themed("bg1");
-          }
-          &:hover {
-            background-color: themed("bg1");
-          }
-          span {
-            color: themed("text1");
-            @include text(1);
-            font-size: $font-size-s;
-            @include mobile {
-              width: 100%;
             }
           }
         }

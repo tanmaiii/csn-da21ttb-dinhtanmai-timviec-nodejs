@@ -64,11 +64,11 @@ export const getUserByCpn = (req, res) => {
     const offset = (page - 1) * limit;
 
     let q = `SELECT a.id, a.idUser, a.name, a.status, a.createdAt , j.nameJob, u.avatarPic FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
-             WHERE c.id = ? AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
+             WHERE c.id = ? AND a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     let q2 = `SELECT count(*) as count 
               FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
-              WHERE c.id = ? AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
+              WHERE c.id = ? AND a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     if (idJob) {
       q += ` AND a.idJob = ${idJob} `;
@@ -90,6 +90,50 @@ export const getUserByCpn = (req, res) => {
     } else if (sort === "old") {
       q += ` ORDER BY a.createdAt ASC `;
     }
+
+    jwt.verify(token, "secretkey", async (err, cpn) => {
+      const [data] = await promiseDb.query(
+        `${q} limit ${+limit} offset ${+offset}`,
+        [cpn.id]
+      );
+      const [total] = await promiseDb.query(q2, cpn.id);
+      const totalPage = Math.ceil(+total[0]?.count / limit);
+
+      if (data && total && limit && page) {
+        return res.status(200).json({
+          data: data,
+          pagination: {
+            page: +page,
+            limit: +limit,
+            totalPage,
+            total: total[0]?.count,
+          },
+        });
+      } else {
+        return res.status(409).json("Rỗng !");
+      }
+    });
+  } catch (error) {
+    return res.status(409).json("Lỗi !");
+  }
+};
+
+export const getUserHideByCpn = (req, res) => {
+  try {
+    const promiseDb = db.promise();
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+    const offset = (page - 1) * limit;
+
+    let q = `SELECT a.id, a.idUser, a.name, a.status, a.createdAt , j.nameJob, u.avatarPic FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+             WHERE c.id = ? AND not a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY a.deletedAt DESC`;
+
+    let q2 = `SELECT count(*) as count 
+              FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+              WHERE c.id = ? AND not a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     jwt.verify(token, "secretkey", async (err, cpn) => {
       const [data] = await promiseDb.query(
@@ -149,7 +193,7 @@ export const getDetailApply = async (req, res) => {
 
 export const getStatus = async (req, res) => {
   try {
-    const id = req.query.id;    
+    const id = req.query.id;
     const q = `SELECT a.status FROM job.apply_job as a WHERE a.id = ?`;
 
     db.query(q, [id], (err, data) => {
@@ -204,11 +248,57 @@ export const updateStatusJob = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
-      "UPDATE job.apply_job as a , job.companies as c, job.jobs  as j SET `status`= ? WHERE a.id = ? AND c.id = ? AND a.idJob = j.id AND j.idCompany = c.id";
+      "UPDATE job.apply_job as a , job.companies as c, job.jobs as j SET `status`= ? WHERE a.id = ? AND c.id = ? AND a.idJob = j.id AND j.idCompany = c.id";
 
     const values = [req.query.status, req.query.id, userInfo.id];
 
     db.query(q, values, (err, data) => {
+      if (!err) return res.status(200).json(data);
+      if (data?.affectedRows > 0) return res.json("Update");
+      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+    });
+  });
+};
+
+export const hiddenJobByCpn = (req, res) => {
+  const token = req.cookies.accessToken;
+
+  const id = req.query.id;
+  const idFilter = id.join("','");
+
+  if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token không trùng !");
+    const q = `UPDATE job.apply_job as a , job.companies as c, job.jobs as j SET \`deletedAt\` = '${moment(
+      Date.now()
+    ).format(
+      "YYYY-MM-DD HH:mm:ss"
+    )}' WHERE a.id in ('${idFilter}') AND a.idJob = j.id AND j.idCompany = c.id AND c.id = ${
+      userInfo.id
+    }`;
+
+    db.query(q, (err, data) => {
+      if (!err) return res.status(200).json(data);
+      if (data?.affectedRows > 0) return res.json("Update");
+      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+    });
+  });
+};
+
+export const unHiddenJobByCpn = (req, res) => {
+  const token = req.cookies.accessToken;
+
+  const id = req.query.id;
+  const idFilter = id.join("','");
+
+  if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token không trùng !");
+    const q = `UPDATE job.apply_job as a , job.companies as c, job.jobs as j SET \`deletedAt\` = null WHERE a.id in ('${idFilter}') AND a.idJob = j.id AND j.idCompany = c.id AND c.id = ${userInfo.id}`;
+
+    db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);
       if (data?.affectedRows > 0) return res.json("Update");
       return res.status(403).json("Chỉ thay đổi được thông tin của mình");

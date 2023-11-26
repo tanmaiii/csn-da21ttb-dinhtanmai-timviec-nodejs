@@ -142,9 +142,13 @@ export default function DetailUser() {
                     </div>
                   </div>
                 </div>
-                <div className="detailUser__wrapper__header__button">
-                  <button>Chỉnh sửa</button>
-                </div>
+                {user?.id === currentUser?.id && (
+                  <Link to={`/nguoi-dung/${currentUser?.id}/info`}>
+                    <div className="detailUser__wrapper__header__button">
+                      <button>Chỉnh sửa</button>
+                    </div>
+                  </Link>
+                )}
               </div>
               <div className="detailUser__wrapper__body row">
                 <div className=" col pc-9 t-9 m-12">
@@ -272,11 +276,9 @@ export default function DetailUser() {
                 </div>
                 <div className="col pc-3 t-3 m-0">
                   <div className="detailUser__wrapper__body__right">
-                    <h6>Website</h6>
-                    <div className="detailUser__wrapper__body__right__web">
-                      <a href="https://www.facebook.com/">
-                        https://www.facebook.com/
-                      </a>
+                    <h6>CV</h6>
+                    <div className="detailUser__wrapper__body__right__cv">
+                      <a href={user?.linkCv}>{user?.linkCv || "Không có"}</a>
                     </div>
                     <h6>Theo dõi</h6>
                     <div className="detailUser__wrapper__body__right__list">

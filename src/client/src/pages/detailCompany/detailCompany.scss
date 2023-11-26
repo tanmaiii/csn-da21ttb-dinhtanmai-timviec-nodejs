@@ -144,7 +144,7 @@
             background-color: themed("bg2");
             padding: 20px;
             border-radius: $border-radius-20;
-            @include mobile{
+            @include mobile {
               padding: 10px;
             }
             &__control {
@@ -258,20 +258,26 @@
             &__web {
               margin-bottom: 20px;
               a {
-                color: $color-blue;
+                color: $color-txt-blue;
+                font-size: $font-size-s;
                 &:hover {
                   text-decoration: underline;
                 }
+              }
+              span {
+                font-size: $font-size-s;
+                font-weight: 400;
+                color: themed("text2");
               }
             }
             &__list {
               display: flex;
               flex-wrap: wrap;
               gap: 10px;
-              a {
-                font-size: $font-size-m;
-                transition: all 0.3s;
+              button {
                 i {
+                  transition: all 0.3s;
+                  font-size: 1.2rem;
                   color: themed("text1");
                 }
                 &:hover {

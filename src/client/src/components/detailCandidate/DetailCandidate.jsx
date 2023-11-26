@@ -3,15 +3,11 @@ import "./detailCandidate.scss";
 import Select from "../select/Select";
 import { status } from "../../config/data.js";
 import { makeRequest } from "../../axios.js";
-
+import moment from "moment";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function DetailCandidate({ idApply }) {
   const [candidate, setCandidate] = useState();
-
-  // useEffect(() => {
-  //   setOptionActive(candidate?.status);
-  // }, [candidate]);
 
   const getApply = async () => {
     try {
@@ -24,28 +20,22 @@ export default function DetailCandidate({ idApply }) {
     return getApply();
   });
 
-  // useEffect(() => {
-  //   mutation.mutate(optionActive);
-  // }, [optionActive]);
-
   return (
     candidate && (
       <div className="detailCandidate">
         <div className="detailCandidate__wrapper">
-          <div className="detailCandidate__wrapper__control">
+          {/* <div className="detailCandidate__wrapper__control">
             <h4 className="detailCandidate__wrapper__control__title">
               Trạng thái hồ sơ
             </h4>
             <div className="detailCandidate__wrapper__control__select">
               <SelectStatus
                 option={status}
-                // optionActive={optionActive}
-                // setOptionActive={setOptionActive}
                 defaultActive={candidate?.status}
                 id={candidate?.id}
               />
             </div>
-          </div>
+          </div> */}
           <div className="detailCandidate__wrapper__group">
             <h4 className="detailCandidate__wrapper__group__title">
               Thông tin người ứng tuyển
@@ -56,12 +46,20 @@ export default function DetailCandidate({ idApply }) {
                 <span>{candidate.name}</span>
               </div>
               <div className="detailCandidate__wrapper__group__content__item">
+                <h6>Giới tính: </h6>
+                <span>{candidate.sex || "Không có"}</span>
+              </div>
+              <div className="detailCandidate__wrapper__group__content__item">
                 <h6>Email: </h6>
-                <span>{candidate.email}</span>
+                <a href={`mailto:${candidate.email}`}>
+                  <span>{candidate.email}</span>
+                </a>
               </div>
               <div className="detailCandidate__wrapper__group__content__item">
                 <h6>SDT: </h6>
-                <span>{candidate.phone}</span>
+                <a href={`tel:${candidate?.phone}`}>
+                  <span>{candidate?.phone}</span>
+                </a>
               </div>
               <div className="detailCandidate__wrapper__group__content__item">
                 <h6>Công việc: </h6>
@@ -69,7 +67,7 @@ export default function DetailCandidate({ idApply }) {
               </div>
               <div className="detailCandidate__wrapper__group__content__item">
                 <h6>Ngày nộp: </h6>
-                <span>{candidate.date}</span>
+                <span>{moment(candidate?.createdAt).format("DD/MM/YYYY")}</span>
               </div>
             </div>
           </div>
@@ -104,84 +102,84 @@ export default function DetailCandidate({ idApply }) {
   );
 }
 
-function SelectStatus({ option, defaultActive, id }) {
-  const [open, setOpen] = useState(false);
-  const [optionActive, setOptionActive] = useState(defaultActive);
-  const SelectStatusRef = useRef();
-  const queryClient = useQueryClient();
+// function SelectStatus({ option, defaultActive, id }) {
+//   const [open, setOpen] = useState(false);
+//   const [optionActive, setOptionActive] = useState(defaultActive);
+//   const SelectStatusRef = useRef();
+//   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    setOptionActive(defaultActive);
-  }, [defaultActive]);
+//   useEffect(() => {
+//     setOptionActive(defaultActive);
+//   }, [defaultActive]);
 
-  const mutation = useMutation(
-    (status) => {
-      return makeRequest.put(`/apply/status?id=${id}&status=${status}`);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["apply"]);
-      },
-    }
-  );
+//   const mutation = useMutation(
+//     (status) => {
+//       return makeRequest.put(`/apply/status?id=${id}&status=${status}`);
+//     },
+//     {
+//       onSuccess: () => {
+//         queryClient.invalidateQueries(["apply"]);
+//       },
+//     }
+//   );
 
-  const handleClickOption = (status) => {
-    setOptionActive(status);
-    mutation.mutate(status);
-    setOpen(false);
-  };
+//   const handleClickOption = (status) => {
+//     setOptionActive(status);
+//     mutation.mutate(status);
+//     setOpen(false);
+//   };
 
-  useEffect(() => {
-    const handleMousedown = (e) => {
-      if (!SelectStatusRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleMousedown);
-    return () => document.removeEventListener("mousedown", handleMousedown);
-  });
+//   useEffect(() => {
+//     const handleMousedown = (e) => {
+//       if (!SelectStatusRef.current.contains(e.target)) {
+//         setOpen(false);
+//       }
+//     };
+//     document.addEventListener("mousedown", handleMousedown);
+//     return () => document.removeEventListener("mousedown", handleMousedown);
+//   });
 
-  return (
-    <div className="SelectStatus" ref={SelectStatusRef}>
-      {optionActive &&
-        option?.map((option) => {
-          if (option.id === optionActive)
-            return (
-              <div
-                className={`SelectStatus__toggle  status-${option?.id}`}
-                onClick={() => setOpen(!open)}
-              >
-                <div className={`SelectStatus__toggle__title`}>
-                  {option?.icon}
-                  <span className="text">{option.name}</span>
-                </div>
-                <i
-                  className={`fa-solid fa-angle-down icon-down ${
-                    open ? "open" : ""
-                  }`}
-                ></i>
-              </div>
-            );
-        })}
+//   return (
+//     <div className="SelectStatus" ref={SelectStatusRef}>
+//       {optionActive &&
+//         option?.map((option) => {
+//           if (option.id === optionActive)
+//             return (
+//               <div
+//                 className={`SelectStatus__toggle  status-${option?.id}`}
+//                 onClick={() => setOpen(!open)}
+//               >
+//                 <div className={`SelectStatus__toggle__title`}>
+//                   {option?.icon}
+//                   <span className="text">{option.name}</span>
+//                 </div>
+//                 <i
+//                   className={`fa-solid fa-angle-down icon-down ${
+//                     open ? "open" : ""
+//                   }`}
+//                 ></i>
+//               </div>
+//             );
+//         })}
 
-      {open && (
-        <div className="SelectStatus__menu">
-          <div className={`SelectStatus__menu__list`}>
-            {option?.map((option, i) => (
-              <div
-                key={i}
-                className={`SelectStatus__menu__list__item  ${
-                  optionActive === option?.id ? "active" : ""
-                }`}
-                onClick={() => handleClickOption(option?.id)}
-              >
-                {option?.icon}
-                <span>{option?.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+//       {open && (
+//         <div className="SelectStatus__menu">
+//           <div className={`SelectStatus__menu__list`}>
+//             {option?.map((option, i) => (
+//               <div
+//                 key={i}
+//                 className={`SelectStatus__menu__list__item  ${
+//                   optionActive === option?.id ? "active" : ""
+//                 }`}
+//                 onClick={() => handleClickOption(option?.id)}
+//               >
+//                 {option?.icon}
+//                 <span>{option?.label}</span>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }

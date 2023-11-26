@@ -28,6 +28,7 @@ import Signup from "./components/signup/Signup";
 import SigninCompany from "./components/signinCompany/SigninCompany";
 import SignupCompany from "./components/signupCompany/SignupCompany";
 import InfoCompany from "./pages/detailCompany/infoCompany/InfoCompany";
+import CandidateHide from "./pages/candidateHide/CandidateHide";
 
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
             </Route>
 
             <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
+            <Route path="nha-tuyen-dung/ung-vien-an" element={<CandidateHide />} />
             <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
             <Route path="nha-tuyen-dung/chinh-sua" element={<EditJob />} />
           </Route>

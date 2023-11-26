@@ -7,26 +7,28 @@ import IntroCompany from "./introCompany/IntroCompany";
 import JobsCompany from "./jobsCompany/JobsCompany";
 import {
   Link,
-  useSearchParams,
   useParams,
   Route,
   Routes,
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import Pagination from "../../components/pagination/Pagination";
 import { makeRequest, apiImage } from "../../axios";
 import NotFound from "../../pages/notFound/NotFound";
 import Loader from "../../components/loader/Loader";
 
 import { useAuth } from "../../context/authContext";
 
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
 import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+  FacebookShareButton,
+  EmailShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  EmailIcon,
+  TwitterIcon,
+} from "react-share";
 
 export default function DetailCompany() {
   const [err, setErr] = useState();
@@ -40,7 +42,9 @@ export default function DetailCompany() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const queryClient = useQueryClient();
+  const urlShare = window.location.href;
 
+  console.log(window.location.href);
   const controlPathname = pathname.split("/").filter(Boolean).pop();
 
   const getCompany = async () => {
@@ -303,21 +307,23 @@ export default function DetailCompany() {
                   <div className="detailCompany__wrapper__body__right">
                     <h6>Website</h6>
                     <div className="detailCompany__wrapper__body__right__web">
-                      <a href="https://www.facebook.com/">
-                        https://www.facebook.com/
-                      </a>
+                      {company?.web ? (
+                        <a href={company?.web}>{company?.web}</a>
+                      ) : (
+                        <span>Không có</span>
+                      )}
                     </div>
-                    <h6>Theo dõi</h6>
+                    <h6>Chia sẻ</h6>
                     <div className="detailCompany__wrapper__body__right__list">
-                      <a href="">
-                        <i className="fa-brands fa-facebook"></i>
-                      </a>
-                      <a href="">
-                        <i className="fa-solid fa-envelope"></i>
-                      </a>
-                      <a href="">
-                        <i className="fa-brands fa-twitter"></i>
-                      </a>
+                      <FacebookShareButton url={urlShare}>
+                        <FacebookIcon size={32} round />
+                      </FacebookShareButton>
+                      <EmailShareButton url={urlShare}>
+                        <EmailIcon size={32} round />
+                      </EmailShareButton>
+                      <TwitterShareButton url={urlShare}>
+                        <TwitterIcon size={32} round />
+                      </TwitterShareButton>
                     </div>
                   </div>
                 </div>

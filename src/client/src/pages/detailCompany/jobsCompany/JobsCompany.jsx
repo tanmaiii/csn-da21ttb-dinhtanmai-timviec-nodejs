@@ -32,6 +32,8 @@ export default function JobsCompany() {
 
   useEffect(() => {
     getJob();
+    const jobsCompany = document.querySelector(".jobsCompany");
+    window.scroll(0,0)
   }, [paginate]);
 
   if (loading) return <Loader />;

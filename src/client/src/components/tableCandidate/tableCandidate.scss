@@ -2,10 +2,11 @@
 
 .table__candidate {
   @include themify($themes) {
+   
     &__header {
       width: 100%;
       display: grid;
-      grid-template-columns: 0.5fr 2fr 1.5fr 3fr 1.5fr 1fr;
+      grid-template-columns: 0.3fr 0.5fr 2fr 1.5fr 3fr 1.5fr 1fr;
       padding: 20px 10px;
       gap: 8px;
       background-color: themed("bg1");
@@ -21,107 +22,224 @@
         font-size: $font-size-s;
         color: themed("text2");
         width: 100%;
+        input[type="checkbox"] {
+          --size: 18px;
+          width: var(--size);
+          height: var(--size);
+        }
       }
     }
     &__body {
       @include flex(center, unset);
       flex-direction: column;
       gap: 8px;
-      &__row {
+    }
+  }
+}
+
+.table__candidate__body__row {
+  @include themify($themes) {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.3fr 0.5fr 2fr 1.5fr 3fr 1.5fr 1fr;
+    padding: 10px;
+    gap: 8px;
+    border-radius: $border-radius-10;
+    border: 1px solid themed("border");
+    background-color: themed("bg2");
+    align-items: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    &.active {
+      background-color: themed("bg1");
+      border-color: $color-primary;
+    }
+
+    @include tablet {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+    }
+    &:hover {
+      border: 1px solid $color-primary;
+    }
+    &__item {
+      color: themed("text1");
+      font-size: $font-size-s;
+      text-align: center;
+      // @include text(1);
+      @include tablet {
         width: 100%;
         display: grid;
-        grid-template-columns: 0.5fr 2fr 1.5fr 3fr 1.5fr 1fr;
-        padding: 10px;
-        gap: 8px;
+        grid-template-columns: 11ch auto;
+        padding: 0.5rem 1rem;
+        gap: 0.5rem;
+        text-align: start;
+        &::before {
+          content: attr(data-cell) ": ";
+          font-weight: 500;
+        }
+      }
+      input[type="checkbox"] {
+        --size: 18px;
+        width: var(--size);
+        height: var(--size);
+      }
+      &__info {
+        @include flex(center, start);
+        gap: 10px;
+        &__image {
+          --size: 40px;
+          width: var(--size);
+          height: var(--size);
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        span {
+          font-size: $font-size-s;
+          font-weight: 500;
+          @include text(1);
+          color: themed("text1");
+          text-align: left;
+        }
+      }
+      .button-eye {
+        padding: 12px 20px;
         border-radius: $border-radius-10;
-        border: 1px solid themed("border");
-        background-color: themed("bg2");
-        align-items: center;
+        background-color: $color-purple;
+        color: $color-txt-purple;
+        font-size: $font-size-s;
+        font-weight: 500;
         transition: all 0.3s;
         @include tablet {
-          display: flex;
-          flex-direction: column;
-          align-items: start;
+          width: 250px;
+        }
+        @include mobile {
+          width: 100%;
         }
         &:hover {
-          border: 1px solid $color-primary;
+          background-color: $color-txt-purple;
+          color: $color-white;
         }
-        &__item {
-          color: themed("text1");
+      }
+    }
+  }
+}
+
+.rowSelectStatus {
+  @include themify($themes) {
+    position: relative;
+    width: 100%;
+    @include tablet {
+      width: 250px;
+    }
+    @include mobile {
+      width: 100%;
+    }
+    &__toggle {
+      padding: 12px 20px;
+      background-color: themed("bg2");
+      border-radius: $border-radius-10;
+      border: 1px solid themed("border");
+      @include flex(center, space-between);
+      cursor: pointer;
+      gap: 6px;
+      color: themed("text1");
+      transition: all 0.3s;
+      user-select: none;
+      z-index: 1;
+      width: max-content;
+      width: 100%;
+      @include mobile {
+        width: 100%;
+        border-radius: $border-radius-10;
+        @include flex(center, space-between);
+      }
+      &.status-1 {
+        background-color: $color-blue;
+        color: $color-txt-blue;
+      }
+      &.status-2 {
+        background-color: $color-yellow;
+        color: $color-txt-yellow;
+      }
+      &.status-3 {
+        background-color: $color-red;
+        color: $color-txt-red;
+      }
+      &.status-4 {
+        background-color: $color-green;
+        color: $color-txt-green;
+      }
+
+      &.active {
+        background-color: $color-primary;
+        border-color: $color-primary;
+        color: $color-white;
+      }
+      &__title {
+        @include flex(center, unset);
+        gap: 8px;
+        span {
           font-size: $font-size-s;
-          text-align: center;
           @include text(1);
-          @include tablet {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 11ch auto;
-            padding: 0.5rem 1rem;
-            gap: 0.5rem;
-            text-align: start;
-            &::before {
-              content: attr(data-cell) ": ";
-              font-weight: 500;
+        }
+      }
+      .icon-down {
+        @include flex(center, center);
+        font-size: $font-size-s;
+        transition: all 0.3s;
+        &.open {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+    &__menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: max-content;
+      min-width: 100%;
+      background-color: themed("bg2");
+      box-shadow: themed("box-shadow");
+      border-radius: $border-radius-10;
+      overflow: hidden;
+      display: block;
+      z-index: 99;
+      &__list {
+        max-height: 340px;
+        height: max-content;
+        overflow-y: auto;
+        &__item {
+          padding: 10px;
+          cursor: pointer;
+          @include flex(center, unset);
+          gap: 10px;
+          transition: all 0.3s;
+          min-width: 100%;
+          max-width: 300px;
+          width: max-content;
+          @include flex(center, unset);
+          background-color: themed("bg2");
+          gap: 10px;
+
+          &.active {
+            font-weight: 600;
+            i {
+              font-weight: 600;
             }
           }
-          &__info {
-            @include flex(center, start);
-            gap: 10px;
-            &__image {
-              --size: 40px;
-              width: var(--size);
-              height: var(--size);
-              object-fit: cover;
-              border-radius: 50%;
-            }
-            span {
-              font-size: $font-size-s;
-              font-weight: 500;
-              @include text(1);
-              color: themed("text1");
-              text-align: left;
-            }
+          &:hover {
+            background-color: themed("bg1");
           }
-          .status {
-            color: $color-white;
+          i {
+            font-size: 1.2rem;
+          }
+          span {
+            @include text(1);
             font-size: $font-size-s;
-            font-weight: 500;
-            padding: 12px 20px;
-            border-radius: $border-radius-10;
-            @include flex(center, center);
-            gap: 8px;
-            width: max-content;
-            margin: 0 auto;
-            @include tablet {
+            @include mobile {
               width: 100%;
-            }
-            &.status-1 {
-              background-color: $color-blue;
-              color: $color-txt-blue;
-            }
-            &.status-2 {
-              background-color: $color-yellow;
-              color: $color-txt-yellow;
-            }
-            &.status-3 {
-              background-color: $color-red;
-              color: $color-txt-red;
-            }
-            &.status-4 {
-              background-color: $color-green;
-              color: $color-txt-green;
-            }
-          }
-          .button-eye {
-            padding: 12px 20px;
-            border-radius: $border-radius-10;
-            background-color: $color-purple;
-            color: $color-txt-purple;
-            font-size: $font-size-s;
-            font-weight: 500;
-            transition: all 0.3s;
-            &:hover {
-              background-color: $color-txt-purple;
-              color: $color-white;
             }
           }
         }

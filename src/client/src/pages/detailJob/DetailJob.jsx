@@ -10,12 +10,16 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { useMode } from "../../context/ModeContext";
 
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
 import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+  FacebookShareButton,
+  EmailShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  EmailIcon,
+  TwitterIcon,
+} from "react-share";
 
 export default function DetailJob() {
   const [openModal, setOpenModal] = useState(false);
@@ -31,6 +35,7 @@ export default function DetailJob() {
   const buttonMoreRef = useRef();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const urlShare = window.location.href;
 
   const getJob = async () => {
     try {
@@ -103,6 +108,27 @@ export default function DetailJob() {
     <>
       <div className="detailJob">
         <div className="container">
+          <div className="detailJob__share">
+            <div className="detailJob__share__wrapper">
+              <div className="detailJob__share__wrapper__list">
+                <div className="detailJob__share__wrapper__list__item" data-tooltip="Chia sẻ qua Facebook">
+                  <FacebookShareButton url={urlShare}>
+                    <FacebookIcon size={32} round />
+                  </FacebookShareButton>
+                </div>
+                <div className="detailJob__share__wrapper__list__item" data-tooltip="Chia sẻ qua Email">
+                  <EmailShareButton url={urlShare}>
+                    <EmailIcon size={32} round />
+                  </EmailShareButton>
+                </div>
+                <div className="detailJob__share__wrapper__list__item" data-tooltip="Chia sẻ qua X">
+                  <TwitterShareButton url={urlShare}>
+                    <TwitterIcon size={32} round />
+                  </TwitterShareButton>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="detailJob__wrapper row">
             <div className="detailJob__wrapper__main col pc-9 t-8 m-12">
               <div className="detailJob__wrapper__main__image">

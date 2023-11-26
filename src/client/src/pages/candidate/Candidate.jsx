@@ -5,7 +5,7 @@ import Pagination from "../../components/pagination/Pagination";
 import { makeRequest } from "../../axios";
 import { useAuth } from "../../context/authContext";
 import NotFoundData from "../../components/notFoundData/NotFoundData";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { status } from "../../config/data.js";
 import queryString from "query-string";
 
@@ -39,6 +39,8 @@ export default function Candidate() {
   const { currentCompany } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [listCheck, setListCheck] = useState([]);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const getJob = async () => {
@@ -52,7 +54,7 @@ export default function Candidate() {
 
   const getApply = async () => {
     const params = queryString.parse(location.search);
-    
+
     try {
       let url = "/apply/userApply?";
 
@@ -81,8 +83,13 @@ export default function Candidate() {
     } catch (error) {}
   };
 
+  const { isLoading, error } = useQuery(["apply"], () => {
+    return getApply();
+  });
+
   useEffect(() => {
     getApply();
+    window.scroll(0, 0);
   }, [paginate, location]);
 
   useEffect(() => {
@@ -112,10 +119,6 @@ export default function Candidate() {
   }, [optionActive, optionStatusActive, search, sortActive]);
 
   useEffect(() => {
-    window.scroll(0, 0);
-  }, []);
-
-  useEffect(() => {
     const enterEvent = (e) => {
       e.preventDefault();
       if (e.keyCode === 13) {
@@ -128,20 +131,52 @@ export default function Candidate() {
     };
   }, [keyword]);
 
+  const mutationHidden = useMutation(
+    () => {
+      let url = "/apply/hidden?";
+
+      if (listCheck) {
+        listCheck?.map((id) => {
+          url += `&id[]=${id}`;
+        });
+      }
+
+      return makeRequest.put(url);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["apply"]);
+      },
+    }
+  );
+
+  const handleClickHidden = () => {
+    mutationHidden.mutate();
+    setListCheck([]);
+  };
+
   const handleSelectSort = (item) => {
     setOpenSort(false);
     setSortActive(item);
   };
 
   useEffect(() => {
-    if (!currentCompany) navigate("/nha-tuyen-dung/dang-nhap");
+    if (!currentCompany) navigate("/dang-nhap/nha-tuyen-dung");
   }, []);
 
   return (
     <div className="candidate">
       <div className="container">
         <div className="candidate__wrapper">
-          <h2 className="candidate__wrapper__header">Đơn xin việc đã nhận</h2>
+          <div className="candidate__wrapper__header">
+            <h2>Đơn xin việc đã nhận</h2>
+            <Link to={"/nha-tuyen-dung/ung-vien-an"}>
+              <button>
+                <i class="fa-regular fa-eye"></i>
+                <span>Ẩn</span>
+              </button>
+            </Link>
+          </div>
           <div className="candidate__wrapper__body">
             <div className="candidate__wrapper__body__control">
               <div className="candidate__wrapper__body__control__left">
@@ -149,7 +184,7 @@ export default function Candidate() {
                   <i class="fa-solid fa-magnifying-glass icon-glass"></i>
                   <input
                     type="text"
-                    placeholder="Nhập tên ứng viên..."
+                    placeholder="Tìm kiếm ứng viên..."
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                   />
@@ -165,20 +200,19 @@ export default function Candidate() {
               </div>
               <div className="candidate__wrapper__body__control__right">
                 <div className="candidate__wrapper__body__control__right__select">
-                  <SelectJob
-                    search={true}
-                    option={status}
-                    optionActive={optionStatusActive}
-                    setOptionActive={setOptionStatusActive}
-                  />
-                </div>
-                <div className="candidate__wrapper__body__control__right__select">
-                  <SelectJob
-                    search={true}
+                  <SelectCandidate
                     title={"Công việc"}
                     option={jobs}
                     optionActive={optionActive}
                     setOptionActive={setOptionActive}
+                  />
+                </div>
+                <div className="candidate__wrapper__body__control__right__select">
+                  <SelectCandidate
+                    title={"Trạng thái"}
+                    option={status}
+                    optionActive={optionStatusActive}
+                    setOptionActive={setOptionStatusActive}
                   />
                 </div>
                 <div className="candidate__wrapper__body__control__right__select">
@@ -208,11 +242,30 @@ export default function Candidate() {
                 </div>
               </div>
             </div>
+
             <div className="candidate__wrapper__body__list">
               {data?.length === 0 ? (
                 <NotFoundData />
               ) : (
-                <TableCandidate data={data} limit={10} paginate={paginate} />
+                <>
+                  <div className="candidate__wrapper__body__list__delete">
+                    {listCheck?.length > 0 && (
+                      <button
+                        className="button__delete"
+                        onClick={handleClickHidden}
+                      >
+                        <i className="fa-regular fa-eye-slash"></i>
+                        <span>Ẩn</span>
+                      </button>
+                    )}
+                  </div>
+                  <TableCandidate
+                    data={data}
+                    listCheck={listCheck}
+                    setListCheck={setListCheck}
+                    handleClickHidden={handleClickHidden}
+                  />
+                </>
               )}
             </div>
             <div className="candidate__wrapper__body__pgn">
@@ -240,9 +293,15 @@ export default function Candidate() {
   );
 }
 
-function SelectJob({ name, icon, option, optionActive, setOptionActive }) {
+function SelectCandidate({
+  title,
+  icon,
+  option,
+  optionActive,
+  setOptionActive,
+}) {
   const [open, setOpen] = useState(false);
-  const selectJobRef = useRef();
+  const selectCadidateRef = useRef();
 
   const handleClickOption = (item) => {
     setOptionActive(item);
@@ -251,7 +310,7 @@ function SelectJob({ name, icon, option, optionActive, setOptionActive }) {
 
   useEffect(() => {
     const handleMousedown = (e) => {
-      if (!selectJobRef.current.contains(e.target)) {
+      if (!selectCadidateRef.current.contains(e.target)) {
         setOpen(false);
       }
     };
@@ -260,14 +319,17 @@ function SelectJob({ name, icon, option, optionActive, setOptionActive }) {
   });
 
   return (
-    <div className="selectJob" ref={selectJobRef}>
+    <div className="selectCadidate" ref={selectCadidateRef}>
+      <label htmlFor="" className="selectCadidate__header">
+        {title}
+      </label>
       <div
-        className={`selectJob__toggle ${
+        className={`selectCadidate__toggle ${
           optionActive !== undefined ? "active" : ""
         }`}
         onClick={() => setOpen(!open)}
       >
-        <div className="selectJob__toggle__title">
+        <div className="selectCadidate__toggle__title">
           {icon && icon}
           <span className="text">
             {optionActive
@@ -282,10 +344,10 @@ function SelectJob({ name, icon, option, optionActive, setOptionActive }) {
         ></i>
       </div>
       {open && (
-        <div className="selectJob__menu">
-          <div className="selectJob__menu__list">
+        <div className="selectCadidate__menu">
+          <div className="selectCadidate__menu__list">
             <div
-              className={`selectJob__menu__list__item ${
+              className={`selectCadidate__menu__list__item ${
                 optionActive === undefined ? "active" : ""
               }`}
               onClick={() => handleClickOption()}
@@ -295,7 +357,7 @@ function SelectJob({ name, icon, option, optionActive, setOptionActive }) {
             {option?.map((option, i) => (
               <div
                 key={i}
-                className={`selectJob__menu__list__item ${
+                className={`selectCadidate__menu__list__item ${
                   optionActive === option?.id ? "active" : ""
                 }`}
                 onClick={() => handleClickOption(option?.id)}

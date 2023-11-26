@@ -1,4 +1,4 @@
-@use "./variavles" as *;
+@use "./variables" as *;
 
 $themes: (
   light: (
@@ -82,11 +82,11 @@ $themes: (
   font-weight: 500;
   border: 2px solid $bg;
   border-radius: $border-radius-10;
-
   font-size: $font-size-s;
   cursor: pointer;
   transition: all 0.3s;
   @include flex(center, center);
+  gap: 8px;
   &:hover {
     background-color: transparent;
     color: $bg;

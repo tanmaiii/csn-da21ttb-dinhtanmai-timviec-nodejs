@@ -1,9 +1,9 @@
-@forward "./variavles";
+@forward "./variables";
 @forward "./mixin";
 @forward "./breakpoint";
 @forward "./grid";
 
-@use "./variavles" as *;
+@use "./variables" as *;
 @use "./mixin" as *;
 @use "./breakpoint" as *;
 @use "./grid" as *;
@@ -17,6 +17,7 @@
   }
   @include mobile {
     width: 100%;
+    padding: 0 20px;
   }
 }
 

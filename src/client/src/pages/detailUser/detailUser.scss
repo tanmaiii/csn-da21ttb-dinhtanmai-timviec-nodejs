@@ -184,10 +184,11 @@
                   cursor: pointer;
                   @include flex(center, unset);
                   gap: 8px;
-                  &.active{
-                    background-color: themed('bg1');
-                  } &:hover{
-                    background-color: themed('bg1');
+                  &.active {
+                    background-color: themed("bg1");
+                  }
+                  &:hover {
+                    background-color: themed("bg1");
                   }
                 }
                 &__dropdown {
@@ -234,10 +235,10 @@
               width: 100%;
               padding: 6px 0;
             }
-            &__web {
+            &__cv {
               margin-bottom: 20px;
               a {
-                color: $color-blue;
+                color: $color-txt-blue;
                 &:hover {
                   text-decoration: underline;
                 }
