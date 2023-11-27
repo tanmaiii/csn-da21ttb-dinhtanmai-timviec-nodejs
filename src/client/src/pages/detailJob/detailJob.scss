@@ -89,6 +89,7 @@
               height: var(--size);
               object-fit: cover;
               box-shadow: themed("box-shadow");
+              border-radius: $border-radius-10;
             }
             &__name {
               h4 {

@@ -128,3 +128,9 @@ export const status = [
     name: "Chấp nhận",
   },
 ];
+
+export const sexData = [
+  { id: 1, name: "sex", value: "Nam" },
+  { id: 2, name: "sex", value: "Nữ" },
+  { id: 3, name: "sex", value: "Cả hai" },
+];

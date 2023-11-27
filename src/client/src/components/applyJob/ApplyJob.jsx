@@ -72,7 +72,7 @@ export default function ApplyJob({ job }) {
   });
 
   useEffect(() => {
-    if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
+    if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
   }, []);
 
   return (

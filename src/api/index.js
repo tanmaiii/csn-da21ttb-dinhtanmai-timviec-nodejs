@@ -18,6 +18,8 @@ import followRouter from "./routers/follow.router.js";
 import saveRouter from "./routers/save.router.js";
 import applyRouter from "./routers/apply.router.js";
 
+import checkImage from "./middlewares/checkImage.middleware.js";
+
 import { fileURLToPath } from "url";
 
 const app = express();
@@ -61,8 +63,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post("/api/upload", upload.single("file"), (req, res) => {
+app.post("/api/upload", upload.single("file"),(req, res) => {
   const file = req.file;
+  if(!checkImage(file)) return res.status(404).json('Ảnh không hợp lệ! Vui lòng gửi lại.')
   res.status(200).json(file.filename);
 });
 

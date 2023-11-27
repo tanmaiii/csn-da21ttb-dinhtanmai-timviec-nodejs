@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./detailCompany.scss";
 import avatar from "../../assets/images/avatarCpn.png";
-import ItemJob from "../../components/itemJob/ItemJob";
 import InfoCompany from "./infoCompany/InfoCompany";
 import IntroCompany from "./introCompany/IntroCompany";
 import JobsCompany from "./jobsCompany/JobsCompany";
@@ -29,6 +28,7 @@ import {
   EmailIcon,
   TwitterIcon,
 } from "react-share";
+import { toast } from "sonner";
 
 export default function DetailCompany() {
   const [err, setErr] = useState();
@@ -94,9 +94,10 @@ export default function DetailCompany() {
         avatarPic: postImage.data,
       });
       getCompany();
+      toast.success("Cập nhật ảnh thành công.");
       return postImage.data;
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      toast.error(error?.response?.data);
     }
   };
 
@@ -151,6 +152,7 @@ export default function DetailCompany() {
                         <input
                           id="input-image"
                           type="file"
+                          name="file"
                           onChange={(e) => handleChangeInputFile(e)}
                         />
                       </label>
@@ -189,9 +191,12 @@ export default function DetailCompany() {
                   </div>
                 </div>
                 {company?.id === currentCompany?.id ? (
-                  <div className="detailCompany__wrapper__header__button">
+                  <Link
+                    to={`/nha-tuyen-dung/${currentCompany?.id}/info`}
+                    className="detailCompany__wrapper__header__button"
+                  >
                     <button>Chỉnh sửa</button>
-                  </div>
+                  </Link>
                 ) : (
                   <div
                     className="detailCompany__wrapper__header__button__follow"
@@ -233,7 +238,7 @@ export default function DetailCompany() {
                           </button>
                           <Link to={"/nha-tuyen-dung/ung-vien"}>
                             <button>
-                              <span>Ứng tuyển</span>
+                              <span>Ứng viên</span>
                             </button>
                           </Link>
                           <Link to={"/nha-tuyen-dung/dang-bai"}>
@@ -278,7 +283,7 @@ export default function DetailCompany() {
                               </button>
                               <Link to={"/nha-tuyen-dung/ung-vien"}>
                                 <button>
-                                  <span>Ứng tuyển</span>
+                                  <span>Ứng viên</span>
                                 </button>
                               </Link>
                               <Link to={"/nha-tuyen-dung/dang-bai"}>

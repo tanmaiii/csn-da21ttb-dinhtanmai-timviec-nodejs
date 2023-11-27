@@ -32,15 +32,13 @@ export default function JobsCompany() {
 
   useEffect(() => {
     getJob();
-    const jobsCompany = document.querySelector(".jobsCompany");
-    window.scroll(0,0)
+    window.scroll(0, 0);
   }, [paginate]);
-
-  if (loading) return <Loader />;
 
   return (
     <div className="jobsCompany">
       <div className="jobsCompany__list row">
+        {loading && <Loader />}
         {jobs?.length > 0 ? (
           jobs?.map((job, i) => (
             <ItemJob key={i} job={job} className={"col pc-6 t-12 m-12"} />

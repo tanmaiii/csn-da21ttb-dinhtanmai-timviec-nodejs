@@ -205,12 +205,14 @@ export default function DetailJob() {
                           openMore && "active"
                         }`}
                       >
+                        <Link to={`/nha-tuyen-dung/chinh-sua/${job?.id}`}>
+                          <button>
+                            <i className="fa-solid fa-pen-to-square"></i>
+                            <span>Sửa</span>
+                          </button>
+                        </Link>
                         <button>
-                          <i className="fa-solid fa-pen-to-square"></i>
-                          <span>Sửa</span>
-                        </button>
-                        <button>
-                          <i className="fa-solid fa-trash"></i>
+                          <i className="fa-regular fa-trash-can"></i>
                           <span>Xóa</span>
                         </button>
                       </div>
@@ -229,14 +231,16 @@ export default function DetailJob() {
                       <i class="fa-solid fa-location-dot"></i>
                       <h4>Địa điểm</h4>
                     </div>
-                    <span className="content">{job?.province}</span>
+                    <Link to={`/tim-kiem?&province[]=${job?.province}`}>
+                      <span className="content">{job?.province}</span>
+                    </Link>
                   </div>
                   <div className="item">
                     <div className="header">
                       <i class="fa-solid fa-briefcase"></i>
                       <h4>Ngành nghề</h4>
                     </div>
-                    <Link to={`/search/${job?.idField}`}>
+                    <Link to={`/tim-kiem?&field[]=${job?.nameField}`}>
                       <span className="content">{job?.nameField || "..."}</span>
                     </Link>
                   </div>
@@ -335,7 +339,7 @@ export default function DetailJob() {
           openModal={openModal}
           setOpenModal={setOpenModal}
         >
-          <ApplyJob job={job && job} />
+          {openModal && <ApplyJob job={job && job} />}
         </Modal>
       )}
     </>

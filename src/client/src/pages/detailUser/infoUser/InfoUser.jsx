@@ -36,7 +36,6 @@ export default function InfoUser() {
         const res = await makeRequest("/provinces");
         setProvinces(res.data);
       } catch (error) {
-        console.log(error);
       }
     };
     getProvinces();
@@ -139,7 +138,6 @@ function ItemInfo({
   desc,
   name,
   type = "input",
-  select,
   options,
   handleChange,
   setInputs,
@@ -147,7 +145,6 @@ function ItemInfo({
   edit,
   setEdit,
 }) {
-  const [value, setValue] = useState(desc);
   const [selectedOption, setSelectedOption] = useState(inputs?.idProvince);
   const { setCurrentUser } = useAuth();
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 import "./postJob.scss";
 import ReactQuill from "react-quill";
 import Select from "../../components/select/Select";
@@ -6,29 +7,37 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 
-import { typeWorks, educationJob, experienceJob } from "../../config/data";
+import {
+  typeWorks,
+  educationJob,
+  experienceJob,
+  sexData,
+} from "../../config/data";
 
 export default function PostJob() {
   const { currentCompany } = useAuth();
   const [fields, setFields] = useState();
   const [provinces, setProvinces] = useState();
-  const navigate = useNavigate();
+
   const [err, setErr] = useState();
   const [mess, setMess] = useState();
   const [loading, setLoading] = useState(false);
 
   const [selectedOptionProvince, setSelectedOptionProvince] = useState();
   const [selectedOptionFields, setSelectedOptionFields] = useState();
-  const [sex, setSex] = useState("cả hai");
+
   const [request, setRequest] = useState("");
   const [desc, setDesc] = useState("");
   const [other, setOther] = useState("");
+
+  const [sex, setSex] = useState("cả hai");
   const [salaryMin, setSalaryMin] = useState(0);
   const [salaryMax, setSalaryMax] = useState(0);
   const [salaryDiscuss, setSalaryDiscuss] = useState(false);
   const [typeWork, setTypeWork] = useState(typeWorks[0].name);
   const [education, setEducation] = useState(educationJob[0].name);
   const [experience, setExperience] = useState(experienceJob[0].name);
+  const navigate = useNavigate();
 
   const [inputs, setInputs] = useState({
     idField: "",
@@ -51,17 +60,17 @@ export default function PostJob() {
   };
 
   const handleSubmit = async () => {
-    setErr();
-    setMess();
-
     if (!selectedOptionFields || !selectedOptionProvince)
-      return setErr("Chưa chọn ngành nghề và địa chỉ.");
+      return toast.error("Chưa chọn ngành nghề và địa chỉ.");
     if (!sex || !typeWork || !education)
-      return setErr("Chọn các mục trong yêu cầu chung.");
-    if (!request || !desc) return setErr("Mô tả, yêu cầu không được rỗng.");
+      return toast.error("Chọn các mục trong yêu cầu chung.");
+    if (!request || !desc)
+      return toast.error("Mô tả và yêu cầu không được rỗng.");
 
     if (salaryMax < salaryMin)
-      return setErr("Tiền lương tối đa không nhỏ hơn tiền lương tối thiểu.");
+      return toast.error(
+        "Tiền lương tối đa không nhỏ hơn tiền lương tối thiểu."
+      );
 
     try {
       setLoading(true);
@@ -82,10 +91,10 @@ export default function PostJob() {
         inputs.salaryMax = salaryMax;
       }
       await makeRequest.post("/job", inputs);
-      setMess("Đăng thành công!");
+      toast.success("Đăng bài thành công!");
       navigate(`/nha-tuyen-dung/${currentCompany.id}`);
     } catch (err) {
-      setErr(err?.response?.data);
+      toast.error(err?.response?.data);
     }
   };
 
@@ -175,37 +184,24 @@ export default function PostJob() {
                 <div className="postJob__wrapper__body__form__content__item  postJob__wrapper__body__form__content__item__sex">
                   <h6>Giới tính</h6>
                   <div className="postJob__wrapper__body__form__content__item__input">
-                    <div className="postJob__wrapper__body__form__content__item__input__child">
-                      <input
-                        onChange={(e) => setSex(e.target.value)}
-                        name="sex"
-                        value={"nam"}
-                        type="radio"
-                        id="sex-nam"
-                      />
-                      <label htmlFor="sex-nam">Nam</label>
-                    </div>
-                    <div className="postJob__wrapper__body__form__content__item__input__child">
-                      <input
-                        onChange={(e) => setSex(e.target.value)}
-                        name="sex"
-                        value={"nữ"}
-                        type="radio"
-                        id="sex-nu"
-                      />
-                      <label htmlFor="sex-nu">Nữ</label>
-                    </div>
-                    <div className="postJob__wrapper__body__form__content__item__input__child">
-                      <input
-                        defaultChecked
-                        onChange={(e) => setSex(e.target.value)}
-                        name="sex"
-                        value={"cả hai"}
-                        type="radio"
-                        id="sex-nam-nu"
-                      />
-                      <label htmlFor="sex-nam-nu">Nam/Nữ</label>
-                    </div>
+                    {sexData?.map((item, i) => (
+                      <div
+                        key={i}
+                        className="postJob__wrapper__body__form__content__item__input__child"
+                      >
+                        <input
+                          onChange={(e) => setSex(e.target.value)}
+                          defaultChecked={item.value === "Cả hai"}
+                          name={item.name}
+                          value={item.value}
+                          type="radio"
+                          id={`sex-${item.value}`}
+                        />
+                        <label htmlFor={`sex-${item.value}`}>
+                          {item.value}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__salary">
@@ -273,23 +269,23 @@ export default function PostJob() {
                     ))}
                   </div>
                 </div>
-                <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__jobLevel">
+                <div className="postJob__wrapper__body__form__content__item postJob__wrapper__body__form__content__item__education">
                   <h6>Bằng cấp</h6>
-                  <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__jobLevel__input">
+                  <div className="postJob__wrapper__body__form__content__item__input postJob__wrapper__body__form__content__item__education__input">
                     {educationJob?.map((item, i) => (
                       <div
                         key={i}
                         className="postJob__wrapper__body__form__content__item__input__child "
                       >
                         <input
-                          className="jobLevel__input"
-                          name={`jobLevel`}
-                          id={`jobLevel${item.id}`}
+                          className="education__input"
+                          name={`education`}
+                          id={`education${item.id}`}
                           type="radio"
                           value={item.name}
                           onChange={(e) => setEducation(e.target.value)}
                         />
-                        <label htmlFor={`jobLevel${item.id}`}>
+                        <label htmlFor={`education${item.id}`}>
                           {item.name}
                         </label>
                       </div>
@@ -352,8 +348,6 @@ export default function PostJob() {
                 <ReactQuill theme="snow" value={other} onChange={setOther} />
               </div>
             </div>
-            {mess && <p className="mess">{mess}</p>}
-            {err && <p className="err">{err}</p>}
             <div className="postJob__wrapper__body__button">
               <button onClick={handleSubmit}>Đăng</button>
             </div>

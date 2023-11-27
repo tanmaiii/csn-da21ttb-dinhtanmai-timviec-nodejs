@@ -10,11 +10,14 @@
         background-color: themed("bg2");
         border-radius: $border-radius-20;
         padding: 20px;
-        &__header{
-            font-size: $font-size-l;
-            color: $color-primary;
-            margin-bottom: 20px;
-            @include flex(center, center);
+        @include mobile {
+          padding: 10px;
+        }
+        &__header {
+          font-size: $font-size-l;
+          color: $color-primary;
+          margin-bottom: 20px;
+          @include flex(center, center);
         }
         &__body {
           &__form {
@@ -27,9 +30,10 @@
               border-radius: $border-radius-10;
             }
             &__content {
-              padding: 10px;
+              // padding: 10px;
+              padding: 10px 0;
               &__item {
-                padding: 10px 0;
+                margin-bottom: 20px;
                 h6 {
                   font-size: $font-size-s;
                   color: themed("text1");
@@ -38,14 +42,17 @@
                 &__input {
                   @include flex(center, unset);
                   gap: 20px;
+                  flex-wrap: wrap;
+                  .select {
+                    width: 360px;
+                  }
                   input {
-                    padding: 16px;
-                    background-color: themed("bg1");
+                    border: 1px solid themed("border");
                     border-radius: $border-radius-10;
+                    padding: 16px;
                     width: 360px;
                     font-size: $font-size-s;
-                    border: 1px solid themed("border");
-                    color: themed('text1');
+                    color: themed("text1");
                   }
                   input[type="checkbox"] {
                     --size: 20px;
@@ -63,7 +70,7 @@
                     background-color: themed("bg1");
                     border-radius: $border-radius-10;
                     font-size: $font-size-s;
-                    color: themed('text1');
+                    color: themed("text1");
                     border: 1px solid themed("border");
                   }
                   &__child {
@@ -73,6 +80,7 @@
                     label {
                       font-size: $font-size-s;
                       color: themed("text1");
+                      cursor: pointer;
                     }
                   }
                 }
@@ -110,13 +118,17 @@
               }
             }
           }
-          &__button{
-            @include flex(center, center);
-            width: 100%;
-            button{
-                @include button($color-white, $color-primary);
-                min-width: 200px;
-            }
+        }
+        &__bottom {
+          @include flex(center, center);
+          gap: 20px;
+          .btn-submit {
+            @include button($color-white, $color-primary);
+            min-width: 200px;
+          }
+          .btn-cancel {
+            @include button-line(themed('text1'), themed('bg1'));
+            min-width: 200px;
           }
         }
       }

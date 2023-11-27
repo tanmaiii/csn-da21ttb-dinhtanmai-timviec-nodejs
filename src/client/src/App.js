@@ -69,7 +69,7 @@ function App() {
             <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
             <Route path="nha-tuyen-dung/ung-vien-an" element={<CandidateHide />} />
             <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
-            <Route path="nha-tuyen-dung/chinh-sua" element={<EditJob />} />
+            <Route path="nha-tuyen-dung/chinh-sua/:id" element={<EditJob />} />
           </Route>
           <Route path="/dang-ky" element={<AuthLayout />}>
             <Route index path="nguoi-dung" element={<Signup />} />

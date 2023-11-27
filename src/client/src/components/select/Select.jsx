@@ -17,6 +17,7 @@ export default function Select({
         options={options}
         placeholder={placeholder}
         defaultValue={defaultValue}
+        noOptionsMessage={() => "Không tìm thấy"}
       ></SL>
     </div>
   );

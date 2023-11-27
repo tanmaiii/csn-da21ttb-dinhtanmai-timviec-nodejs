@@ -6,6 +6,7 @@ import { scale } from "../../../config/data";
 import { useParams } from "react-router-dom";
 import { makeRequest } from "../../../axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import Loader from "../../../components/loader/Loader";
 
 export default function InfoCompany() {
   const [company, setCompany] = useState();
@@ -41,10 +42,12 @@ export default function InfoCompany() {
     });
   });
 
+
   return (
     <div className="infoCompany">
       <div className="infoCompany__wrapper">
         <div className="infoCompany__wrapper__header"></div>
+        {isLoading && <Loader/>}
         <div className="infoCompany__wrapper__body">
           <ItemInfoCompany
             edit={edit}
@@ -131,7 +134,6 @@ function ItemInfoCompany({
   edit,
   setEdit,
 }) {
-  // const [edit, setEdit] = useState(false);
   const [selectedOption, setSelectedOption] = useState();
   const queryClient = useQueryClient();
 
