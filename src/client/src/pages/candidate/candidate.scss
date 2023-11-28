@@ -161,7 +161,13 @@
           }
           &__pgn {
             @include flex(center, space-between);
+            @include mobile{
+              justify-content: center;
+            }
             &__left {
+              @include mobile {
+                display: none;
+              }
               span {
                 font-size: $font-size-s;
                 font-weight: 500;

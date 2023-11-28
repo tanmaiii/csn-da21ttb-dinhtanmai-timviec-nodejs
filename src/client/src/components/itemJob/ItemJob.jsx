@@ -50,13 +50,13 @@ export default function ItemJob({ className, job, onClick }) {
       ? toast.success("Đã gỡ khỏi việc làm yêu thích.", {
           action: {
             label: "Việc làm",
-            onClick: () => navigate(`/nguoi-dung/${currentUser?.id}/jobs`)
+            onClick: () => navigate(`/nguoi-dung/${currentUser?.id}/jobs`),
           },
         })
       : toast.success("Đã thêm vào việc làm yêu thích.", {
           action: {
             label: "Việc làm",
-            onClick: () => navigate(`/nguoi-dung/${currentUser?.id}/jobs`)
+            onClick: () => navigate(`/nguoi-dung/${currentUser?.id}/jobs`),
           },
         });
   };
@@ -115,12 +115,14 @@ export default function ItemJob({ className, job, onClick }) {
                   <i className="fa-solid fa-ellipsis"></i>
                 </button>
                 <div className={`button__more__body  ${openMore && "active"}`}>
+                  <Link to={`/nha-tuyen-dung/chinh-sua/${job?.id}`}>
+                    <button>
+                      <i className="fa-solid fa-pen-to-square"></i>
+                      <span>Sửa</span>
+                    </button>
+                  </Link>
                   <button>
-                    <i className="fa-solid fa-pen-to-square"></i>
-                    <span>Sửa</span>
-                  </button>
-                  <button>
-                    <i className="fa-solid fa-trash"></i>
+                    <i className="fa-regular fa-trash-can"></i>
                     <span>Xóa</span>
                   </button>
                 </div>

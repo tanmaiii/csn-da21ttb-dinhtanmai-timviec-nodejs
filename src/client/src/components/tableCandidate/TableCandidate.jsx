@@ -10,11 +10,7 @@ import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios.js";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-export default function TableCandidate({
-  data,
-  listCheck,
-  setListCheck
-}) {
+export default function TableCandidate({ data, listCheck, setListCheck }) {
   const [openModal, setOpenModal] = useState(false);
   const [idApply, setIdApply] = useState(null);
 
@@ -40,7 +36,7 @@ export default function TableCandidate({
         <div className="table__candidate__header">
           <span>
             <input
-              onClick={() => handleClickAll()}
+              onChange={() => handleClickAll()}
               checked={listCheck?.length === data?.length}
               type="checkbox"
               className="table__candidate__header__checkAll"
@@ -117,8 +113,8 @@ function RowTableCandidate({
       <div className="table__candidate__body__row__item" data-cell={"Chọn"}>
         <input
           type="checkbox"
+          onChange={() => handleClickOption(item?.id)}
           checked={listCheck?.includes(item?.id)}
-          onClick={() => handleClickOption(item?.id)}
         />
       </div>
       <div className="table__candidate__body__row__item" data-cell={"STT"}>
@@ -165,7 +161,7 @@ function RowTableCandidate({
           className="button-eye"
           onClick={() => handleClickView(item?.id)}
         >
-          <i class="fa-solid fa-eye"></i>
+          <i className="fa-solid fa-eye"></i>
         </button>
       </div>
     </div>
@@ -212,10 +208,11 @@ function RowSelectStatus({ option, defaultActive, id }) {
   return (
     <div className="rowSelectStatus" ref={rowSelectStatusRef}>
       {optionActive &&
-        option?.map((option) => {
+        option?.map((option, i) => {
           if (option.id === optionActive)
             return (
               <div
+              key={i}
                 className={`rowSelectStatus__toggle  status-${option?.id}`}
                 onClick={() => setOpen(!open)}
               >

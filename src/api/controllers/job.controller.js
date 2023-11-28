@@ -189,17 +189,17 @@ export const getByIdCompany = async (req, res) => {
 export const getNameJob = (req, res) => {
   const { id } = req.params;
 
-  const q = "SELECT j.id, j.nameJob as name, j.idCompany FROM job.jobs as j Where j.idCompany = ?";
+  const q =
+    "SELECT j.id, j.nameJob as name, j.idCompany FROM job.jobs as j Where j.idCompany = ?";
 
-  db.query(q, [id] ,(err, data) => {
+  db.query(q, [id], (err, data) => {
     if (!data.length) {
       return res.status(401).json("Không tồn tại !");
     } else {
       return res.json(data);
     }
   });
-
-}
+};
 
 export const postJob = (req, res) => {
   const {
@@ -231,7 +231,7 @@ export const postJob = (req, res) => {
         return res.status(401).json("Người dùng không hợp lệ !");
 
       const q =
-        "INSERT INTO jobs (`idCompany`, `idField`, `idProvince` , `nameJob`, `request`, `desc`, `other`, `salaryMin`, `salaryMax`,`sex`, `typeWork` , `education`, `experience`,  `createdAt`) VALUE (?)";
+        "INSERT INTO job.jobs (`idCompany`, `idField`, `idProvince` , `nameJob`, `request`, `desc`, `other`, `salaryMin`, `salaryMax`,`sex`, `typeWork` , `education`, `experience`,  `createdAt`) VALUE (?)";
       const values = [
         companmyInfo.id,
         idField,
@@ -290,4 +290,61 @@ export const getByIdField = async (req, res) => {
   } catch (error) {
     return res.status(401).json("Lỗi");
   }
+};
+
+export const updateJob = async (req, res) => {
+  const {
+    idField,
+    idProvince,
+    nameJob,
+    request,
+    desc,
+    other,
+    salaryMin,
+    salaryMax,
+    sex,
+    typeWork,
+    education,
+    experience,
+    idJob,
+  } = req.body;
+
+  if (!idField || !idProvince || !nameJob)
+    return res.status(401).json("Các trường không để rỗng !");
+
+  const token = req.cookies?.accessToken;
+  if (!token) return res.status(401).json("Chưa đăng nhập !");
+  console.log(req.body);
+
+  const q = "SELECT * FROM companies WHERE id = ?";
+
+  jwt.verify(token, "secretkey", (err, companmyInfo) => {
+    db.query(q, companmyInfo.id, (err, data) => {
+      if (!data?.length)
+        return res.status(401).json("Người dùng không hợp lệ !");
+
+      const q =
+        "UPDATE job.jobs SET  `nameJob` = ? ,  `idField` = ? ,  `idProvince` = ?  ,  `request` = ? ,  `desc` = ? ,  `other` = ? ,  `salaryMin` = ? ,  `salaryMax` = ? ,  `sex` = ? ,  `typeWork` = ? ,  `education` = ? ,  `experience` = ? WHERE jobs.id = ?";
+      const values = [
+        nameJob,
+        idField,
+        idProvince,
+        request,
+        desc,
+        other,
+        salaryMin,
+        salaryMax,
+        sex,
+        typeWork,
+        education,
+        experience,
+        idJob,
+        // companmyInfo.id,
+      ];
+      db.query(q, values, (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(200).json("Đăng thành công");
+      });
+    });
+  });
 };

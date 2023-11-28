@@ -19,10 +19,6 @@ export default function PostJob() {
   const [fields, setFields] = useState();
   const [provinces, setProvinces] = useState();
 
-  const [err, setErr] = useState();
-  const [mess, setMess] = useState();
-  const [loading, setLoading] = useState(false);
-
   const [selectedOptionProvince, setSelectedOptionProvince] = useState();
   const [selectedOptionFields, setSelectedOptionFields] = useState();
 
@@ -73,7 +69,6 @@ export default function PostJob() {
       );
 
     try {
-      setLoading(true);
       inputs.idField = selectedOptionFields.fId;
       inputs.idProvince = selectedOptionProvince.pId;
       inputs.sex = sex;
@@ -348,9 +343,9 @@ export default function PostJob() {
                 <ReactQuill theme="snow" value={other} onChange={setOther} />
               </div>
             </div>
-            <div className="postJob__wrapper__body__button">
-              <button onClick={handleSubmit}>Đăng</button>
-            </div>
+          </div>
+          <div className="postJob__wrapper__bottom">
+            <button onClick={handleSubmit}>Đăng bài</button>
           </div>
         </div>
       </div>

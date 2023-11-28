@@ -127,6 +127,12 @@
             }
           }
         }
+        &__bottom {
+          @include flex(center, center);
+          button {
+            @include button($color-white, $color-primary);
+          }
+        }
       }
     }
   }

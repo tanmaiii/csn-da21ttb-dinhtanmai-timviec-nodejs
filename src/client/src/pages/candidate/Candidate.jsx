@@ -174,7 +174,7 @@ export default function Candidate() {
             <h2>Đơn xin việc đã nhận</h2>
             <Link to={"/nha-tuyen-dung/ung-vien-an"}>
               <button>
-                <i class="fa-regular fa-eye"></i>
+                <i className="fa-regular fa-eye"></i>
                 <span>Ẩn</span>
               </button>
             </Link>
@@ -183,7 +183,7 @@ export default function Candidate() {
             <div className="candidate__wrapper__body__control">
               <div className="candidate__wrapper__body__control__left">
                 <div className="candidate__wrapper__body__control__left__search">
-                  <i class="fa-solid fa-magnifying-glass icon-glass"></i>
+                  <i className="fa-solid fa-magnifying-glass icon-glass"></i>
                   <input
                     type="text"
                     placeholder="Tìm kiếm ứng viên..."
@@ -195,7 +195,7 @@ export default function Candidate() {
                       className="button-clear"
                       onClick={() => setKeyword("")}
                     >
-                      <i class="fa-solid fa-circle-xmark"></i>
+                      <i className="fa-solid fa-circle-xmark"></i>
                     </button>
                   )}
                 </div>
@@ -224,7 +224,7 @@ export default function Candidate() {
                       onClick={() => setOpenSort(!openSort)}
                     >
                       <span>{sortActive && sortActive?.name}</span>
-                      <i class="fa-solid fa-bars-staggered"></i>
+                      <i className="fa-solid fa-bars-staggered"></i>
                     </div>
                     {openSort && (
                       <div className="list">

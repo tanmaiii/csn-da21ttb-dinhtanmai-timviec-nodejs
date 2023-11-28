@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import "./authLayout.scss";
 import img1 from "../../assets/images/gradient1.jpg";
@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 
 export default function AuthLayout() {
   const { darkMode } = useMode();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -23,12 +24,10 @@ export default function AuthLayout() {
       >
         <div className="container">
           <div className="layout__auth__main__control">
-            <Link to={"/"}>
-              <button>
-                <i className="fa-solid fa-chevron-left"></i>
-                <span>Trang chủ</span>
-              </button>
-            </Link>
+            <button onClick={() => navigate(-1)}>
+              <i className="fa-solid fa-chevron-left"></i>
+              <span>Quay lại</span>
+            </button>
           </div>
           <div className="layout__auth__main__content">
             <div className="layout__auth__main__content__logo">

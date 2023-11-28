@@ -1,11 +1,10 @@
 import React, { useRef, useState } from "react";
-import { toast } from "sonner";
 import "./itemCompany.scss";
+import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/images/avatarCpn.png";
 import { apiImage } from "../../axios";
 import { makeRequest } from "../../axios";
-import { motion } from "framer-motion";
 
 import {
   QueryClient,
