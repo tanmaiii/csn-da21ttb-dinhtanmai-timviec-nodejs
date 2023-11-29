@@ -1,0 +1,26 @@
+@use "../../scss/" as *;
+
+.breadcrumbs {
+  @include themify($themes) {
+    padding: 20px 0;
+    & > .list {
+      list-style: none;
+      @include flex(center, unset);
+      & > .crumb {
+        color: themed("text1");
+        font-size: $font-size-s;
+        font-weight: 500;
+        i {
+          margin: 0 8px;
+        }
+        a {
+          transition: all 0.3s;
+          &:hover {
+            color: $color-primary;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

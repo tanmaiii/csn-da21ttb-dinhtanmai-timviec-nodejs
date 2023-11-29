@@ -1,26 +1,32 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import ReactQuill from "react-quill";
 import "./introUser.scss";
 import { useAuth } from "../../../context/authContext";
 import { useParams } from "react-router-dom";
 import { makeRequest } from "../../../axios";
 
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
-export default function IntroUser({intro}) {
+export default function IntroUser({ intro }) {
   const [edit, setEdit] = useState(false);
   const [valueIntro, setValueIntro] = useState(intro);
   const { currentUser } = useAuth();
   const { id } = useParams();
   const queryClient = useQueryClient();
 
+  const putIntro = async () => {
+    try {
+      await makeRequest.put("user/updateIntro", { intro: valueIntro });
+      toast.success("Cập nhật giới thiệu thầnh công");
+    } catch (error) {
+      toast.error(error?.response?.data);
+    }
+  };
+
   const mutation = useMutation(
     () => {
-      return makeRequest.put("user/updateIntro", { intro: valueIntro });
+      return putIntro();
     },
     {
       onSuccess: () => {
@@ -48,10 +54,7 @@ export default function IntroUser({intro}) {
                 </button>
               ) : (
                 <>
-                  <button
-                    className="btn-save"
-                    onClick={() => handleSubmitSave()}
-                  >
+                  <button className="btn-save" onClick={() => handleSubmitSave()}>
                     <span>Lưu</span>
                   </button>
                   <button className="btn-cancel" onClick={() => setEdit(false)}>
@@ -70,11 +73,7 @@ export default function IntroUser({intro}) {
             ></div>
           ) : (
             <div className="introUser__wrapper__body__edit">
-              <ReactQuill
-                theme="snow"
-                value={valueIntro}
-                onChange={setValueIntro}
-              />
+              <ReactQuill theme="snow" value={valueIntro} onChange={setValueIntro} />
             </div>
           )}
         </div>

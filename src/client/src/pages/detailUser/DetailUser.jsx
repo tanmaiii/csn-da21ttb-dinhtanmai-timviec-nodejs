@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import "./detailUser.scss";
 import avatar from "../../assets/images/avatar.png";
 
@@ -71,9 +72,10 @@ export default function DetailUser() {
       const postImage = await makeRequest.post("/upload", formData);
       await makeRequest.put("/user/uploadImage", { avatarPic: postImage.data });
       getUser();
+      toast.success("Cập nhật ảnh thành công.");
       return postImage.data;
     } catch (error) {
-      console.log(error);
+      toast.error(error?.response?.data);
     }
     mutation.mutate();
   };
@@ -108,12 +110,7 @@ export default function DetailUser() {
               <div className="detailUser__wrapper__header">
                 <div className="detailUser__wrapper__header__main">
                   <div className="detailUser__wrapper__header__main__image">
-                    <img
-                      src={
-                        user?.avatarPic ? apiImage + user?.avatarPic : avatar
-                      }
-                      alt=""
-                    />
+                    <img src={user?.avatarPic ? apiImage + user?.avatarPic : avatar} alt="" />
                     {user?.id === currentUser?.id && (
                       <label
                         htmlFor="input-avt-user"
@@ -129,9 +126,7 @@ export default function DetailUser() {
                     )}
                   </div>
                   <div className="detailUser__wrapper__header__main__text">
-                    <h4 className="detailUser__wrapper__header__main__text__name">
-                      {user?.name}
-                    </h4>
+                    <h4 className="detailUser__wrapper__header__main__text__name">{user?.name}</h4>
                     <div className="detailUser__wrapper__header__main__text__date">
                       <i className="fa-solid fa-calendar-days"></i>
                       <span>
@@ -165,33 +160,25 @@ export default function DetailUser() {
                         <>
                           <Link
                             to={`/nguoi-dung/${id}/info`}
-                            className={`${
-                              controlPathname === "info" && "active"
-                            }`}
+                            className={`${controlPathname === "info" && "active"}`}
                           >
                             <span>Thông tin</span>
                           </Link>
                           <Link
                             to={`/nguoi-dung/${id}/apply`}
-                            className={`${
-                              controlPathname === "apply" && "active"
-                            }`}
+                            className={`${controlPathname === "apply" && "active"}`}
                           >
                             <span>Ứng tuyển</span>
                           </Link>
                           <Link
                             to={`/nguoi-dung/${id}/jobs`}
-                            className={`${
-                              controlPathname === "jobs" && "active"
-                            }`}
+                            className={`${controlPathname === "jobs" && "active"}`}
                           >
                             <span>Việc làm</span>
                           </Link>
                           <Link
                             to={`/nguoi-dung/${id}/companies`}
-                            className={`${
-                              controlPathname === "companies" && "active"
-                            }`}
+                            className={`${controlPathname === "companies" && "active"}`}
                           >
                             <span>Theo dõi</span>
                           </Link>
@@ -210,9 +197,7 @@ export default function DetailUser() {
                       {currentUser?.id === user.id && (
                         <Link
                           to={`/nguoi-dung/${id}/info`}
-                          className={`${
-                            controlPathname === "info" && "active"
-                          }`}
+                          className={`${controlPathname === "info" && "active"}`}
                         >
                           <span>Thông tin</span>
                         </Link>
@@ -220,9 +205,7 @@ export default function DetailUser() {
                       {currentUser?.id === user.id && (
                         <div className="button__more" ref={controlMbRef}>
                           <button
-                            className={`button__more__toggle ${
-                              openControlMb && "active"
-                            }`}
+                            className={`button__more__toggle ${openControlMb && "active"}`}
                             onClick={() => setOpenControlMb(!openControlMb)}
                           >
                             <span>Thêm</span>
@@ -232,25 +215,19 @@ export default function DetailUser() {
                             <div className="button__more__dropdown">
                               <Link
                                 to={`/nguoi-dung/${id}/apply`}
-                                className={`${
-                                  controlPathname === "apply" && "active"
-                                }`}
+                                className={`${controlPathname === "apply" && "active"}`}
                               >
                                 <span>Ứng tuyển</span>
                               </Link>
                               <Link
                                 to={`/nguoi-dung/${id}/jobs`}
-                                className={`${
-                                  controlPathname === "jobs" && "active"
-                                }`}
+                                className={`${controlPathname === "jobs" && "active"}`}
                               >
                                 <span>Công việc</span>
                               </Link>
                               <Link
                                 to={`/nguoi-dung/${id}/companies`}
-                                className={`${
-                                  controlPathname === "companies" && "active"
-                                }`}
+                                className={`${controlPathname === "companies" && "active"}`}
                               >
                                 <span>Công ty</span>
                               </Link>
@@ -262,10 +239,7 @@ export default function DetailUser() {
 
                     <div className="detailUser__wrapper__body__left__content">
                       <Routes>
-                        <Route
-                          index
-                          element={<IntroUser intro={user?.intro} />}
-                        />
+                        <Route index element={<IntroUser intro={user?.intro} />} />
                         <Route path="info" element={<InfoUser />} />
                         <Route path="apply" element={<AppliedJobs />} />
                         <Route path="jobs" element={<JobsSave />} />

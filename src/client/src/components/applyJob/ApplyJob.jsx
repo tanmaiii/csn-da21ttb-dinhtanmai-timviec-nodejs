@@ -5,12 +5,7 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import ReactQuill from "react-quill";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function ApplyJob({ job }) {
   const { currentUser } = useAuth();
@@ -40,7 +35,6 @@ export default function ApplyJob({ job }) {
     try {
       inputs.idJob = job?.id;
       inputs.letter = letter;
-      console.log(inputs);
       await makeRequest.post("/apply", inputs);
       navigate(`/viec-lam/${job?.id}`);
       toast.success("Ứng tuyển thành công");
@@ -115,9 +109,7 @@ export default function ApplyJob({ job }) {
             value={inputs?.phone}
             onChange={handleChange}
           />
-          <label htmlFor="phone">
-            Số điện thoại hiển thị với nhà tuyển dụng
-          </label>
+          <label htmlFor="phone">Số điện thoại hiển thị với nhà tuyển dụng</label>
         </div>
         <div className="applyJob__body__item">
           <i class="fa-solid fa-address-card"></i>
@@ -145,10 +137,7 @@ export default function ApplyJob({ job }) {
             <span>Bạn đã ứng tuyển</span>
           </div>
         ) : (
-          <button
-            className="applyJob__bottom__button"
-            onClick={() => mutationApply.mutate()}
-          >
+          <button className="applyJob__bottom__button" onClick={() => mutationApply.mutate()}>
             Nộp đơn ngay
           </button>
         )}

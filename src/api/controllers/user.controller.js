@@ -6,8 +6,7 @@ import multer from "multer";
 
 export const getUser = (req, res) => {
   const id = req.params.id;
-  const q =
-    "SELECT id, name, phone, avatarPic, birthDay, intro, linkCv FROM users WHERE id=?";
+  const q = "SELECT id, name, phone, avatarPic, birthDay, intro, linkCv FROM users WHERE id=?";
 
   if (id) {
     db.query(q, id, (err, data) => {
@@ -49,21 +48,12 @@ export const updateUser = (req, res) => {
 
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
   if (!checkUrl(linkCv)) return res.status(409).json("Link Cv không hợp lệ !");
-  
+
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
       "UPDATE job.users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ?, `sex`= ? , `idProvince`= ?, `linkCv` = ? WHERE id = ? ";
-    const values = [
-      name,
-      email,
-      phone,
-      new Date(birthDay),
-      sex,
-      idProvince,
-      linkCv,
-      userInfo.id,
-    ];
+    const values = [name, email, phone, new Date(birthDay), sex, idProvince, linkCv, userInfo.id];
 
     db.query(q, values, (err, data) => {
       if (!err) return res.status(200).json(data);
@@ -72,15 +62,6 @@ export const updateUser = (req, res) => {
     });
   });
 };
-
-// {
-//   "name": "tanmai update",
-//   "birthDay": "11-11-111",
-//   "email": "update@g.com",
-//   "phone": "123",
-//   "idProvince": 1,
-//   "linkCv": "update@g.com"
-// }
 
 export const updateIntroUser = (req, res) => {
   const token = req.cookies?.accessToken;
@@ -115,21 +96,16 @@ export const uploadImage = (req, res) => {
 };
 
 export const resetPassword = (email, password, result) => {
-  db.query(
-    "UPDATE users SET password = ? WHERE email=?",
-    email,
-    password,
-    (err, res) => {
-      if ((err, res)) {
-        console.log("error", err);
-        result(err, null);
-        return;
-      }
-      if (res.affectedRows === 0) {
-        result({ kind: "not_found" }, null);
-        return;
-      }
-      result(null, { email: email });
+  db.query("UPDATE users SET password = ? WHERE email=?", email, password, (err, res) => {
+    if ((err, res)) {
+      console.log("error", err);
+      result(err, null);
+      return;
     }
-  );
+    if (res.affectedRows === 0) {
+      result({ kind: "not_found" }, null);
+      return;
+    }
+    result(null, { email: email });
+  });
 };

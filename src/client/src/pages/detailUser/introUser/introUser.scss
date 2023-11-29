@@ -39,6 +39,11 @@
           font-weight: 400;
           padding: 20px;
           line-height: 1.6;
+          img {
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+          }
         }
         &__edit {
           .quill {

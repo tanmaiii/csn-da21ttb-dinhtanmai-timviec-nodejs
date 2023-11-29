@@ -1,6 +1,5 @@
 @use "../../scss/" as *;
 
-
 .itemCompany {
   @include themify($themes) {
     height: max-content;
@@ -13,6 +12,7 @@
       @include flex(unset, space-between);
       flex-direction: column;
       cursor: pointer;
+      transition: all 0.3s;
       &:hover {
         box-shadow: themed("box-shadow");
       }

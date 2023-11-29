@@ -24,7 +24,6 @@
       height: 100%;
       &:hover {
         box-shadow: themed("box-shadow");
-        border-color: $color-primary;
       }
       &__header {
         @include flex(center, unset);
@@ -212,6 +211,7 @@
           .button__more {
             font-size: $font-size-s;
             position: relative;
+
             & > button {
               font-size: $font-size-s;
               @include flex(center, center);

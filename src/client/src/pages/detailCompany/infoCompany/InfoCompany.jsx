@@ -34,89 +34,99 @@ export default function InfoCompany() {
     getProvinces();
   }, []);
 
-  const { isLoading, error, data } = useQuery(["company"], async () => {
-    await makeRequest.get("/company/owner/").then((res) => {
-      setInputs(res.data);
-      setCompany(res.data);
-      return res.data;
-    });
-  });
+  const getInfo = async () => {
+    try {
+      await makeRequest.get("/company/owner/").then((res) => {
+        setInputs(res.data);
+        setCompany(res.data);
+        return res.data;
+      });
+    } catch (error) {
+      toast.error("Lỗi! Vui lòng đăng nhập lại.");
+    }
+  };
 
+  const { isLoading, error, data } = useQuery(["company"], () => {
+    return getInfo();
+  });
 
   return (
     <div className="infoCompany">
       <div className="infoCompany__wrapper">
         <div className="infoCompany__wrapper__header"></div>
-        {isLoading && <Loader/>}
-        <div className="infoCompany__wrapper__body">
-          <ItemInfoCompany
-            edit={edit}
-            setEdit={setEdit}
-            inputs={inputs}
-            handleChange={handleChange}
-            name={"nameCompany"}
-            title={"Tên công ty"}
-            desc={company?.nameCompany}
-          />
-          <ItemInfoCompany
-            edit={edit}
-            setEdit={setEdit}
-            inputs={inputs}
-            handleChange={handleChange}
-            name={"nameAdmin"}
-            title={"Tên người đại diện"}
-            desc={company?.nameAdmin}
-          />
-          <ItemInfoCompany
-            edit={edit}
-            setEdit={setEdit}
-            inputs={inputs}
-            handleChange={handleChange}
-            name={"email"}
-            title={"Email"}
-            desc={company?.email}
-          />
-          <ItemInfoCompany
-            edit={edit}
-            setEdit={setEdit}
-            inputs={inputs}
-            handleChange={handleChange}
-            name={"phone"}
-            title={"Điện thoại"}
-            desc={company?.phone}
-          />
-          <ItemInfoCompany
-            edit={edit}
-            setEdit={setEdit}
-            inputs={inputs}
-            handleChange={handleChange}
-            name={"web"}
-            title={"Web"}
-            desc={company?.web}
-          />
-          <ItemInfoCompany
-            edit={edit}
-            setEdit={setEdit}
-            inputs={inputs}
-            handleChange={handleChange}
-            name={"idProvince"}
-            title={"Địa chỉ"}
-            desc={company?.province}
-            select={"province"}
-            options={provinces}
-          />
-          <ItemInfoCompany
-            edit={edit}
-            setEdit={setEdit}
-            inputs={inputs}
-            handleChange={handleChange}
-            name={"scale"}
-            title={"Quy mô"}
-            desc={company?.scale}
-            select={"scale"}
-            options={scale}
-          />
-        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="infoCompany__wrapper__body">
+            <ItemInfoCompany
+              edit={edit}
+              setEdit={setEdit}
+              inputs={inputs}
+              handleChange={handleChange}
+              name={"nameCompany"}
+              title={"Tên công ty"}
+              desc={company?.nameCompany}
+            />
+            <ItemInfoCompany
+              edit={edit}
+              setEdit={setEdit}
+              inputs={inputs}
+              handleChange={handleChange}
+              name={"nameAdmin"}
+              title={"Tên người đại diện"}
+              desc={company?.nameAdmin}
+            />
+            <ItemInfoCompany
+              edit={edit}
+              setEdit={setEdit}
+              inputs={inputs}
+              handleChange={handleChange}
+              name={"email"}
+              title={"Email"}
+              desc={company?.email}
+            />
+            <ItemInfoCompany
+              edit={edit}
+              setEdit={setEdit}
+              inputs={inputs}
+              handleChange={handleChange}
+              name={"phone"}
+              title={"Điện thoại"}
+              desc={company?.phone}
+            />
+            <ItemInfoCompany
+              edit={edit}
+              setEdit={setEdit}
+              inputs={inputs}
+              handleChange={handleChange}
+              name={"web"}
+              title={"Web"}
+              desc={company?.web}
+            />
+            <ItemInfoCompany
+              edit={edit}
+              setEdit={setEdit}
+              inputs={inputs}
+              handleChange={handleChange}
+              name={"idProvince"}
+              title={"Địa chỉ"}
+              desc={company?.province}
+              select={"province"}
+              options={provinces}
+            />
+            <ItemInfoCompany
+              edit={edit}
+              setEdit={setEdit}
+              inputs={inputs}
+              handleChange={handleChange}
+              name={"scale"}
+              title={"Quy mô"}
+              desc={company?.scale}
+              select={"scale"}
+              options={scale}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -181,12 +191,7 @@ function ItemInfoCompany({
             setSelectedOption={setSelectedOption}
           />
         ) : (
-          <input
-            type={type}
-            defaultValue={desc}
-            name={name}
-            onChange={handleChange}
-          />
+          <input type={type} defaultValue={desc} name={name} onChange={handleChange} />
         )}
       </div>
       <div className="infoCompany__wrapper__body__item__right">

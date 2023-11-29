@@ -2,7 +2,7 @@
 
 .sectionJobs {
   @include themify($themes) {
-    background-color: themed("bg2");
+    // background-color: themed("bg2");
     padding: $spacing;
     border-radius: $border-radius-20;
     @include mobile{

@@ -1,5 +1,5 @@
 import { Route, BrowserRouter, Routes, Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //import "https://kit.fontawesome.com/dc548344cf.js";
 import "./assets/libs/fontawesome-free-6.4.2-web/css/all.min.css";
 
@@ -30,9 +30,13 @@ import SignupCompany from "./components/signupCompany/SignupCompany";
 import InfoCompany from "./pages/detailCompany/infoCompany/InfoCompany";
 import CandidateHide from "./pages/candidateHide/CandidateHide";
 
-
 function App() {
   const { darkMode } = useMode();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   return (
     <div className={`theme-${darkMode ? "dark" : "light"}`}>
       <div className={`App`}>
@@ -46,10 +50,7 @@ function App() {
 
             <Route path="/tim-viec-lam-nhanh" element={<SearchQuick />} />
 
-            <Route
-              path="/nha-tuyen-dung/search/:keyword"
-              element={<Company />}
-            />
+            <Route path="/nha-tuyen-dung/search/:keyword" element={<Company />} />
             <Route path="/nha-tuyen-dung" element={<Company />} />
 
             <Route path="nha-tuyen-dung/:id" element={<DetailCompany />}>

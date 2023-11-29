@@ -7,12 +7,7 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { makeRequest } from "../../axios";
 
-import {
-  typeWorks,
-  educationJob,
-  experienceJob,
-  sexData,
-} from "../../config/data";
+import { typeWorks, educationJob, experienceJob, sexData } from "../../config/data";
 
 export default function EditJob() {
   const { currentCompany } = useAuth();
@@ -81,14 +76,10 @@ export default function EditJob() {
   const handleSubmit = async () => {
     if (!selectedOptionFields || !selectedOptionProvince)
       return toast.error("Chưa chọn ngành nghề và địa chỉ.");
-    if (!sex || !typeWork || !education)
-      return toast.error("Chọn các mục trong yêu cầu chung.");
-    if (!request || !desc)
-      return toast.error("Mô tả, yêu cầu không được rỗng.");
+    if (!sex || !typeWork || !education) return toast.error("Chọn các mục trong yêu cầu chung.");
+    if (!request || !desc) return toast.error("Mô tả, yêu cầu không được rỗng.");
     if (salaryMax < salaryMin)
-      return toast.error(
-        "Tiền lương tối đa không nhỏ hơn tiền lương tối thiểu."
-      );
+      return toast.error("Tiền lương tối đa không nhỏ hơn tiền lương tối thiểu.");
     try {
       await makeRequest.put("/job", inputs);
       toast.success("Cập nhật thành công!");
@@ -161,7 +152,7 @@ export default function EditJob() {
   }, []);
 
   useEffect(() => {
-    if (!currentCompany) return navigate("/nha-tuyen-dung/dang-nhap");
+    if (!currentCompany) return navigate("/dang-nhap/nha-tuyen-dung");
   }, [currentCompany]);
 
   return (
@@ -172,9 +163,7 @@ export default function EditJob() {
           <div className="editJob__wrapper__body">
             {/* thông tin */}
             <div className="editJob__wrapper__body__form">
-              <h2 className="editJob__wrapper__body__form__title">
-                Cập nhật bài tuyển dụng
-              </h2>
+              <h2 className="editJob__wrapper__body__form__title">Cập nhật bài tuyển dụng</h2>
               <div className="editJob__wrapper__body__form__content">
                 <div className="editJob__wrapper__body__form__content__item">
                   <h6>Chức danh tuyển dụng</h6>
@@ -212,9 +201,7 @@ export default function EditJob() {
             </div>
             {/* yêu cầu chung */}
             <div className="editJob__wrapper__body__form">
-              <h2 className="editJob__wrapper__body__form__title">
-                Yêu cầu chung
-              </h2>
+              <h2 className="editJob__wrapper__body__form__title">Yêu cầu chung</h2>
               <div className="editJob__wrapper__body__form__content">
                 <div className="editJob__wrapper__body__form__content__item  editJob__wrapper__body__form__content__item__sex">
                   <h6>Giới tính</h6>
@@ -232,9 +219,7 @@ export default function EditJob() {
                           type="radio"
                           id={`sex-${item.value}`}
                         />
-                        <label htmlFor={`sex-${item.value}`}>
-                          {item.value}
-                        </label>
+                        <label htmlFor={`sex-${item.value}`}>{item.value}</label>
                       </div>
                     ))}
                   </div>
@@ -245,8 +230,7 @@ export default function EditJob() {
                     <input
                       type="number"
                       onChange={(e) =>
-                        parseInt(e.target.value) < 1 ||
-                        parseInt(e.target.value) > 50
+                        parseInt(e.target.value) < 1 || parseInt(e.target.value) > 50
                           ? setSalaryMin(1)
                           : setSalaryMin(parseInt(e.target.value))
                       }
@@ -259,8 +243,7 @@ export default function EditJob() {
                     <input
                       type="number"
                       onChange={(e) =>
-                        parseInt(e.target.value) < 1 ||
-                        parseInt(e.target.value) > 50
+                        parseInt(e.target.value) < 1 || parseInt(e.target.value) > 50
                           ? setSalaryMax(50)
                           : setSalaryMax(parseInt(e.target.value))
                       }
@@ -299,9 +282,7 @@ export default function EditJob() {
                           type="radio"
                           value={item.name}
                         />
-                        <label htmlFor={`typeWork${item.id}`}>
-                          {item.name}
-                        </label>
+                        <label htmlFor={`typeWork${item.id}`}>{item.name}</label>
                       </div>
                     ))}
                   </div>
@@ -323,9 +304,7 @@ export default function EditJob() {
                           value={item.name}
                           onChange={(e) => setEducation(e.target.value)}
                         />
-                        <label htmlFor={`education-${item.id}`}>
-                          {item.name}
-                        </label>
+                        <label htmlFor={`education-${item.id}`}>{item.name}</label>
                       </div>
                     ))}
                   </div>
@@ -347,9 +326,7 @@ export default function EditJob() {
                           value={item.name}
                           onChange={(e) => setExperience(e.target.value)}
                         />
-                        <label htmlFor={`experienceJob${item.id}`}>
-                          {item.name}
-                        </label>
+                        <label htmlFor={`experienceJob${item.id}`}>{item.name}</label>
                       </div>
                     ))}
                   </div>
@@ -358,31 +335,21 @@ export default function EditJob() {
             </div>
             {/* mô tả */}
             <div className="editJob__wrapper__body__form">
-              <h2 className="editJob__wrapper__body__form__title">
-                Mô tả công việc
-              </h2>
+              <h2 className="editJob__wrapper__body__form__title">Mô tả công việc</h2>
               <div className="editJob__wrapper__body__form__content">
                 <ReactQuill theme="snow" value={desc} onChange={setDesc} />
               </div>
             </div>
             {/* yêu cầu */}
             <div className="editJob__wrapper__body__form">
-              <h2 className="editJob__wrapper__body__form__title">
-                Yêu cầu công việc
-              </h2>
+              <h2 className="editJob__wrapper__body__form__title">Yêu cầu công việc</h2>
               <div className="editJob__wrapper__body__form__content">
-                <ReactQuill
-                  theme="snow"
-                  value={request}
-                  onChange={setRequest}
-                />
+                <ReactQuill theme="snow" value={request} onChange={setRequest} />
               </div>
             </div>
             {/* khác */}
             <div className="editJob__wrapper__body__form">
-              <h2 className="editJob__wrapper__body__form__title">
-                Thông tin khác
-              </h2>
+              <h2 className="editJob__wrapper__body__form__title">Thông tin khác</h2>
               <div className="editJob__wrapper__body__form__content">
                 <ReactQuill theme="snow" value={other} onChange={setOther} />
               </div>

@@ -73,6 +73,30 @@ export default function ItemJob({ className, job, onClick }) {
     }
   });
 
+  const putHiddenJob = async () => {
+    try {
+      await makeRequest.put("job/hidden?idJob=" + job.id);
+      toast.success("Xóa bài tuyển dụng thành công.");
+    } catch (error) {
+      toast.error(error?.reponse?.data);
+    }
+  };
+
+  const mutationDelete = useMutation(
+    () => {
+      return putHiddenJob();
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["job"]);
+      },
+    }
+  );
+
+  const handleClickDelete = async () => {
+    mutationDelete.mutate();
+  };
+
   return (
     <div className={`itemJob ${className && className}`} onClick={onClick}>
       <div className="itemJob__wrapper">
@@ -121,7 +145,7 @@ export default function ItemJob({ className, job, onClick }) {
                       <span>Sửa</span>
                     </button>
                   </Link>
-                  <button>
+                  <button onClick={() => handleClickDelete()}>
                     <i className="fa-regular fa-trash-can"></i>
                     <span>Xóa</span>
                   </button>
@@ -129,10 +153,7 @@ export default function ItemJob({ className, job, onClick }) {
               </div>
             )}
             {!currentCompany && (
-              <button
-                className="button__save"
-                onClick={() => handleSubmitSave()}
-              >
+              <button className="button__save" onClick={() => handleSubmitSave()}>
                 {userSave?.includes(currentUser?.id) ? (
                   <i class="fa-solid fa-heart"></i>
                 ) : (

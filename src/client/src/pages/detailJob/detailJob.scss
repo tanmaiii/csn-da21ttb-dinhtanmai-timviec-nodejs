@@ -10,7 +10,7 @@
         top: 180px;
         right: 50px;
         height: 0;
-        
+
         &__wrapper {
           position: absolute;
           top: 50px;
@@ -18,7 +18,7 @@
           height: 0;
           &__list {
             gap: 8px;
-            box-shadow: themed('box-shadow');
+            box-shadow: themed("box-shadow");
             @include flex(center, unset);
             flex-direction: column;
             padding: 8px 6px;
@@ -44,7 +44,7 @@
                 left: 50%;
                 transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
                 transform-origin: bottom center;
-                transition: all .3s;
+                transition: all 0.3s;
                 opacity: 0.8;
               }
               &::before {
@@ -125,6 +125,16 @@
               }
               .btn_apply {
                 @include button($color-white, $color-primary);
+              }
+              .btn_stops {
+                border-radius: $border-radius-10;
+                padding: 12px 18px;
+                font-weight: 500;
+                font-size: $font-size-s;
+                background-color: $color-red;
+                color: $color-txt-red;
+                @include flex(center, unset);
+                gap: 8px;
               }
               .btn_save {
                 @include button-line($color-txt-red, $color-white);

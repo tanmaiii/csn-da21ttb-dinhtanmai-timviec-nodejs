@@ -27,6 +27,11 @@ $color-txt-orange: #ffa654;
 $color-purple: #e7e9fd;
 $color-txt-purple: #5c69ee;
 
+$color-gray-1: rgba(255, 255, 255, 0.04);
+$color-gray-2: rgba(255, 255, 255, 0.06);
+$color-gray-3: rgba(255, 255, 255, 0.08);
+$color-gray-4: rgba(255, 255, 255, 0.09);
+
 $font-size-s: 1rem;
 $font-size-m: 1.225rem;
 $font-size-l: 1.5625rem;
@@ -37,14 +42,14 @@ $spacing-mobile: 24px;
 
 $rgba-dark: rgba(
   $color: #ffffff,
-  $alpha: 0.24,
+  $alpha: 0.04,
 );
 $rgba-light: rgba(
   $color: #000000,
-  $alpha: 0.24,
+  $alpha: 0.04,
 );
 
-$box-shadow-light: rgba(100, 100, 111, 0.103) 0px 7px 29px 0px;
+$box-shadow-light: 0 5px 20px 0 #ccd1d6;
 $box-shadow-dark: rgba(74, 73, 73, 0.218) 0px 4px 16px 4px;
 
 $border-radius-30: 30px;

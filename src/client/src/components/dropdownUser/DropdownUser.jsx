@@ -15,7 +15,7 @@ export default function DropdownUser() {
 
   useEffect(() => {
     const handleMouseDown = (e) => {
-      if (!dropdownUserRef.current.contains(e.target)) {
+      if (!dropdownUserRef?.current?.contains(e.target)) {
         setOpenMenuUser(false);
       }
     };

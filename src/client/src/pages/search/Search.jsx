@@ -9,6 +9,7 @@ import { useState } from "react";
 import { makeRequest } from "../../axios";
 import img from "../../assets/images/bannerSearch.jpg";
 import queryString from "query-string";
+import { useQuery } from "react-query";
 
 import { typeWorks, experienceJob, educationJob } from "../../config/data";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -111,10 +112,9 @@ export default function Search() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    getJob();
-  }, [paginate, sortActive, location, keyword]);
+  const {} = useQuery(["job", paginate, sortActive, location, keyword], () => {
+    return getJob();
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -137,10 +137,7 @@ export default function Search() {
                   <div className="search__list__header__sort">
                     <span>Sắp xếp :</span>
                     <div className="dropdown">
-                      <div
-                        className="header"
-                        onClick={() => setOpenSort(!openSort)}
-                      >
+                      <div className="header" onClick={() => setOpenSort(!openSort)}>
                         <span>{sortActive && sortActive?.displayName}</span>
                         <i class="fa-solid fa-angle-down"></i>
                       </div>
@@ -149,9 +146,7 @@ export default function Search() {
                           {sort.map((item) => (
                             <span
                               className={`list__item ${
-                                sortActive?.displayName === item?.displayName
-                                  ? "active"
-                                  : ""
+                                sortActive?.displayName === item?.displayName ? "active" : ""
                               }`}
                               onClick={() => handleSelectSort(item)}
                             >
@@ -173,9 +168,7 @@ export default function Search() {
                           onClick={() => setIdJobActive(job?.id)}
                           key={i}
                           job={job}
-                          className={`col pc-4 t-6 m-12 ${
-                            idJobActive === job.id && "active"
-                          }`}
+                          className={`col pc-4 t-6 m-12 ${idJobActive === job.id && "active"}`}
                         />
                       ))
                     )}
@@ -210,21 +203,11 @@ function BannerSearch() {
     arrayFormatSeparator: "|",
   });
 
-  const [optionActiveProvince, setOptionActiveProvince] = useState(
-    params?.province || []
-  );
-  const [optionActiveField, setOptionActiveField] = useState(
-    params?.field || []
-  );
-  const [optionActiveTypeWork, setOptionActiveTypeWork] = useState(
-    params?.typeWork || []
-  );
-  const [optionActiveExperience, setOptionActiveExperience] = useState(
-    params?.exp || []
-  );
-  const [optionActiveEducation, setOptionActiveEducation] = useState(
-    params?.edu || []
-  );
+  const [optionActiveProvince, setOptionActiveProvince] = useState(params?.province || []);
+  const [optionActiveField, setOptionActiveField] = useState(params?.field || []);
+  const [optionActiveTypeWork, setOptionActiveTypeWork] = useState(params?.typeWork || []);
+  const [optionActiveExperience, setOptionActiveExperience] = useState(params?.exp || []);
+  const [optionActiveEducation, setOptionActiveEducation] = useState(params?.edu || []);
   const [salaryFilter, setSalaryFilter] = useState(params?.salary || []);
 
   useEffect(() => {
@@ -327,23 +310,13 @@ function BannerSearch() {
 
   return (
     <div className="search__banner">
-      <div
-        className="search__banner__wrapper"
-        style={{ backgroundImage: `url(${img})` }}
-      >
+      <div className="search__banner__wrapper" style={{ backgroundImage: `url(${img})` }}>
         <InputSearch />
         <div className="search__banner__wrapper__filter">
-          <button
-            className="button-filter"
-            onClick={() => setOpenFilter(!openFilter)}
-          >
+          <button className="button-filter" onClick={() => setOpenFilter(!openFilter)}>
             <i class="fa-solid fa-filter"></i>
           </button>
-          <div
-            className={`search__banner__wrapper__filter__list ${
-              openFilter && "open"
-            }`}
-          >
+          <div className={`search__banner__wrapper__filter__list ${openFilter && "open"}`}>
             <DropdownItem
               name={"province"}
               icon={<i className="fa-solid fa-location-dot"></i>}
@@ -391,10 +364,7 @@ function BannerSearch() {
               setOptionActive={setOptionActiveEducation}
             />
             {btnDelete && (
-              <button
-                className="button-delete-filter"
-                onClick={() => handleDeleteFilter()}
-              >
+              <button className="button-delete-filter" onClick={() => handleDeleteFilter()}>
                 <i class="fa-regular fa-trash-can"></i>
                 <span>Xóa lọc ({qtyFilter})</span>
               </button>
@@ -485,10 +455,7 @@ function InputSearch() {
           value={keyword}
           ref={inputRef}
         />
-        <button
-          className={`inputSearch__input__btn-search`}
-          onClick={() => goToSearch()}
-        >
+        <button className={`inputSearch__input__btn-search`} onClick={() => goToSearch()}>
           <span>Tìm kiếm</span>
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>

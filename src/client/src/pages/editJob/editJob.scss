@@ -113,6 +113,11 @@
                   .ql-editor {
                     font-size: $font-size-s;
                     min-height: 300px;
+                    p {
+                      & > * {
+                        color: themed("text1") !important;
+                      }
+                    }
                   }
                 }
               }
@@ -127,7 +132,7 @@
             min-width: 200px;
           }
           .btn-cancel {
-            @include button-line(themed('text1'), themed('bg1'));
+            @include button-line(themed("text1"), themed("bg1"));
             min-width: 200px;
           }
         }

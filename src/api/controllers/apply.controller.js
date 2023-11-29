@@ -241,7 +241,7 @@ export const applyJob = (req, res) => {
   });
 };
 
-export const updateStatusJob = (req, res) => {
+export const updateStatusUser = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
@@ -260,7 +260,7 @@ export const updateStatusJob = (req, res) => {
   });
 };
 
-export const hiddenJobByCpn = (req, res) => {
+export const hiddenUserByCpn = (req, res) => {
   const token = req.cookies.accessToken;
 
   const id = req.query.id;
@@ -286,7 +286,7 @@ export const hiddenJobByCpn = (req, res) => {
   });
 };
 
-export const unHiddenJobByCpn = (req, res) => {
+export const unHiddenUserByCpn = (req, res) => {
   const token = req.cookies.accessToken;
 
   const id = req.query.id;

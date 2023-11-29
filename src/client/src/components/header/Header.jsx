@@ -55,8 +55,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScrollHeader = () => {
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       if (scrollTop == 0) {
         headerRef.current.style.top = "0";
         headerRef.current.classList.remove("shrink");
@@ -96,10 +95,7 @@ export default function Header() {
   return (
     <>
       <div className="header">
-        <div
-          className={`header__wrapper ${pathname != "/" ? "bg" : ""}`}
-          ref={headerRef}
-        >
+        <div className={`header__wrapper ${pathname != "/" ? "bg" : ""}`} ref={headerRef}>
           <div className="container">
             <div className="header__wrapper__btn-mobile">
               <button onClick={() => setOpen(!open)}>
@@ -114,10 +110,7 @@ export default function Header() {
               <ul>
                 {hedearItem.map((item, i) => (
                   <li key={i}>
-                    <Link
-                      className={pathname === item.path ? "active" : ""}
-                      to={item.path}
-                    >
+                    <Link className={pathname === item.path ? "active" : ""} to={item.path}>
                       {item.icon}
                       <span>{item.display}</span>
                     </Link>
@@ -126,10 +119,7 @@ export default function Header() {
               </ul>
             </div>
             <div className="header__wrapper__auth">
-              <button
-                className="header__wrapper__auth__darkMode"
-                onClick={() => toggleDarkMode()}
-              >
+              <button className="header__wrapper__auth__darkMode" onClick={() => toggleDarkMode()}>
                 {darkMode ? (
                   <i className="fa-regular fa-sun"></i>
                 ) : (
@@ -141,7 +131,7 @@ export default function Header() {
               ) : (
                 <Link to={"/dang-nhap/nguoi-dung"}>
                   <button className="header__wrapper__auth__user">
-                    Đăng nhập
+                    {currentCompany ? "Ứng tuyển" : "Đăng nhập"}
                   </button>
                 </Link>
               )}
@@ -150,16 +140,12 @@ export default function Header() {
                 <DropdownCompany />
               ) : (
                 <Link to={"/dang-nhap/nha-tuyen-dung"}>
-                  <button className="header__wrapper__auth__company">
-                    Nhà tuyển dụng
-                  </button>
+                  <button className="header__wrapper__auth__company">Nhà tuyển dụng</button>
                 </Link>
               )}
             </div>
             <div
-              className={`header__wrapper__control-mobile ${
-                open ? "open" : ""
-              }`}
+              className={`header__wrapper__control-mobile ${open ? "open" : ""}`}
               ref={sideBarMobile}
             >
               <ul>
@@ -178,10 +164,7 @@ export default function Header() {
 
                 {hedearItem.map((item, i) => (
                   <li key={i}>
-                    <Link
-                      className={pathname === item.path ? "active" : ""}
-                      to={item.path}
-                    >
+                    <Link className={pathname === item.path ? "active" : ""} to={item.path}>
                       {item.icon}
                       <span>{item.display}</span>
                     </Link>
@@ -217,9 +200,7 @@ export default function Header() {
                 {!currentCompany && (
                   <li>
                     <button className="">
-                      <Link to={"/dang-nhap/nha-tuyen-dung"}>
-                        Nhà tuyển dụng
-                      </Link>
+                      <Link to={"/dang-nhap/nha-tuyen-dung"}>Nhà tuyển dụng</Link>
                     </button>
                   </li>
                 )}

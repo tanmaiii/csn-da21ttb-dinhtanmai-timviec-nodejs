@@ -8,41 +8,43 @@ import { useQuery, useSearchParams } from "react-query";
 import { Link } from "react-router-dom";
 import NotFoundData from "../../../components/notFoundData/NotFoundData";
 import Loader from "../../../components/loader/Loader";
+import { toast } from "sonner";
 
 export default function JobsCompany() {
-  const [jobs, setJobs] = useState();
   const { id } = useParams();
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState();
-  const [loading, setLoading] = useState(false);
   const limit = 4;
 
   const getJob = async () => {
-    setLoading(true);
     try {
-      const res = await makeRequest.get(
-        `/job/company/${id}?page=${paginate}&limit=${limit}`
-      );
-      setJobs(res.data.data);
+      const res = await makeRequest.get(`/job/company/${id}?page=${paginate}&limit=${limit}`);
       setTotalPage(res.data.pagination.totalPage);
-      setLoading(false);
-    } catch (error) {}
-    setLoading(false);
+      return res.data.data;
+    } catch (error) {
+      toast.error(error?.reponse?.data);
+    }
   };
 
+  const {
+    data: jobs,
+    isError,
+    isLoading,
+  } = useQuery(["job", paginate], () => {
+    return getJob();
+  });
+
   useEffect(() => {
-    getJob();
     window.scroll(0, 0);
-  }, [paginate]);
+  }, []);
 
   return (
     <div className="jobsCompany">
       <div className="jobsCompany__list row">
-        {loading && <Loader />}
-        {jobs?.length > 0 ? (
-          jobs?.map((job, i) => (
-            <ItemJob key={i} job={job} className={"col pc-6 t-12 m-12"} />
-          ))
+        {isLoading ? (
+          <Loader />
+        ) : jobs?.length > 0 ? (
+          jobs?.map((job, i) => <ItemJob key={i} job={job} className={"col pc-6 t-12 m-12"} />)
         ) : (
           <NotFoundData />
         )}

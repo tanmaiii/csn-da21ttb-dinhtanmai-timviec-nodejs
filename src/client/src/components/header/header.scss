@@ -133,6 +133,7 @@
             border: 1.6px solid themed("border");
             cursor: pointer;
             @include flex(center, center);
+
             i {
               @include flex(center, center);
               --size: 20px;
@@ -201,6 +202,7 @@
                 font-weight: 500;
                 font-size: $font-size-s;
                 i {
+                  // @include flex(center, center);
                   --size: 20px;
                   width: var(--size);
                   height: var(--size);

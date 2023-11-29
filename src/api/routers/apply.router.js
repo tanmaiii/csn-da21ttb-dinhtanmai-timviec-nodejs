@@ -7,9 +7,9 @@ import {
   getDetailApply,
   getUserByCpn,
   getUserHideByCpn,
-  updateStatusJob,
-  hiddenJobByCpn,
-  unHiddenJobByCpn,
+  updateStatusUser,
+  hiddenUserByCpn,
+  unHiddenUserByCpn,
 } from "../controllers/apply.controller.js";
 
 const router = express.Router();
@@ -21,8 +21,8 @@ router.get("/status", getStatus);
 router.get("/user", getUser);
 router.get("/", getJobApply);
 router.post("/", applyJob);
-router.put("/status", updateStatusJob);
-router.put("/hidden", hiddenJobByCpn);
-router.put("/unHidden", unHiddenJobByCpn);
+router.put("/status", updateStatusUser);
+router.put("/hidden", hiddenUserByCpn);
+router.put("/unHidden", unHiddenUserByCpn);
 
 export default router;

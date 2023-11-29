@@ -20,10 +20,10 @@ export const getAll = async (req, res) => {
 
     let q = `SELECT j.id, j.experience, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameField
        FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f
-       WHERE j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
+       WHERE j.deletedAt is null AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     let q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p ,job.fields as f
-       WHERE j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
+       WHERE j.deletedAt is null AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     if (search) {
       q += ` AND (j.nameJob like '%${search}%' or c.nameCompany like '%${search}%') `;
@@ -65,8 +65,6 @@ export const getAll = async (req, res) => {
       q2 += ` AND j.salaryMax >= ${salary[0]} and j.salaryMin <= ${salary[1]}`;
     }
 
-    console.log(q);
-
     if (sort === "new") {
       q += ` ORDER BY j.createdAt DESC `;
     } else if (sort === "maxToMin") {
@@ -75,9 +73,7 @@ export const getAll = async (req, res) => {
       q += ` ORDER BY j.salaryMin ASC `;
     }
 
-    const [data] = await promiseDb.query(
-      `${q} limit ${+limit} offset ${+offset}`
-    );
+    const [data] = await promiseDb.query(`${q} limit ${+limit} offset ${+offset}`);
     const [totalData] = await promiseDb.query(q2);
     const totalPage = Math.ceil(+totalData[0]?.count / limit);
 
@@ -139,7 +135,7 @@ export const findJobs = async (req, res) => {
 };
 
 export const getById = async (req, res) => {
-  const q = `SELECT j.* , p.name as province , c.nameCompany, c.avatarPic , f.name as nameField
+  const q = `SELECT j.* , p.name as province , c.nameCompany, c.avatarPic , f.name as nameField, deletedAt
              FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f
              WHERE j.id = ? AND j.idField = f.id  AND j.idCompany = c.id AND j.idProvince = p.id`;
 
@@ -159,10 +155,10 @@ export const getByIdCompany = async (req, res) => {
 
     const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic
                FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
-               WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
+               WHERE j.deletedAt is null AND c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
 
     const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
-                WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
+                WHERE j.deletedAt is null AND c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
 
     const [data] = await promiseDb.query(q, [id, +limit, +offset]);
     const [totalData] = await promiseDb.query(q2, [id]);
@@ -189,8 +185,7 @@ export const getByIdCompany = async (req, res) => {
 export const getNameJob = (req, res) => {
   const { id } = req.params;
 
-  const q =
-    "SELECT j.id, j.nameJob as name, j.idCompany FROM job.jobs as j Where j.idCompany = ?";
+  const q = "SELECT j.id, j.nameJob as name, j.idCompany FROM job.jobs as j Where j.idCompany = ?";
 
   db.query(q, [id], (err, data) => {
     if (!data.length) {
@@ -227,8 +222,7 @@ export const postJob = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, companmyInfo) => {
     db.query(q, companmyInfo.id, (err, data) => {
-      if (!data?.length)
-        return res.status(401).json("Người dùng không hợp lệ !");
+      if (!data?.length) return res.status(401).json("Người dùng không hợp lệ !");
 
       const q =
         "INSERT INTO job.jobs (`idCompany`, `idField`, `idProvince` , `nameJob`, `request`, `desc`, `other`, `salaryMin`, `salaryMax`,`sex`, `typeWork` , `education`, `experience`,  `createdAt`) VALUE (?)";
@@ -264,10 +258,11 @@ export const getByIdField = async (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    const q =
-      "SELECT j.id, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f WHERE f.id = ? AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id  ORDER BY j.createdAt DESC limit ? offset ?";
-    const q2 =
-      "SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f WHERE f.id = ? AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt";
+    const q = `SELECT j.id, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields
+       FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f 
+      WHERE f.id = ? AND j.deletedAt is null AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt DESC limit ? offset ?`;
+    const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f 
+      WHERE j.deletedAt is null AND f.id = ? AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt`;
 
     const [data] = await promiseDb.query(q, [+idField, +limit, +offset]);
     const [totalPageData] = await promiseDb.query(q2, [+idField]);
@@ -320,17 +315,17 @@ export const updateJob = async (req, res) => {
 
   jwt.verify(token, "secretkey", (err, companmyInfo) => {
     db.query(q, companmyInfo.id, (err, data) => {
-      if (!data?.length)
-        return res.status(401).json("Người dùng không hợp lệ !");
+      if (!data?.length) return res.status(401).json("Người dùng không hợp lệ !");
 
       const q =
-        "UPDATE job.jobs SET  `nameJob` = ? ,  `idField` = ? ,  `idProvince` = ?  ,  `request` = ? ,  `desc` = ? ,  `other` = ? ,  `salaryMin` = ? ,  `salaryMax` = ? ,  `sex` = ? ,  `typeWork` = ? ,  `education` = ? ,  `experience` = ? WHERE jobs.id = ?";
+        "UPDATE job.jobs as j SET `nameJob`=?,`idField`=?,`idProvince`=?,`desc`=?,`request`=?,`other`=?,`salaryMin`=?,`salaryMax`=?,`sex`=?,`typeWork`=?,`education`=?,`experience`=?  WHERE j.id = ? AND j.idCompany = ?";
+
       const values = [
         nameJob,
         idField,
         idProvince,
-        request,
         desc,
+        request,
         other,
         salaryMin,
         salaryMax,
@@ -339,12 +334,34 @@ export const updateJob = async (req, res) => {
         education,
         experience,
         idJob,
-        // companmyInfo.id,
+        companmyInfo.id,
       ];
       db.query(q, values, (err, data) => {
         if (err) return res.status(500).json(err);
         return res.status(200).json("Đăng thành công");
       });
+    });
+  });
+};
+
+export const hiddenJob = async (req, res) => {
+  const token = req.cookies.accessToken;
+
+  const idJob = req.query.idJob;
+
+  if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+  jwt.verify(token, "secretkey", (err, companmyInfo) => {
+    if (err) return res.status(403).json("Token không trùng !");
+
+    const q = `UPDATE job.jobs as j SET \`deletedAt\` = '${moment(Date.now()).format(
+      "YYYY-MM-DD HH:mm:ss"
+    )}' WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
+
+    db.query(q, (err, data) => {
+      if (!err) return res.status(200).json(data);
+      if (data?.affectedRows > 0) return res.json("Update");
+      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
     });
   });
 };

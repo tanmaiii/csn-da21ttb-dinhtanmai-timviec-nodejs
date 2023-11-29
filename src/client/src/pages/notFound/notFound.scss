@@ -18,10 +18,8 @@
           font-size: 200px;
           color: themed("text1");
         }
-        a{
-            button{
-                @include button($color-white, $color-primary);
-            }
+        button {
+          @include button($color-white, $color-primary);
         }
       }
     }
