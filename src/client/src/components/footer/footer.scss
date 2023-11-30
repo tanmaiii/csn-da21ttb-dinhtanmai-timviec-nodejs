@@ -5,6 +5,7 @@
     padding: $spacing 0;
     border-top: 1px solid themed("border");
     margin-top: $spacing;
+    background-color: themed("bg2");
     .container {
       .footer__list {
         flex-wrap: wrap;
@@ -15,15 +16,18 @@
           @include flex(unset, unset);
           flex-direction: column;
           gap: 20px;
+          h4 {
+            font-size: $font-size-m;
+            color: themed("text1");
+            font-weight: 500;
+            line-height: 1;
+          }
+
           @include mobile {
             justify-content: center;
             align-items: center;
           }
           &.pc-6 {
-            // padding-right: 100px;
-            // @include mobile {
-            //   padding-right: 0;
-            // }
           }
           &__logo {
             @include flex(center, unset);
@@ -39,80 +43,112 @@
               color: themed("text1");
             }
           }
-          span {
-            color: themed("text2");
-            font-weight: 400;
-            font-size: $font-size-s;
-            max-width: 460px;
-            @include mobile{
-              text-align: center
-            }
-          }
-          &__input {
-            @include flex(center, unset);
-            background-color: themed("bg2");
-            width: max-content;
-            padding: 6px 10px;
-            border-radius: $border-radius-10;
-            i {
-              font-size: $font-size-m;
-              color: themed("text1");
-            }
-            input {
-              width: 240px;
-              padding: 10px;
-              font-size: $font-size-s;
-              color: themed("text1");
-              background-color: transparent;
-            }
-            button {
-              padding: 10px;
-              border-radius: $border-radius-10;
-              background-color: $color-primary;
-              cursor: pointer;
-              border: 1px solid $color-primary;
-              transition: all 0.3s;
-              &:hover {
-                background-color: transparent;
-                svg {
-                  fill: $color-primary;
-                }
-              }
-              svg {
-                @include flex(center, center);
-                fill: $color-white;
-                --size: 20px;
+          &__social {
+            @include flex(start, unset);
+            flex-direction: column;
+            gap: 20px;
+            ul {
+              @include flex(center, unset);
+              gap: 8px;
+              list-style: none;
+              li {
+                --size: 50px;
                 width: var(--size);
                 height: var(--size);
+                padding: 10px;
+                @include flex(center, center);
+                background-color: themed("bg1");
+                border-radius: $border-radius-10;
+                cursor: pointer;
+                transition: all 0.3s;
+                border: 1.2px solid transparent;
+                &:hover {
+                  border: 1.2px solid themed("border");
+                  box-shadow: themed("box-shadow");
+                }
+                i {
+                  font-size: 1.2rem;
+                  color: themed("text1");
+                }
               }
             }
           }
-          &__header {
-            font-size: $font-size-m;
-            color: themed("text1");
-            font-weight: 500;
-            line-height: 1;
+          &__form {
+            @include flex(start, unset);
+            flex-direction: column;
+            gap: 20px;
+            span {
+              color: themed("text2");
+              font-weight: 400;
+              font-size: $font-size-s;
+              max-width: 400px;
+            }
+            &__input {
+              @include flex(center, unset);
+              background-color: themed("bg1");
+              width: max-content;
+              border-radius: $border-radius-10;
+              width: 400px;
+              padding: 0 12px;
+              i {
+                font-size: $font-size-m;
+                color: themed("text1");
+              }
+              input {
+                width: 100%;
+                padding: 20px 8px;
+                font-size: $font-size-s;
+                color: themed("text1");
+                background-color: transparent;
+              }
+              button {
+                padding: 10px;
+                border-radius: $border-radius-10;
+                background-color: $color-primary;
+                cursor: pointer;
+                border: 1px solid $color-primary;
+                transition: all 0.3s;
+                &:hover {
+                  background-color: transparent;
+                  svg {
+                    fill: $color-primary;
+                  }
+                }
+                svg {
+                  @include flex(center, center);
+                  fill: $color-white;
+                  --size: 20px;
+                  width: var(--size);
+                  height: var(--size);
+                }
+              }
+            }
           }
           &__list {
             @include flex(unset, unset);
             flex-direction: column;
             gap: 8px;
+            list-style: none;
             li {
               a {
                 font-size: $font-size-s;
                 color: themed("text2");
                 font-weight: 400;
                 line-height: 1;
+                transition: all .3s;
+                &:hover{
+                  font-weight: 500;
+                }
               }
             }
           }
         }
       }
-      .footer__bottom{
+      .footer__bottom {
         font-size: $font-size-s;
         color: themed("text2");
         width: 100%;
-        @include flex(center,center);
+        @include flex(center, center);
         padding: 20px;
       }
     }

@@ -47,7 +47,7 @@ export const updateUser = (req, res) => {
   const { name, birthDay, sex, email, phone, idProvince, linkCv } = req.body;
 
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
-  if (!checkUrl(linkCv)) return res.status(409).json("Link Cv không hợp lệ !");
+  if (linkCv?.length > 0 && !checkUrl(linkCv)) return res.status(409).json("Link Cv không hợp lệ !");
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");

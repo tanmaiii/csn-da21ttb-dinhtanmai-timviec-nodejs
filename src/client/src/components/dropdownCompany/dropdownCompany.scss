@@ -29,8 +29,9 @@
         @include flex(center, center);
         gap: 8px;
         img {
-          height: 100%;
-          width: auto;
+          --size: 28px;
+          height: var(--size);
+          width: var(--size);
           overflow: hidden;
           object-fit: cover;
           border-radius: 50%;

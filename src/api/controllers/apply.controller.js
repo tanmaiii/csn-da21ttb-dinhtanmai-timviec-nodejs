@@ -92,10 +92,7 @@ export const getUserByCpn = (req, res) => {
     }
 
     jwt.verify(token, "secretkey", async (err, cpn) => {
-      const [data] = await promiseDb.query(
-        `${q} limit ${+limit} offset ${+offset}`,
-        [cpn.id]
-      );
+      const [data] = await promiseDb.query(`${q} limit ${+limit} offset ${+offset}`, [cpn.id]);
       const [total] = await promiseDb.query(q2, cpn.id);
       const totalPage = Math.ceil(+total[0]?.count / limit);
 
@@ -136,10 +133,7 @@ export const getUserHideByCpn = (req, res) => {
               WHERE c.id = ? AND not a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     jwt.verify(token, "secretkey", async (err, cpn) => {
-      const [data] = await promiseDb.query(
-        `${q} limit ${+limit} offset ${+offset}`,
-        [cpn.id]
-      );
+      const [data] = await promiseDb.query(`${q} limit ${+limit} offset ${+offset}`, [cpn.id]);
       const [total] = await promiseDb.query(q2, cpn.id);
       const totalPage = Math.ceil(+total[0]?.count / limit);
 
@@ -164,8 +158,7 @@ export const getUserHideByCpn = (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
-    const q =
-      "SELECT DISTINCT idUser FROM job.apply_job as a WHERE a.idJob = ?";
+    const q = "SELECT DISTINCT idUser FROM job.apply_job as a WHERE a.idJob = ?";
 
     db.query(q, [req.query.idJob], (err, data) => {
       if (err) return res.status(500).json(err);
@@ -270,13 +263,13 @@ export const hiddenUserByCpn = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
-    const q = `UPDATE job.apply_job as a , job.companies as c, job.jobs as j SET \`deletedAt\` = '${moment(
+    const q = `UPDATE job.apply_job as a , job.jobs as j SET a.deletedAt = '${moment(
       Date.now()
     ).format(
       "YYYY-MM-DD HH:mm:ss"
-    )}' WHERE a.id in ('${idFilter}') AND a.idJob = j.id AND j.idCompany = c.id AND c.id = ${
-      userInfo.id
-    }`;
+    )}' WHERE a.id in ('${idFilter}') AND a.idJob = j.id AND j.idCompany = ${userInfo.id}`;
+
+    console.log(q);
 
     db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);
@@ -296,7 +289,7 @@ export const unHiddenUserByCpn = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
-    const q = `UPDATE job.apply_job as a , job.companies as c, job.jobs as j SET \`deletedAt\` = null WHERE a.id in ('${idFilter}') AND a.idJob = j.id AND j.idCompany = c.id AND c.id = ${userInfo.id}`;
+    const q = `UPDATE job.apply_job as a , job.jobs as j SET a.deletedAt = null WHERE a.id in ('${idFilter}') AND a.idJob = j.id  AND j.idCompany = ${userInfo.id}`;
 
     db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);
