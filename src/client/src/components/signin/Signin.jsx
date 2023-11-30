@@ -64,10 +64,7 @@ export default function Signin() {
     <div className="signin">
       <div className="signin__header ">
         <h4>Chào mừng bạn đã quay trở lại</h4>
-        <span>
-          Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý
-          tưởng
-        </span>
+        <span>Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng</span>
       </div>
       {err && <p className="err">{err}</p>}
       <div className="signin__body">
@@ -102,6 +99,11 @@ export default function Signin() {
             )}
           </span>
         </div>
+
+        <div className="reset">
+            <Link to={'/quen-mat-khau'}>Quên mật khẩu ?</Link>
+        </div>
+
         {!loading ? (
           <button className="btn-auth" onClick={handleSubmit}>
             Đăng ký
@@ -113,8 +115,7 @@ export default function Signin() {
         )}
 
         <span className="link-signup">
-          Bạn chưa có tài khoản ?
-          <Link to={"/dang-ky/nguoi-dung"}> Đăng ký</Link>
+          Bạn chưa có tài khoản ?<Link to={"/dang-ky/nguoi-dung"}> Đăng ký</Link>
         </span>
       </div>
     </div>

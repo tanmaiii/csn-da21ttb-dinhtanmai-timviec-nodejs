@@ -52,7 +52,7 @@
           background-color: themed("bg2");
           padding: 40px 60px;
           border-radius: $border-radius-20;
-        //  / width: 500px;
+          // width: 500px;
           @include flex(center, center);
           @include mobile {
             width: 100%;

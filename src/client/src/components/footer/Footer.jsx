@@ -90,22 +90,22 @@ export default function Footer() {
             </ul>
           </div>
           <div className="footer__list__col col pc-2 t-4 m-12">
-            <h4 className="footer__list__col__header">About Us</h4>
+            <h4 className="footer__list__col__header">Việc làm theo vị trí</h4>
             <ul className="footer__list__col__list">
               <li>
-                <Link>Việc làm</Link>
+                <Link>Hà Nội</Link>
               </li>
               <li>
-                <Link>Công ty</Link>
+                <Link>Hồ Chí Minh</Link>
               </li>
               <li>
-                <Link>Việc làm</Link>
+                <Link>Đằ Nẵng</Link>
               </li>
               <li>
-                <Link>Việc làm</Link>
+                <Link>Cần Thơ</Link>
               </li>
               <li>
-                <Link>Việc làm</Link>
+                <Link>Bình dương</Link>
               </li>
             </ul>
           </div>

@@ -24,9 +24,9 @@ export default function AuthLayout() {
       >
         <div className="container">
           <div className="layout__auth__main__control">
-            <button onClick={() => navigate(-1)}>
+            <button onClick={() => navigate('/')}>
               <i className="fa-solid fa-chevron-left"></i>
-              <span>Quay lại</span>
+              <span>Trang chủ</span>
             </button>
           </div>
           <div className="layout__auth__main__content">

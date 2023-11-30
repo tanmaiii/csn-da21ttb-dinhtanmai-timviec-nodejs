@@ -24,6 +24,8 @@ import NotFound from "./pages/notFound/NotFound";
 
 import Signin from "./components/signin/Signin";
 import Signup from "./components/signup/Signup";
+import ForgotPassword from "./components/forgotPassword/ForgotPassword";
+import ResetPassword from "./components/resetPassword/ResetPassword";
 
 import SigninCompany from "./components/signinCompany/SigninCompany";
 import SignupCompany from "./components/signupCompany/SignupCompany";
@@ -79,6 +81,12 @@ function App() {
           <Route path="/dang-nhap" element={<AuthLayout />}>
             <Route index path="nguoi-dung" element={<Signin />} />
             <Route path="nha-tuyen-dung" element={<SigninCompany />} />
+          </Route>
+          <Route path="/quen-mat-khau" element={<AuthLayout />}>
+            <Route index path="" element={<ForgotPassword />} />
+          </Route>
+          <Route path="/tao-moi-mat-khau" element={<AuthLayout />}>
+            <Route index path="" element={<ResetPassword />} />
           </Route>
         </Routes>
       </div>
