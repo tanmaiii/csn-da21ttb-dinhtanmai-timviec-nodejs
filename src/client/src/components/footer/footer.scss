@@ -29,54 +29,86 @@
           }
           &.pc-6 {
           }
-          &__logo {
-            @include flex(center, unset);
-            gap: 8px;
-            img {
-              --size: 40px;
-              width: var(--size);
-              height: var(--size);
+          &.t-12 {
+            @include tablet {
+              @include flex(center, start);
+              gap: 40px;
+              flex-direction: row;
+              width: 100%;
             }
-            h2 {
-              font-size: $font-size-l;
-              font-weight: 600;
-              color: themed("text1");
+            @include mobile {
+              flex-direction: column;
             }
           }
           &__social {
             @include flex(start, unset);
-            flex-direction: column;
             gap: 20px;
-            ul {
+            flex-direction: column;
+            @include tablet {
+              flex: 1;
+            }
+            @include mobile {
+              align-items: center;
+            }
+            &__logo {
               @include flex(center, unset);
               gap: 8px;
-              list-style: none;
-              li {
-                --size: 50px;
+              img {
+                --size: 40px;
                 width: var(--size);
                 height: var(--size);
-                padding: 10px;
-                @include flex(center, center);
-                background-color: themed("bg1");
-                border-radius: $border-radius-10;
-                cursor: pointer;
-                transition: all 0.3s;
-                border: 1.2px solid transparent;
-                &:hover {
-                  border: 1.2px solid themed("border");
-                  box-shadow: themed("box-shadow");
-                }
-                i {
-                  font-size: 1.2rem;
-                  color: themed("text1");
+              }
+              h2 {
+                font-size: $font-size-l;
+                font-weight: 600;
+                color: themed("text1");
+              }
+            }
+            &__list {
+              @include flex(start, unset);
+              flex-direction: column;
+              gap: 20px;
+              @include mobile {
+                align-items: center;
+              }
+              ul {
+                @include flex(center, unset);
+                gap: 8px;
+                list-style: none;
+                li {
+                  --size: 50px;
+                  width: var(--size);
+                  height: var(--size);
+                  padding: 10px;
+                  @include flex(center, center);
+                  background-color: themed("bg1");
+                  border-radius: $border-radius-10;
+                  cursor: pointer;
+                  transition: all 0.3s;
+                  border: 1.2px solid transparent;
+                  &:hover {
+                    border: 1.2px solid themed("border");
+                    box-shadow: themed("box-shadow");
+                  }
+                  i {
+                    font-size: 1.2rem;
+                    color: themed("text1");
+                  }
                 }
               }
             }
           }
+
           &__form {
             @include flex(start, unset);
             flex-direction: column;
             gap: 20px;
+            @include tablet {
+              flex: 1;
+            }
+            @include mobile {
+              align-items: center;
+            }
             span {
               color: themed("text2");
               font-weight: 400;
@@ -129,14 +161,17 @@
             flex-direction: column;
             gap: 8px;
             list-style: none;
+            @include mobile {
+              text-align: center;
+            }
             li {
               a {
                 font-size: $font-size-s;
                 color: themed("text2");
                 font-weight: 400;
                 line-height: 1;
-                transition: all .3s;
-                &:hover{
+                transition: all 0.3s;
+                &:hover {
                   font-weight: 500;
                 }
               }

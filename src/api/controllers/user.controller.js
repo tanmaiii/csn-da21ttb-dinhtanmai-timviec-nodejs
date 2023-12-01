@@ -2,7 +2,9 @@ import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
 import checkEmail from "../middlewares/checkEmail.middleware.js";
 import checkUrl from "../middlewares/checkUrl.middleware.js";
-import multer from "multer";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const getUser = (req, res) => {
   const id = req.params.id;
@@ -47,7 +49,8 @@ export const updateUser = (req, res) => {
   const { name, birthDay, sex, email, phone, idProvince, linkCv } = req.body;
 
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
-  if (linkCv?.length > 0 && !checkUrl(linkCv)) return res.status(409).json("Link Cv không hợp lệ !");
+  if (linkCv?.length > 0 && !checkUrl(linkCv))
+    return res.status(409).json("Link Cv không hợp lệ !");
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
@@ -95,6 +98,46 @@ export const uploadImage = (req, res) => {
   });
 };
 
+export const forgotPassword = (req, res) => {
+  const { email } = req.body;
+
+  const q = "SELECT email, id from job.users WHERE email = ?";
+
+  db.query(q, [email], (err, data) => {
+    if (!data.length) {
+      return res.status(403).json("Không tìm thấy email!");
+    } else {
+      const token = jwt.sign({ id: data[0].id }, "jwt_secret_key", { expiresIn: "1d" });
+
+      console.log(process.env.MAIL_NAME, process.env.MAIL_PASSWORD);
+
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: `${process.env.MAIL_NAME}`,
+          pass: `${process.env.MAIL_PASSWORD}`,
+        },
+      });
+
+      var mailOptions = {
+        from: `${process.env.MAIL_NAME}`,
+        to: `${data[0].email}`,
+        subject: "Reset Password Link",
+        text: `http://localhost:8800/reset_password/${data[0].id}/${token}`,
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          return res.send({ Status: "Success" });
+        }
+      });
+      return res.status(200).json(data[0]);
+    }
+  });
+};
+
 export const resetPassword = (email, password, result) => {
   db.query("UPDATE users SET password = ? WHERE email=?", email, password, (err, res) => {
     if ((err, res)) {
@@ -106,6 +149,6 @@ export const resetPassword = (email, password, result) => {
       result({ kind: "not_found" }, null);
       return;
     }
-    result(null, { email: email });
+    return result(null, { email: email });
   });
 };

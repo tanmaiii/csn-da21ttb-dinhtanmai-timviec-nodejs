@@ -10,27 +10,30 @@ export default function Footer() {
       <div className="container">
         <div className="footer__list row">
           <div className="footer__list__col col pc-6 t-12 m-12">
-            <div className="footer__list__col__logo">
-              <img src={img} alt="" />
-              <h2>JobQuest</h2>
-            </div>
             <div className="footer__list__col__social">
-              <h4>Kết nối với chúng tôi</h4>
-              <ul>
-                <li>
-                  <i class="fa-brands fa-facebook-f"></i>
-                </li>
-                <li>
-                  <i class="fa-brands fa-twitter"></i>
-                </li>
-                <li>
-                  <i class="fa-brands fa-tiktok"></i>
-                </li>
-                <li>
-                  <i class="fa-regular fa-envelope"></i>
-                </li>
-              </ul>
+              <div className="footer__list__col__social__logo">
+                <img src={img} alt="" />
+                <h2>JobQuest</h2>
+              </div>
+              <div className="footer__list__col__social__list">
+                <h4>Kết nối với chúng tôi</h4>
+                <ul>
+                  <li>
+                    <i class="fa-brands fa-facebook-f"></i>
+                  </li>
+                  <li>
+                    <i class="fa-brands fa-twitter"></i>
+                  </li>
+                  <li>
+                    <i class="fa-brands fa-tiktok"></i>
+                  </li>
+                  <li>
+                    <i class="fa-regular fa-envelope"></i>
+                  </li>
+                </ul>
+              </div>
             </div>
+
             <div className="footer__list__col__form">
               <h4>Đăng ký</h4>
               <span>
