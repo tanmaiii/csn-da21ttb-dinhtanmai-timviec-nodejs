@@ -294,3 +294,27 @@
     }
   }
 }
+
+.modal__sure {
+  @include themify($themes) {
+    padding: 20px;
+    width: 100%;
+    h2{
+      margin-bottom: 20px;
+      font-weight: 400;
+      color: themed("text1");
+      font-size: $font-size-m;
+    }
+    &__footer {
+      width: 100%;
+      @include flex(center, end);
+      gap: 8px;
+      & > .btn-cancel {
+        @include button(themed("text1"),themed('bg1'));
+      }
+      & > .btn-submit {
+        @include button($color-white, $color-primary);
+      }
+    }
+  }
+}

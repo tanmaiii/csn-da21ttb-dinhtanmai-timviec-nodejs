@@ -5,13 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { apiImage, makeRequest } from "../../axios";
 import { useAuth } from "../../context/authContext";
 import img from "../../assets/images/avatarCpn.png";
+import Modal from "../modal/Modal";
 import moment from "moment";
 import "moment/locale/vi";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function ItemJob({ className, job, onClick }) {
-  const [save, setSave] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
   const [openMore, setOpenMore] = useState(false);
   const { currentCompany, currentUser } = useAuth();
   const [userSave, setUserSave] = useState();
@@ -98,72 +99,93 @@ export default function ItemJob({ className, job, onClick }) {
   };
 
   return (
-    <div className={`itemJob ${className && className}`} onClick={onClick}>
-      <div className="itemJob__wrapper">
-        <div className="itemJob__wrapper__header">
-          <img src={job?.avatarPic ? apiImage + job?.avatarPic : img} alt="" />
-          <div className="text">
-            <Link to={`/viec-lam/${job?.id}`}>
-              <h4 className="nameJob">{job?.nameJob}</h4>
-            </Link>
-            <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
-              <h6 className="nameCompany">{job?.nameCompany}</h6>
-            </Link>
-          </div>
-        </div>
-        <div className="itemJob__wrapper__body">
-          <div className="itemJob__wrapper__body__inportant">
-            <div className="wage">
-              <i className="fa-solid fa-dollar-sign"></i>
-              <span>
-                {job?.salaryMax === 0 && job?.salaryMin === 0
-                  ? "Thảo thuận"
-                  : `${job?.salaryMin} - ${job?.salaryMax} triệu`}
-              </span>
-            </div>
-            <div className="typeWork">
-              <span>{job?.typeWork}</span>
-            </div>
-            <div className="province">
-              <i className="fa-solid fa-location-dot"></i>
-              <span>{job?.province}</span>
+    <>
+      <div className={`itemJob ${className && className}`} onClick={onClick}>
+        <div className="itemJob__wrapper">
+          <div className="itemJob__wrapper__header">
+            <img src={job?.avatarPic ? apiImage + job?.avatarPic : img} alt="" />
+            <div className="text">
+              <Link to={`/viec-lam/${job?.id}`}>
+                <h4 className="nameJob">{job?.nameJob}</h4>
+              </Link>
+              <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
+                <h6 className="nameCompany">{job?.nameCompany}</h6>
+              </Link>
             </div>
           </div>
-        </div>
-        <div className="itemJob__wrapper__bottom">
-          <span className="createdAt">{moment(job?.createdAt).fromNow()}</span>
-          <div className="itemJob__wrapper__bottom__button">
-            {job?.idCompany === currentCompany?.id && (
-              <div ref={buttonMoreRef} className="button__more">
-                <button onClick={() => setOpenMore(!openMore)}>
-                  <i className="fa-solid fa-ellipsis"></i>
-                </button>
-                <div className={`button__more__body  ${openMore && "active"}`}>
-                  <Link to={`/nha-tuyen-dung/chinh-sua/${job?.id}`}>
-                    <button>
-                      <i className="fa-solid fa-pen-to-square"></i>
-                      <span>Sửa</span>
-                    </button>
-                  </Link>
-                  <button onClick={() => handleClickDelete()}>
-                    <i className="fa-regular fa-trash-can"></i>
-                    <span>Xóa</span>
-                  </button>
-                </div>
+          <div className="itemJob__wrapper__body">
+            <div className="itemJob__wrapper__body__inportant">
+              <div className="wage">
+                <i className="fa-solid fa-dollar-sign"></i>
+                <span>
+                  {job?.salaryMax === 0 && job?.salaryMin === 0
+                    ? "Thảo thuận"
+                    : `${job?.salaryMin} - ${job?.salaryMax} triệu`}
+                </span>
               </div>
-            )}
-            {!currentCompany && (
-              <button className="button__save" onClick={() => handleSubmitSave()}>
-                {userSave?.includes(currentUser?.id) ? (
-                  <i class="fa-solid fa-heart"></i>
-                ) : (
-                  <i class="fa-regular fa-heart"></i>
-                )}
-              </button>
-            )}
+              <div className="typeWork">
+                <span>{job?.typeWork}</span>
+              </div>
+              <div className="province">
+                <i className="fa-solid fa-location-dot"></i>
+                <span>{job?.province}</span>
+              </div>
+            </div>
+          </div>
+          <div className="itemJob__wrapper__bottom">
+            <span className="createdAt">{moment(job?.createdAt).fromNow()}</span>
+            <div className="itemJob__wrapper__bottom__button">
+              {job?.idCompany === currentCompany?.id && (
+                <div ref={buttonMoreRef} className="button__more">
+                  <button onClick={() => setOpenMore(!openMore)}>
+                    <i className="fa-solid fa-ellipsis"></i>
+                  </button>
+                  <div className={`button__more__body  ${openMore && "active"}`}>
+                    <Link to={`/nha-tuyen-dung/chinh-sua/${job?.id}`}>
+                      <button>
+                        <i className="fa-solid fa-pen-to-square"></i>
+                        <span>Sửa</span>
+                      </button>
+                    </Link>
+                    <button onClick={() => setOpenModalDelete(true)}>
+                      <i className="fa-regular fa-trash-can"></i>
+                      <span>Xóa</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+              {!currentCompany && (
+                <button className="button__save" onClick={() => handleSubmitSave()}>
+                  {userSave?.includes(currentUser?.id) ? (
+                    <i class="fa-solid fa-heart"></i>
+                  ) : (
+                    <i class="fa-regular fa-heart"></i>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {
+        <Modal
+          title={"Xóa bài tuyển dụng"}
+          openModal={openModalDelete}
+          setOpenModal={setOpenModalDelete}
+        >
+          <div className="modal__sure">
+            <h2>Bạn có chắc chắn muốn xóa bài tuyển dụng này không?</h2>
+            <div className="modal__sure__footer">
+              <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>
+                Hủy
+              </button>
+              <button className="btn-submit" onClick={handleClickDelete}>
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </Modal>
+      }
+    </>
   );
 }

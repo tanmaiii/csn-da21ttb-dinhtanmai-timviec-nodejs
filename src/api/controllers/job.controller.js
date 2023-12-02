@@ -365,3 +365,23 @@ export const hiddenJob = async (req, res) => {
     });
   });
 };
+
+export const unHiddenJob = async (req, res) => {
+  const token = req.cookies.accessToken;
+
+  const idJob = req.query.idJob;
+
+  if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+  jwt.verify(token, "secretkey", (err, companmyInfo) => {
+    if (err) return res.status(403).json("Token không trùng !");
+
+    const q = `UPDATE job.jobs as j SET \`deletedAt\` = null WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
+
+    db.query(q, (err, data) => {
+      if (!err) return res.status(200).json(data);
+      if (data?.affectedRows > 0) return res.json("Update");
+      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+    });
+  });
+};

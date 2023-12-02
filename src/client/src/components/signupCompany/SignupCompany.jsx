@@ -97,7 +97,7 @@ export default function SignupCompany() {
             <input
               onChange={handleChange}
               placeholder=" "
-              autoComplete="none"
+              autoComplete="off"
               id="email"
               name="email"
               type="text"
@@ -110,7 +110,7 @@ export default function SignupCompany() {
             <input
               onChange={handleChange}
               placeholder=" "
-              autoComplete="none"
+              autoComplete="off"
               id="phone"
               name="phone"
               type="text"
@@ -123,7 +123,7 @@ export default function SignupCompany() {
             <input
               onChange={handleChange}
               placeholder=" "
-              autoComplete="none"
+              autoComplete="off"
               id="password"
               name="password"
               value={inputs.password}
@@ -146,7 +146,7 @@ export default function SignupCompany() {
             <i className="fa-solid fa-lock"></i>
             <input
               placeholder=" "
-              autoComplete="none"
+              autoComplete="off"
               id="repassword"
               ref={rePasswordRef}
               type={`${showRePass ? "password" : "text"}`}
@@ -171,7 +171,7 @@ export default function SignupCompany() {
             <input
               onChange={handleChange}
               placeholder=" "
-              autoComplete="none"
+              autoComplete="off"
               id="nameCompany"
               name="nameCompany"
               type="text"
@@ -184,7 +184,7 @@ export default function SignupCompany() {
             <input
               onChange={handleChange}
               placeholder=" "
-              autoComplete="none"
+              autoComplete="off"
               id="nameAdmin"
               name="nameAdmin"
               type="text"

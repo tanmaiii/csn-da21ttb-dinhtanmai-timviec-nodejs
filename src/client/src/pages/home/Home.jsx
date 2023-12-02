@@ -49,6 +49,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+          
           <SectionCompany title={"Công ty hàng đầu"} />
 
           <div className="home__section_procedure">

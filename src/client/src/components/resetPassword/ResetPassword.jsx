@@ -1,14 +1,38 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import "./resetPassword.scss";
+import { useAuth } from "../../context/authContext";
+import { makeRequest } from "../../axios";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState();
   const [rePassword, setRePassword] = useState();
   const [showPass, setShowPass] = useState(false);
   const [showRePass, setShowRePass] = useState(false);
-  const [err, setErr] = useState(false);
+  const [err, setErr] = useState("");
+  const [success, setSuccess] = useState(false);
+  const { currentUser, currentCompany } = useAuth();
   const navigate = useNavigate();
+
+  const { id, token } = useParams();
+
+  const handleSubmit = async () => {
+    setSuccess(false);
+    setErr("");
+    if (password !== rePassword) return setErr("Mật khẩu không trùng khớp !");
+    try {
+      const res = await makeRequest.post(`/user/resetPassword/${id}/${token}`, { password });
+      res.data && setSuccess(true);
+      setPassword('')
+      setRePassword('')
+    } catch (error) {
+      setErr("Lỗi! Vui lòng xác nhận lại email.");
+    }
+  };
+
+  useEffect(() => {
+    if (currentUser || currentCompany) return navigate("/");
+  });
 
   return (
     <div className="resetPassword">
@@ -49,7 +73,7 @@ export default function ResetPassword() {
             onChange={(e) => setRePassword(e.target.value)}
           />
           <label htmlFor="rePassword">Nhập lại mật khẩu</label>
-          <span className="tooglePassword" onClick={() => setRePassword(!showRePass)}>
+          <span className="tooglePassword" onClick={() => setShowRePass(!showRePass)}>
             {showRePass ? (
               <i className="fa-solid fa-eye-slash"></i>
             ) : (
@@ -57,9 +81,25 @@ export default function ResetPassword() {
             )}
           </span>
         </div>
+        <div className={`${(success && "notify") || (err && "notify")}`}>
+          {success && (
+            <div className="notify__check-email">
+              <i className="fa-regular fa-circle-check"></i>
+              <span>Thay đổi mật khẩu thành công.</span>
+            </div>
+          )}
+          {err && (
+            <div className="notify__err">
+              <i className="fa-solid fa-circle-exclamation"></i>
+              <span>{err}</span>
+            </div>
+          )}
+        </div>
       </div>
       <div className="resetPassword__control">
-        <button className="btn-auth">Xác nhận</button>
+        <button disabled={success ? true: false} className="btn-auth" onClick={handleSubmit}>
+          Xác nhận
+        </button>
       </div>
       <span className="link-signup">
         Trở về <Link to={"/dang-nhap/nguoi-dung"}> Đăng nhập</Link>

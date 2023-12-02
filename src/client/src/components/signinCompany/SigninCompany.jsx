@@ -73,7 +73,7 @@ export default function SigninCompany() {
         <div className="item">
           <i className="fa-solid fa-envelope"></i>
           <input
-            autoComplete="none"
+            autoComplete="off"
             type="email"
             name="email"
             id="email"
@@ -85,7 +85,7 @@ export default function SigninCompany() {
         <div className="item">
           <i className="fa-solid fa-lock"></i>
           <input
-            autoComplete="none"
+            autoComplete="off"
             type={`${show ? "password" : "text"}`}
             name="password"
             id="password"

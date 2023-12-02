@@ -26,8 +26,7 @@ import {
 
 export default function DetailJob() {
   const [openModal, setOpenModal] = useState(false);
-  const [save, setSave] = useState(false);
-  const [err, setErr] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
   const [userSave, setUserSave] = useState();
   const [userApply, setUserApply] = useState();
   const [job, setJob] = useState([]);
@@ -208,7 +207,7 @@ export default function DetailJob() {
                         </button>
                       )
                     ) : (
-                      <button className="btn_stops" onClick={() => setOpenModal(true)}>
+                      <button className="btn_stops">
                         <i class="fa-solid fa-exclamation"></i>
                         <span>Ngừng ứng tuyển</span>
                       </button>
@@ -240,7 +239,7 @@ export default function DetailJob() {
                               <span>Sửa</span>
                             </button>
                           </Link>
-                          <button onClick={() => handleClickDelete()}>
+                          <button onClick={() => setOpenModalDelete(true)}>
                             <i className="fa-regular fa-trash-can"></i>
                             <span>Xóa</span>
                           </button>
@@ -354,6 +353,17 @@ export default function DetailJob() {
           {openModal && <ApplyJob job={job && job} />}
         </Modal>
       )}
+      {
+        <Modal title={"Xóa bài tuyển dụng"} openModal={openModalDelete} setOpenModal={setOpenModalDelete}>
+          <div className="modal__sure" >
+            <h2>Bạn có chắc chắn muốn xóa bài tuyển dụng này không?</h2>
+            <div className="modal__sure__footer">
+              <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>Hủy</button>
+              <button className="btn-submit" onClick={handleClickDelete}>Xác nhận</button>
+            </div>
+          </div>
+        </Modal>
+      }
     </>
   );
 }

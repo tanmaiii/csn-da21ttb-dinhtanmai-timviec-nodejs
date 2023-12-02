@@ -2,7 +2,7 @@
 
 .applyJob {
   @include themify($themes) {
-    min-width: 480px;
+    min-width: 60vw;
     overflow-y: auto;
     height: 600px;
     padding: 20px;
@@ -10,6 +10,9 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    @include tablet{
+      min-width: 90vw;
+    }
     @include mobile {
       height: 100%;
       min-width: 100%;

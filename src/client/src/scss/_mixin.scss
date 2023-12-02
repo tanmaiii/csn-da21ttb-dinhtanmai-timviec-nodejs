@@ -76,26 +76,33 @@ $themes: (
 }
 
 @mixin button($color, $bg) {
-  padding: 10px 16px;
+  padding: 12px 16px;
   background-color: $bg;
   color: $color;
   font-weight: 500;
-  border: 2px solid $bg;
+  // border: 2px solid $bg;
   border-radius: $border-radius-10;
   font-size: $font-size-s;
   cursor: pointer;
   transition: all 0.3s;
   @include flex(center, center);
   gap: 8px;
-  &:hover {
-    background-color: transparent;
-    color: $bg;
+  &:not(:disabled) {
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  &:disabled {
+    background-color: $color-gray;
+    color: $color-txt-gray;
+    border: none;
+    cursor: default;
   }
 }
 
 @mixin button-line($color, $bg) {
   padding: 10px 16px;
-  background-color: transparent;
+  background-color: $bg;
   color: $color;
   font-weight: 500;
   border: 2px solid $color;

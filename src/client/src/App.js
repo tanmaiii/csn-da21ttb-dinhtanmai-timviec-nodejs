@@ -13,7 +13,6 @@ import Home from "./pages/home/Home";
 import Search from "./pages/search/Search";
 import SearchQuick from "./pages/searchQuick/SearchQuick";
 import Company from "./pages/company/Company";
-import Auth from "./pages/auth/Auth";
 import DetailJob from "./pages/detailJob/DetailJob";
 import DetailCompany from "./pages/detailCompany/DetailCompany";
 import DetailUser from "./pages/detailUser/DetailUser";
@@ -29,7 +28,6 @@ import ResetPassword from "./components/resetPassword/ResetPassword";
 
 import SigninCompany from "./components/signinCompany/SigninCompany";
 import SignupCompany from "./components/signupCompany/SignupCompany";
-import InfoCompany from "./pages/detailCompany/infoCompany/InfoCompany";
 import CandidateHide from "./pages/candidateHide/CandidateHide";
 
 function App() {
@@ -85,7 +83,7 @@ function App() {
           <Route path="/quen-mat-khau" element={<AuthLayout />}>
             <Route index path="" element={<ForgotPassword />} />
           </Route>
-          <Route path="/tao-moi-mat-khau" element={<AuthLayout />}>
+          <Route path="/tao-moi-mat-khau/:id/:token" element={<AuthLayout />}>
             <Route index path="" element={<ResetPassword />} />
           </Route>
         </Routes>

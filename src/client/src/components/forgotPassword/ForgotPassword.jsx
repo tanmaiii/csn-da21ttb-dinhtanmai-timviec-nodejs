@@ -17,7 +17,6 @@ export default function ForgotPassword() {
       const res = await makeRequest.post("/user/forgot", { email });
       res.data && setSuccess(true);
     } catch (error) {
-      console.log(error?.reponse?.data);
       setErr(true);
     }
   };
@@ -32,7 +31,7 @@ export default function ForgotPassword() {
         <div className="item">
           <i className="fa-solid fa-envelope"></i>
           <input
-            autoComplete="none"
+            autoComplete="off"
             type="email"
             name="email"
             id="email"
@@ -46,13 +45,13 @@ export default function ForgotPassword() {
         <div className={`${(success && "notify") || (err && "notify")}`}>
           {success && (
             <div className="notify__check-email">
-              <i class="fa-regular fa-envelope"></i>
+              <i className="fa-regular fa-envelope"></i>
               <span>Vui lòng kiểm tra email và xác nhận, có hiệu lực trong 60s.</span>
             </div>
           )}
           {err && (
             <div className="notify__dont-find">
-              <i class="fa-solid fa-circle-exclamation"></i>
+              <i className="fa-solid fa-circle-exclamation"></i>
               <span>
                 Chúng tôi không thể tìm thấy địa chỉ email của bạn.Vui lòng gửi lại email bạn đã
                 đăng ký.
@@ -62,7 +61,7 @@ export default function ForgotPassword() {
         </div>
       </div>
       <div className="forgotPassword__control">
-        <button className="btn-auth" onClick={() => getEmail()}>
+        <button disabled={success ? true : false} className="btn-auth" onClick={() => getEmail()}>
           Gửi
         </button>
       </div>

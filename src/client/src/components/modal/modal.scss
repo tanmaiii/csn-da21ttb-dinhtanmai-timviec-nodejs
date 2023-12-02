@@ -17,13 +17,13 @@
     &__wrapper {
       background-color: themed("bg2");
       border-radius: $border-radius-10;
-      min-width: 60vw;
-      width: 1000px;
-      min-height: 400px;
+      width: max-content;
+      //   min-height: 400px;
+      height: max-content;
       max-height: calc(100vh - $height-header);
       max-width: 90vw;
       overflow: hidden;
-      box-shadow: themed("box-shadow");
+   //   box-shadow: themed("box-shadow");
       @include mobile {
         width: 100%;
         border-radius: 0;
@@ -61,9 +61,11 @@
       }
       &__body {
         padding-bottom: 20px;
-        @include mobile{
+        overflow: auto;
+        @include mobile {
           padding-bottom: 0;
-          height: calc(100% - 80px);
+          height: max-content;
+          max-height: calc(100% - 80px);
         }
       }
     }

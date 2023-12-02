@@ -2,6 +2,10 @@
 
 .detailCandidate {
   @include themify($themes) {
+    width: 60vw;
+    @include tablet{
+      width: 90vw;
+    }
     @include mobile {
       width: 100%;
       height: 100%;

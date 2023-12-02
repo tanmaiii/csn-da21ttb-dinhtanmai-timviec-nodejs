@@ -4,6 +4,7 @@ import checkEmail from "../middlewares/checkEmail.middleware.js";
 import checkUrl from "../middlewares/checkUrl.middleware.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 dotenv.config();
 
 export const getUser = (req, res) => {
@@ -86,7 +87,7 @@ export const updateIntroUser = (req, res) => {
 
 export const uploadImage = (req, res) => {
   const avatarPic = req.body.avatarPic;
-  const q = "UPDATE users SET avatarPic = ? WHERE id = ? ";
+  const q = "UPDATE users, name SET avatarPic = ? WHERE id = ? ";
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(403).json("Chưa đăng nhập !");
@@ -101,15 +102,13 @@ export const uploadImage = (req, res) => {
 export const forgotPassword = (req, res) => {
   const { email } = req.body;
 
-  const q = "SELECT email, id from job.users WHERE email = ?";
+  const q = "SELECT email, name id from job.users WHERE email = ?";
 
   db.query(q, [email], (err, data) => {
     if (!data.length) {
       return res.status(403).json("Không tìm thấy email!");
     } else {
-      const token = jwt.sign({ id: data[0].id }, "jwt_secret_key", { expiresIn: "1d" });
-
-      console.log(process.env.MAIL_NAME, process.env.MAIL_PASSWORD);
+      const token = jwt.sign({ id: data[0].id }, "jwt_secret_key", { expiresIn: 60 }); // token tồn tại trong 1 phút
 
       var transporter = nodemailer.createTransport({
         service: "gmail",
@@ -119,11 +118,42 @@ export const forgotPassword = (req, res) => {
         },
       });
 
+      const url = `http://localhost:3000/tao-moi-mat-khau/${data[0].id}/${token}`;
+
+      const emailHTML = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Xác Nhận Tài Khoản và Tạo Mật Khẩu Mới</title>
+      </head>
+      <body style="color:#000;font-size:16px">
+        <p>Chào ${data[0].name || "Bạn"},</p>
+      
+        <p>Chúng tôi nhận được yêu cầu tạo mật khẩu mới cho tài khoản của bạn. Để tiếp tục quá trình này, bạn vui lòng xác nhận yêu cầu bằng cách nhấn vào liên kết dưới đây:</p>
+      
+        <p><a href="${url}" target="_blank">Liên kết xác nhận tài khoản</a></p>
+      
+        <p>Lưu ý rằng liên kết này chỉ tồn tại trong vòng 60 giây. Nếu bạn không thực hiện thao tác trong khoảng thời gian này, bạn sẽ cần yêu cầu lại quá trình tạo mật khẩu mới.</p>
+      
+        <p>Nếu bạn không phải là người yêu cầu thay đổi mật khẩu hoặc có bất kỳ câu hỏi nào khác, vui lòng liên hệ với chúng tôi ngay lập tức qua địa chỉ email <a href="mailto:jobquestofficial@gmail.com">jobquestofficial@gmail.com</a> của chúng tôi.</p>
+      
+        <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>
+      
+        <p>Trân trọng,<br>
+        JOBQUEST<br>
+        Đội ngũ Hỗ trợ Khách hàng</p>
+      </body>
+      </html>
+      `;
+
       var mailOptions = {
         from: `${process.env.MAIL_NAME}`,
         to: `${data[0].email}`,
-        subject: "Reset Password Link",
-        text: `http://localhost:8800/reset_password/${data[0].id}/${token}`,
+        subject: "JobQuest || Xác Nhận Tài Khoản và Tạo Mật Khẩu Mới",
+        // text: emailText,
+        html: emailHTML,
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
@@ -138,17 +168,26 @@ export const forgotPassword = (req, res) => {
   });
 };
 
-export const resetPassword = (email, password, result) => {
-  db.query("UPDATE users SET password = ? WHERE email=?", email, password, (err, res) => {
-    if ((err, res)) {
-      console.log("error", err);
-      result(err, null);
-      return;
+export const resetPassword = (req, res) => {
+  const { id, token } = req.params;
+  const { password } = req.body;
+
+  console.log(id, token, password);
+
+  if (!id || !token || !password) return res.status(403).json("Không tìm thấy!");
+
+  const q = `UPDATE job.users SET password = ? WHERE users.id = ?`;
+  const salt = bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync(password, salt);
+
+  jwt.verify(token, "jwt_secret_key", (err, userInfo) => {
+    if (err) {
+      return res.status(401).json("Lỗi!");
+    } else {
+      db.query(q, [hashedPassword, userInfo.id], (err, data) => {
+        if (!err) return res.status(200).json("Cập nhật mật khẩu thành công!");
+        return res.status(401).json("Lỗi!");
+      });
     }
-    if (res.affectedRows === 0) {
-      result({ kind: "not_found" }, null);
-      return;
-    }
-    return result(null, { email: email });
   });
 };

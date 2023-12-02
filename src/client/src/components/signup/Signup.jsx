@@ -67,6 +67,7 @@ export default function Signup() {
         <div className="item">
           <i className="fa-solid fa-user"></i>
           <input
+            autoComplete="off"
             onChange={handleChange}
             name="name"
             type="text"
@@ -78,6 +79,7 @@ export default function Signup() {
         <div className="item">
           <i className="fa-solid fa-envelope"></i>
           <input
+            autoComplete="off"
             onChange={handleChange}
             name="email"
             type="text"
@@ -89,6 +91,7 @@ export default function Signup() {
         <div className="item">
           <i className="fa-solid fa-phone"></i>
           <input
+            autoComplete="off"
             onChange={handleChange}
             name="phone"
             type="text"
@@ -100,6 +103,7 @@ export default function Signup() {
         <div className="item">
           <i className="fa-solid fa-lock"></i>
           <input
+            autoComplete="off"
             ref={passwordRef}
             onChange={handleChange}
             name="password"
@@ -122,6 +126,7 @@ export default function Signup() {
         <div className="item">
           <i className="fa-solid fa-lock"></i>
           <input
+            autoComplete="off"
             ref={rePasswordRef}
             name="rePassword"
             type={`${showRePass ? "password" : "text"}`}

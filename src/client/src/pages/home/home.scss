@@ -42,11 +42,11 @@
         color: $color-white;
         font-size: $font-size-m;
       }
-      h2 {
+      & > h2 {
         font-size: $font-size-xl;
         color: themed("text1");
       }
-      span {
+      & > span {
         font-size: $font-size-s;
         color: themed("text1");
         display: block;
@@ -57,30 +57,11 @@
         a:nth-child(1) {
           button {
             @include button($color-white, $color-primary);
-            span {
-              color: $color-white;
-              margin-right: 10px;
-            }
-            &:hover {
-              span {
-                color: $color-primary;
-              }
-            }
           }
         }
         a:nth-child(2) {
           button {
-            @include button-line(themed("text1"), $color-primary);
-            span {
-              color: themed("text1");
-              margin-right: 10px;
-            }
-            &:hover {
-              span,
-              i {
-                color: themed("bg1");
-              }
-            }
+            @include button(themed("text1"), themed("bg2"));
           }
         }
       }
