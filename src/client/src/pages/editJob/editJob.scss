@@ -6,6 +6,22 @@
     padding: $spacing 0;
     min-height: 100vh;
     .container {
+      & > button {
+        font-size: $font-size-s;
+        color: themed("text1");
+        @include flex(center, unset);
+        gap: 8px;
+        margin-bottom: 20px;
+        i {
+          font-size: 1.2rem;
+          transition: all 0.3s;
+        }
+        &:hover {
+          i {
+            transform: translateX(-8px);
+          }
+        }
+      }
       .editJob__wrapper {
         background-color: themed("bg2");
         border-radius: $border-radius-20;

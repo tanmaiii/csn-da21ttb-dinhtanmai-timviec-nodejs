@@ -4,14 +4,7 @@ import avatar from "../../assets/images/avatarCpn.png";
 import InfoCompany from "./infoCompany/InfoCompany";
 import IntroCompany from "./introCompany/IntroCompany";
 import JobsCompany from "./jobsCompany/JobsCompany";
-import {
-  Link,
-  useParams,
-  Route,
-  Routes,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { Link, useParams, Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { makeRequest, apiImage } from "../../axios";
 import NotFound from "../../pages/notFound/NotFound";
 import Loader from "../../components/loader/Loader";
@@ -66,12 +59,9 @@ export default function DetailCompany() {
     return getCompany();
   });
 
-  const { isLoading: loadingFollow, data: dataFollow } = useQuery(
-    ["follower", id],
-    () => {
-      return getFollower();
-    }
-  );
+  const { isLoading: loadingFollow, data: dataFollow } = useQuery(["follower", id], () => {
+    return getFollower();
+  });
 
   const mutationFollow = useMutation(
     (following) => {
@@ -135,14 +125,7 @@ export default function DetailCompany() {
               <div className="detailCompany__wrapper__header">
                 <div className="detailCompany__wrapper__header__main">
                   <div className="detailCompany__wrapper__header__main__image">
-                    <img
-                      src={
-                        company?.avatarPic
-                          ? apiImage + company?.avatarPic
-                          : avatar
-                      }
-                      alt=""
-                    />
+                    <img src={company?.avatarPic ? apiImage + company?.avatarPic : avatar} alt="" />
                     {company?.id === currentCompany?.id && (
                       <label
                         htmlFor="input-image"
@@ -164,29 +147,19 @@ export default function DetailCompany() {
                     </h4>
                     <div className="detailCompany__wrapper__header__main__text__address">
                       <i className="fa-solid fa-location-dot"></i>
-                      <span>
-                        {company?.province ? company?.province : "..."}
-                      </span>
+                      <span>{company?.province ? company?.province : "..."}</span>
                     </div>
                     <div className="detailCompany__wrapper__header__main__text__scale">
                       <i className="fa-solid fa-building"></i>
-                      <span>
-                        {company?.scale ? `${company?.scale} nhân viên` : "..."}
-                      </span>
+                      <span>{company?.scale ? `${company?.scale} nhân viên` : "..."}</span>
                     </div>
                     <div className="detailCompany__wrapper__header__main__text__follow">
                       <i className="fa-solid fa-user-group"></i>
-                      <span>
-                        {follower ? follower?.length : "0"} người theo dõi
-                      </span>
+                      <span>{follower ? follower?.length : "0"} người theo dõi</span>
                     </div>
                     <div className="detailCompany__wrapper__header__main__text__link">
                       <i className="fa-solid fa-globe"></i>
-                      {company?.web ? (
-                        <a href={company.web}>{company.web}</a>
-                      ) : (
-                        "..."
-                      )}
+                      {company?.web ? <a href={company.web}>{company.web}</a> : "..."}
                     </div>
                   </div>
                 </div>
@@ -203,9 +176,13 @@ export default function DetailCompany() {
                     onClick={() => handleSubmitFollow()}
                   >
                     {follower?.includes(currentUser?.id) ? (
-                      <button className="btn-unFollow">Đang theo dõi</button>
+                      <button className="btn-unFollow">
+                        <span>Đang theo dõi</span>
+                      </button>
                     ) : (
-                      <button className="btn-follow">Theo dõi công ty</button>
+                      <button className="btn-follow">
+                        <span>Theo dõi công ty</span>
+                      </button>
                     )}
                   </div>
                 )}
@@ -213,71 +190,26 @@ export default function DetailCompany() {
               <div className="detailCompany__wrapper__body row">
                 <div className=" col pc-9 t-9 m-12">
                   <div className="detailCompany__wrapper__body__left">
-                    <div className="detailCompany__wrapper__body__left__control">
-                      <button
-                        onClick={() => navigate("")}
-                        className={`${controlPathname === id && "active"}`}
-                      >
-                        <span>Giới thiệu</span>
-                      </button>
-                      <button
-                        onClick={() => navigate("jobs")}
-                        className={`${controlPathname === "jobs" && "active"}`}
-                      >
-                        <span>Việc làm</span>
-                      </button>
-                      {company?.id === currentCompany?.id && (
-                        <>
+                    {company?.id === currentCompany?.id && (
+                      <>
+                        <div className="detailCompany__wrapper__body__left__control">
                           <button
-                            onClick={() => navigate("info")}
-                            className={`${
-                              controlPathname === "info" && "active"
-                            }`}
+                            onClick={() => navigate("")}
+                            className={`${controlPathname === id && "active"}`}
                           >
-                            <span>Thông tin</span>
+                            <span>Giới thiệu</span>
                           </button>
-                          <Link to={"/nha-tuyen-dung/ung-vien"}>
-                            <button>
-                              <span>Ứng viên</span>
-                            </button>
-                          </Link>
-                          <Link to={"/nha-tuyen-dung/dang-bai"}>
-                            <button>Tuyển dụng</button>
-                          </Link>
-                        </>
-                      )}
-                    </div>
-
-                    <div className="detailCompany__wrapper__body__left__control-mobile">
-                      <button
-                        onClick={() => navigate("")}
-                        className={`${controlPathname === id && "active"}`}
-                      >
-                        <span>Giới thiệu</span>
-                      </button>
-                      <button
-                        onClick={() => navigate("jobs")}
-                        className={`${controlPathname === "jobs" && "active"}`}
-                      >
-                        <span>Việc làm</span>
-                      </button>
-
-                      {company?.id === currentCompany?.id && (
-                        <div className="button__more" ref={controlMbRef}>
                           <button
-                            className="button__more__toggle"
-                            onClick={() => setOpenControlMb(!openControlMb)}
+                            onClick={() => navigate("jobs")}
+                            className={`${controlPathname === "jobs" && "active"}`}
                           >
-                            <span>Thêm</span>
-                            <i className="fa-solid fa-angle-down"></i>
+                            <span>Việc làm</span>
                           </button>
-                          {openControlMb && (
-                            <div className="button__more__dropdown">
+                          {company?.id === currentCompany?.id && (
+                            <>
                               <button
                                 onClick={() => navigate("info")}
-                                className={`${
-                                  controlPathname === "info" && "active"
-                                }`}
+                                className={`${controlPathname === "info" && "active"}`}
                               >
                                 <span>Thông tin</span>
                               </button>
@@ -289,20 +221,69 @@ export default function DetailCompany() {
                               <Link to={"/nha-tuyen-dung/dang-bai"}>
                                 <button>Tuyển dụng</button>
                               </Link>
+                            </>
+                          )}
+                        </div>
+
+                        <div className="detailCompany__wrapper__body__left__control-mobile">
+                          <button
+                            onClick={() => navigate("")}
+                            className={`${controlPathname === id && "active"}`}
+                          >
+                            <span>Giới thiệu</span>
+                          </button>
+                          <button
+                            onClick={() => navigate("jobs")}
+                            className={`${controlPathname === "jobs" && "active"}`}
+                          >
+                            <span>Việc làm</span>
+                          </button>
+
+                          {company?.id === currentCompany?.id && (
+                            <div className="button__more" ref={controlMbRef}>
+                              <button
+                                className="button__more__toggle"
+                                onClick={() => setOpenControlMb(!openControlMb)}
+                              >
+                                <span>Thêm</span>
+                                <i className="fa-solid fa-angle-down"></i>
+                              </button>
+                              {openControlMb && (
+                                <div className="button__more__dropdown">
+                                  <button
+                                    onClick={() => navigate("info")}
+                                    className={`${controlPathname === "info" && "active"}`}
+                                  >
+                                    <span>Thông tin</span>
+                                  </button>
+                                  <Link to={"/nha-tuyen-dung/ung-vien"}>
+                                    <button>
+                                      <span>Ứng viên</span>
+                                    </button>
+                                  </Link>
+                                  <Link to={"/nha-tuyen-dung/dang-bai"}>
+                                    <button>Tuyển dụng</button>
+                                  </Link>
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
-                      )}
-                    </div>
+                      </>
+                    )}
 
                     <div className="detailCompany__wrapper__body__left__content">
                       <Routes>
                         <Route
                           index
-                          element={<IntroCompany intro={company?.intro} />}
+                          element={
+                            <>
+                              <IntroCompany intro={company?.intro} />
+                              <JobsCompany />
+                            </>
+                          }
                         />
                         <Route path="info" element={<InfoCompany />} />
-                        <Route path="jobs" element={<JobsCompany />} />
                       </Routes>
                     </div>
                   </div>

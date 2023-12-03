@@ -25,6 +25,7 @@
       &:hover {
         box-shadow: themed("box-shadow");
       }
+
       &__header {
         @include flex(center, unset);
         position: relative;
@@ -39,7 +40,7 @@
           height: 50px;
           width: 50px;
           border-radius: 50%;
-          border: 1px solid $color-primary;
+          border: 1.8px solid $color-primary;
           object-fit: cover;
         }
         .text {
@@ -183,26 +184,37 @@
         gap: 8px;
         width: 100%;
         .createdAt {
-          font-size: $font-size-s;
+          font-size: $font-size-xs;
           color: themed("text2");
           font-weight: 400;
         }
         &__button {
           @include flex(center, unset);
           gap: 4px;
+          .job__hide {
+            background-color: $color-red;
+            font-size: $font-size-xs;
+            color: $color-txt-red;
+            padding: 8px;
+            border-radius: 8px;
+            width: max-content;
+            @include flex(center, unset);
+            gap: 8px;
+          }
           .button__save {
             font-size: 1.4rem;
             color: $color-yellow;
-            border-radius: 50%;
-            padding: 10px;
+            border-radius: $border-radius-10;
+            padding: 8px;
             @include flex(center, center);
             transition: all 0.3s;
+            background-color: themed("bg1");
+            color: $color-txt-red;
             &:hover {
-              background-color: themed("bg1");
             }
             i {
               @include flex(center, center);
-              color: themed("text2");
+              // color: themed("text2");
               font-size: 1.2rem;
               width: 20px;
               height: 20px;
@@ -215,9 +227,10 @@
             & > button {
               font-size: $font-size-s;
               @include flex(center, center);
-              padding: 10px;
-              border-radius: 50%;
+              padding: 8px;
+              border-radius: $border-radius-10;
               transition: all 0.3s;
+              background-color: themed("bg1");
               &:hover {
                 background-color: themed("bg1");
               }

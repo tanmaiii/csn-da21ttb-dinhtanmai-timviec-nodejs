@@ -158,6 +158,10 @@ export default function EditJob() {
   return (
     <div className="editJob">
       <div className="container">
+      <button onClick={() => navigate(-1)}>
+          <i className="fa-solid fa-angle-left"></i>
+          <span>Quay lại</span>
+        </button>
         <div className="editJob__wrapper">
           <h2 className="editJob__wrapper__header">Chỉnh sửa bài tuyển dụng</h2>
           <div className="editJob__wrapper__body">

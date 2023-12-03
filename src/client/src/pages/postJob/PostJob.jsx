@@ -4,15 +4,10 @@ import "./postJob.scss";
 import ReactQuill from "react-quill";
 import Select from "../../components/select/Select";
 import { useAuth } from "../../context/authContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { makeRequest } from "../../axios";
 
-import {
-  typeWorks,
-  educationJob,
-  experienceJob,
-  sexData,
-} from "../../config/data";
+import { typeWorks, educationJob, experienceJob, sexData } from "../../config/data";
 
 export default function PostJob() {
   const { currentCompany } = useAuth();
@@ -58,15 +53,11 @@ export default function PostJob() {
   const handleSubmit = async () => {
     if (!selectedOptionFields || !selectedOptionProvince)
       return toast.error("Chưa chọn ngành nghề và địa chỉ.");
-    if (!sex || !typeWork || !education)
-      return toast.error("Chọn các mục trong yêu cầu chung.");
-    if (!request || !desc)
-      return toast.error("Mô tả và yêu cầu không được rỗng.");
+    if (!sex || !typeWork || !education) return toast.error("Chọn các mục trong yêu cầu chung.");
+    if (!request || !desc) return toast.error("Mô tả và yêu cầu không được rỗng.");
 
     if (salaryMax < salaryMin)
-      return toast.error(
-        "Tiền lương tối đa không nhỏ hơn tiền lương tối thiểu."
-      );
+      return toast.error("Tiền lương tối đa không nhỏ hơn tiền lương tối thiểu.");
 
     try {
       inputs.idField = selectedOptionFields.fId;
@@ -78,7 +69,7 @@ export default function PostJob() {
       inputs.typeWork = typeWork;
       inputs.education = education;
       inputs.experience = experience;
-      if (salaryDiscuss == true) {
+      if (salaryDiscuss === true) {
         inputs.salaryMin = 0;
         inputs.salaryMax = 0;
       } else {
@@ -128,14 +119,18 @@ export default function PostJob() {
   return (
     <div className="postJob">
       <div className="container">
+        <button onClick={() => navigate(-1)}>
+          <i className="fa-solid fa-angle-left"></i>
+          <span>Quay lại</span>
+        </button>
         <div className="postJob__wrapper">
-          <h2 className="postJob__wrapper__header">Đăng bài tuyển dụng</h2>
+          <div className="postJob__wrapper__header">
+            <h2>Đăng bài tuyển dụng</h2>
+          </div>
           <div className="postJob__wrapper__body">
             {/* thông tin */}
             <div className="postJob__wrapper__body__form">
-              <h2 className="postJob__wrapper__body__form__title">
-                Thông tin tuyển dụng
-              </h2>
+              <h2 className="postJob__wrapper__body__form__title">Thông tin tuyển dụng</h2>
               <div className="postJob__wrapper__body__form__content">
                 <div className="postJob__wrapper__body__form__content__item">
                   <h6>Chức danh tuyển dụng</h6>
@@ -172,9 +167,7 @@ export default function PostJob() {
             </div>
             {/* yêu cầu chung */}
             <div className="postJob__wrapper__body__form">
-              <h2 className="postJob__wrapper__body__form__title">
-                Yêu cầu chung
-              </h2>
+              <h2 className="postJob__wrapper__body__form__title">Yêu cầu chung</h2>
               <div className="postJob__wrapper__body__form__content">
                 <div className="postJob__wrapper__body__form__content__item  postJob__wrapper__body__form__content__item__sex">
                   <h6>Giới tính</h6>
@@ -192,9 +185,7 @@ export default function PostJob() {
                           type="radio"
                           id={`sex-${item.value}`}
                         />
-                        <label htmlFor={`sex-${item.value}`}>
-                          {item.value}
-                        </label>
+                        <label htmlFor={`sex-${item.value}`}>{item.value}</label>
                       </div>
                     ))}
                   </div>
@@ -205,8 +196,7 @@ export default function PostJob() {
                     <input
                       type="number"
                       onChange={(e) =>
-                        parseInt(e.target.value) < 1 ||
-                        parseInt(e.target.value) > 50
+                        parseInt(e.target.value) < 1 || parseInt(e.target.value) > 50
                           ? setSalaryMin(1)
                           : setSalaryMin(parseInt(e.target.value))
                       }
@@ -219,8 +209,7 @@ export default function PostJob() {
                     <input
                       type="number"
                       onChange={(e) =>
-                        parseInt(e.target.value) < 1 ||
-                        parseInt(e.target.value) > 50
+                        parseInt(e.target.value) < 1 || parseInt(e.target.value) > 50
                           ? setSalaryMax(50)
                           : setSalaryMax(parseInt(e.target.value))
                       }
@@ -257,9 +246,7 @@ export default function PostJob() {
                           value={item.name}
                           onChange={(e) => setTypeWork(e.target.value)}
                         />
-                        <label htmlFor={`typeWork${item.id}`}>
-                          {item.name}
-                        </label>
+                        <label htmlFor={`typeWork${item.id}`}>{item.name}</label>
                       </div>
                     ))}
                   </div>
@@ -280,9 +267,7 @@ export default function PostJob() {
                           value={item.name}
                           onChange={(e) => setEducation(e.target.value)}
                         />
-                        <label htmlFor={`education${item.id}`}>
-                          {item.name}
-                        </label>
+                        <label htmlFor={`education${item.id}`}>{item.name}</label>
                       </div>
                     ))}
                   </div>
@@ -303,9 +288,7 @@ export default function PostJob() {
                           value={item.name}
                           onChange={(e) => setExperience(e.target.value)}
                         />
-                        <label htmlFor={`experienceJob${item.id}`}>
-                          {item.name}
-                        </label>
+                        <label htmlFor={`experienceJob${item.id}`}>{item.name}</label>
                       </div>
                     ))}
                   </div>
@@ -314,31 +297,21 @@ export default function PostJob() {
             </div>
             {/* mô tả */}
             <div className="postJob__wrapper__body__form">
-              <h2 className="postJob__wrapper__body__form__title">
-                Mô tả công việc
-              </h2>
+              <h2 className="postJob__wrapper__body__form__title">Mô tả công việc</h2>
               <div className="postJob__wrapper__body__form__content">
                 <ReactQuill theme="snow" value={desc} onChange={setDesc} />
               </div>
             </div>
             {/* yêu cầu */}
             <div className="postJob__wrapper__body__form">
-              <h2 className="postJob__wrapper__body__form__title">
-                Yêu cầu công việc
-              </h2>
+              <h2 className="postJob__wrapper__body__form__title">Yêu cầu công việc</h2>
               <div className="postJob__wrapper__body__form__content">
-                <ReactQuill
-                  theme="snow"
-                  value={request}
-                  onChange={setRequest}
-                />
+                <ReactQuill theme="snow" value={request} onChange={setRequest} />
               </div>
             </div>
             {/* khác */}
             <div className="postJob__wrapper__body__form">
-              <h2 className="postJob__wrapper__body__form__title">
-                Thông tin khác
-              </h2>
+              <h2 className="postJob__wrapper__body__form__title">Thông tin khác</h2>
               <div className="postJob__wrapper__body__form__content">
                 <ReactQuill theme="snow" value={other} onChange={setOther} />
               </div>

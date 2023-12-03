@@ -101,7 +101,7 @@ export default function Signin() {
         </div>
 
         <div className="reset">
-            <Link to={'/quen-mat-khau'}>Quên mật khẩu ?</Link>
+            <Link to={'/quen-mat-khau?type=nguoi-dung'}>Quên mật khẩu ?</Link>
         </div>
 
         {!loading ? (

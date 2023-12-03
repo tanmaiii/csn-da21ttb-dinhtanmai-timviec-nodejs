@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import "./candidate.scss";
 import TableCandidate from "../../components/tableCandidate/TableCandidate";
 import Pagination from "../../components/pagination/Pagination";
@@ -75,9 +75,7 @@ export default function Candidate() {
         url += `&search=${params?.search}`;
       }
 
-      const res = await makeRequest.get(
-        `${url}&limit=${limit}&page=${paginate}`
-      );
+      const res = await makeRequest.get(`${url}&limit=${limit}&page=${paginate}`);
 
       setData(res.data.data || []);
       setTotalPage(res.data?.pagination.totalPage || 0);
@@ -146,7 +144,7 @@ export default function Candidate() {
     },
     {
       onSuccess: () => {
-        toast.success('Ẩn ứng viên thành công.')
+        toast.success("Ẩn ứng viên thành công.");
         queryClient.invalidateQueries(["apply"]);
       },
     }
@@ -171,9 +169,15 @@ export default function Candidate() {
       <div className="container">
         <div className="candidate__wrapper">
           <div className="candidate__wrapper__header">
+            <Link to={`/nha-tuyen-dung/${currentCompany?.id}`}>
+              <button className="btn-cancel">
+                <i className="fa-solid fa-angle-left"></i>
+                <span>Quay lại</span>
+              </button>
+            </Link>
             <h2>Đơn xin việc đã nhận</h2>
             <Link to={"/nha-tuyen-dung/ung-vien-an"}>
-              <button>
+              <button className="btn-hidden">
                 <i className="fa-regular fa-eye"></i>
                 <span>Ẩn</span>
               </button>
@@ -191,10 +195,7 @@ export default function Candidate() {
                     onChange={(e) => setKeyword(e.target.value)}
                   />
                   {keyword && (
-                    <button
-                      className="button-clear"
-                      onClick={() => setKeyword("")}
-                    >
+                    <button className="button-clear" onClick={() => setKeyword("")}>
                       <i className="fa-solid fa-circle-xmark"></i>
                     </button>
                   )}
@@ -219,10 +220,7 @@ export default function Candidate() {
                 </div>
                 <div className="candidate__wrapper__body__control__right__select">
                   <div className="button-sort">
-                    <div
-                      className="toogle"
-                      onClick={() => setOpenSort(!openSort)}
-                    >
+                    <div className="toogle" onClick={() => setOpenSort(!openSort)}>
                       <span>{sortActive && sortActive?.name}</span>
                       <i className="fa-solid fa-bars-staggered"></i>
                     </div>
@@ -252,10 +250,7 @@ export default function Candidate() {
                 <>
                   <div className="candidate__wrapper__body__list__delete">
                     {listCheck?.length > 0 && (
-                      <button
-                        className="button__delete"
-                        onClick={handleClickHidden}
-                      >
+                      <button className="button__delete" onClick={handleClickHidden}>
                         <i className="fa-regular fa-eye-slash"></i>
                         <span>Ẩn</span>
                       </button>
@@ -270,13 +265,15 @@ export default function Candidate() {
                 </>
               )}
             </div>
+
             <div className="candidate__wrapper__body__pgn">
               <div className="candidate__wrapper__body__pgn__left">
                 <span>
                   {totalPage !== 0 &&
-                    `Trang ${String(paginate).padStart(2, "0")} trên ${String(
-                      totalPage
-                    ).padStart(2, "0")}`}
+                    `Trang ${String(paginate).padStart(2, "0")} trên ${String(totalPage).padStart(
+                      2,
+                      "0"
+                    )}`}
                 </span>
               </div>
               <div className="candidate__wrapper__body__pgn__right">
@@ -295,13 +292,7 @@ export default function Candidate() {
   );
 }
 
-function SelectCandidate({
-  title,
-  icon,
-  option,
-  optionActive,
-  setOptionActive,
-}) {
+function SelectCandidate({ title, icon, option, optionActive, setOptionActive }) {
   const [open, setOpen] = useState(false);
   const selectCadidateRef = useRef();
 
@@ -326,9 +317,7 @@ function SelectCandidate({
         {title}
       </label>
       <div
-        className={`selectCadidate__toggle ${
-          optionActive !== undefined ? "active" : ""
-        }`}
+        className={`selectCadidate__toggle ${optionActive !== undefined ? "active" : ""}`}
         onClick={() => setOpen(!open)}
       >
         <div className="selectCadidate__toggle__title">
@@ -341,9 +330,7 @@ function SelectCandidate({
               : "Tất cả"}
           </span>
         </div>
-        <i
-          className={`fa-solid fa-angle-down icon-down ${open ? "open" : ""}`}
-        ></i>
+        <i className={`fa-solid fa-angle-down icon-down ${open ? "open" : ""}`}></i>
       </div>
       {open && (
         <div className="selectCadidate__menu">

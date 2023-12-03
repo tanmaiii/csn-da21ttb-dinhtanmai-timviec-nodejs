@@ -122,36 +122,34 @@
             }
           }
           &__button__follow {
-            @include flex(center, unser);
-            gap: 10px;
-            flex-direction: column;
-            span {
-              font-size: $font-size-s;
-              font-weight: 500;
-              color: themed("text2");
-            }
             .btn-follow {
               @include button($color-white, $color-primary);
             }
             .btn-unFollow {
-              @include button-line(themed("text1"), $color-white);
+              @include button(themed("text1"), themed("bg1"));
+              width: 132px;
+              &:hover span {
+                display: none;
+              }
+              &:hover::before {
+                content: "Bỏ theo dõi";
+                display: inline;
+              }
             }
           }
         }
         &__body {
           display: flex;
           &__left {
-            background-color: themed("bg2");
-            padding: 20px;
-            border-radius: $border-radius-20;
-            @include mobile {
-              padding: 10px;
-            }
             &__control {
               @include flex(center, unset);
               gap: 8px;
               height: 100%;
+              padding: 12px;
+              border-radius: $border-radius-10;
+              background-color: themed("bg2");
               overflow: hidden;
+              margin-bottom: 20px;
               @include mobile {
                 display: none;
               }
@@ -184,6 +182,10 @@
               gap: 6px;
               height: 100%;
               display: none;
+              padding: 12px;
+              border-radius: $border-radius-10;
+              background-color: themed("bg2");
+              margin-bottom: 20px;
               @include mobile {
                 display: flex;
               }
@@ -225,7 +227,8 @@
                   z-index: 99;
                   padding: 8px;
                   gap: 8px;
-                  button {
+                  button,
+                  a {
                     width: 100%;
                   }
                 }
@@ -233,7 +236,6 @@
             }
 
             &__content {
-              padding: 20px 0;
               .companiesSave {
                 flex-wrap: wrap;
               }

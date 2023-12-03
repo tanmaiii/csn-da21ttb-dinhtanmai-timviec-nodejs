@@ -152,13 +152,27 @@ export const getByIdCompany = async (req, res) => {
     const page = req.query.page || 1;
     const limit = req.query.limit || 10;
     const offset = (page - 1) * limit;
+    const token = req.cookies?.accessToken;
 
-    const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic
-               FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
-               WHERE j.deletedAt is null AND c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
+    let q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt, j.deletedAt , p.name as province , c.nameCompany, c.avatarPic
+    FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+    WHERE j.deletedAt is null AND c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
 
-    const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
-                WHERE j.deletedAt is null AND c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
+    let q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
+    WHERE j.deletedAt is null AND c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
+
+    token &&
+      jwt.verify(token, "secretkey", (err, companmyInfo) => {
+        if (parseInt(companmyInfo.id) === parseInt(id)) {
+          q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt ,j.deletedAt, p.name as province , c.nameCompany, c.avatarPic
+        FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+        WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
+          q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
+        WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
+        }
+      });
+
+    console.log(q, q2);
 
     const [data] = await promiseDb.query(q, [id, +limit, +offset]);
     const [totalData] = await promiseDb.query(q2, [id]);

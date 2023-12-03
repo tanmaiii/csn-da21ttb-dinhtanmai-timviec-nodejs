@@ -12,7 +12,7 @@ import "moment/locale/vi";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function ItemJob({ className, job, onClick }) {
-  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [openModalHidden, setOpenModalHidden] = useState(false);
   const [openMore, setOpenMore] = useState(false);
   const { currentCompany, currentUser } = useAuth();
   const [userSave, setUserSave] = useState();
@@ -76,14 +76,18 @@ export default function ItemJob({ className, job, onClick }) {
 
   const putHiddenJob = async () => {
     try {
-      await makeRequest.put("job/hidden?idJob=" + job.id);
-      toast.success("Xóa bài tuyển dụng thành công.");
+      job.deletedAt !== null
+        ? await makeRequest.put("job/unHidden?idJob=" + job.id)
+        : await makeRequest.put("job/hidden?idJob=" + job.id);
+
+      toast.success("Thay đổi trạng thái bài tuyển dụng thành công.");
+      setOpenModalHidden(false);
     } catch (error) {
       toast.error(error?.reponse?.data);
     }
   };
 
-  const mutationDelete = useMutation(
+  const mutationHidden = useMutation(
     () => {
       return putHiddenJob();
     },
@@ -94,8 +98,8 @@ export default function ItemJob({ className, job, onClick }) {
     }
   );
 
-  const handleClickDelete = async () => {
-    mutationDelete.mutate();
+  const handleClickHidden = async () => {
+    mutationHidden.mutate();
   };
 
   return (
@@ -135,6 +139,12 @@ export default function ItemJob({ className, job, onClick }) {
           <div className="itemJob__wrapper__bottom">
             <span className="createdAt">{moment(job?.createdAt).fromNow()}</span>
             <div className="itemJob__wrapper__bottom__button">
+              {job.deletedAt !== null && (
+                <div className="job__hide">
+                  <i class="fa-regular fa-circle-xmark"></i>
+                  <span>Ngừng ứng tuyển</span>
+                </div>
+              )}
               {job?.idCompany === currentCompany?.id && (
                 <div ref={buttonMoreRef} className="button__more">
                   <button onClick={() => setOpenMore(!openMore)}>
@@ -143,26 +153,33 @@ export default function ItemJob({ className, job, onClick }) {
                   <div className={`button__more__body  ${openMore && "active"}`}>
                     <Link to={`/nha-tuyen-dung/chinh-sua/${job?.id}`}>
                       <button>
-                        <i className="fa-solid fa-pen-to-square"></i>
+                        <i className="fa-regular fa-pen-to-square"></i>
                         <span>Sửa</span>
                       </button>
                     </Link>
-                    <button onClick={() => setOpenModalDelete(true)}>
-                      <i className="fa-regular fa-trash-can"></i>
-                      <span>Xóa</span>
+                    <button onClick={() => setOpenModalHidden(true)}>
+                      {job.deletedAt !== null ? (
+                        <>
+                          <i className="fa-regular fa-circle-check"></i>
+                          <span>Tuyển dụng</span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa-regular fa-circle-xmark"></i>
+                          <span>Ngừng tuyển dụng</span>
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
               )}
-              {!currentCompany && (
-                <button className="button__save" onClick={() => handleSubmitSave()}>
-                  {userSave?.includes(currentUser?.id) ? (
-                    <i class="fa-solid fa-heart"></i>
-                  ) : (
-                    <i class="fa-regular fa-heart"></i>
-                  )}
-                </button>
-              )}
+              <button className="button__save" onClick={() => handleSubmitSave()}>
+                {userSave?.includes(currentUser?.id) ? (
+                  <i class="fa-solid fa-heart"></i>
+                ) : (
+                  <i class="fa-regular fa-heart"></i>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -170,16 +187,16 @@ export default function ItemJob({ className, job, onClick }) {
       {
         <Modal
           title={"Xóa bài tuyển dụng"}
-          openModal={openModalDelete}
-          setOpenModal={setOpenModalDelete}
+          openModal={openModalHidden}
+          setOpenModal={setOpenModalHidden}
         >
           <div className="modal__sure">
             <h2>Bạn có chắc chắn muốn xóa bài tuyển dụng này không?</h2>
             <div className="modal__sure__footer">
-              <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>
+              <button className="btn-cancel" onClick={() => setOpenModalHidden(false)}>
                 Hủy
               </button>
-              <button className="btn-submit" onClick={handleClickDelete}>
+              <button className="btn-submit" onClick={handleClickHidden}>
                 Xác nhận
               </button>
             </div>

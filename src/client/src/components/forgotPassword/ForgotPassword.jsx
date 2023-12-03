@@ -1,20 +1,29 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams, useLocation } from "react-router-dom";
 import "./forgotPassword.scss";
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
+import queryString from "query-string";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [err, setErr] = useState(false);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = queryString.parse(location.search);
 
   const getEmail = async () => {
     setErr(false);
     setSuccess(false);
     try {
-      const res = await makeRequest.post("/user/forgot", { email });
+      let res;
+      params.type === "nguoi-dung"
+        ? (res = await makeRequest.post("/user/forgot", { email }))
+        : (res = await makeRequest.post("/company/forgot", { email }));
+
+      console.log(res);
+
       res.data && setSuccess(true);
     } catch (error) {
       setErr(true);
@@ -66,7 +75,10 @@ export default function ForgotPassword() {
         </button>
       </div>
       <span className="link-signup">
-        Trở về <Link to={"/dang-nhap/nguoi-dung"}> Đăng nhập</Link>
+        Trở về
+        <Link to={`/dang-nhap/${params.type === "nguoi-dung" ? "nguoi-dung" : "nha-tuyen-dung"}`}>
+          Đăng nhập
+        </Link>
       </span>
     </div>
   );

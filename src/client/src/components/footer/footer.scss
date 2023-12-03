@@ -27,8 +27,10 @@
             justify-content: center;
             align-items: center;
           }
+
           &.pc-6 {
           }
+
           &.t-12 {
             @include tablet {
               @include flex(center, start);
@@ -40,6 +42,7 @@
               flex-direction: column;
             }
           }
+
           &__social {
             @include flex(start, unset);
             gap: 20px;
@@ -108,6 +111,7 @@
             }
             @include mobile {
               align-items: center;
+              width: 100%;
             }
             span {
               color: themed("text2");
@@ -122,6 +126,9 @@
               border-radius: $border-radius-10;
               width: 400px;
               padding: 0 12px;
+              @include mobile{
+                width: 100%;
+              }
               i {
                 font-size: $font-size-m;
                 color: themed("text1");
@@ -156,6 +163,7 @@
               }
             }
           }
+
           &__list {
             @include flex(unset, unset);
             flex-direction: column;

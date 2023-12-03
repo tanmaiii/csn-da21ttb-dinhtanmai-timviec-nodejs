@@ -102,10 +102,10 @@ export const uploadImage = (req, res) => {
 export const forgotPassword = (req, res) => {
   const { email } = req.body;
 
-  const q = "SELECT email, name id from job.users WHERE email = ?";
+  const q = "SELECT email, name, id from job.users WHERE email = ?";
 
   db.query(q, [email], (err, data) => {
-    if (!data.length) {
+    if (!data?.length) {
       return res.status(403).json("Không tìm thấy email!");
     } else {
       const token = jwt.sign({ id: data[0].id }, "jwt_secret_key", { expiresIn: 60 }); // token tồn tại trong 1 phút
@@ -118,7 +118,7 @@ export const forgotPassword = (req, res) => {
         },
       });
 
-      const url = `http://localhost:3000/tao-moi-mat-khau/${data[0].id}/${token}`;
+      const url = `http://localhost:3000/tao-moi-mat-khau/${data[0].id}/${token}?type=nguoi-dung`;
 
       const emailHTML = `
       <!DOCTYPE html>

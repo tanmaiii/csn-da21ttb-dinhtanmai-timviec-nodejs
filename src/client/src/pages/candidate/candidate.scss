@@ -13,11 +13,26 @@
         &__header {
           margin-bottom: 20px;
           @include flex(center, space-between);
+          & > a .btn-cancel {
+            font-size: $font-size-s;
+            color: themed("text1");
+            @include flex(center, unset);
+            gap: 8px;
+            i {
+              font-size: 1.2rem;
+              transition: all 0.3s;
+            }
+            &:hover {
+              i {
+                transform: translateX(-8px);
+              }
+            }
+          }
           h2 {
             color: $color-primary;
             font-size: $font-size-l;
           }
-          button {
+          & > a .btn-hidden {
             @include button($color-white, $color-primary);
           }
         }
@@ -161,7 +176,7 @@
           }
           &__pgn {
             @include flex(center, space-between);
-            @include mobile{
+            @include mobile {
               justify-content: center;
             }
             &__left {

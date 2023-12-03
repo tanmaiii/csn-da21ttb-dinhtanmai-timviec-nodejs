@@ -3,6 +3,8 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import "./resetPassword.scss";
 import { useAuth } from "../../context/authContext";
 import { makeRequest } from "../../axios";
+import { useLocation } from "react-router-dom";
+import queryString from "query-string";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState();
@@ -13,18 +15,25 @@ export default function ResetPassword() {
   const [success, setSuccess] = useState(false);
   const { currentUser, currentCompany } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = queryString.parse(location.search);
 
   const { id, token } = useParams();
 
   const handleSubmit = async () => {
     setSuccess(false);
     setErr("");
+    if (password?.length < 6) return setErr("Mật khẩu phải từ 6 kí tự trở lên !");
     if (password !== rePassword) return setErr("Mật khẩu không trùng khớp !");
     try {
-      const res = await makeRequest.post(`/user/resetPassword/${id}/${token}`, { password });
+      let res;
+      params.type === "nguoi-dung"
+        ? (res = await makeRequest.post(`/user/resetPassword/${id}/${token}`, { password }))
+        : (res = await makeRequest.post(`/company/resetPassword/${id}/${token}`, { password }));
+
       res.data && setSuccess(true);
-      setPassword('')
-      setRePassword('')
+      setPassword("");
+      setRePassword("");
     } catch (error) {
       setErr("Lỗi! Vui lòng xác nhận lại email.");
     }
@@ -97,12 +106,16 @@ export default function ResetPassword() {
         </div>
       </div>
       <div className="resetPassword__control">
-        <button disabled={success ? true: false} className="btn-auth" onClick={handleSubmit}>
+        <button disabled={success ? true : false} className="btn-auth" onClick={handleSubmit}>
           Xác nhận
         </button>
       </div>
       <span className="link-signup">
-        Trở về <Link to={"/dang-nhap/nguoi-dung"}> Đăng nhập</Link>
+        Trở về{" "}
+        <Link to={`/dang-nhap/${params.type === "nguoi-dung" ? "nguoi-dung" : "nha-tuyen-dung"}`}>
+          {" "}
+          Đăng nhập
+        </Link>
       </span>
     </div>
   );

@@ -87,6 +87,10 @@ $themes: (
   transition: all 0.3s;
   @include flex(center, center);
   gap: 8px;
+  & > span,
+  i {
+    color: $color;
+  }
   &:not(:disabled) {
     &:hover {
       opacity: 0.8;
@@ -102,7 +106,7 @@ $themes: (
 
 @mixin button-line($color, $bg) {
   padding: 10px 16px;
-  background-color: $bg;
+  background-color: transparent;
   color: $color;
   font-weight: 500;
   border: 2px solid $color;

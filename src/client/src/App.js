@@ -58,6 +58,11 @@ function App() {
               <Route path="jobs" element />
             </Route>
 
+            <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
+            <Route path="nha-tuyen-dung/ung-vien-an" element={<CandidateHide />} />
+            <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
+            <Route path="nha-tuyen-dung/chinh-sua/:id" element={<EditJob />} />
+
             <Route path="/viec-lam/:idJob" element={<DetailJob />} />
 
             <Route path="/nguoi-dung/:id/" element={<DetailUser />}>
@@ -66,23 +71,22 @@ function App() {
               <Route path="jobs" element />
               <Route path="companies" element />
             </Route>
-
-            <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />
-            <Route path="nha-tuyen-dung/ung-vien-an" element={<CandidateHide />} />
-            <Route path="nha-tuyen-dung/dang-bai" element={<PostJob />} />
-            <Route path="nha-tuyen-dung/chinh-sua/:id" element={<EditJob />} />
           </Route>
+
           <Route path="/dang-ky" element={<AuthLayout />}>
             <Route index path="nguoi-dung" element={<Signup />} />
             <Route path="nha-tuyen-dung" element={<SignupCompany />} />
           </Route>
+
           <Route path="/dang-nhap" element={<AuthLayout />}>
             <Route index path="nguoi-dung" element={<Signin />} />
             <Route path="nha-tuyen-dung" element={<SigninCompany />} />
           </Route>
+
           <Route path="/quen-mat-khau" element={<AuthLayout />}>
-            <Route index path="" element={<ForgotPassword />} />
+            <Route path="" element={<ForgotPassword />} />
           </Route>
+
           <Route path="/tao-moi-mat-khau/:id/:token" element={<AuthLayout />}>
             <Route index path="" element={<ResetPassword />} />
           </Route>

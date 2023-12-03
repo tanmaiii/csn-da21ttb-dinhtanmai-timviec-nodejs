@@ -1,13 +1,26 @@
-@use '../../../scss/' as *;
+@use "../../../scss/" as *;
 
-
-.jobsCompany{
+.jobsCompany {
   @include themify($themes) {
+    margin-top: 20px;
     width: 100%;
-  }
-  &__list{
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 100px;
+    &__wrapper {
+      padding: 18px;
+      background-color: themed("bg2");
+      border-radius: $border-radius-10;
+      &__header {
+        margin-bottom: 20px;
+        h4 {
+          font-size: $font-size-l;
+          color: $color-primary;
+          font-weight: 500;
+        }
+      }
+      &__list {
+        display: flex;
+        flex-wrap: wrap;
+        min-height: 100px;
+      }
+    }
   }
 }

@@ -101,6 +101,9 @@ export default function SigninCompany() {
             )}
           </span>
         </div>
+        <div className="reset">
+            <Link to={'/quen-mat-khau?type=nha-tuyen-dung'}>Quên mật khẩu ?</Link>
+        </div>
         {!loading ? (
           <button className="btn-auth" onClick={handleSubmit}>
             Đăng nhập

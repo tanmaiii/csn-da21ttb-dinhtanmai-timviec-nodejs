@@ -7,23 +7,8 @@ import { makeRequest } from "../../axios.js";
 import { useAuth } from "../../context/authContext.js";
 import NotFoundData from "../../components/notFoundData/NotFoundData.jsx";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { status } from "../../config/data.js";
-import queryString from "query-string";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
-
-const sort = [
-  {
-    name: "Mới nhất",
-    label: "Mới nhất",
-    label: "new",
-  },
-  {
-    name: "Cũ nhất",
-    label: "Cũ nhất",
-    label: "old",
-  },
-];
 
 export default function CandidateHide() {
   const [data, setData] = useState();
@@ -106,7 +91,7 @@ export default function CandidateHide() {
           <div className="candidateHide__wrapper__header">
             <Link to={"/nha-tuyen-dung/ung-vien"}>
               <button>
-                <i class="fa-solid fa-angle-left"></i>
+                <i className="fa-solid fa-angle-left"></i>
                 <span>Quay lại</span>
               </button>
             </Link>

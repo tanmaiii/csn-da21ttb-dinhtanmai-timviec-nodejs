@@ -78,6 +78,17 @@
           font-size: 1.2rem;
         }
       }
+      & > .reset {
+        @include flex(center, end);
+        width: 100%;
+        a {
+          font-size: $font-size-s;
+          color: $color-primary;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
       .btn-auth {
         margin-top: 20px;
         @include button($color-white, $color-primary);

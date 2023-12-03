@@ -194,7 +194,7 @@
               a,
               button {
                 @include flex(center, unset);
-                gap: 4px;
+                gap: 8px;
                 height: 100%;
                 position: relative;
                 font-weight: 500;
@@ -202,10 +202,12 @@
                 font-weight: 500;
                 font-size: $font-size-s;
                 i {
-                  // @include flex(center, center);
-                  --size: 20px;
-                  width: var(--size);
-                  height: var(--size);
+                  @include flex(center, center);
+                  font-size: 1.2rem;
+                  width: 26px;
+                  // --size: 20px;
+                  // width: var(--size);
+                  // height: var(--size);
                   color: themed("text1");
                 }
                 &:hover,
