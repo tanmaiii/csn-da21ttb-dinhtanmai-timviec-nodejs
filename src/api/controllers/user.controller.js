@@ -87,7 +87,9 @@ export const updateIntroUser = (req, res) => {
 
 export const uploadImage = (req, res) => {
   const avatarPic = req.body.avatarPic;
-  const q = "UPDATE users, name SET avatarPic = ? WHERE id = ? ";
+  const q = "UPDATE users SET avatarPic = ? WHERE id = ? ";
+
+  console.log(avatarPic);
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(403).json("Chưa đăng nhập !");

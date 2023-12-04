@@ -19,11 +19,7 @@ export default function JobsCompany() {
 
   const getJob = async () => {
     try {
-      let res;
-      currentCompany?.id === id
-        ? (res = await makeRequest.get(`/job/company/${id}?page=${paginate}&limit=${limit}`))
-        : (res = await makeRequest.get(`/job/company/${id}?page=${paginate}&limit=${limit}`));
-        
+      const res = await makeRequest.get(`/job/company/${id}?page=${paginate}&limit=${limit}`);
       setTotalPage(res?.data?.pagination?.totalPage);
       return res?.data?.data;
     } catch (error) {

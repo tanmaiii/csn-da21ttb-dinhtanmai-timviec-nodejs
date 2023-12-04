@@ -172,8 +172,6 @@ export const getByIdCompany = async (req, res) => {
         }
       });
 
-    console.log(q, q2);
-
     const [data] = await promiseDb.query(q, [id, +limit, +offset]);
     const [totalData] = await promiseDb.query(q2, [id]);
     const totalPage = Math.ceil(+totalData[0]?.count / limit);
@@ -282,8 +280,6 @@ export const getByIdField = async (req, res) => {
     const [totalPageData] = await promiseDb.query(q2, [+idField]);
     const totalPage = Math.ceil(+totalPageData[0]?.count / limit);
 
-    console.log(idField);
-
     if (data && totalPageData && totalPage) {
       return res.status(200).json({
         data: data,
@@ -323,7 +319,7 @@ export const updateJob = async (req, res) => {
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
-  console.log(req.body);
+
 
   const q = "SELECT * FROM companies WHERE id = ?";
 
@@ -391,6 +387,28 @@ export const unHiddenJob = async (req, res) => {
     if (err) return res.status(403).json("Token không trùng !");
 
     const q = `UPDATE job.jobs as j SET \`deletedAt\` = null WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
+
+    db.query(q, (err, data) => {
+      if (!err) return res.status(200).json(data);
+      if (data?.affectedRows > 0) return res.json("Update");
+      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+    });
+  });
+};
+
+export const deleteJob = async (req, res) => {
+  const token = req.cookies.accessToken;
+
+  const idJob = req.query.idJob;
+
+  if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+  jwt.verify(token, "secretkey", (err, companmyInfo) => {
+    if (err) return res.status(403).json("Token không trùng !");
+
+    const q = `DELETE FROM job.jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
+
+    console.log(q);
 
     db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);

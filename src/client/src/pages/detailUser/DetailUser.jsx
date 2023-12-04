@@ -10,6 +10,7 @@ import IntroUser from "./introUser/IntroUser";
 import AppliedJobs from "./appliedJobs/AppliedJobs";
 import CompaniesSave from "./companiesSave/CompaniesSave";
 import JobsSave from "./jobsSave/JobsSave";
+import ModalCropImage from "../../components/modalCropImage/ModalCropImage";
 
 import {
   useSearchParams,
@@ -29,6 +30,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 export default function DetailUser() {
   let [searchParams, setSearchParams] = useSearchParams();
   const [openControlMb, setOpenControlMb] = useState(false);
+  const [openModalAvatar, setOpenModalAvatar] = useState(false);
   const [user, setUser] = useState();
   const [err, setErr] = useState();
   const controlMbRef = useRef();
@@ -65,21 +67,6 @@ export default function DetailUser() {
     }
   );
 
-  const handleChangeInputFile = async (e) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", e.target.files[0]);
-      const postImage = await makeRequest.post("/upload", formData);
-      await makeRequest.put("/user/uploadImage", { avatarPic: postImage.data });
-      getUser();
-      toast.success("Cập nhật ảnh thành công.");
-      return postImage.data;
-    } catch (error) {
-      toast.error(error?.response?.data);
-    }
-    mutation.mutate();
-  };
-
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -112,17 +99,12 @@ export default function DetailUser() {
                   <div className="detailUser__wrapper__header__main__image">
                     <img src={user?.avatarPic ? apiImage + user?.avatarPic : avatar} alt="" />
                     {user?.id === currentUser?.id && (
-                      <label
-                        htmlFor="input-avt-user"
+                      <button
                         className="detailUser__wrapper__header__main__image__edit"
+                        onClick={() => setOpenModalAvatar(true)}
                       >
                         <i className="fa-solid fa-upload"></i>
-                        <input
-                          id="input-avt-user"
-                          type="file"
-                          onChange={(e) => handleChangeInputFile(e)}
-                        />
-                      </label>
+                      </button>
                     )}
                   </div>
                   <div className="detailUser__wrapper__header__main__text">
@@ -273,6 +255,7 @@ export default function DetailUser() {
           </div>
         </div>
       )}
+      <ModalCropImage openModal={openModalAvatar} setOpenModal={setOpenModalAvatar} />
     </>
   );
 }

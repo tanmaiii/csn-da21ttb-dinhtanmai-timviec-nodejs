@@ -205,7 +205,11 @@
                       color: $color-white;
                     }
                     i {
+                      --size: 24px;
+                      width: var(--size);
+                      height: var(--size);
                       font-size: 1.2rem;
+                      @include flex(center, center);
                     }
                     span {
                       font-size: $font-size-s;
@@ -299,18 +303,23 @@
   @include themify($themes) {
     padding: 20px;
     width: 100%;
-    h2{
-      margin-bottom: 20px;
+    h2 {
       font-weight: 400;
       color: themed("text1");
       font-size: $font-size-m;
     }
+    span {
+      font-weight: 400;
+      color: themed("text2");
+      font-size: $font-size-s;
+    }
     &__footer {
       width: 100%;
+      margin-top: 20px;
       @include flex(center, end);
       gap: 8px;
       & > .btn-cancel {
-        @include button(themed("text1"),themed('bg1'));
+        @include button(themed("text1"), themed("bg1"));
       }
       & > .btn-submit {
         @include button($color-white, $color-primary);

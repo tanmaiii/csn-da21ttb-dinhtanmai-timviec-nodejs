@@ -12,6 +12,7 @@ import {
   updateJob,
   hiddenJob,
   unHiddenJob,
+  deleteJob
 } from "../controllers/job.controller.js";
 
 router.get("/find", findJobs);
@@ -24,5 +25,6 @@ router.post("/", postJob);
 router.put("/", updateJob);
 router.put("/hidden", hiddenJob);
 router.put("/unHidden", unHiddenJob);
+router.delete("/", deleteJob);
 
 export default router;

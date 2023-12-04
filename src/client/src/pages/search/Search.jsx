@@ -139,7 +139,7 @@ export default function Search() {
                     <div className="dropdown">
                       <div className="header" onClick={() => setOpenSort(!openSort)}>
                         <span>{sortActive && sortActive?.displayName}</span>
-                        <i class="fa-solid fa-angle-down"></i>
+                        <i className="fa-solid fa-angle-down"></i>
                       </div>
                       {openSort && (
                         <div className="list">
@@ -314,7 +314,7 @@ function BannerSearch() {
         <InputSearch />
         <div className="search__banner__wrapper__filter">
           <button className="button-filter" onClick={() => setOpenFilter(!openFilter)}>
-            <i class="fa-solid fa-filter"></i>
+            <i className="fa-solid fa-filter"></i>
           </button>
           <div className={`search__banner__wrapper__filter__list ${openFilter && "open"}`}>
             <DropdownItem
@@ -365,7 +365,7 @@ function BannerSearch() {
             />
             {btnDelete && (
               <button className="button-delete-filter" onClick={() => handleDeleteFilter()}>
-                <i class="fa-regular fa-trash-can"></i>
+                <i className="fa-regular fa-trash-can"></i>
                 <span>Xóa lọc ({qtyFilter})</span>
               </button>
             )}
@@ -447,17 +447,24 @@ function InputSearch() {
   return (
     <div className="inputSearch" ref={inputSearchRef}>
       <div className="inputSearch__input">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input
-          type="text"
-          placeholder="Tên công ty, công việc..."
-          onChange={(e) => setKeyWord(e.target.value)}
-          value={keyword}
-          ref={inputRef}
-        />
+        <i className="fa-solid fa-magnifying-glass"></i>
+        <div className="inputSearch__input__box">
+          <input
+            type="text"
+            placeholder="Tên công ty, công việc..."
+            onChange={(e) => setKeyWord(e.target.value)}
+            value={keyword}
+            ref={inputRef}
+          />
+          {keyword?.length > 0 && (
+            <button className="btn-clear" onClick={() => setKeyWord("")}>
+              <i className="fa-solid fa-circle-xmark"></i>
+            </button>
+          )}
+        </div>
         <button className={`inputSearch__input__btn-search`} onClick={() => goToSearch()}>
           <span>Tìm kiếm</span>
-          <i class="fa-solid fa-magnifying-glass"></i>
+          <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </div>
       {searchHistory && (
@@ -465,7 +472,7 @@ function InputSearch() {
           <ul>
             {searchHistory?.slice(0, 4).map((item, i) => (
               <li onClick={() => handleSubmitHistory(item)}>
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <i className="fa-solid fa-magnifying-glass"></i>
                 <span>{item}</span>
               </li>
             ))}

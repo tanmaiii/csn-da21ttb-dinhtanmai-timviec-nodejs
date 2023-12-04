@@ -199,15 +199,32 @@
           display: none;
         }
       }
-      input {
-        width: 280px;
-        padding: 8px 10px;
-        font-size: $font-size-s;
-        color: themed("text1");
+      &__box {
+        position: relative;
         @include mobile {
           flex: 1;
         }
+        input {
+          width: 280px;
+          padding: 8px 10px;
+          font-size: $font-size-s;
+          color: themed("text1");
+          @include mobile{
+            width: 100%;
+          }
+        }
+        & > .btn-clear {
+          position: absolute;
+          top: 50%;
+          right: 4px;
+          transform: translateY(-50%);
+          i {
+            color: themed("text2");
+            font-size: 1.1rem;
+          }
+        }
       }
+
       &__btn-search {
         @include button($color-white, $color-primary);
         margin: 10px 10px;

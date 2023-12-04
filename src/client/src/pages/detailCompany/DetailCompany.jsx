@@ -8,6 +8,7 @@ import { Link, useParams, Route, Routes, useNavigate, useLocation } from "react-
 import { makeRequest, apiImage } from "../../axios";
 import NotFound from "../../pages/notFound/NotFound";
 import Loader from "../../components/loader/Loader";
+import ModalCropImage from "../../components/modalCropImage/ModalCropImage";
 
 import { useAuth } from "../../context/authContext";
 
@@ -29,6 +30,7 @@ export default function DetailCompany() {
   const [company, setCompany] = useState();
   const [follower, setFollower] = useState();
   const [openControlMb, setOpenControlMb] = useState(false);
+  const [openModalAvatar, setOpenModalAvatar] = useState(false);
   const { currentCompany, currentUser } = useAuth();
   const controlMbRef = useRef();
   const { id } = useParams();
@@ -75,21 +77,6 @@ export default function DetailCompany() {
     }
   );
 
-  const handleChangeInputFile = async (e) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", e.target.files[0]);
-      const postImage = await makeRequest.post("/upload", formData);
-      await makeRequest.put("/company/uploadImage", {
-        avatarPic: postImage.data,
-      });
-      getCompany();
-      toast.success("Cập nhật ảnh thành công.");
-      return postImage.data;
-    } catch (error) {
-      toast.error(error?.response?.data);
-    }
-  };
 
   const handleSubmitFollow = () => {
     if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
@@ -127,18 +114,12 @@ export default function DetailCompany() {
                   <div className="detailCompany__wrapper__header__main__image">
                     <img src={company?.avatarPic ? apiImage + company?.avatarPic : avatar} alt="" />
                     {company?.id === currentCompany?.id && (
-                      <label
-                        htmlFor="input-image"
+                      <button
+                        onClick={() => setOpenModalAvatar(true)}
                         className="detailCompany__wrapper__header__main__image__edit"
                       >
                         <i className="fa-solid fa-upload"></i>
-                        <input
-                          id="input-image"
-                          type="file"
-                          name="file"
-                          onChange={(e) => handleChangeInputFile(e)}
-                        />
-                      </label>
+                      </button>
                     )}
                   </div>
                   <div className="detailCompany__wrapper__header__main__text">
@@ -199,12 +180,6 @@ export default function DetailCompany() {
                           >
                             <span>Giới thiệu</span>
                           </button>
-                          <button
-                            onClick={() => navigate("jobs")}
-                            className={`${controlPathname === "jobs" && "active"}`}
-                          >
-                            <span>Việc làm</span>
-                          </button>
                           {company?.id === currentCompany?.id && (
                             <>
                               <button
@@ -231,12 +206,6 @@ export default function DetailCompany() {
                             className={`${controlPathname === id && "active"}`}
                           >
                             <span>Giới thiệu</span>
-                          </button>
-                          <button
-                            onClick={() => navigate("jobs")}
-                            className={`${controlPathname === "jobs" && "active"}`}
-                          >
-                            <span>Việc làm</span>
                           </button>
 
                           {company?.id === currentCompany?.id && (
@@ -317,6 +286,7 @@ export default function DetailCompany() {
           </div>
         </div>
       )}
+      <ModalCropImage openModal={openModalAvatar} setOpenModal={setOpenModalAvatar} />
     </>
   );
 }

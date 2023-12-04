@@ -13,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function ItemJob({ className, job, onClick }) {
   const [openModalHidden, setOpenModalHidden] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
   const [openMore, setOpenMore] = useState(false);
   const { currentCompany, currentUser } = useAuth();
   const [userSave, setUserSave] = useState();
@@ -102,6 +103,31 @@ export default function ItemJob({ className, job, onClick }) {
     mutationHidden.mutate();
   };
 
+  const deleteJob = async () => {
+    try {
+      await makeRequest.delete("job/?idJob=" + job.id);
+      setOpenModalDelete(false);
+      toast.success("Xóa bài tuyển dụng thành công.");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const mutationDelete = useMutation(
+    () => {
+      return deleteJob();
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["job"]);
+      },
+    }
+  );
+
+  const handleClickDelete = async () => {
+    mutationDelete.mutate();
+  };
+
   return (
     <>
       <div className={`itemJob ${className && className}`} onClick={onClick}>
@@ -139,7 +165,7 @@ export default function ItemJob({ className, job, onClick }) {
           <div className="itemJob__wrapper__bottom">
             <span className="createdAt">{moment(job?.createdAt).fromNow()}</span>
             <div className="itemJob__wrapper__bottom__button">
-              {job.deletedAt !== null && (
+              {job.deletedAt && job?.deletedAt !== null && (
                 <div className="job__hide">
                   <i class="fa-regular fa-circle-xmark"></i>
                   <span>Ngừng ứng tuyển</span>
@@ -157,6 +183,10 @@ export default function ItemJob({ className, job, onClick }) {
                         <span>Sửa</span>
                       </button>
                     </Link>
+                    <button onClick={() => setOpenModalDelete(true)}>
+                      <i class="fa-regular fa-trash-can"></i>
+                      <span>Xóa</span>
+                    </button>
                     <button onClick={() => setOpenModalHidden(true)}>
                       {job.deletedAt !== null ? (
                         <>
@@ -186,17 +216,43 @@ export default function ItemJob({ className, job, onClick }) {
       </div>
       {
         <Modal
-          title={"Xóa bài tuyển dụng"}
+          title={"Ngừng tuyển dụng"}
           openModal={openModalHidden}
           setOpenModal={setOpenModalHidden}
         >
           <div className="modal__sure">
-            <h2>Bạn có chắc chắn muốn xóa bài tuyển dụng này không?</h2>
+            <h2>{`${
+              job.deletedAt !== null
+                ? "Bạn có chắc chắn muốn tuyển dụng lại công việc này không?"
+                : "Bạn có chắc chắn muốn ngừng tuyển dụng công việc này không?"
+            }`}</h2>
             <div className="modal__sure__footer">
               <button className="btn-cancel" onClick={() => setOpenModalHidden(false)}>
                 Hủy
               </button>
               <button className="btn-submit" onClick={handleClickHidden}>
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </Modal>
+      }
+      {
+        <Modal
+          title={"Xóa bài tuyển dụng"}
+          openModal={openModalDelete}
+          setOpenModal={setOpenModalDelete}
+        >
+          <div className="modal__sure">
+            <h2>Bạn có chắc chắn muốn xóa công việc này không ?</h2>
+            <span>
+              Khi đã xóa bài tuyển dụng, những người dùng đã ứng tuyển cũng sẽ bị xóa theo.
+            </span>
+            <div className="modal__sure__footer">
+              <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>
+                Hủy
+              </button>
+              <button className="btn-submit" onClick={handleClickDelete}>
                 Xác nhận
               </button>
             </div>

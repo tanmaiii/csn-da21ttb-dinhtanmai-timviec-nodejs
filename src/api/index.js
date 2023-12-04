@@ -63,9 +63,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post("/api/upload", upload.single("file"),(req, res) => {
+app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
-  if(!checkImage(file)) return res.status(404).json('Ảnh không hợp lệ! Vui lòng gửi lại.')
+  if (!checkImage(file)) return res.status(404).json("Ảnh không hợp lệ! Vui lòng gửi lại.");
   res.status(200).json(file.filename);
 });
 

@@ -280,11 +280,14 @@
                 min-width: 120px;
                 color: themed("text1");
                 &:hover {
-                  background-color: themed("primary");
-                  color: $color-white;
+                  background-color: themed('bg1');
                 }
                 i {
+                  --size: 24px;
+                  width: var(--size);
+                  height: var(--size);
                   font-size: 1.2rem;
+                  @include flex(center, center);
                 }
                 span {
                   font-size: $font-size-s;

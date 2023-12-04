@@ -26,6 +26,7 @@ import {
 
 export default function DetailJob() {
   const [openModal, setOpenModal] = useState(false);
+  const [openModalHidden, setOpenModalHidden] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [userSave, setUserSave] = useState();
   const [userApply, setUserApply] = useState();
@@ -45,7 +46,6 @@ export default function DetailJob() {
       setJob(res.data);
     } catch (error) {}
   };
-  console.log(job);
 
   const {} = useQuery(["job", idJob], () => {
     return getJob();
@@ -117,14 +117,18 @@ export default function DetailJob() {
 
   const putHiddenJob = async () => {
     try {
-      await makeRequest.put("job/hidden?idJob=" + idJob);
-      toast.success("Xóa bài tuyển dụng thành công.");
+      job.deletedAt !== null
+        ? await makeRequest.put("job/unHidden?idJob=" + job.id)
+        : await makeRequest.put("job/hidden?idJob=" + job.id);
+
+      toast.success("Thay đổi trạng thái bài tuyển dụng thành công.");
+      setOpenModalHidden(false);
     } catch (error) {
       toast.error(error?.reponse?.data);
     }
   };
 
-  const mutationDelete = useMutation(
+  const mutationHidden = useMutation(
     () => {
       return putHiddenJob();
     },
@@ -135,9 +139,34 @@ export default function DetailJob() {
     }
   );
 
+  const handleClickHidden = async () => {
+    mutationHidden.mutate();
+  };
+
+  const deleteJob = async () => {
+    try {
+      await makeRequest.delete("job/?idJob=" + job.id);
+      setOpenModalDelete(false);
+      navigate(-1);
+      toast.success("Xóa bài tuyển dụng thành công.");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const mutationDelete = useMutation(
+    () => {
+      return deleteJob();
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["job"]);
+      },
+    }
+  );
+
   const handleClickDelete = async () => {
     mutationDelete.mutate();
-    navigate(-1);
   };
 
   useEffect(() => {
@@ -235,13 +264,26 @@ export default function DetailJob() {
                         <div className={`button__more__body  ${openMore && "active"}`}>
                           <Link to={`/nha-tuyen-dung/chinh-sua/${job?.id}`}>
                             <button>
-                              <i className="fa-solid fa-pen-to-square"></i>
+                              <i className="fa-regular fa-pen-to-square"></i>
                               <span>Sửa</span>
                             </button>
                           </Link>
                           <button onClick={() => setOpenModalDelete(true)}>
-                            <i className="fa-regular fa-trash-can"></i>
+                            <i class="fa-regular fa-trash-can"></i>
                             <span>Xóa</span>
+                          </button>
+                          <button onClick={() => setOpenModalHidden(true)}>
+                            {job.deletedAt !== null ? (
+                              <>
+                                <i className="fa-regular fa-circle-check"></i>
+                                <span>Tuyển dụng</span>
+                              </>
+                            ) : (
+                              <>
+                                <i className="fa-regular fa-circle-xmark"></i>
+                                <span>Ngừng tuyển dụng</span>
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>
@@ -354,12 +396,46 @@ export default function DetailJob() {
         </Modal>
       )}
       {
-        <Modal title={"Xóa bài tuyển dụng"} openModal={openModalDelete} setOpenModal={setOpenModalDelete}>
-          <div className="modal__sure" >
-            <h2>Bạn có chắc chắn muốn xóa bài tuyển dụng này không?</h2>
+        <Modal
+          title={"Ngừng tuyển dụng"}
+          openModal={openModalHidden}
+          setOpenModal={setOpenModalHidden}
+        >
+          <div className="modal__sure">
+            <h2>{`${
+              job.deletedAt !== null
+                ? "Bạn có chắc chắn muốn tuyển dụng lại công việc này không?"
+                : "Bạn có chắc chắn muốn ngừng tuyển dụng công việc này không?"
+            }`}</h2>
             <div className="modal__sure__footer">
-              <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>Hủy</button>
-              <button className="btn-submit" onClick={handleClickDelete}>Xác nhận</button>
+              <button className="btn-cancel" onClick={() => setOpenModalHidden(false)}>
+                Hủy
+              </button>
+              <button className="btn-submit" onClick={handleClickHidden}>
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </Modal>
+      }
+      {
+        <Modal
+          title={"Xóa bài tuyển dụng"}
+          openModal={openModalDelete}
+          setOpenModal={setOpenModalDelete}
+        >
+          <div className="modal__sure">
+            <h2>Bạn có chắc chắn muốn xóa công việc này không ?</h2>
+            <span>
+              Khi đã xóa bài tuyển dụng, những người dùng đã ứng tuyển cũng sẽ bị xóa theo.
+            </span>
+            <div className="modal__sure__footer">
+              <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>
+                Hủy
+              </button>
+              <button className="btn-submit" onClick={handleClickDelete}>
+                Xác nhận
+              </button>
             </div>
           </div>
         </Modal>
