@@ -4,7 +4,7 @@
 * Thời gian thực hiện: 06/11/2023 đến 31/12/2023
 * Sinh viên thực hiện: Đinh Tấn Mãi       
 * MSSV: 110121063
-* Email: tanmai833@gmail.com
+* Email: dinhtanmaivn@gmail.com
 
 
 ## Nội dung đề tài:
