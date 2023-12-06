@@ -97,7 +97,7 @@ export default function Home() {
             <Link to={"/tim-kiem"}>
               <button>
                 <span>Ứng tuyển ngay</span>
-                <i class="fa-solid fa-circle-chevron-right"></i>
+                <i className="fa-solid fa-circle-chevron-right"></i>
               </button>
             </Link>
           </div>

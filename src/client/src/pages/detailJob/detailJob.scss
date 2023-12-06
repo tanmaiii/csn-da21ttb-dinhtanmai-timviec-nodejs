@@ -301,7 +301,7 @@
 
 .modal__sure {
   @include themify($themes) {
-    padding: 20px;
+    padding: 0px 20px 0 20px;
     width: 100%;
     h2 {
       font-weight: 400;

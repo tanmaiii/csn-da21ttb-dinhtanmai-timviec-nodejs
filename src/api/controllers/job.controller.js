@@ -18,7 +18,7 @@ export const getAll = async (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    let q = `SELECT j.id, j.experience, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameField
+    let q = `SELECT j.id, j.experience, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt ,j.deletedAt, p.name as province , c.nameCompany, c.avatarPic, f.name as nameField
        FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f
        WHERE j.deletedAt is null AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
@@ -319,7 +319,6 @@ export const updateJob = async (req, res) => {
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
-
 
   const q = "SELECT * FROM companies WHERE id = ?";
 

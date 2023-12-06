@@ -234,7 +234,11 @@ export default function DetailUser() {
                   <div className="detailUser__wrapper__body__right">
                     <h6>CV</h6>
                     <div className="detailUser__wrapper__body__right__cv">
-                      <a href={user?.linkCv}>{user?.linkCv || "Không có"}</a>
+                      {user?.linkCv ? (
+                        <a href={user?.linkCv}>{user?.linkCv}</a>
+                      ) : (
+                        <span>Không có</span>
+                      )}
                     </div>
                     <h6>Theo dõi</h6>
                     <div className="detailUser__wrapper__body__right__list">

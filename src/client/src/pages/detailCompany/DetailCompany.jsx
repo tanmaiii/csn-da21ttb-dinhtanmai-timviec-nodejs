@@ -79,7 +79,7 @@ export default function DetailCompany() {
 
 
   const handleSubmitFollow = () => {
-    if (!currentUser) return navigate("/nguoi-dung/dang-nhap");
+    if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
     mutationFollow.mutate(follower?.includes(currentUser?.id));
   };
 

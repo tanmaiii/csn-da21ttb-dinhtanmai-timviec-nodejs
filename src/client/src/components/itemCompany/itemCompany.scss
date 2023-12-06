@@ -16,30 +16,7 @@
       &:hover {
         box-shadow: themed("box-shadow");
       }
-      .btn__follow {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: transparent;
-        cursor: pointer;
-        padding: 8px;
-        transition: all 0.3s;
-        &.active {
-          i:nth-child(1) {
-            display: none;
-          }
-          i:nth-child(2) {
-            display: block;
-          }
-        }
-        i {
-          font-size: $font-size-l;
-          color: $color-txt-red;
-          &:nth-child(2) {
-            display: none;
-          }
-        }
-      }
+
       &__image {
         width: 100%;
         height: 260px;
@@ -51,23 +28,47 @@
         }
       }
       &__body {
-        padding: 10px 0;
-        .name {
-          font-size: $font-size-m;
-          color: themed("text1");
-          margin-bottom: 8px;
-          @include text(1);
-        }
-        .desc {
-          @include flex(center, unset);
-          gap: 10px;
-          .province {
-            @include flex(center, unset);
-            gap: 8px;
-            color: themed("text2");
+        @include flex(end, space-between);
+        margin-top: 20px;
+        &__right {
+          .name {
+            font-size: $font-size-m;
+            color: themed("text1");
+            margin-bottom: 8px;
+            @include text(1);
           }
-          .job {
-            color: $color-primary;
+          .desc {
+            @include flex(center, unset);
+            gap: 10px;
+            .province {
+              @include flex(center, unset);
+              gap: 8px;
+              color: themed("text2");
+            }
+            .job {
+              color: $color-primary;
+            }
+          }
+        }
+        &__left {
+          .btn__follow {
+            font-size: 1.4rem;
+            color: $color-yellow;
+            border-radius: $border-radius-10;
+            padding: 8px;
+            @include flex(center, center);
+            transition: all 0.3s;
+            background-color: themed("bg1");
+            color: $color-txt-red;
+            &:hover {
+            }
+            i {
+              @include flex(center, center);
+              // color: themed("text2");
+              font-size: 1.2rem;
+              width: 20px;
+              height: 20px;
+            }
           }
         }
       }

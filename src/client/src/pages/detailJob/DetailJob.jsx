@@ -7,7 +7,7 @@ import Modal from "../../components/modal/Modal";
 import ApplyJob from "../../components/applyJob/ApplyJob";
 import Loader from "../../components/loader/Loader";
 import { makeRequest, apiImage } from "../../axios";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { useMode } from "../../context/ModeContext";
 import Breadcrumbs from "../../components/breadcrumbs/Breadcrumbs";
@@ -25,7 +25,8 @@ import {
 } from "react-share";
 
 export default function DetailJob() {
-  const [openModal, setOpenModal] = useState(false);
+  const location = useLocation();
+  const [openModal, setOpenModal] = useState(location?.state?.apply || false);
   const [openModalHidden, setOpenModalHidden] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [userSave, setUserSave] = useState();

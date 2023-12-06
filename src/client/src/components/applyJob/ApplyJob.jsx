@@ -72,7 +72,7 @@ export default function ApplyJob({ job }) {
   return (
     <div className="applyJob">
       <div className="applyJob__header">
-        <h6>{job && job?.nameJob}</h6>
+        <h4>{job && job?.nameJob}</h4>
       </div>
       <div className="applyJob__body">
         <div className="applyJob__body__item">

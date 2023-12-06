@@ -6,12 +6,7 @@ import img from "../../assets/images/avatarCpn.png";
 import { apiImage } from "../../axios";
 import { makeRequest } from "../../axios";
 
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
 
 import { useAuth } from "../../context/authContext";
 
@@ -43,24 +38,17 @@ export default function ItemCompany({ company, className, style }) {
     } catch (error) {}
   };
 
-  const { isLoading: loadingJob, data: dataJob } = useQuery(
-    ["job", company?.id],
-    () => {
-      return getJobQty();
-    }
-  );
+  const { isLoading: loadingJob, data: dataJob } = useQuery(["job", company?.id], () => {
+    return getJobQty();
+  });
 
-  const { isLoading: loadingFollow, data: dataFollow } = useQuery(
-    ["follower", company?.id],
-    () => {
-      return getFollower();
-    }
-  );
+  const { isLoading: loadingFollow, data: dataFollow } = useQuery(["follower", company?.id], () => {
+    return getFollower();
+  });
 
   const mutationFollow = useMutation(
     (following) => {
-      if (following)
-        return makeRequest.delete("/follow?idCompany=" + company?.id);
+      if (following) return makeRequest.delete("/follow?idCompany=" + company?.id);
       return makeRequest.post("/follow?idCompany=" + company?.id);
     },
     {
@@ -81,38 +69,32 @@ export default function ItemCompany({ company, className, style }) {
 
   return (
     company && (
-      <div
-        onClick={(e) => handleClick(e)}
-        className={`itemCompany ${className && className}`}
-      >
+      <div onClick={(e) => handleClick(e)} className={`itemCompany ${className && className}`}>
         <div className="itemCompany__wrapper">
           <div className="itemCompany__wrapper__image">
-            <img
-              src={company?.avatarPic ? apiImage + company?.avatarPic : img}
-              alt=""
-            />
+            <img src={company?.avatarPic ? apiImage + company?.avatarPic : img} alt="" />
           </div>
           <div className="itemCompany__wrapper__body">
-            <h2 className="name">{company?.nameCompany}</h2>
-            <div className="desc">
-              <div className="province">
-                <i className="fa-solid fa-location-dot"></i>
-                <span>{company?.province}</span>
+            <div className="itemCompany__wrapper__body__right">
+              <h2 className="name">{company?.nameCompany}</h2>
+              <div className="desc">
+                <div className="province">
+                  <i className="fa-solid fa-location-dot"></i>
+                  <span>{company?.province}</span>
+                </div>
+                <span className="job">{ jobQty > 99 ? "+99" : jobQty} việc làm</span>
               </div>
-              <span className="job">{jobQty ? jobQty : "0"} việc làm</span>
+            </div>
+            <div className="itemCompany__wrapper__body__left">
+              <button ref={btnRef} className={`btn__follow`} onClick={() => handleSubmitFollow()}>
+                {follower?.includes(currentUser?.id) ? (
+                  <i className="fa-solid fa-heart"></i>
+                ) : (
+                  <i className="fa-regular fa-heart"></i>
+                )}
+              </button>
             </div>
           </div>
-          <button
-            ref={btnRef}
-            className={`btn__follow`}
-            onClick={() => handleSubmitFollow()}
-          >
-            {follower?.includes(currentUser?.id) ? (
-              <i className="fa-solid fa-heart"></i>
-            ) : (
-              <i className="fa-regular fa-heart"></i>
-            )}
-          </button>
         </div>
       </div>
     )

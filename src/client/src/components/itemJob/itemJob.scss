@@ -210,7 +210,9 @@
             transition: all 0.3s;
             background-color: themed("bg1");
             color: $color-txt-red;
+            transition: all 0.3s;
             &:hover {
+              background-color: rgba(themed("bg1"), 0.8);
             }
             i {
               @include flex(center, center);
@@ -218,6 +220,22 @@
               font-size: 1.2rem;
               width: 20px;
               height: 20px;
+            }
+          }
+          .button__apply {
+            font-size: 1.4rem;
+            border-radius: $border-radius-10;
+            padding: 8px;
+            @include flex(center, center);
+            transition: all 0.3s;
+            background-color: $color-primary;
+            transition: all 0.3s;
+            &:hover {
+              background-color: rgba($color-primary, 0.8);
+            }
+            span {
+              color: $color-white;
+              font-size: $font-size-s;
             }
           }
           .button__more {
@@ -231,8 +249,9 @@
               border-radius: $border-radius-10;
               transition: all 0.3s;
               background-color: themed("bg1");
+              transition: all 0.3s;
               &:hover {
-                background-color: themed("bg1");
+                background-color: rgba(themed("bg1"), 0.8);
               }
               i {
                 color: themed("text2");
@@ -280,7 +299,7 @@
                 min-width: 120px;
                 color: themed("text1");
                 &:hover {
-                  background-color: themed('bg1');
+                  background-color: themed("bg1");
                 }
                 i {
                   --size: 24px;

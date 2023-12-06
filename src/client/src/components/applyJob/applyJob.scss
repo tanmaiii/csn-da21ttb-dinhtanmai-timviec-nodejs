@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    @include tablet{
+    @include tablet {
       min-width: 90vw;
     }
     @include mobile {
@@ -19,10 +19,12 @@
     }
 
     &__header {
-      color: $color-primary;
-      font-weight: 600;
-      font-size: $font-size-l;
-      margin-bottom: 10px;
+      h4 {
+        color: $color-primary;
+        font-weight: 600;
+        font-size: $font-size-m;
+        margin-bottom: 10px;
+      }
     }
     &__body {
       display: flex;

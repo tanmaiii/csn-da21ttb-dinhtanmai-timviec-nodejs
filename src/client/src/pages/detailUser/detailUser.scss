@@ -243,6 +243,9 @@
                   text-decoration: underline;
                 }
               }
+              span{
+                color: themed("text2");
+              }
             }
             &__list {
               display: flex;

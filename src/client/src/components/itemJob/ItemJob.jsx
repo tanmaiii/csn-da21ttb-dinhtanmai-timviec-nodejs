@@ -165,12 +165,28 @@ export default function ItemJob({ className, job, onClick }) {
           <div className="itemJob__wrapper__bottom">
             <span className="createdAt">{moment(job?.createdAt).fromNow()}</span>
             <div className="itemJob__wrapper__bottom__button">
-              {job.deletedAt && job?.deletedAt !== null && (
+              {job.deletedAt && job?.deletedAt !== null ? (
                 <div className="job__hide">
                   <i class="fa-regular fa-circle-xmark"></i>
                   <span>Ngừng ứng tuyển</span>
                 </div>
+              ) : (
+                <button
+                  className="button__apply"
+                  onClick={() => navigate(`/viec-lam/${job?.id}`, { state: { apply: true } })}
+                >
+                  <span>Ứng tuyển</span>
+                </button>
               )}
+
+              <button className="button__save" onClick={() => handleSubmitSave()}>
+                {userSave?.includes(currentUser?.id) ? (
+                  <i class="fa-solid fa-heart"></i>
+                ) : (
+                  <i class="fa-regular fa-heart"></i>
+                )}
+              </button>
+
               {job?.idCompany === currentCompany?.id && (
                 <div ref={buttonMoreRef} className="button__more">
                   <button onClick={() => setOpenMore(!openMore)}>
@@ -203,13 +219,6 @@ export default function ItemJob({ className, job, onClick }) {
                   </div>
                 </div>
               )}
-              <button className="button__save" onClick={() => handleSubmitSave()}>
-                {userSave?.includes(currentUser?.id) ? (
-                  <i class="fa-solid fa-heart"></i>
-                ) : (
-                  <i class="fa-regular fa-heart"></i>
-                )}
-              </button>
             </div>
           </div>
         </div>
@@ -246,7 +255,7 @@ export default function ItemJob({ className, job, onClick }) {
           <div className="modal__sure">
             <h2>Bạn có chắc chắn muốn xóa công việc này không ?</h2>
             <span>
-              Khi đã xóa bài tuyển dụng, những người dùng đã ứng tuyển cũng sẽ bị xóa theo.
+              Lưu ý: Khi đã xóa bài tuyển dụng, những người dùng đã ứng tuyển cũng sẽ bị xóa theo.
             </span>
             <div className="modal__sure__footer">
               <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>
