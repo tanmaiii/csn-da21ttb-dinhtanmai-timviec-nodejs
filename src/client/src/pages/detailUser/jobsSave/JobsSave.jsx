@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Pagination from "../../../components/pagination/Pagination";
 import ItemJob from "../../../components/itemJob/ItemJob";
 import { makeRequest } from "../../../axios";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import Loader from "../../../components/loader/Loader";
 import NotFoundData from "../../../components/notFoundData/NotFoundData";
 
@@ -14,6 +14,7 @@ import {
   useQuery,
   useQueryClient,
 } from "react-query";
+import { useAuth } from "../../../context/authContext";
 
 export default function JobsSave() {
   const [jobs, setJobs] = useState();
@@ -22,6 +23,8 @@ export default function JobsSave() {
   const [loading, setLoading] = useState(false);
   const limit = 4;
   const { id } = useParams();
+  const navigate = useNavigate()
+  const {currentUser} = useAuth()
 
   const getJobs = async () => {
     setLoading(true);
@@ -44,6 +47,11 @@ export default function JobsSave() {
     getJobs();
     window.scroll(0, 0);
   }, [paginate]);
+
+  
+  useEffect(() => {
+    if (parseInt(currentUser?.id) !== parseInt(id)) return navigate('/dang-nhap/nguoi-dung');
+  }, []);
 
   return (
     <div className="jobsSave">

@@ -154,7 +154,6 @@ export const forgotPassword = (req, res) => {
         from: `${process.env.MAIL_NAME}`,
         to: `${data[0].email}`,
         subject: "JobQuest || Xác Nhận Tài Khoản và Tạo Mật Khẩu Mới",
-        // text: emailText,
         html: emailHTML,
       };
 

@@ -119,6 +119,38 @@
     @include flex(start, unset);
     flex-direction: column;
     width: 100%;
+    input[type="checkbox"] {
+      appearance: none;
+      --webkit-appearance: none;
+      height: 22px;
+      width: 22px;
+      background-color: themed("bg2");
+      border-radius: 5px;
+      border: 2px solid themed("border");
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      &:hover {
+        border-color: $color-primary;
+      }
+      &::after {
+        font-family: "Font Awesome 6 Free";
+        content: "\f00c";
+        font-size: 20px;
+        color: $color-white;
+        font-weight: 999;
+        display: none;
+      }
+      &:checked {
+        border-color: $color-primary;
+        background-color: $color-primary;
+        &::after {
+          display: block;
+        }
+      }
+    }
     &__address {
       margin-top: 10px;
       width: 100%;
@@ -205,19 +237,19 @@
         width: 100%;
         overflow: auto;
         padding: 10px 0;
-
         &__item {
           width: 100%;
           @include flex(center, unset);
           gap: 10px;
           padding: 8px 0;
           cursor: pointer;
-          input {
-            --size: 20px;
-            width: var(--size);
-            height: var(--size);
-          }
-          span {
+          // input {
+          //   --size: 20px;
+          //   width: var(--size);
+          //   height: var(--size);
+          // }
+
+          label {
             font-size: $font-size-s;
             color: themed("text1");
             font-weight: 400;

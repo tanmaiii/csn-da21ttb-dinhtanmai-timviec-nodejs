@@ -3,12 +3,13 @@ import "./appliedJobs.scss";
 import { makeRequest, apiImage } from "../../../axios";
 import Pagination from "../../../components/pagination/Pagination";
 import img from "../../../assets/images/avatarCpn.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { status } from "../../../config/data.js";
 import NotFoundData from "../../../components/notFoundData/NotFoundData";
 import Loader from "../../../components/loader/Loader";
 import { useQuery } from "react-query";
+import { useAuth } from "../../../context/authContext.js";
 
 export default function AppliedJobs() {
   const [jobs, setJobs] = useState();
@@ -16,13 +17,14 @@ export default function AppliedJobs() {
   const [totalPage, setTotalPage] = useState();
   const limit = 3;
   const [loading, setLoading] = useState(false);
+  const { currentUser } = useAuth();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const getJobs = async () => {
     setLoading(true);
     try {
-      const res = await makeRequest.get(
-        `/apply?limit=${limit}&page=${paginate}`
-      );
+      const res = await makeRequest.get(`/apply?limit=${limit}&page=${paginate}`);
       setJobs(res.data.data);
       setTotalPage(res.data.pagination.totalPage);
       setLoading(false);
@@ -34,6 +36,10 @@ export default function AppliedJobs() {
     getJobs();
     window.scroll(0, 0);
   }, [paginate]);
+
+  useEffect(() => {
+    if (parseInt(currentUser?.id) !== parseInt(id)) return navigate('/dang-nhap/nguoi-dung');
+  }, []);
 
   return (
     <div className="appliedJobs">
@@ -74,10 +80,7 @@ function AppliedItem({ job, i }) {
       <div className="col pc-9 t-9 m-12">
         <div className="appliedJobs__wrapper__item__left ">
           <div className="appliedJobs__wrapper__item__left__header">
-            <img
-              src={job?.avatarPic ? apiImage + job?.avatarPic : img}
-              alt=""
-            />
+            <img src={job?.avatarPic ? apiImage + job?.avatarPic : img} alt="" />
             <div className="text">
               <Link to={`/viec-lam/${job?.idJob}`}>
                 <h4 className="nameJob">{job?.nameJob}</h4>

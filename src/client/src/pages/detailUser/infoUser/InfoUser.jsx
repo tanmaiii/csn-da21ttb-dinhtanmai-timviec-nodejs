@@ -6,7 +6,7 @@ import { useAuth } from "../../../context/authContext";
 import { useParams } from "react-router-dom";
 import { makeRequest } from "../../../axios";
 import moment from "moment";
-
+import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function InfoUser() {
@@ -14,6 +14,8 @@ export default function InfoUser() {
   const [user, setUser] = useState();
   const [provinces, setProvinces] = useState();
   const [edit, setEdit] = useState();
+  const { id } = useParams();
+  const navigate = useNavigate()
 
   const [inputs, setInputs] = useState({
     name: "",
@@ -39,6 +41,10 @@ export default function InfoUser() {
       }
     };
     getProvinces();
+  }, []);
+
+  useEffect(() => {
+    if (parseInt(currentUser?.id) !== parseInt(id)) return navigate('/dang-nhap/nguoi-dung');
   }, []);
 
   const { isLoading, error, data } = useQuery(["user"], async () => {

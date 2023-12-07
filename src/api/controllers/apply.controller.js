@@ -3,6 +3,8 @@ import { db } from "../config/connect.js";
 import moment from "moment";
 import checkUrl from "../middlewares/checkUrl.middleware.js";
 import checkEmail from "../middlewares/checkEmail.middleware.js";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 
 export const getJobApply = (req, res) => {
   const token = req.cookies.accessToken;
@@ -249,6 +251,68 @@ export const updateStatusUser = (req, res) => {
       if (!err) return res.status(200).json(data);
       if (data?.affectedRows > 0) return res.json("Update");
       return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+    });
+
+    const q2 = "SELECT * FROM job.apply_job as a WHERE a.id = ?";
+
+    db.query(q2, req.query.id, (err, data) => {
+      console.log(data);
+      if (err) return res.status(401).json("Lỗi !");
+
+      const url = `http://localhost:3000/nguoi-dung/${data[0]?.idUser}/apply`;
+
+      var transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: `${process.env.MAIL_NAME}`,
+          pass: `${process.env.MAIL_PASSWORD}`,
+        },
+      });
+
+      const emailHTML = `<!DOCTYPE html>
+      <html lang="en">
+      
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Thông báo: Trạng thái Đơn Ứng Tuyển của Bạn đã Thay Đổi</title>
+      </head>
+      
+      <body>
+      
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
+              <h2>Thông báo: Trạng thái Đơn Ứng Tuyển của Bạn đã Thay Đổi</h2>
+              <p>Chào ${data[0].name},</p>
+              <p>Chúng tôi hy vọng bạn đang có một ngày tốt lành. Chúng tôi xin gửi đến bạn một thông báo quan trọng liên quan đến đơn ứng tuyển mà bạn đã nộp trên trang web của chúng tôi.</p>
+              <p>Chúng tôi muốn thông báo rằng trạng thái của đơn ứng tuyển của bạn đã trải qua một thay đổi gần đây từ phía nhà tuyển dụng. Xin lưu ý rằng các thay đổi này có thể bao gồm việc xem xét đơn, thay đổi trạng thái, hoặc các bước tiếp theo trong quá trình tuyển dụng.</p>
+              <p>Để biết thông tin chi tiết hơn về trạng thái hiện tại của đơn ứng tuyển của bạn, vui lòng đăng nhập vào tài khoản của bạn trên trang web của chúng tôi và kiểm tra mục  <a href="${url}">"Ứng tuyển"</a> . Nếu có bất kỳ câu hỏi hoặc thắc mắc nào, đừng ngần ngại liên hệ với chúng tôi qua địa chỉ email này.</p>
+              <p>Chúng tôi chân thành cảm ơn sự quan tâm và tham gia của bạn trong quá trình tuyển dụng này. Chúng tôi hy vọng bạn sẽ tiếp tục theo dõi thông báo và cập nhật từ chúng tôi.</p>
+              <p>Trân trọng,<br>
+                  JobQuest<br>
+                  <a href="mailto:jobquestofficial@gmail.com">jobquestofficial@gmail.com</a> 
+              </p>
+          </div>
+      
+      </body>
+      
+      </html>
+      `;
+
+      var mailOptions = {
+        from: `${process.env.MAIL_NAME}`,
+        to: `${data[0].email}`,
+        subject: "JobQuest || Đơn ứng tuyển",
+        text: "",
+        html: emailHTML,
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          return res.send({ Status: "Success" });
+        }
+      });
     });
   });
 };

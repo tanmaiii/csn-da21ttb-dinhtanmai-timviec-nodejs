@@ -71,10 +71,7 @@ export default function Company() {
             <h4>Nhà tuyển dụng hàng đầu</h4>
             <div>
               <SearchCompany />
-              <button
-                className="button-filter"
-                onClick={() => setFilterMobile(!filterMobile)}
-              >
+              <button className="button-filter" onClick={() => setFilterMobile(!filterMobile)}>
                 <i class="fa-solid fa-filter"></i>
               </button>
             </div>
@@ -92,11 +89,7 @@ export default function Company() {
                     <NotFoundData />
                   ) : (
                     companies?.map((company, i) => (
-                      <ItemCompany
-                        company={company}
-                        key={i}
-                        className={"col pc-4 t-6 m-12"}
-                      />
+                      <ItemCompany company={company} key={i} className={"col pc-4 t-6 m-12"} />
                     ))
                   )}
                 </AnimatePresence>
@@ -112,10 +105,7 @@ export default function Company() {
         </div>
       </div>
       <div className={`company__modal__filter ${filterMobile && "active"}`}>
-        <button
-          className="button__close__filter"
-          onClick={() => setFilterMobile(false)}
-        >
+        <button className="button__close__filter" onClick={() => setFilterMobile(false)}>
           <i class="fa-solid fa-xmark"></i>
         </button>
         <FilterCompany />
@@ -226,26 +216,22 @@ function FilterCompany() {
         <div className="company__wrapper__main__filter__address__header">
           <h6>Địa chỉ</h6>
           {filterProvince.length > 0 && (
-            <button onClick={() => setFilterProvince([])}>
-              Xóa lọc ({filterProvince.length})
-            </button>
+            <button onClick={() => setFilterProvince([])}>Xóa lọc ({filterProvince.length})</button>
           )}
         </div>
         <div className="company__wrapper__main__filter__address__list">
           {provinces
             ?.sort((a, b) => a?.name?.localeCompare(b?.name))
             ?.map((item, i) => (
-              <label
-                key={i}
-                className="company__wrapper__main__filter__address__list__item"
-              >
+              <div key={i} className="company__wrapper__main__filter__address__list__item">
                 <input
+                  id={`filterProvince-${item?.name}`}
                   checked={filterProvince.includes(item?.name)}
                   type="checkbox"
                   onChange={() => handleClickProvice(item?.name)}
                 />
-                <span>{item?.name}</span>
-              </label>
+                <label htmlFor={`filterProvince-${item?.name}`}>{item?.name}</label>
+              </div>
             ))}
         </div>
       </div>
@@ -253,17 +239,12 @@ function FilterCompany() {
         <div className="company__wrapper__main__filter__scale__header">
           <h6>Quy mô</h6>
           {filterScale.length > 0 && (
-            <button onClick={() => setFilterScale([])}>
-              Xóa lọc ({filterScale.length})
-            </button>
+            <button onClick={() => setFilterScale([])}>Xóa lọc ({filterScale.length})</button>
           )}
         </div>
         <div className="company__wrapper__main__filter__scale__list">
           {scale.map((item, i) => (
-            <label
-              key={i}
-              className="company__wrapper__main__filter__scale__list__item"
-            >
+            <label key={i} className="company__wrapper__main__filter__scale__list__item">
               <input
                 checked={filterScale.includes(item?.name)}
                 type="checkbox"
