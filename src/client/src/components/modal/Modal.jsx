@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./modal.scss";
 
 export default function Modal({ children, title, openModal, setOpenModal }) {
-  const modalBodyRef = useState(false);
+  const modalBodyRef = useRef();
 
   useEffect(() => {
     if (openModal === true) {

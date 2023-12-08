@@ -44,7 +44,7 @@ export default function CompaniesSave() {
 
   useEffect(() => {
     getCompanies();
-    window.scroll(0, 0);
+   // window.scroll(0, 0);
   }, [paginate]);
 
   return (

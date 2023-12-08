@@ -34,7 +34,7 @@ export default function AppliedJobs() {
 
   useEffect(() => {
     getJobs();
-    window.scroll(0, 0);
+   // window.scroll(0, 0);
   }, [paginate]);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./modalCropImage.scss";
 import Cropper from "react-easy-crop";
 import { makeRequest } from "../../axios";
@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 //import img from "../../assets/images/logoJobQuest.png";
 
-const CROP_AREA_ASPECT = 2 / 2;
+//const CROP_AREA_ASPECT = 2 / 2;
 
 const dogImg =
   "https://img.huffingtonpost.com/asset/5ab4d4ac2000007d06eb2c56.jpeg?cache=sih0jwle4e&ops=1910_1000";
@@ -25,6 +25,7 @@ export default function ModalCropImage({ openModal, setOpenModal }) {
   const { currentCompany, currentUser } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const modalCropImageRef = useRef();
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -80,9 +81,28 @@ export default function ModalCropImage({ openModal, setOpenModal }) {
     setOpenModal(false);
   };
 
+  useEffect(() => {
+    const handleMousedown = (e) => {
+      if (!modalCropImageRef.current.contains(e.target)) {
+        setOpenModal(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => document.removeEventListener("mousedown", handleMousedown);
+  });
+
+  useEffect(() => {
+    if (openModal === true) {
+      document.body.style.overflow = "hidden";
+    }
+    if (openModal === false) {
+      document.body.style.overflow = "unset";
+    }
+  }, [openModal]);
+
   return (
     <div className={`modalCropImage ${openModal ? "active" : ""}`}>
-      <div className="modalCropImage__wrapper">
+      <div ref={modalCropImageRef} className="modalCropImage__wrapper">
         <div className="modalCropImage__wrapper__header">
           <h2>Thay đổi ảnh đại diện</h2>
           <button onClick={() => handleClickCancel()}>
@@ -94,9 +114,10 @@ export default function ModalCropImage({ openModal, setOpenModal }) {
             {img ? (
               <Cropper
                 image={img}
-                aspect={CROP_AREA_ASPECT}
+                aspect={1}
                 crop={crop}
                 zoom={zoom}
+                cropShape="round"
                 rotation={rotation}
                 onCropChange={setCrop}
                 onZoomChange={setZoom}

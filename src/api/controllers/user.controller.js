@@ -9,7 +9,9 @@ dotenv.config();
 
 export const getUser = (req, res) => {
   const id = req.params.id;
-  const q = "SELECT id, name, phone, avatarPic, birthDay, intro, linkCv FROM users WHERE id=?";
+  const q =
+    `SELECT u.id, u.name, u.email, u.phone, u.avatarPic, u.birthDay, u.intro, u.linkCv, p.name as province FROM job.users as u 
+    LEFT JOIN job.provinces as p ON u.idProvince = p.id WHERE u.id = ?`;
 
   if (id) {
     db.query(q, id, (err, data) => {

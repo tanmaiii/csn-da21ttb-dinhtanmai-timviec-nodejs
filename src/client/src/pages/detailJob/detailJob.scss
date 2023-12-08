@@ -47,6 +47,7 @@
                 transition: all 0.3s;
                 opacity: 0.8;
               }
+
               &::before {
                 --translate-y: calc(-100% - var(--arrow-size));
                 background-color: $color-black;
@@ -59,6 +60,7 @@
                 width: max-content;
                 max-width: 64px;
               }
+              
               &::after {
                 --translate-y: calc(-1 * var(--arrow-size));
                 content: "";
@@ -71,7 +73,7 @@
         }
       }
       .detailJob__wrapper {
-        padding: $spacing 0;
+        // padding: $spacing 0;
         flex-wrap: wrap;
 
         &__main {

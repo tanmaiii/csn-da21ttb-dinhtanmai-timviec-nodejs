@@ -12,134 +12,172 @@
         gap: 18px;
         &__header {
           background-color: themed("bg2");
-          padding: 30px;
+          // padding: 30px;
           border-radius: $border-radius-20;
-          @include flex(end, space-between);
+          // @include flex(end, space-between);
           width: 100%;
           @include mobile {
             flex-direction: column;
             gap: 20px;
             align-items: center;
           }
+          &__bg {
+            width: 100%;
+            height: 260px;
+            border-radius: $border-radius-20;
+            overflow: hidden;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
           &__main {
-            @include flex(end, unset);
+            @include flex(start, space-between);
             gap: 20px;
+            padding: 20px;
             @include mobile {
               flex-direction: column;
             }
             @include mobile {
               @include flex(center, unset);
             }
-            &__image {
-              --size: 200px;
-              width: var(--size);
-              height: var(--size);
-              overflow: hidden;
-              border-radius: $border-radius-10;
-              @include flex(center, center);
-              border: 1px solid themed("border");
-              box-shadow: themed("box-shadow");
-              position: relative;
-              img {
-                width: 100%;
-                height: auto;
-                object-fit: contain;
-              }
-              &:hover {
-                .detailCompany__wrapper__header__main__image__edit {
-                  display: flex;
-                }
-              }
-              &__edit {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba($color: #000000, $alpha: 0.2);
-                @include flex(center, center);
-                transition: all 0.3s;
-                cursor: pointer;
-                display: none;
-                i {
-                  font-size: 3rem;
-                  color: $color-white;
-                }
-                input {
-                  display: none;
-                }
-              }
-            }
-            &__text {
-              @include flex(unset, unset);
-              flex-direction: column;
-              gap: 8px;
-              padding: 10px 0;
+            &__left {
+              @include flex(center, unset);
+              gap: 10px;
               @include mobile {
                 align-items: center;
+                flex-direction: column;
               }
-              & > div {
-                @include flex(center, unset);
-                gap: 8px;
-                i {
-                  --size: 20px;
+              &__image {
+                --size: 200px;
+                width: var(--size);
+                height: var(--size);
+                @include flex(center, center);
+                position: relative;
+                margin-top: -100px;
+                border-radius: 50%;
+                @include mobile {
+                }
+                img {
+                  border: 4px solid themed('bg2');
+                  border-radius: 50%;
+                  overflow: hidden;
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  cursor: pointer;
+                }
+                &:hover &__edit {
+                  display: flex;
+                }
+                &__edit {
+                  position: absolute;
+                  right: 14px;
+                  bottom: 14px;
+                  background-color: themed("bg1");
+                  @include flex(center, center);
+                  transition: all 0.3s;
+                  cursor: pointer;
+                  --size: 36px;
                   width: var(--size);
                   height: var(--size);
-                  color: themed("text2");
-                  font-size: $font-size-s;
-                  @include flex(center, center);
-                }
-                span {
-                  font-size: $font-size-s;
-                  color: themed("text2");
-                  font-weight: 400;
-                }
-                a {
-                  color: $color-txt-blue;
-                  &:hover {
-                    text-decoration: underline;
+                  border-radius: 50%;
+                  i {
+                    font-size: 1.2rem;
+                    color: themed("text2");
+                  }
+                  input {
+                    display: none;
                   }
                 }
               }
-              &__name {
-                font-size: $font-size-l;
+              &__text {
+                @include flex(unset, unset);
+                flex-direction: column;
+                gap: 8px;
+                @include mobile {
+                  align-items: center;
+                }
+                &>.tag{
+                  font-size: $font-size-s;
+                  color: themed('text2');
+                }
+                & > .name-company {
+                  font-size: $font-size-l;
+                  color: themed("text1");
+                  font-weight: 500;
+                }
+                & > .desc-company {
+                  @include flex(center, unset);
+                  gap: 20px;
+                  flex-wrap: wrap;
+                  @include mobile {
+                    flex-direction: column;
+                  }
+                  & > div {
+                    @include flex(center, unset);
+                    gap: 4px;
+                    i {
+                      --size: 20px;
+                      width: var(--size);
+                      height: var(--size);
+                      color: themed("text2");
+                      font-size: $font-size-s;
+                      @include flex(center, center);
+                    }
+                    span {
+                      font-size: $font-size-s;
+                      color: themed("text2");
+                      font-weight: 400;
+                    }
+                    a {
+                      color: $color-txt-blue;
+                      &:hover {
+                        text-decoration: underline;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            & > .button__edit {
+              @include flex(center, unset);
+              flex-direction: column;
+              gap: 10px;
+              span {
+                font-size: $font-size-s;
                 color: themed("text1");
                 font-weight: 500;
               }
-            }
-          }
-          &__button {
-            @include flex(center, unset);
-            flex-direction: column;
-            gap: 10px;
-            span {
-              font-size: $font-size-s;
-              color: themed("text1");
-              font-weight: 500;
-            }
-            button {
-              @include button($color-white, $color-primary);
-            }
-          }
-          &__button__follow {
-            .btn-follow {
-              @include button($color-white, $color-primary);
-            }
-            .btn-unFollow {
-              @include button(themed("text1"), themed("bg1"));
-              width: 132px;
-              &:hover span {
-                display: none;
+              button {
+                @include button($color-white, $color-primary);
               }
-              &:hover::before {
-                content: "Bỏ theo dõi";
-                display: inline;
+            }
+            & > .button__follow {
+              .btn-follow {
+                @include button($color-white, $color-primary);
+              }
+              .btn-unFollow {
+                @include button(themed("text1"), themed("bg1"));
+                width: 132px;
+                &:hover {
+                  @include button(rgba(244, 33, 46), $color-red);
+                }
+                &:hover span {
+                  display: none;
+                }
+                &:hover::before {
+                  content: "Bỏ theo dõi";
+                  display: inline;
+                }
               }
             }
           }
         }
         &__body {
-          display: flex;
+          @include flex(unset, unset);
+          flex-wrap: wrap-reverse;
           &__left {
             &__control {
               @include flex(center, unset);
@@ -250,6 +288,12 @@
             border-radius: $border-radius-10;
             padding: 20px;
             overflow: hidden;
+            position: sticky;
+            top: $height-header;
+            right: 0;
+            @include mobile{
+              position: unset;
+            }
             h6 {
               font-size: $font-size-s;
               color: themed("text1");
@@ -257,19 +301,23 @@
               width: 100%;
               padding: 6px 0;
             }
-            &__web {
-              margin-bottom: 20px;
+            & > div {
+              @include flex(center, unset);
+              gap: 8px;
+              color: themed("text2");
+              i {
+                --size: 14px;
+                width: var(--size);
+                height: var(--size);
+                @include flex(center, center);
+                font-size: 1.1rem;
+              }
               a {
-                color: $color-txt-blue;
                 font-size: $font-size-s;
+                color: $color-txt-blue;
                 &:hover {
                   text-decoration: underline;
                 }
-              }
-              span {
-                font-size: $font-size-s;
-                font-weight: 400;
-                color: themed("text2");
               }
             }
             &__list {

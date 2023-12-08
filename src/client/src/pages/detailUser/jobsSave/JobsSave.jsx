@@ -2,18 +2,13 @@ import React, { useState, useEffect } from "react";
 import Pagination from "../../../components/pagination/Pagination";
 import ItemJob from "../../../components/itemJob/ItemJob";
 import { makeRequest } from "../../../axios";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../../../components/loader/Loader";
 import NotFoundData from "../../../components/notFoundData/NotFoundData";
 
 import "./jobsSave.scss";
 
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
 import { useAuth } from "../../../context/authContext";
 
 export default function JobsSave() {
@@ -23,15 +18,13 @@ export default function JobsSave() {
   const [loading, setLoading] = useState(false);
   const limit = 4;
   const { id } = useParams();
-  const navigate = useNavigate()
-  const {currentUser} = useAuth()
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   const getJobs = async () => {
     setLoading(true);
     try {
-      const res = await makeRequest.get(
-        `/save?idUser=${id}&limit=${limit}&page=${paginate}`
-      );
+      const res = await makeRequest.get(`/save?idUser=${id}&limit=${limit}&page=${paginate}`);
       setJobs(res.data.data);
       setTotalPage(res.data.pagination.totalPage);
       setLoading(false);
@@ -45,12 +38,11 @@ export default function JobsSave() {
 
   useEffect(() => {
     getJobs();
-    window.scroll(0, 0);
+    // window.scroll(0, 0);
   }, [paginate]);
 
-  
   useEffect(() => {
-    if (parseInt(currentUser?.id) !== parseInt(id)) return navigate('/dang-nhap/nguoi-dung');
+    if (parseInt(currentUser?.id) !== parseInt(id)) return navigate("/dang-nhap/nguoi-dung");
   }, []);
 
   return (
@@ -59,9 +51,7 @@ export default function JobsSave() {
         {loading ? (
           <Loader />
         ) : jobs?.length > 0 ? (
-          jobs?.map((job, i) => (
-            <ItemJob key={i} job={job} className={"col pc-6 m-12 t-12"} />
-          ))
+          jobs?.map((job, i) => <ItemJob key={i} job={job} className={"col pc-6 m-12 t-12"} />)
         ) : (
           <NotFoundData />
         )}

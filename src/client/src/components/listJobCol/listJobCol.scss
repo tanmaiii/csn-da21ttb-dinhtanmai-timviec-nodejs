@@ -3,7 +3,11 @@
 .listJobCol {
   @include themify($themes) {
     &__wrapper {
+      background-color: themed("bg2");
+      border-radius: $border-radius-10;
+      padding: 20px;
       &__header {
+        margin-bottom: 10px;
         h4 {
           font-size: $font-size-m;
           color: themed("text1");
@@ -11,56 +15,140 @@
         }
       }
       &__body {
-        &__item {
-          &__box {
-            background-color: themed("bg2");
-            border-radius: $border-radius-10;
-            padding: 10px;
-            cursor: pointer;
-            & > *{
-                margin-bottom: 10px;
-            }
-            .name__job {
-              font-size: $font-size-s;
-              font-weight: 600;
-              color: themed("text1");
-              @include text(1);
-            }
-            .name_company {
-              font-size: $font-size-s;
-              font-weight: 400;
-              color: themed("text2");
-            }
-            .wage {
-              background-color: themed("bg1");
-              padding: 6px 10px;
-              border-radius: $border-radius-10;
-              width: max-content;
-              @include flex(center, unset);
-              gap: 8px;
-              i {
-                font-size: $font-size-s;
-                color: themed("text2");
+        @include flex(unset, unset);
+        flex-direction: column;
+        gap: 10px;
+      }
+      &__bottom {
+      }
+    }
+  }
+}
+
+.col__itemJob {
+  @include themify($themes) {
+    &__wrapper {
+      border: 1px solid themed("border");
+      padding: 8px;
+      border-radius: $border-radius-10;
+      @include flex(start, unset);
+      gap: 10px;
+      flex-direction: column;
+      & > .header {
+        @include flex(center, unset);
+        gap: 8px;
+
+        img {
+          --size: 50px;
+          min-width: 50px;
+          min-height: 50px;
+          height: 50px;
+          width: 50px;
+          border-radius: 50%;
+          border: 1.8px solid $color-primary;
+          object-fit: cover;
+        }
+        & > .text {
+          .nameJob {
+            font-size: $font-size-s;
+            color: themed("text1");
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            @include text(1);
+
+            &:hover {
+              color: themed("primary");
+              &::after,
+              &::before {
+                --scale: 1;
               }
-              span {
-                @include text(1);
-                color: themed("text2");
-                font-size: $font-size-s;
-                font-weight: 500;
-              }
             }
-            .workingForm {
-              background-color: themed("bg1");
-              padding: 6px 10px;
+
+            &::after,
+            &::before {
+              --arrow-size: 6px;
+              --scale: 0;
+              position: absolute;
+              left: 50%;
+              transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+              transform-origin: bottom center;
+              transition: all 0.3s;
+              opacity: 0.8;
+            }
+
+            &::before {
+              --translate-y: calc(-100% - var(--arrow-size));
+              background-color: $color-black;
+              content: attr(data-tooltip);
+              color: $color-white;
+              font-size: 12px;
+              padding: 8px;
               border-radius: $border-radius-10;
-              color: themed("text2");
-              font-weight: 500;
+              text-align: center;
               width: max-content;
+              max-width: 100%;
+            }
+
+            &::after {
+              --translate-y: calc(-1 * var(--arrow-size));
+              content: "";
+              transform-origin: top center;
+              border: var(--arrow-size) solid transparent;
+              border-top-color: $color-black;
+            }
+          }
+          .nameCompany {
+            font-size: $font-size-xs;
+            font-weight: 400;
+            color: themed("text2");
+            transition: all 0.3s;
+            &:hover {
+              color: themed("primary");
             }
           }
         }
       }
-      &__bottom {
+      & > .bottom {
+        @include flex(center, space-between);
+        gap: 8px;
+        width: 100%;
+        & > .left {
+          @include flex(center, unset);
+          flex-wrap: wrap;
+          gap: 8px;
+          & > div {
+            background-color: themed("bg1");
+            width: max-content;
+            padding: 8px;
+            border-radius: $border-radius-10;
+            font-size: $font-size-xs;
+            color: themed("text2");
+            @include flex(center, unset);
+            gap: 6px;
+          }
+        }
+        .button__save {
+          font-size: 1.4rem;
+          color: $color-yellow;
+          border-radius: $border-radius-10;
+          padding: 8px;
+          @include flex(center, center);
+          transition: all 0.3s;
+          background-color: themed("bg1");
+          color: $color-txt-red;
+          transition: all 0.3s;
+          &:hover {
+            background-color: rgba(themed("bg1"), 0.8);
+          }
+          i {
+            @include flex(center, center);
+            // color: themed("text2");
+            font-size: 1.2rem;
+            width: 20px;
+            height: 20px;
+          }
+        }
       }
     }
   }

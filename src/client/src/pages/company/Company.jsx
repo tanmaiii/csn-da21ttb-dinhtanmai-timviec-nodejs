@@ -244,14 +244,15 @@ function FilterCompany() {
         </div>
         <div className="company__wrapper__main__filter__scale__list">
           {scale.map((item, i) => (
-            <label key={i} className="company__wrapper__main__filter__scale__list__item">
+            <div key={i} className="company__wrapper__main__filter__scale__list__item">
               <input
+                id={`filterScale-${item?.name}`}
                 checked={filterScale.includes(item?.name)}
                 type="checkbox"
                 onChange={() => handleClickScale(item?.name)}
               />
-              <span>{item?.name}</span>
-            </label>
+              <label htmlFor={`filterScale-${item?.name}`}>{item?.name}</label>
+            </div>
           ))}
         </div>
       </div>

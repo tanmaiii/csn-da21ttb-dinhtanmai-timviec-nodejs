@@ -12,16 +12,34 @@ export default function ApplyJob({ job }) {
   const [loading, setLoading] = useState(false);
   const [userApply, setUserApply] = useState();
   const [letter, setLetter] = useState();
+
   const [inputs, setInputs] = useState({
     idJob: "",
-    name: currentUser?.name,
-    email: currentUser?.email,
-    phone: currentUser?.phone,
+    name: "",
+    email: "",
+    phone: "",
     letter: "",
-    linkCv: currentUser?.linkCv,
+    linkCv: "",
   });
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const getUser = async () => {
+    try {
+      const res = await makeRequest.get("/user/find/" + currentUser?.id);
+      setInputs({
+        name: res?.data?.name,
+        email: res?.data?.email,
+        phone: res?.data?.phone,
+        linkCv: res?.data?.linkCv,
+      });
+    } catch (error) {}
+  };
+
+  const {} = useQuery(["user"], () => {
+    return getUser();
+  });
 
   const handleChange = (e) => {
     e.preventDefault();

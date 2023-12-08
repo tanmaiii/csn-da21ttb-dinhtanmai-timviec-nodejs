@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import "./detailUser.scss";
 import avatar from "../../assets/images/avatar.png";
-
+import bg from "../../assets/images/gradient1.jpg";
 import Loader from "../../components/loader/Loader";
 import NotFound from "../notFound/NotFound";
 import InfoUser from "./infoUser/InfoUser";
@@ -28,12 +28,13 @@ import moment from "moment";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function DetailUser() {
-  let [searchParams, setSearchParams] = useSearchParams();
   const [openControlMb, setOpenControlMb] = useState(false);
+  const [openModalEditAvatar, setOpenModalEditAvatar] = useState(false);
   const [openModalAvatar, setOpenModalAvatar] = useState(false);
   const [user, setUser] = useState();
   const [err, setErr] = useState();
   const controlMbRef = useRef();
+  const modalAvatarRef = useRef();
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState();
   const queryClient = useQueryClient();
@@ -83,11 +84,31 @@ export default function DetailUser() {
 
   useEffect(() => {
     setOpenControlMb(false);
-    window.scroll(0, 0);
   }, [controlPathname]);
 
+  useEffect(() => {
+    const handleMousedown = (e) => {
+      if (!modalAvatarRef.current.contains(e.target)) {
+        setOpenModalAvatar(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => document.removeEventListener("mousedown", handleMousedown);
+  });
+
+  useEffect(() => {
+    if (openModalAvatar === true) {
+      document.body.style.overflow = "hidden";
+    }
+    if (openModalAvatar === false) {
+      document.body.style.overflow = "unset";
+    }
+  }, [openModalAvatar]);
+
+  console.log(user);
+
   return (
-    <>
+    <div>
       {loading && <Loader />}
       {err && <NotFound />}
       {user && (
@@ -95,37 +116,49 @@ export default function DetailUser() {
           <div className="container">
             <div className="detailUser__wrapper">
               <div className="detailUser__wrapper__header">
-                <div className="detailUser__wrapper__header__main">
-                  <div className="detailUser__wrapper__header__main__image">
-                    <img src={user?.avatarPic ? apiImage + user?.avatarPic : avatar} alt="" />
-                    {user?.id === currentUser?.id && (
-                      <button
-                        className="detailUser__wrapper__header__main__image__edit"
-                        onClick={() => setOpenModalAvatar(true)}
-                      >
-                        <i className="fa-solid fa-upload"></i>
-                      </button>
-                    )}
-                  </div>
-                  <div className="detailUser__wrapper__header__main__text">
-                    <h4 className="detailUser__wrapper__header__main__text__name">{user?.name}</h4>
-                    <div className="detailUser__wrapper__header__main__text__date">
-                      <i className="fa-solid fa-calendar-days"></i>
-                      <span>
-                        {user?.birthDay
-                          ? moment(user?.birthDay).format("DD/MM/YYYY")
-                          : "00/00/0000"}
-                      </span>
-                    </div>
-                  </div>
+                <div className="detailUser__wrapper__header__bg">
+                  <img src={bg} alt="" />
                 </div>
-                {user?.id === currentUser?.id && (
-                  <Link to={`/nguoi-dung/${currentUser?.id}/info`}>
-                    <div className="detailUser__wrapper__header__button">
-                      <button>Chỉnh sửa</button>
+                <div className="detailUser__wrapper__header__main">
+                  <div className="detailUser__wrapper__header__main__left">
+                    <div className="detailUser__wrapper__header__main__left__image">
+                      <img
+                        onClick={() => setOpenModalAvatar(true)}
+                        src={user?.avatarPic ? apiImage + user?.avatarPic : avatar}
+                        alt=""
+                      />
+                      {user?.id === currentUser?.id && (
+                        <button
+                          className="detailUser__wrapper__header__main__left__image__edit"
+                          onClick={() => setOpenModalEditAvatar(true)}
+                        >
+                          <i className="fa-solid fa-camera"></i>
+                        </button>
+                      )}
                     </div>
-                  </Link>
-                )}
+                    <div className="detailUser__wrapper__header__main__left__text">
+                      <span className="tag">Người dùng</span>
+                      <h4 className="name">
+                        {user?.name}
+                      </h4>
+                      <div className="date">
+                        <i className="fa-solid fa-calendar-days"></i>
+                        <span>
+                          {user?.birthDay
+                            ? moment(user?.birthDay).format("DD/MM/YYYY")
+                            : "00/00/0000"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  {user?.id === currentUser?.id && (
+                    <Link to={`/nguoi-dung/${currentUser?.id}/info`}>
+                      <div className="detailUser__wrapper__header__main__button">
+                        <button>Chỉnh sửa</button>
+                      </div>
+                    </Link>
+                  )}
+                </div>
               </div>
               <div className="detailUser__wrapper__body row">
                 <div className=" col pc-9 t-9 m-12">
@@ -171,7 +204,6 @@ export default function DetailUser() {
                     <div className="detailUser__wrapper__body__left__control-mobile">
                       <Link
                         to={`/nguoi-dung/${id}/`}
-                        onClick={() => setSearchParams()}
                         className={`${controlPathname === id && "active"}`}
                       >
                         <span>Giới thiệu</span>
@@ -230,27 +262,28 @@ export default function DetailUser() {
                     </div>
                   </div>
                 </div>
-                <div className="col pc-3 t-3 m-0">
+                <div className="col pc-3 t-3 m-12">
                   <div className="detailUser__wrapper__body__right">
-                    <h6>CV</h6>
-                    <div className="detailUser__wrapper__body__right__cv">
+                    <h4>Thông tin</h4>
+                    <div className="cv">
+                      <i className="fa-solid fa-globe"></i>
                       {user?.linkCv ? (
                         <a href={user?.linkCv}>{user?.linkCv}</a>
                       ) : (
                         <span>Không có</span>
                       )}
                     </div>
-                    <h6>Theo dõi</h6>
-                    <div className="detailUser__wrapper__body__right__list">
-                      <a href="">
-                        <i className="fa-brands fa-facebook"></i>
-                      </a>
-                      <a href="">
-                        <i className="fa-solid fa-envelope"></i>
-                      </a>
-                      <a href="">
-                        <i className="fa-brands fa-twitter"></i>
-                      </a>
+                    <div className="mail">
+                      <i className="fa-regular fa-envelope"></i>
+                      <a href={`mailto:${user?.email}`}>{user?.email}</a>
+                    </div>
+                    <div className="province">
+                      <i className="fa-solid fa-location-dot"></i>
+                      {user?.province ? (
+                        <span href="">{user?.province}</span>
+                      ) : (
+                        <span>Không có</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -259,7 +292,15 @@ export default function DetailUser() {
           </div>
         </div>
       )}
-      <ModalCropImage openModal={openModalAvatar} setOpenModal={setOpenModalAvatar} />
-    </>
+      <ModalCropImage openModal={openModalEditAvatar} setOpenModal={setOpenModalEditAvatar} />
+      <div className={`modal__avatar ${openModalAvatar ? "active" : ""}`}>
+        <div ref={modalAvatarRef} className="modal__avatar__wrapper">
+          <img src={user?.avatarPic ? apiImage + user?.avatarPic : avatar} alt="" />
+          <button onClick={() => setOpenModalAvatar(false)} className="modal__avatar__close">
+            <i className="fa fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

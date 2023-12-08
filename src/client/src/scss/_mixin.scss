@@ -86,9 +86,11 @@ $themes: (
   cursor: pointer;
   transition: all 0.3s;
   @include flex(center, center);
+  white-space: pre;
   gap: 8px;
   & > span,
   i {
+    white-space: pre;
     color: $color;
   }
   &:not(:disabled) {

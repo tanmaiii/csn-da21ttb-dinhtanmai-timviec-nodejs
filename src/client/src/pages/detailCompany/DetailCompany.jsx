@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./detailCompany.scss";
 import avatar from "../../assets/images/avatarCpn.png";
+import bg from "../../assets/images/gradient1.jpg";
 import InfoCompany from "./infoCompany/InfoCompany";
 import IntroCompany from "./introCompany/IntroCompany";
 import JobsCompany from "./jobsCompany/JobsCompany";
@@ -30,9 +31,11 @@ export default function DetailCompany() {
   const [company, setCompany] = useState();
   const [follower, setFollower] = useState();
   const [openControlMb, setOpenControlMb] = useState(false);
+  const [openModalEditAvatar, setOpenModalEditAvatar] = useState(false);
   const [openModalAvatar, setOpenModalAvatar] = useState(false);
   const { currentCompany, currentUser } = useAuth();
   const controlMbRef = useRef();
+  const modalAvatarRef = useRef();
   const { id } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -77,7 +80,6 @@ export default function DetailCompany() {
     }
   );
 
-
   const handleSubmitFollow = () => {
     if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
     mutationFollow.mutate(follower?.includes(currentUser?.id));
@@ -101,8 +103,27 @@ export default function DetailCompany() {
     setOpenControlMb(false);
   }, [controlPathname]);
 
+  useEffect(() => {
+    const handleMousedown = (e) => {
+      if (!modalAvatarRef.current.contains(e.target)) {
+        setOpenModalAvatar(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => document.removeEventListener("mousedown", handleMousedown);
+  });
+
+  useEffect(() => {
+    if (openModalAvatar === true) {
+      document.body.style.overflow = "hidden";
+    }
+    if (openModalAvatar === false) {
+      document.body.style.overflow = "unset";
+    }
+  }, [openModalAvatar]);
+
   return (
-    <>
+    <div>
       {loading && <Loader />}
       {err && <NotFound />}
       {company && (
@@ -110,63 +131,68 @@ export default function DetailCompany() {
           <div className="container">
             <div className="detailCompany__wrapper">
               <div className="detailCompany__wrapper__header">
-                <div className="detailCompany__wrapper__header__main">
-                  <div className="detailCompany__wrapper__header__main__image">
-                    <img src={company?.avatarPic ? apiImage + company?.avatarPic : avatar} alt="" />
-                    {company?.id === currentCompany?.id && (
-                      <button
-                        onClick={() => setOpenModalAvatar(true)}
-                        className="detailCompany__wrapper__header__main__image__edit"
-                      >
-                        <i className="fa-solid fa-upload"></i>
-                      </button>
-                    )}
-                  </div>
-                  <div className="detailCompany__wrapper__header__main__text">
-                    <h4 className="detailCompany__wrapper__header__main__text__name">
-                      {company?.nameCompany ? company?.nameCompany : "..."}
-                    </h4>
-                    <div className="detailCompany__wrapper__header__main__text__address">
-                      <i className="fa-solid fa-location-dot"></i>
-                      <span>{company?.province ? company?.province : "..."}</span>
-                    </div>
-                    <div className="detailCompany__wrapper__header__main__text__scale">
-                      <i className="fa-solid fa-building"></i>
-                      <span>{company?.scale ? `${company?.scale} nhân viên` : "..."}</span>
-                    </div>
-                    <div className="detailCompany__wrapper__header__main__text__follow">
-                      <i className="fa-solid fa-user-group"></i>
-                      <span>{follower ? follower?.length : "0"} người theo dõi</span>
-                    </div>
-                    <div className="detailCompany__wrapper__header__main__text__link">
-                      <i className="fa-solid fa-globe"></i>
-                      {company?.web ? <a href={company.web}>{company.web}</a> : "..."}
-                    </div>
-                  </div>
+                <div className="detailCompany__wrapper__header__bg">
+                  <img src={bg} alt="" />
                 </div>
-                {company?.id === currentCompany?.id ? (
-                  <Link
-                    to={`/nha-tuyen-dung/${currentCompany?.id}/info`}
-                    className="detailCompany__wrapper__header__button"
-                  >
-                    <button>Chỉnh sửa</button>
-                  </Link>
-                ) : (
-                  <div
-                    className="detailCompany__wrapper__header__button__follow"
-                    onClick={() => handleSubmitFollow()}
-                  >
-                    {follower?.includes(currentUser?.id) ? (
-                      <button className="btn-unFollow">
-                        <span>Đang theo dõi</span>
-                      </button>
-                    ) : (
-                      <button className="btn-follow">
-                        <span>Theo dõi công ty</span>
-                      </button>
-                    )}
+                <div className="detailCompany__wrapper__header__main">
+                  <div className="detailCompany__wrapper__header__main__left">
+                    <div className="detailCompany__wrapper__header__main__left__image">
+                      <img
+                        onClick={() => setOpenModalAvatar(true)}
+                        src={company?.avatarPic ? apiImage + company?.avatarPic : avatar}
+                        alt=""
+                      />
+                      {company?.id === currentCompany?.id && (
+                        <button
+                          onClick={() => setOpenModalEditAvatar(true)}
+                          className="detailCompany__wrapper__header__main__left__image__edit"
+                        >
+                          <i className="fa-solid fa-camera"></i>
+                        </button>
+                      )}
+                    </div>
+                    <div className="detailCompany__wrapper__header__main__left__text">
+                      <span className="tag">Nhà tuyển dụng</span>
+                      <h4 className="name-company">
+                        {company?.nameCompany ? company?.nameCompany : "..."}
+                      </h4>
+                      <div className="desc-company">
+                        <div className="scale">
+                          <i className="fa-solid fa-building"></i>
+                          <span>{company?.scale ? `${company?.scale} nhân viên` : "..."}</span>
+                        </div>
+                        <div className="follow">
+                          <i className="fa-solid fa-user-group"></i>
+                          <span>{follower ? follower?.length : "0"} người theo dõi</span>
+                        </div>
+                        <div className="link">
+                          <i className="fa-solid fa-globe"></i>
+                          {company?.web ? <a href={company.web}>{company.web}</a> : "..."}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}
+                  {company?.id === currentCompany?.id ? (
+                    <Link
+                      to={`/nha-tuyen-dung/${currentCompany?.id}/info`}
+                      className="button__edit"
+                    >
+                      <button>Chỉnh sửa</button>
+                    </Link>
+                  ) : (
+                    <div className="button__follow" onClick={() => handleSubmitFollow()}>
+                      {follower?.includes(currentUser?.id) ? (
+                        <button className="btn-unFollow">
+                          <span>Đang theo dõi</span>
+                        </button>
+                      ) : (
+                        <button className="btn-follow">
+                          <span>Theo dõi công ty</span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="detailCompany__wrapper__body row">
                 <div className=" col pc-9 t-9 m-12">
@@ -257,12 +283,13 @@ export default function DetailCompany() {
                     </div>
                   </div>
                 </div>
-                <div className="col pc-3 t-3 m-0">
+                <div className="col pc-3 t-3 m-12">
                   <div className="detailCompany__wrapper__body__right">
-                    <h6>Website</h6>
-                    <div className="detailCompany__wrapper__body__right__web">
-                      {company?.web ? (
-                        <a href={company?.web}>{company?.web}</a>
+                    <h6>Địa chỉ</h6>
+                    <div className="province">
+                      <i className="fa-solid fa-location-dot"></i>
+                      {company?.province ? (
+                        <span href="">{company?.province}</span>
                       ) : (
                         <span>Không có</span>
                       )}
@@ -286,7 +313,15 @@ export default function DetailCompany() {
           </div>
         </div>
       )}
-      <ModalCropImage openModal={openModalAvatar} setOpenModal={setOpenModalAvatar} />
-    </>
+      <ModalCropImage openModal={openModalEditAvatar} setOpenModal={setOpenModalEditAvatar} />
+      <div className={`modal__avatar ${openModalAvatar ? "active" : ""}`}>
+        <div ref={modalAvatarRef} className="modal__avatar__wrapper">
+          <img src={company?.avatarPic ? apiImage + company?.avatarPic : avatar} alt="" />
+          <button onClick={() => setOpenModalAvatar(false)} className="modal__avatar__close">
+            <i className="fa fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

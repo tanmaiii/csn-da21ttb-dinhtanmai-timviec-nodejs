@@ -16,6 +16,7 @@
     &.active {
       transform: translateY(0);
       display: flex;
+      
     }
     &__wrapper {
       background-color: themed("bg2");

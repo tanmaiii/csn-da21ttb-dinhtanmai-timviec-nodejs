@@ -213,178 +213,180 @@ export default function DetailJob() {
               </div>
             </div>
             <div className="detailJob__wrapper row">
-              <div className="detailJob__wrapper__main col pc-9 t-8 m-12">
-                <div className="detailJob__wrapper__main__image">
-                  <img src={job?.avatarPic ? apiImage + job.avatarPic : img} alt="" />
-                  <div className="detailJob__wrapper__main__image__name">
-                    <h4>{job?.nameJob}</h4>
-                    <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
-                      <span>{job?.nameCompany}</span>
-                    </Link>
+              <div className=" col pc-9 t-8 m-12">
+                <div className="detailJob__wrapper__main">
+                  <div className="detailJob__wrapper__main__image">
+                    <img src={job?.avatarPic ? apiImage + job.avatarPic : img} alt="" />
+                    <div className="detailJob__wrapper__main__image__name">
+                      <h4>{job?.nameJob}</h4>
+                      <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
+                        <span>{job?.nameCompany}</span>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-                <div className="detailJob__wrapper__main__button">
-                  <div className="detailJob__wrapper__main__button__user">
-                    {job?.deletedAt === null ? (
-                      userApply?.includes(currentUser?.id) ? (
-                        <button className="btn_applied">
-                          <i class="fa-regular fa-circle-check"></i>
-                          <span>Đã ứng tuyển</span>
-                        </button>
+                  <div className="detailJob__wrapper__main__button">
+                    <div className="detailJob__wrapper__main__button__user">
+                      {job?.deletedAt === null ? (
+                        userApply?.includes(currentUser?.id) ? (
+                          <button className="btn_applied">
+                            <i class="fa-regular fa-circle-check"></i>
+                            <span>Đã ứng tuyển</span>
+                          </button>
+                        ) : (
+                          <button className="btn_apply" onClick={() => setOpenModal(true)}>
+                            Ứng tuyển
+                          </button>
+                        )
                       ) : (
-                        <button className="btn_apply" onClick={() => setOpenModal(true)}>
-                          Ứng tuyển
+                        <button className="btn_stops">
+                          <i class="fa-solid fa-exclamation"></i>
+                          <span>Ngừng ứng tuyển</span>
                         </button>
-                      )
-                    ) : (
-                      <button className="btn_stops">
-                        <i class="fa-solid fa-exclamation"></i>
-                        <span>Ngừng ứng tuyển</span>
-                      </button>
-                    )}
-                    <button className="btn_save" onClick={() => handleSubmitSave()}>
-                      {userSave?.includes(currentUser?.id) ? (
-                        <>
-                          <i class="fa-solid fa-heart"></i>
-                          <span>Đã Lưu</span>
-                        </>
-                      ) : (
-                        <>
-                          <i class="fa-regular fa-heart"></i>
-                          <span>Lưu</span>
-                        </>
                       )}
-                    </button>
-                  </div>
-                  <div className="detailJob__wrapper__main__button__company">
-                    {job?.idCompany === currentCompany?.id && (
-                      <div ref={buttonMoreRef} className="button__more">
-                        <button onClick={() => setOpenMore(!openMore)}>
-                          <i className="fa-solid fa-ellipsis"></i>
-                        </button>
-                        <div className={`button__more__body  ${openMore && "active"}`}>
-                          <Link to={`/nha-tuyen-dung/chinh-sua/${job?.id}`}>
-                            <button>
-                              <i className="fa-regular fa-pen-to-square"></i>
-                              <span>Sửa</span>
+                      <button className="btn_save" onClick={() => handleSubmitSave()}>
+                        {userSave?.includes(currentUser?.id) ? (
+                          <>
+                            <i class="fa-solid fa-heart"></i>
+                            <span>Đã Lưu</span>
+                          </>
+                        ) : (
+                          <>
+                            <i class="fa-regular fa-heart"></i>
+                            <span>Lưu</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <div className="detailJob__wrapper__main__button__company">
+                      {job?.idCompany === currentCompany?.id && (
+                        <div ref={buttonMoreRef} className="button__more">
+                          <button onClick={() => setOpenMore(!openMore)}>
+                            <i className="fa-solid fa-ellipsis"></i>
+                          </button>
+                          <div className={`button__more__body  ${openMore && "active"}`}>
+                            <Link to={`/nha-tuyen-dung/chinh-sua/${job?.id}`}>
+                              <button>
+                                <i className="fa-regular fa-pen-to-square"></i>
+                                <span>Sửa</span>
+                              </button>
+                            </Link>
+                            <button onClick={() => setOpenModalDelete(true)}>
+                              <i class="fa-regular fa-trash-can"></i>
+                              <span>Xóa</span>
                             </button>
-                          </Link>
-                          <button onClick={() => setOpenModalDelete(true)}>
-                            <i class="fa-regular fa-trash-can"></i>
-                            <span>Xóa</span>
-                          </button>
-                          <button onClick={() => setOpenModalHidden(true)}>
-                            {job.deletedAt !== null ? (
-                              <>
-                                <i className="fa-regular fa-circle-check"></i>
-                                <span>Tuyển dụng</span>
-                              </>
-                            ) : (
-                              <>
-                                <i className="fa-regular fa-circle-xmark"></i>
-                                <span>Ngừng tuyển dụng</span>
-                              </>
-                            )}
-                          </button>
+                            <button onClick={() => setOpenModalHidden(true)}>
+                              {job.deletedAt !== null ? (
+                                <>
+                                  <i className="fa-regular fa-circle-check"></i>
+                                  <span>Tuyển dụng</span>
+                                </>
+                              ) : (
+                                <>
+                                  <i className="fa-regular fa-circle-xmark"></i>
+                                  <span>Ngừng tuyển dụng</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className={`detailJob__wrapper__main__important  ${darkMode && "dark"}`}>
-                  <div className="detailJob__wrapper__main__important__col col pc-6 t-6 m-12">
-                    <div className="item">
-                      <div className="header">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <h4>Địa điểm</h4>
-                      </div>
-                      <Link to={`/tim-kiem?&province[]=${job?.province}`}>
-                        <span className="content">{job?.province}</span>
-                      </Link>
-                    </div>
-                    <div className="item">
-                      <div className="header">
-                        <i class="fa-solid fa-briefcase"></i>
-                        <h4>Ngành nghề</h4>
-                      </div>
-                      <Link to={`/tim-kiem?&field[]=${job?.nameField}`}>
-                        <span className="content">{job?.nameField || "..."}</span>
-                      </Link>
-                    </div>
-                    <div className="item">
-                      <div className="header">
-                        <i class="fa-solid fa-dollar-sign"></i>
-                        <h4>Lương</h4>
-                      </div>
-                      <span className="content">
-                        {job?.salaryMin === 0 || job?.salaryMax === 0
-                          ? "Thương lượng"
-                          : `${job?.salaryMin} - ${job?.salaryMax} tr`}
-                      </span>
-                    </div>
-                    <div className="item">
-                      <div className="header">
-                        <i class="fa-solid fa-user"></i>
-                        <h4>Giới tính</h4>
-                      </div>
-                      <span className="content">{job?.sex || "n"}</span>
+                      )}
                     </div>
                   </div>
-                  <div className="detailJob__wrapper__main__important__col col pc-6 t-6 m-12">
-                    <div className="item">
-                      <div className="header">
-                        <i className="fa-solid fa-business-time"></i>
-                        <h4>Kinh nghiệm</h4>
+                  <div className={`detailJob__wrapper__main__important  ${darkMode && "dark"}`}>
+                    <div className="detailJob__wrapper__main__important__col col pc-6 t-6 m-12">
+                      <div className="item">
+                        <div className="header">
+                          <i class="fa-solid fa-location-dot"></i>
+                          <h4>Địa điểm</h4>
+                        </div>
+                        <Link to={`/tim-kiem?&province[]=${job?.province}`}>
+                          <span className="content">{job?.province}</span>
+                        </Link>
                       </div>
-                      <span className="content">{job?.experience || "Không yêu cầu"}</span>
+                      <div className="item">
+                        <div className="header">
+                          <i class="fa-solid fa-briefcase"></i>
+                          <h4>Ngành nghề</h4>
+                        </div>
+                        <Link to={`/tim-kiem?&field[]=${job?.nameField}`}>
+                          <span className="content">{job?.nameField || "..."}</span>
+                        </Link>
+                      </div>
+                      <div className="item">
+                        <div className="header">
+                          <i class="fa-solid fa-dollar-sign"></i>
+                          <h4>Lương</h4>
+                        </div>
+                        <span className="content">
+                          {job?.salaryMin === 0 || job?.salaryMax === 0
+                            ? "Thương lượng"
+                            : `${job?.salaryMin} - ${job?.salaryMax} tr`}
+                        </span>
+                      </div>
+                      <div className="item">
+                        <div className="header">
+                          <i class="fa-solid fa-user"></i>
+                          <h4>Giới tính</h4>
+                        </div>
+                        <span className="content">{job?.sex || "n"}</span>
+                      </div>
                     </div>
-                    <div className="item">
-                      <div className="header">
-                        <i class="fa-solid fa-chart-gantt"></i>
-                        <h4>Hình thức</h4>
+                    <div className="detailJob__wrapper__main__important__col col pc-6 t-6 m-12">
+                      <div className="item">
+                        <div className="header">
+                          <i className="fa-solid fa-business-time"></i>
+                          <h4>Kinh nghiệm</h4>
+                        </div>
+                        <span className="content">{job?.experience || "Không yêu cầu"}</span>
                       </div>
-                      <span className="content">{job?.typeWork || "Không yêu cầu"}</span>
-                    </div>
-                    <div className="item">
-                      <div className="header">
-                        <i className="fa-solid fa-graduation-cap"></i>
-                        <h4>Học vấn</h4>
+                      <div className="item">
+                        <div className="header">
+                          <i class="fa-solid fa-chart-gantt"></i>
+                          <h4>Hình thức</h4>
+                        </div>
+                        <span className="content">{job?.typeWork || "Không yêu cầu"}</span>
                       </div>
-                      <span className="content">{job?.education || "Không yêu cầu"}</span>
+                      <div className="item">
+                        <div className="header">
+                          <i className="fa-solid fa-graduation-cap"></i>
+                          <h4>Học vấn</h4>
+                        </div>
+                        <span className="content">{job?.education || "Không yêu cầu"}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="detailJob__wrapper__main__content">
-                  <div className="detailJob__wrapper__main__content__item previewJob__content__desctribe">
-                    <div className="detailJob__wrapper__main__content__item__header">
-                      <h4>MÔ TẢ CÔNG VIỆC</h4>
+                  <div className="detailJob__wrapper__main__content">
+                    <div className="detailJob__wrapper__main__content__item previewJob__content__desctribe">
+                      <div className="detailJob__wrapper__main__content__item__header">
+                        <h4>MÔ TẢ CÔNG VIỆC</h4>
+                      </div>
+                      <div
+                        className="detailJob__wrapper__main__content__item__body"
+                        dangerouslySetInnerHTML={{ __html: job?.desc }}
+                      ></div>
                     </div>
-                    <div
-                      className="detailJob__wrapper__main__content__item__body"
-                      dangerouslySetInnerHTML={{ __html: job?.desc }}
-                    ></div>
-                  </div>
-                  <div className="detailJob__wrapper__main__content__item previewJob__content__request">
-                    <div className="detailJob__wrapper__main__content__item__header">
-                      <h4>YÊU CẦU CÔNG VIỆC</h4>
+                    <div className="detailJob__wrapper__main__content__item previewJob__content__request">
+                      <div className="detailJob__wrapper__main__content__item__header">
+                        <h4>YÊU CẦU CÔNG VIỆC</h4>
+                      </div>
+                      <div
+                        className="detailJob__wrapper__main__content__item__body"
+                        dangerouslySetInnerHTML={{ __html: job?.request }}
+                      ></div>
                     </div>
-                    <div
-                      className="detailJob__wrapper__main__content__item__body"
-                      dangerouslySetInnerHTML={{ __html: job?.request }}
-                    ></div>
-                  </div>
-                  <div className="detailJob__wrapper__main__content__item previewJob__content__other">
-                    <div className="detailJob__wrapper__main__content__item__header">
-                      <h4>THÔNG TIN KHÁC</h4>
+                    <div className="detailJob__wrapper__main__content__item previewJob__content__other">
+                      <div className="detailJob__wrapper__main__content__item__header">
+                        <h4>THÔNG TIN KHÁC</h4>
+                      </div>
+                      <div
+                        className="detailJob__wrapper__main__content__item__body"
+                        dangerouslySetInnerHTML={{ __html: job?.other }}
+                      ></div>
                     </div>
-                    <div
-                      className="detailJob__wrapper__main__content__item__body"
-                      dangerouslySetInnerHTML={{ __html: job?.other }}
-                    ></div>
                   </div>
                 </div>
               </div>
-              <div className="detailJob__wrapper__side col pc-3 t-4 m-12">
+              <div className="col pc-3 t-4 m-12">
                 <ListJobCol name={"Công việc liên quan"} idField={job?.idField} idJob={job?.id} />
               </div>
             </div>
