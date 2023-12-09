@@ -8,10 +8,11 @@ import { useAuth } from "../../context/authContext";
 import { toast } from "sonner";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-export default function ListJobCol({ name, idField, idJob }) {
+export default function ListJobCol({ name, nameField, idField, idJob }) {
   const [jobs, setJobs] = useState();
   const limit = 6;
   const paginate = 1;
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (idField) {
@@ -25,20 +26,30 @@ export default function ListJobCol({ name, idField, idJob }) {
     }
   }, [idField]);
 
+  console.log(jobs);
+
   return (
-    <div className="listJobCol">
-      <div className="listJobCol__wrapper">
-        <div className="listJobCol__wrapper__header">
-          <h4>{name}</h4>
-        </div>
-        <div className="listJobCol__wrapper__body">
-          {jobs?.map((job) => {
-            if (job?.id === idJob) return;
-            return <ItemJob job={job} className={"col pc-12"} />;
-          })}
+    jobs?.length > 1 && (
+      <div className="listJobCol">
+        <div className="listJobCol__wrapper">
+          <div className="listJobCol__wrapper__header">
+            <h4>{name}</h4>
+          </div>
+          <div className="listJobCol__wrapper__body">
+            {jobs?.map((job) => {
+              if (job?.id === idJob) return;
+              return <ItemJob job={job} className={"col pc-12"} />;
+            })}
+          </div>
+          <div className="listJobCol__wrapper__bottom">
+            <button onClick={() => navigate(`/tim-kiem?&field[]=${nameField}`)}>
+              <h4>Xem thêm</h4>
+              <i className="fa-solid fa-angle-right"></i>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 }
 
@@ -96,9 +107,12 @@ function ItemJob({ job }) {
           <img src={job?.avatarPic ? apiImage + job?.avatarPic : img} alt="" />
           <div className="text">
             <Link to={`/viec-lam/${job?.id}`}>
-              <h4 className="nameJob" data-tooltip={job?.nameJob} onMouseOver={(e) => e.target.classList.add("tooltip") } onMouseLeave={(e) => e.target.classList.remove("tooltip")}>
+              <h4 className="nameJob" data-tooltip={job?.nameJob}>
                 {job?.nameJob}
               </h4>
+              <span className={`tooltip`} data-tooltip={job?.nameJob}>
+                {job?.nameJob}
+              </span>
             </Link>
             <Link to={`/nha-tuyen-dung/${job?.idCompany}`}>
               <h6 className="nameCompany">{job?.nameCompany}</h6>

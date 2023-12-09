@@ -213,7 +213,7 @@ export default function DetailJob() {
               </div>
             </div>
             <div className="detailJob__wrapper row">
-              <div className=" col pc-9 t-8 m-12">
+              <div className="col pc-9 t-8 m-12">
                 <div className="detailJob__wrapper__main">
                   <div className="detailJob__wrapper__main__image">
                     <img src={job?.avatarPic ? apiImage + job.avatarPic : img} alt="" />
@@ -387,7 +387,13 @@ export default function DetailJob() {
                 </div>
               </div>
               <div className="col pc-3 t-4 m-12">
-                <ListJobCol name={"Công việc liên quan"} idField={job?.idField} idJob={job?.id} />
+                <ListJobCol
+                  name={"Công việc liên quan"}
+                  nameField={job?.nameField}
+                  idField={job?.idField}
+                  idJob={job?.id}
+                />
+                <RecommendedKeyword />
               </div>
             </div>
           </div>
@@ -444,5 +450,49 @@ export default function DetailJob() {
         </Modal>
       }
     </>
+  );
+}
+
+const tuKhoaTimViec = [
+  "Nhân sự",
+  "Phát triển",
+  "Quản lý",
+  "Kế toán",
+  "Kỹ thuật",
+  "Thiết kế",
+  "Marketing",
+  "Bán hàng",
+  "Hỗ trợ",
+  "Tư vấn",
+  "IT",
+  "Nghiên cứu",
+  "Y tế",
+  "Luật",
+  "Sản xuất",
+  "Dịch vụ",
+  "Nghệ thuật",
+  "Xây dựng",
+  "Giáo dục",
+  "Nông nghiệp",
+];
+
+function RecommendedKeyword() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="recommendedKeyword">
+      <div className="recommendedKeyword__wrapper">
+        <div className="recommendedKeyword__wrapper__header">
+          <h4>Gợi ý từ khóa</h4>
+        </div>
+        <div className="recommendedKeyword__wrapper__body">
+          {tuKhoaTimViec.map((key, i) => (
+            <button onClick={() => navigate(`/tim-kiem/${key}`)} className="item">
+              {key}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

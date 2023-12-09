@@ -2,6 +2,7 @@
 
 .listJobCol {
   @include themify($themes) {
+    width: 100%;
     &__wrapper {
       background-color: themed("bg2");
       border-radius: $border-radius-10;
@@ -20,6 +21,24 @@
         gap: 10px;
       }
       &__bottom {
+        @include flex(center, center);
+        width: 100%;
+        margin-top: 20px;
+        button {
+          @include flex(center, center);
+          gap: 8px;
+          width: 100%;
+          transition: all .3s;
+          &:hover{
+            color: $color-primary;
+          }
+          h4{
+            font-size: $font-size-s;
+          }
+          i{
+            font-size: 1.1rem;
+          }
+        }
       }
     }
   }
@@ -37,7 +56,6 @@
       & > .header {
         @include flex(center, unset);
         gap: 8px;
-
         img {
           --size: 50px;
           min-width: 50px;
@@ -49,55 +67,56 @@
           object-fit: cover;
         }
         & > .text {
-          .nameJob {
-            font-size: $font-size-s;
-            color: themed("text1");
-            font-weight: 600;
-            transition: all 0.3s;
+          a {
             position: relative;
-            @include text(1);
-
             &:hover {
-              color: themed("primary");
-              &::after,
-              &::before {
-                --scale: 1;
+              .tooltip {
+                scale: 1;
               }
             }
+            .nameJob {
+              font-size: $font-size-s;
+              color: themed("text1");
+              font-weight: 600;
+              transition: all 0.3s;
+              @include text(1);
 
-            &::after,
-            &::before {
-              --arrow-size: 6px;
-              --scale: 0;
+              &:hover {
+                color: themed("primary");
+              }
+            }
+            & > .tooltip {
               position: absolute;
               left: 50%;
-              transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
-              transform-origin: bottom center;
-              transition: all 0.3s;
-              opacity: 0.8;
-            }
-
-            &::before {
-              --translate-y: calc(-100% - var(--arrow-size));
-              background-color: $color-black;
+              bottom: calc(100% + 8px);
+              transform: translateX(-50%);
               content: attr(data-tooltip);
-              color: $color-white;
-              font-size: 12px;
-              padding: 8px;
-              border-radius: $border-radius-10;
-              text-align: center;
               width: max-content;
               max-width: 100%;
-            }
+              height: max-content;
+              background-color: rgba($color: $color-black, $alpha: 0.8);
+              color: $color-white;
+              padding: 6px;
+              font-size: $font-size-xs;
+              border-radius: $border-radius-10;
+              transform-origin: left bottom;
+              transition: all 0.2s;
+              scale: 0;
 
-            &::after {
-              --translate-y: calc(-1 * var(--arrow-size));
-              content: "";
-              transform-origin: top center;
-              border: var(--arrow-size) solid transparent;
-              border-top-color: $color-black;
+              &::before {
+                content: "";
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: calc(100%);
+                position: absolute;
+                transform-origin: left top;
+                border: 10px solid transparent;
+                border-top-color: rgba($color: $color-black, $alpha: 0.8);
+              }
             }
           }
+
           .nameCompany {
             font-size: $font-size-xs;
             font-weight: 400;
@@ -120,7 +139,7 @@
           & > div {
             background-color: themed("bg1");
             width: max-content;
-            padding: 8px;
+            padding: 6px;
             border-radius: $border-radius-10;
             font-size: $font-size-xs;
             color: themed("text2");
