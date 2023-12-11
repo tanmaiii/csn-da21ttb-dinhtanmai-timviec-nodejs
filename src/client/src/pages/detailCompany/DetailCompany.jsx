@@ -10,6 +10,7 @@ import { makeRequest, apiImage } from "../../axios";
 import NotFound from "../../pages/notFound/NotFound";
 import Loader from "../../components/loader/Loader";
 import ModalCropImage from "../../components/modalCropImage/ModalCropImage";
+import RecomKeyword from "../../components/recomKeyword/RecomKeyword";
 
 import { useAuth } from "../../context/authContext";
 
@@ -195,7 +196,7 @@ export default function DetailCompany() {
                 </div>
               </div>
               <div className="detailCompany__wrapper__body row">
-                <div className=" col pc-9 t-9 m-12">
+                <div className=" col pc-9 t-8 m-12">
                   <div className="detailCompany__wrapper__body__left">
                     {company?.id === currentCompany?.id && (
                       <>
@@ -283,7 +284,7 @@ export default function DetailCompany() {
                     </div>
                   </div>
                 </div>
-                <div className="col pc-3 t-3 m-12">
+                <div className="col pc-3 t-4 m-12">
                   <div className="detailCompany__wrapper__body__right">
                     <h6>Địa chỉ</h6>
                     <div className="province">
@@ -307,6 +308,7 @@ export default function DetailCompany() {
                       </TwitterShareButton>
                     </div>
                   </div>
+                  <RecomKeyword />
                 </div>
               </div>
             </div>

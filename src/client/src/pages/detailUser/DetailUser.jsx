@@ -11,6 +11,7 @@ import AppliedJobs from "./appliedJobs/AppliedJobs";
 import CompaniesSave from "./companiesSave/CompaniesSave";
 import JobsSave from "./jobsSave/JobsSave";
 import ModalCropImage from "../../components/modalCropImage/ModalCropImage";
+import RecomKeywork from "../../components/recomKeyword/RecomKeyword";
 
 import {
   useSearchParams,
@@ -138,9 +139,7 @@ export default function DetailUser() {
                     </div>
                     <div className="detailUser__wrapper__header__main__left__text">
                       <span className="tag">Người dùng</span>
-                      <h4 className="name">
-                        {user?.name}
-                      </h4>
+                      <h4 className="name">{user?.name}</h4>
                       <div className="date">
                         <i className="fa-solid fa-calendar-days"></i>
                         <span>
@@ -161,7 +160,7 @@ export default function DetailUser() {
                 </div>
               </div>
               <div className="detailUser__wrapper__body row">
-                <div className=" col pc-9 t-9 m-12">
+                <div className=" col pc-9 t-8 m-12">
                   <div className="detailUser__wrapper__body__left">
                     <div className="detailUser__wrapper__body__left__control">
                       <Link
@@ -262,7 +261,7 @@ export default function DetailUser() {
                     </div>
                   </div>
                 </div>
-                <div className="col pc-3 t-3 m-12">
+                <div className="col pc-3 t-4 m-12">
                   <div className="detailUser__wrapper__body__right">
                     <h4>Thông tin</h4>
                     <div className="cv">
@@ -286,6 +285,7 @@ export default function DetailUser() {
                       )}
                     </div>
                   </div>
+                  <RecomKeywork />
                 </div>
               </div>
             </div>

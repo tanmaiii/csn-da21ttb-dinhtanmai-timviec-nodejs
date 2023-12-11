@@ -12,6 +12,7 @@ import { useAuth } from "../../context/authContext";
 import { useMode } from "../../context/ModeContext";
 import Breadcrumbs from "../../components/breadcrumbs/Breadcrumbs";
 import NotFound from "../notFound/NotFound";
+import RecomKeyword from "../../components/recomKeyword/RecomKeyword";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -393,7 +394,7 @@ export default function DetailJob() {
                   idField={job?.idField}
                   idJob={job?.id}
                 />
-                <RecommendedKeyword />
+                <RecomKeyword />
               </div>
             </div>
           </div>
@@ -450,49 +451,5 @@ export default function DetailJob() {
         </Modal>
       }
     </>
-  );
-}
-
-const tuKhoaTimViec = [
-  "Nhân sự",
-  "Phát triển",
-  "Quản lý",
-  "Kế toán",
-  "Kỹ thuật",
-  "Thiết kế",
-  "Marketing",
-  "Bán hàng",
-  "Hỗ trợ",
-  "Tư vấn",
-  "IT",
-  "Nghiên cứu",
-  "Y tế",
-  "Luật",
-  "Sản xuất",
-  "Dịch vụ",
-  "Nghệ thuật",
-  "Xây dựng",
-  "Giáo dục",
-  "Nông nghiệp",
-];
-
-function RecommendedKeyword() {
-  const navigate = useNavigate();
-
-  return (
-    <div className="recommendedKeyword">
-      <div className="recommendedKeyword__wrapper">
-        <div className="recommendedKeyword__wrapper__header">
-          <h4>Gợi ý từ khóa</h4>
-        </div>
-        <div className="recommendedKeyword__wrapper__body">
-          {tuKhoaTimViec.map((key, i) => (
-            <button onClick={() => navigate(`/tim-kiem/${key}`)} className="item">
-              {key}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
