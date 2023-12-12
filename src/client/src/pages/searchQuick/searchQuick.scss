@@ -18,11 +18,12 @@
         background-color: themed("bg2");
         border-radius: $border-radius-20;
         padding: 20px;
+        flex-wrap: wrap;
         & > div {
           min-height: 100vh;
         }
         &__popular {
-          background-color: themed("bg1");
+          background-color: themed("bg2");
           border: $border-radius-10;
           padding: 20px;
           border-radius: $border-radius-10;

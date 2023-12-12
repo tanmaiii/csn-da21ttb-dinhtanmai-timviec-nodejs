@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./searchQuick.scss";
 import { makeRequest } from "../../axios";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import RecomKeyword from "../../components/recomKeyword/RecomKeyword";
 
 export default function SearchQuick() {
   const [popular, setPopular] = useState();
@@ -40,7 +36,7 @@ export default function SearchQuick() {
               <SearchQuickFields />
               <SearchQuickProvince />
             </div>
-            <div className="col pc-3 t-4 m-0">
+            <div className="col pc-3 t-4 m-12">
               <div className="searchQuick__wrapper__content__popular">
                 <h4 className="header">Ngành nghề phổ biến</h4>
                 <ul className="list">
@@ -48,16 +44,14 @@ export default function SearchQuick() {
                     ?.sort((a, b) => b.countJobs - a.countJobs)
                     .slice(0, 10)
                     .map((item, i) => (
-                      <li
-                        className="item"
-                        onClick={() => handleClick(item?.name)}
-                      >
+                      <li className="item" onClick={() => handleClick(item?.name)}>
                         <h6>{item.name}</h6>
                         <span>({item.countJobs})</span>
                       </li>
                     ))}
                 </ul>
               </div>
+              <RecomKeyword />
             </div>
           </div>
         </div>
@@ -69,7 +63,7 @@ export default function SearchQuick() {
 function SearchQuickFields() {
   const [fields, setFields] = useState();
   const navigate = useNavigate();
-  
+
   const groupBy = (arr, key) => {
     return Object.values(
       arr.reduce((acc, item) => {
@@ -110,11 +104,7 @@ function SearchQuickFields() {
             <h4 className="header">{gr[0]?.typeField}</h4>
             <div className="list">
               {gr.map((item, i) => (
-                <div
-                  onClick={() => handleClick(item?.name)}
-                  className="item"
-                  key={i}
-                >
+                <div onClick={() => handleClick(item?.name)} className="item" key={i}>
                   <h6>{item?.name}</h6>
                   <span>({item?.countJobs})</span>
                 </div>
@@ -166,18 +156,11 @@ function SearchQuickProvince() {
         {provinces
           ?.sort((a, b) => a[0].name[0].localeCompare(b[0].name[0]))
           .map((gr, i) => (
-            <div
-              key={i}
-              className="searchQuick__wrapper__content__item__list__group"
-            >
+            <div key={i} className="searchQuick__wrapper__content__item__list__group">
               <h4 className="header">{gr[0]?.name[0]}</h4>
               <div className="list">
                 {gr.map((item, i) => (
-                  <div
-                    onClick={() => handleClick(item?.name)}
-                    className="item"
-                    key={i}
-                  >
+                  <div onClick={() => handleClick(item?.name)} className="item" key={i}>
                     <h6>{item?.name}</h6>
                     <span>({item?.countJobs})</span>
                   </div>
