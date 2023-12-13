@@ -407,7 +407,6 @@ export const deleteJob = async (req, res) => {
 
     const q = `DELETE FROM job.jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
 
-    console.log(q);
 
     db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);

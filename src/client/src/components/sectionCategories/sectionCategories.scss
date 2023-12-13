@@ -1,10 +1,9 @@
 @use "../../scss/" as *;
 
+
 .sectionCategories {
   @include themify($themes) {
-    padding: $spacing 0;
-    @include mobile{
-    }
+    margin-top: $spacing;
     &__header {
       margin: 20px 0;
       @include flex(center, unset);
@@ -13,107 +12,77 @@
         color: themed("text1");
         font-size: $font-size-l;
       }
-      &__link{
-        color: themed('primary');
+      &__link {
+        color: themed("primary");
         border-left: 1px solid #ccc;
         padding: 0 10px;
-        span{
+        span {
           font-size: $font-size-s;
         }
-        i{
-          transition: all .3s;
+        i {
+          transition: all 0.3s;
         }
-        &:hover{
-          i{
+        &:hover {
+          i {
             transform: translateX(8px);
           }
         }
       }
     }
     &__body {
-      position: relative;
-      &:hover {
-        button {
-          display: block;
-        }
-      }
-      button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        padding: 10px;
-        border-radius: 50%;
-        z-index: 99;
-        box-shadow: themed("box-shadow");
-        background-color: rgba($color: themed("bg1"), $alpha: 0.8);
-        transition: all 0.3s;
-        width: 62px;
-        height: 62px;
-        display: none;
-        cursor: pointer;
-        &:hover {
-          background-color: themed("primary");
-          i {
-            color: themed("bg1");
-          }
-        }
-        i {
-          color: themed("text1");
-          font-size: $font-size-m;
-          @include flex(center, center);
-          cursor: pointer;
-        }
-      }
-      &__left {
-        left: -31px;
-      }
-      &__right {
-        right: -31px;
-      }
       &__list {
-        overflow-y: auto;
-        overflow: hidden;
-        scroll-behavior: smooth;
+        margin-right: -10px;
+        margin-left: -10px;
+        padding: 0;
         &__item {
+          @include flex(center, center);
+          padding: 10px;
           &__box {
             background-color: themed("bg2");
+            border-radius: $border-radius-10;
+            //  border-bottom-right-radius: 40px;
             padding: 20px;
-            @include flex(center, center);
-            flex-direction: column;
-            gap: 20px;
+            // min-height: 200px;
+            height: 100%;
             height: 200px;
-            border-radius: $border-radius-30;
-            cursor: pointer;
             transition: all 0.3s;
+            cursor: pointer;
+            @include flex(start, space-between);
+            gap: 8px;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
             &:hover {
-              background-color: themed("primary");
-              scale: 1.04;
-              svg {
-                fill: themed("bg1");
+              scale: 1.02;
+              box-shadow: themed("box-shadow");
+            }
+            &__image {
+              @include flex(center, center);
+              width: 90px;
+              height: 90px;
+              img {
+                filter: brightness(0) invert(60%);
+                // filter: contrast(175%) brightness(103%);
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                @include mobile {
+                  filter: brightness(0) invert(60%);
+                }
               }
-              h6{
-                color: themed("bg1");
+            }
+
+            &__text {
+              h4 {
+                font-size: $font-size-m;
+                color: themed("text1");
+                font-weight: 500;
               }
               span {
-                color: themed("bg2");
+                font-size: $font-size-s;
+                color: themed("text2");
+                text-decoration: underline;
               }
-            }
-            svg {
-              --size: 40px;
-              height: var(--size);
-              width: var(--size);
-              fill: themed("text1");
-            }
-            h6{
-              font-size: $font-size-m;
-              color: themed("text1");
-              font-weight: 500;
-              text-align: center;
-            }
-            span {
-              font-size: $font-size-s;
-              color: themed("text2");
-              text-align: center;
             }
           }
         }

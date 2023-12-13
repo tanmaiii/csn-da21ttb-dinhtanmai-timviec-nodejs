@@ -9,7 +9,6 @@ export const register = (req, res) => {
 
   if (!name || !email || !password || !phone)
     return res.status(409).json("Các trường không để rỗng !");
-  console.log(checkEmail(email));
 
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
 

@@ -34,14 +34,15 @@ export default function TableCandidate({ data, listCheck, setListCheck }) {
     <>
       <div className="table__candidate">
         <div className="table__candidate__header">
-          <span>
+          <label className="table__candidate__header__checkbox" htmlFor="input_candidate_all">
             <input
+              id="input_candidate_all"
               onChange={() => handleClickAll()}
               checked={listCheck?.length === data?.length}
               type="checkbox"
               className="table__candidate__header__checkAll"
             />
-          </span>
+          </label>
           <span>STT</span>
           <span>Thông tin</span>
           <span>Nhận vào</span>
@@ -62,24 +63,14 @@ export default function TableCandidate({ data, listCheck, setListCheck }) {
           ))}
         </div>
       </div>
-      <Modal
-        title={"Thư xin việc"}
-        setOpenModal={setOpenModal}
-        openModal={openModal}
-      >
+      <Modal title={"Thư xin việc"} setOpenModal={setOpenModal} openModal={openModal}>
         <DetailCandidate idApply={idApply} />
       </Modal>
     </>
   );
 }
 
-function RowTableCandidate({
-  item,
-  index,
-  handleClickView,
-  setListCheck,
-  listCheck,
-}) {
+function RowTableCandidate({ item, index, handleClickView, setListCheck, listCheck }) {
   const [statusId, setStatusId] = useState();
   const [active, setActive] = useState(false);
 
@@ -111,19 +102,22 @@ function RowTableCandidate({
   return (
     <div className={`table__candidate__body__row ${active && "active"}`}>
       <div className="table__candidate__body__row__item" data-cell={"Chọn"}>
-        <input
-          type="checkbox"
-          onChange={() => handleClickOption(item?.id)}
-          checked={listCheck?.includes(item?.id)}
-        />
+        <label
+          className="table__candidate__body__row__item__checkbox"
+          htmlFor={`item_cadi_${item?.id}`}
+        >
+          <input
+            id={`item_cadi_${item?.id}`}
+            type="checkbox"
+            onChange={() => handleClickOption(item?.id)}
+            checked={listCheck?.includes(item?.id)}
+          />
+        </label>
       </div>
       <div className="table__candidate__body__row__item" data-cell={"STT"}>
         {String(index + 1).padStart(2, "0")}
       </div>
-      <div
-        className="table__candidate__body__row__item"
-        data-cell={"Thông tin"}
-      >
+      <div className="table__candidate__body__row__item" data-cell={"Thông tin"}>
         <div className="table__candidate__body__row__item__info">
           <Link to={`/nguoi-dung/${item?.idUser}`}>
             <img
@@ -134,33 +128,17 @@ function RowTableCandidate({
           <span>{item?.name}</span>
         </div>
       </div>
-      <div
-        className="table__candidate__body__row__item"
-        data-cell={"Ngày nhận"}
-      >
+      <div className="table__candidate__body__row__item" data-cell={"Ngày nhận"}>
         {moment(item?.createdAt).format("DD/MM/YYYY")}
       </div>
-      <span
-        className="table__candidate__body__row__item"
-        data-cell={"Công việc"}
-      >
+      <span className="table__candidate__body__row__item" data-cell={"Công việc"}>
         {item.nameJob}
       </span>
-      <div
-        className="table__candidate__body__row__item"
-        data-cell={"Trạng thái"}
-      >
-        <RowSelectStatus
-          option={status}
-          defaultActive={item?.status}
-          id={item?.id}
-        />
+      <div className="table__candidate__body__row__item" data-cell={"Trạng thái"}>
+        <RowSelectStatus option={status} defaultActive={item?.status} id={item?.id} />
       </div>
       <div className="table__candidate__body__row__item" data-cell={"Chi tiết"}>
-        <button
-          className="button-eye"
-          onClick={() => handleClickView(item?.id)}
-        >
+        <button className="button-eye" onClick={() => handleClickView(item?.id)}>
           <i className="fa-solid fa-eye"></i>
         </button>
       </div>
@@ -212,7 +190,7 @@ function RowSelectStatus({ option, defaultActive, id }) {
           if (option.id === optionActive)
             return (
               <div
-              key={i}
+                key={i}
                 className={`rowSelectStatus__toggle  status-${option?.id}`}
                 onClick={() => setOpen(!open)}
               >
@@ -220,11 +198,7 @@ function RowSelectStatus({ option, defaultActive, id }) {
                   {option?.icon}
                   <span className="text">{option.name}</span>
                 </div>
-                <i
-                  className={`fa-solid fa-angle-down icon-down ${
-                    open ? "open" : ""
-                  }`}
-                ></i>
+                <i className={`fa-solid fa-angle-down icon-down ${open ? "open" : ""}`}></i>
               </div>
             );
         })}

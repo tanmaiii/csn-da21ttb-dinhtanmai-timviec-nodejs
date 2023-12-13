@@ -7,7 +7,6 @@ export const login = (req, res) => {
   const { email, password } = req.body;
   const q = "SELECT * FROM users WHERE email=?";
 
-  console.log(email, password);
 
   if (email && password) {
 

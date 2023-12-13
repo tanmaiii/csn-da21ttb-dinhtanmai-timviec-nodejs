@@ -23,8 +23,11 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.7.7",
     "react-share": "^5.0.2",
+    "react-slick": "^0.29.0",
     "sass": "^1.69.3",
+    "slick-carousel": "^1.8.1",
     "sonner": "^1.2.3",
+    "swiper": "^11.0.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

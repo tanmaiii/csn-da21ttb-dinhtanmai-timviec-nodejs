@@ -1,70 +1,75 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./sectionCategories.scss";
 import { categories } from "../../config/data.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import Slider from "react-slick";
+
+import "./slick.scss";
+import "./slick-theme.scss";
+
 // import img from '../../assets/icon/1.png'
 
+function NextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={`${className} slider__nextArrow`}
+      //   style={{ ...style, display: "block", background: "", right: "0px", zIndex: 9999, width: "60px", height: "60px" }}
+      onClick={onClick}
+    />
+  );
+}
+
+function PrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={`${className} slider__sprevArrow`}
+      //  style={{ ...style, display: "block", background: "green" }}
+      onClick={onClick}
+    />
+  );
+}
+
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 6, // Số lượng hiển thị item mỗi lần
+  slidesToScroll: 6,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        infinite: true,
+        dots: true,
+      },
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        initialSlide: 2,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+};
+
 export default function SectionCategories() {
-  const [btnLeft, setBtnLeft] = useState(false);
-  const [btnRight, setBtnRight] = useState(true);
-
-  const sectionListRef = useRef();
-  const btnRightTimeoutRef = useRef();
-  const btnLeftTimeoutRef = useRef();
-
-  const handleTimeoutLeft = () => {
-    if (btnLeftTimeoutRef.current) {
-      clearTimeout(btnLeftTimeoutRef.current);
-    }
-    btnLeftTimeoutRef.current = setTimeout(() => {
-      handleClickLeft();
-    }, 300);
-  };
-
-  const handleTimeoutRight = () => {
-    if (btnRightTimeoutRef.current) {
-      clearTimeout(btnRightTimeoutRef.current);
-    }
-    btnRightTimeoutRef.current = setTimeout(() => {
-      handleClickRight();
-    }, 300);
-  };
-
-  const handleClickLeft = () => {
-    const widthSection = sectionListRef.current.clientWidth;
-    sectionListRef.current.scrollLeft -= widthSection;
-    //  handleBtnSections();
-    setBtnLeft(sectionListRef.current.scrollLeft > 0 ? true : false);
-    setBtnRight(
-      sectionListRef.current.scrollLeft <
-        sectionListRef.current.scrollWidth - sectionListRef.current.clientWidth
-        ? true
-        : false
-    );
-  };
-
-  const handleClickRight = () => {
-    const widthSection = sectionListRef.current.clientWidth;
-    sectionListRef.current.scrollLeft += widthSection;
-    //  handleBtnSections();
-    setBtnLeft(sectionListRef.current.scrollLeft > 0 ? true : false);
-    setBtnRight(
-      sectionListRef.current.scrollLeft <
-        sectionListRef.current.scrollWidth - sectionListRef.current.clientWidth
-        ? true
-        : false
-    );
-  };
-
-  useEffect(() => {
-    setBtnLeft(sectionListRef.current.scrollLeft > 0 ? true : false);
-    setBtnRight(
-      sectionListRef.current.scrollLeft <
-        sectionListRef.current.scrollWidth - sectionListRef.current.clientWidth
-        ? true
-        : false
-    );
-  }, []);
+  const navigate = useNavigate();
 
   return (
     <div className="sectionCategories">
@@ -75,33 +80,30 @@ export default function SectionCategories() {
         </Link>
       </div>
       <div className="sectionCategories__body">
-        {btnLeft && (
-          <button className="sectionCategories__body__left" onClick={() => handleTimeoutLeft()}>
-            <i class="fa-solid fa-chevron-left"></i>
-          </button>
-        )}
-
-        <div ref={sectionListRef} className="sectionCategories__body__list row">
-          {categories?.map((item, i) => (
-            <div key={i} className="sectionCategories__body__list__item col pc-2-4 t-3 m-6">
-              <Link
-                to={`viec-lam/${item.slug}`}
-                className="sectionCategories__body__list__item__box"
-              >
-                <img src={`${item.icon}`} alt="" />
-                {/* <img src={""} alt="" /> */}
-                <h6>{item.text}</h6>
-                <span>(120 việc làm)</span>
-              </Link>
-            </div>
-          ))}
+        <div className="sectionCategories__body__list">
+          <Slider {...settings}>
+            {categories.map((item) => (
+              <div className="sectionCategories__body__list__item">
+                <div key={item.id} className="sectionCategories__body__list__item__box">
+                  <Link
+                    to={`/tim-kiem${item.link}`}
+                    target="_blank"
+                    className="sectionCategories__body__list__item__box__text"
+                  >
+                    <h4>{item.text}</h4>
+                  </Link>
+                  <Link
+                    to={`/tim-kiem${item.link}`}
+                    target="_blank"
+                    className="sectionCategories__body__list__item__box__image"
+                  >
+                    <img src={item?.icon} alt="" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </Slider>
         </div>
-
-        {btnRight && (
-          <button className="sectionCategories__body__right" onClick={() => handleTimeoutRight()}>
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-        )}
       </div>
     </div>
   );

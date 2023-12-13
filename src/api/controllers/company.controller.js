@@ -156,9 +156,6 @@ export const uploadImage = (req, res) => {
   const avatarPic = req.body.avatarPic;
   const q = "UPDATE companies SET avatarPic = ? WHERE id = ? ";
 
-  console.log(avatarPic);
-
-
   const token = req.cookies?.accessToken;
   if (!token) return res.status(403).json("Chưa đăng nhập !");
   jwt.verify(token, "secretkey", (err, userInfo) => {
@@ -240,8 +237,6 @@ export const forgotPassword = (req, res) => {
 export const resetPassword = (req, res) => {
   const { id, token } = req.params;
   const { password } = req.body;
-
-  console.log(id, token, password);
 
   if (!id || !token || !password) return res.status(403).json("Không tìm thấy!");
 

@@ -6,6 +6,7 @@ import checkEmail from "../middlewares/checkEmail.middleware.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
+
 export const getJobApply = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
@@ -256,7 +257,6 @@ export const updateStatusUser = (req, res) => {
     const q2 = "SELECT * FROM job.apply_job as a WHERE a.id = ?";
 
     db.query(q2, req.query.id, (err, data) => {
-      console.log(data);
       if (err) return res.status(401).json("Lỗi !");
 
       const url = `http://localhost:3000/nguoi-dung/${data[0]?.idUser}/apply`;
@@ -332,8 +332,6 @@ export const hiddenUserByCpn = (req, res) => {
     ).format(
       "YYYY-MM-DD HH:mm:ss"
     )}' WHERE a.id in ('${idFilter}') AND a.idJob = j.id AND j.idCompany = ${userInfo.id}`;
-
-    console.log(q);
 
     db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);

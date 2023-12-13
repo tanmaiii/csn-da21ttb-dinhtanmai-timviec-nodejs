@@ -194,7 +194,6 @@
             &__control {
               @include flex(center, unset);
               gap: 8px;
-              height: 100%;
               padding: 12px;
               border-radius: $border-radius-10;
               background-color: themed("bg2");

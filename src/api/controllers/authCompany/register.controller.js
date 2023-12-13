@@ -22,7 +22,6 @@ export const register = (req, res) => {
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ.");
 
   db.query(q, email, (err, data) => {
-    console.log(data);
     if (err) return res.status(500).json(err);
     if (data.length) return res.status(409).json("Email đã tồn tại !");
 
@@ -43,7 +42,6 @@ export const register = (req, res) => {
     ];
 
     db.query(q, [values], (err, data) => {
-      console.log(data);
       if (err) return res.status(500).json(err);
       return res.status(200).json("Đăng ký thành công");
     });
