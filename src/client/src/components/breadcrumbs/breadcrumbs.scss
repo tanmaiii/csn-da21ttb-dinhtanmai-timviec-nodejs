@@ -7,18 +7,23 @@
       list-style: none;
       @include flex(center, unset);
       & > .crumb {
-        color: themed("text1");
         font-size: $font-size-s;
         font-weight: 500;
         i {
           margin: 0 8px;
+          color: themed("text1");
         }
         a {
           transition: all 0.3s;
+          color: $color-primary;
           &:hover {
             color: $color-primary;
             text-decoration: underline;
           }
+        }
+        span {
+          transition: all 0.3s;
+          color: themed('text1');
         }
       }
     }

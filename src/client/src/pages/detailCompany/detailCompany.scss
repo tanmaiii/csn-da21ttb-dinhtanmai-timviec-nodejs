@@ -96,6 +96,7 @@
                 @include flex(unset, unset);
                 flex-direction: column;
                 gap: 8px;
+                color: themed("text1");
                 @include mobile {
                   align-items: center;
                 }

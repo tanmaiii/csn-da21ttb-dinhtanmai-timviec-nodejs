@@ -75,6 +75,89 @@
           @include text(1);
         }
       }
+      &__item__cv {
+        width: 100%;
+        margin: 10px 0;
+        & > .header {
+          @include flex(center, unset);
+          gap: 8px;
+          margin-bottom: 10px;
+          color: themed("text2");
+          h4 {
+            font-size: $font-size-s;
+            font-weight: 500;
+          }
+        }
+        & > .box {
+          width: 100%;
+          height: max-content;
+          border-radius: $border-radius-10;
+          padding: 20px;
+          border: 2px dashed themed("text2");
+          @include flex(center, center);
+          flex-direction: column;
+          gap: 8px;
+          &.dage {
+            border-color: $color-primary;
+          }
+          .btn_submit {
+            @include button(themed("text1"), themed("bg1"));
+            cursor: pointer;
+          }
+          & > .file {
+            @include flex(center, center);
+            gap: 8px;
+            .file__name {
+              @include flex(center, unset);
+              gap: 8px;
+              color: $color-primary;
+              i {
+                font-size: 1.2rem;
+              }
+              span {
+                font-size: $font-size-s;
+              }
+            }
+            & > .btn_delete {
+              background-color: $color-red;
+              color: $color-txt-red;
+              padding: 8px;
+              border-radius: 6px;
+              i {
+                font-size: $font-size-xs;
+              }
+            }
+          }
+          label {
+            width: 100%;
+            height: 100%;
+            @include flex(center, center);
+            flex-direction: column;
+            gap: 8px;
+            cursor: pointer;
+            position: relative;
+            & > i {
+              font-size: 4rem;
+              color: $color-primary;
+            }
+            span {
+              color: themed("text1");
+              font-size: $font-size-s;
+              font-weight: 500;
+            }
+
+            input[type="file"] {
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              opacity: 0;
+              position: absolute;
+              top: 0;
+              left: 0;
+            }
+          }
+        }
+      }
       &__item__letter {
         @include flex(unset, unset);
         flex-direction: column;
@@ -84,7 +167,7 @@
         label {
           font-size: $font-size-s;
           font-weight: 500;
-          color: themed("text1");
+          color: themed("text2");
           width: 100px;
         }
         &__input {

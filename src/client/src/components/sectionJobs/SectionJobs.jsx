@@ -38,7 +38,7 @@ export default function SectionJobs({ title }) {
             ))}
         </div>
       </div>
-      <Link className="sectionJobs__btn">
+      <Link to={'/tim-kiem'} className="sectionJobs__btn">
         <button className="">
           <span>Xem tất cả</span> <i className="fa-solid fa-chevron-right"></i>
         </button>

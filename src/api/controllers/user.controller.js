@@ -9,8 +9,7 @@ dotenv.config();
 
 export const getUser = (req, res) => {
   const id = req.params.id;
-  const q =
-    `SELECT u.id, u.name, u.email, u.phone, u.avatarPic, u.birthDay, u.intro, u.linkCv, p.name as province FROM job.users as u 
+  const q = `SELECT u.id, u.name, u.email, u.phone, u.avatarPic, u.birthDay, u.intro, u.linkSocial, p.name as province FROM job.users as u 
     LEFT JOIN job.provinces as p ON u.idProvince = p.id WHERE u.id = ?`;
 
   if (id) {
@@ -49,17 +48,26 @@ export const updateUser = (req, res) => {
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
-  const { name, birthDay, sex, email, phone, idProvince, linkCv } = req.body;
+  const { name, birthDay, sex, email, phone, idProvince, linkSocial } = req.body;
 
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
-  if (linkCv?.length > 0 && !checkUrl(linkCv))
+  if (linkSocial?.length > 0 && !checkUrl(linkSocial))
     return res.status(409).json("Link Cv không hợp lệ !");
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
-      "UPDATE job.users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ?, `sex`= ? , `idProvince`= ?, `linkCv` = ? WHERE id = ? ";
-    const values = [name, email, phone, new Date(birthDay), sex, idProvince, linkCv, userInfo.id];
+      "UPDATE job.users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ?, `sex`= ? , `idProvince`= ?, `linkSocial` = ? WHERE id = ? ";
+    const values = [
+      name,
+      email,
+      phone,
+      new Date(birthDay),
+      sex,
+      idProvince,
+      linkSocial,
+      userInfo.id,
+    ];
 
     db.query(q, values, (err, data) => {
       if (!err) return res.status(200).json(data);
@@ -72,7 +80,6 @@ export const updateUser = (req, res) => {
 export const updateIntroUser = (req, res) => {
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
-
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
@@ -89,7 +96,6 @@ export const updateIntroUser = (req, res) => {
 export const uploadImage = (req, res) => {
   const avatarPic = req.body.avatarPic;
   const q = "UPDATE users SET avatarPic = ? WHERE id = ? ";
-
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(403).json("Chưa đăng nhập !");
@@ -172,7 +178,6 @@ export const forgotPassword = (req, res) => {
 export const resetPassword = (req, res) => {
   const { id, token } = req.params;
   const { password } = req.body;
-
 
   if (!id || !token || !password) return res.status(403).json("Không tìm thấy!");
 

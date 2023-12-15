@@ -26,7 +26,6 @@ export default function ListJobCol({ name, nameField, idField, idJob }) {
     }
   }, [idField]);
 
-  console.log(jobs);
 
   return (
     jobs?.length > 1 && (

@@ -182,7 +182,7 @@ export default function DetailJob() {
           <NotFound />
         ) : (
           <div className="container">
-            <Breadcrumbs />
+            <Breadcrumbs field={job?.nameField} name={job?.nameJob}/>
             <div className="detailJob__share">
               <div className="detailJob__share__wrapper">
                 <div className="detailJob__share__wrapper__list">

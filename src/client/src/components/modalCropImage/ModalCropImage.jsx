@@ -33,8 +33,15 @@ export default function ModalCropImage({ openModal, setOpenModal }) {
 
   const handleInputImg = (e) => {
     const file = e.target.files[0];
-    file.preview = URL.createObjectURL(file);
-    setImg(file.preview);
+    if (file) {
+      if (file.type && file.type.startsWith('image/')) {
+        // File là hình ảnh, xử lý tại đây
+        file.preview = URL.createObjectURL(file);
+        setImg(file.preview);
+      } else {
+        toast.error('Chỉ chấp nhận các tệp hình ảnh.');
+      }
+    }
   };
 
   const handleSubmit = async () => {

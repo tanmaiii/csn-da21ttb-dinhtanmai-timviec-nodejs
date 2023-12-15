@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./detailCandidate.scss";
-import Select from "../select/Select";
-import { status } from "../../config/data.js";
 import { makeRequest } from "../../axios.js";
 import moment from "moment";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
+import { apiCv } from "../../axios.js";
 
 export default function DetailCandidate({ idApply }) {
   const [candidate, setCandidate] = useState();
@@ -24,22 +23,8 @@ export default function DetailCandidate({ idApply }) {
     candidate && (
       <div className="detailCandidate">
         <div className="detailCandidate__wrapper">
-          {/* <div className="detailCandidate__wrapper__control">
-            <h4 className="detailCandidate__wrapper__control__title">
-              Trạng thái hồ sơ
-            </h4>
-            <div className="detailCandidate__wrapper__control__select">
-              <SelectStatus
-                option={status}
-                defaultActive={candidate?.status}
-                id={candidate?.id}
-              />
-            </div>
-          </div> */}
           <div className="detailCandidate__wrapper__group">
-            <h4 className="detailCandidate__wrapper__group__title">
-              Thông tin người ứng tuyển
-            </h4>
+            <h4 className="detailCandidate__wrapper__group__title">Thông tin ứng viên</h4>
             <div className="detailCandidate__wrapper__group__content">
               <div className="detailCandidate__wrapper__group__content__item">
                 <h6>Họ tên: </h6>
@@ -72,9 +57,7 @@ export default function DetailCandidate({ idApply }) {
             </div>
           </div>
           <div className="detailCandidate__wrapper__group">
-            <h4 className="detailCandidate__wrapper__group__title">
-              Thư xin việc
-            </h4>
+            <h4 className="detailCandidate__wrapper__group__title">Thư xin việc</h4>
             <div className="detailCandidate__wrapper__group__content">
               <div
                 className="detailCandidate__wrapper__group__content__item__letters"
@@ -83,17 +66,24 @@ export default function DetailCandidate({ idApply }) {
             </div>
           </div>
           <div className="detailCandidate__wrapper__group">
-            <h4 className="detailCandidate__wrapper__group__title">
-              Liên kết cv
-            </h4>
+            <h4 className="detailCandidate__wrapper__group__title">Cv của ứng viên</h4>
             <div className="detailCandidate__wrapper__group__content">
-              <div className="detailCandidate__wrapper__group__content__item__cv">
-                {candidate?.linkCv ? (
-                  <a href={candidate?.linkCv}>Truy cập</a>
-                ) : (
-                  <span>Không có liên kết</span>
-                )}
-              </div>
+              {candidate?.cv ? (
+                <a target="_blank" href={`${apiCv + candidate?.cv}`} className="file">
+                  <div className="file__name">
+                    <i class="fa-regular fa-file-lines"></i>
+                    <span>{candidate?.cv}</span>
+                  </div>
+                  <a href={`${apiCv + candidate?.cv}`} download>
+                    <button className="file__button">
+                      <i class="fa-regular fa-circle-down"></i>
+                      <span>Tải xuống</span>
+                    </button>
+                  </a>
+                </a>
+              ) : (
+                <span>Không có</span>
+              )}
             </div>
           </div>
         </div>
@@ -101,85 +91,3 @@ export default function DetailCandidate({ idApply }) {
     )
   );
 }
-
-// function SelectStatus({ option, defaultActive, id }) {
-//   const [open, setOpen] = useState(false);
-//   const [optionActive, setOptionActive] = useState(defaultActive);
-//   const SelectStatusRef = useRef();
-//   const queryClient = useQueryClient();
-
-//   useEffect(() => {
-//     setOptionActive(defaultActive);
-//   }, [defaultActive]);
-
-//   const mutation = useMutation(
-//     (status) => {
-//       return makeRequest.put(`/apply/status?id=${id}&status=${status}`);
-//     },
-//     {
-//       onSuccess: () => {
-//         queryClient.invalidateQueries(["apply"]);
-//       },
-//     }
-//   );
-
-//   const handleClickOption = (status) => {
-//     setOptionActive(status);
-//     mutation.mutate(status);
-//     setOpen(false);
-//   };
-
-//   useEffect(() => {
-//     const handleMousedown = (e) => {
-//       if (!SelectStatusRef.current.contains(e.target)) {
-//         setOpen(false);
-//       }
-//     };
-//     document.addEventListener("mousedown", handleMousedown);
-//     return () => document.removeEventListener("mousedown", handleMousedown);
-//   });
-
-//   return (
-//     <div className="SelectStatus" ref={SelectStatusRef}>
-//       {optionActive &&
-//         option?.map((option) => {
-//           if (option.id === optionActive)
-//             return (
-//               <div
-//                 className={`SelectStatus__toggle  status-${option?.id}`}
-//                 onClick={() => setOpen(!open)}
-//               >
-//                 <div className={`SelectStatus__toggle__title`}>
-//                   {option?.icon}
-//                   <span className="text">{option.name}</span>
-//                 </div>
-//                 <i
-//                   className={`fa-solid fa-angle-down icon-down ${
-//                     open ? "open" : ""
-//                   }`}
-//                 ></i>
-//               </div>
-//             );
-//         })}
-
-//       {open && (
-//         <div className="SelectStatus__menu">
-//           <div className={`SelectStatus__menu__list`}>
-//             {option?.map((option, i) => (
-//               <div
-//                 key={i}
-//                 className={`SelectStatus__menu__list__item  ${
-//                   optionActive === option?.id ? "active" : ""
-//                 }`}
-//                 onClick={() => handleClickOption(option?.id)}
-//               >
-//                 {option?.icon}
-//                 <span>{option?.label}</span>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }

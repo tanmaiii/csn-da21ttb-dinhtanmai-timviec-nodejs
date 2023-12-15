@@ -15,7 +15,7 @@ export default function InfoUser() {
   const [provinces, setProvinces] = useState();
   const [edit, setEdit] = useState();
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [inputs, setInputs] = useState({
     name: "",
@@ -24,7 +24,7 @@ export default function InfoUser() {
     email: "",
     phone: "",
     idProvince: "",
-    linkCv: "",
+    linkSocial: "",
   });
 
   const handleChange = (e) => {
@@ -37,14 +37,13 @@ export default function InfoUser() {
       try {
         const res = await makeRequest("/provinces");
         setProvinces(res.data);
-      } catch (error) {
-      }
+      } catch (error) {}
     };
     getProvinces();
   }, []);
 
   useEffect(() => {
-    if (parseInt(currentUser?.id) !== parseInt(id)) return navigate('/dang-nhap/nguoi-dung');
+    if (parseInt(currentUser?.id) !== parseInt(id)) return navigate("/dang-nhap/nguoi-dung");
   }, []);
 
   const { isLoading, error, data } = useQuery(["user"], async () => {
@@ -56,7 +55,7 @@ export default function InfoUser() {
         email: res.data.email,
         phone: res.data.phone,
         idProvince: res.data.idProvince,
-        linkCv: res.data.linkCv,
+        linkSocial: res.data.linkSocial,
       });
       setUser(res.data);
       return res.data;
@@ -109,10 +108,10 @@ export default function InfoUser() {
           edit={edit}
           setEdit={setEdit}
           inputs={inputs}
-          name="linkCv"
+          name="linkSocial"
           handleChange={handleChange}
-          title={"Liên kết CV (Kết nối với Google Drive) :"}
-          desc={user?.linkCv}
+          title={"Liên kết facebook :"}
+          desc={user?.linkSocial}
         />
         <ItemInfo
           edit={edit}
@@ -192,20 +191,10 @@ function ItemInfo({
           <span>{desc || "..."}</span>
         ) : (
           (type === "input" && (
-            <input
-              name={name}
-              type="text"
-              defaultValue={desc}
-              onChange={handleChange}
-            />
+            <input name={name} type="text" defaultValue={desc} onChange={handleChange} />
           )) ||
           (type === "input-date" && (
-            <input
-              name={name}
-              type="date"
-              defaultValue={desc}
-              onChange={handleChange}
-            />
+            <input name={name} type="date" defaultValue={desc} onChange={handleChange} />
           )) ||
           (type === "input-radio" && (
             <InputRadio

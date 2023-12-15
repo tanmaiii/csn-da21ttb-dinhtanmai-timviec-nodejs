@@ -38,6 +38,7 @@ app.use(
   })
 );
 app.use("/images", express.static(path.join(__dirname, "/images")));
+app.use("/cv", express.static(path.join(__dirname, "/fileCv")));
 
 dotenv.config();
 
@@ -51,6 +52,8 @@ db.connect(function (err) {
     console.log("Connecting mysql");
   }
 });
+
+// Multer image
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -68,6 +71,27 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   if (!checkImage(file)) return res.status(404).json("Ảnh không hợp lệ! Vui lòng gửi lại.");
   res.status(200).json(file.filename);
 });
+
+// Multer file cv
+
+const storageFile = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "fileCv");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+const uploadFile = multer({ storage: storageFile });
+
+app.post("/api/uploadFile", uploadFile.single("file"), (req, res) => {
+  console.log(req.file);
+  const file = req.file;
+  res.status(200).json(file.filename);
+});
+
+// router
 
 app.use("/api/authUser", authUserRouter);
 app.use("/api/authCompany", authCompanyRouter);

@@ -15,7 +15,7 @@ export const getAll = (req, res) => {
 
 export const getWithType = (req, res) => {
   const q = `SELECT f.id, name as name , name as value, name as label, typeField, count(j.nameJob) as countJobs 
-     FROM job.fields as f LEFT JOIN job.jobs as j on f.id = j.idField group by f.id`;
+     FROM job.fields as f LEFT JOIN job.jobs as j on f.id = j.idField and j.deletedAt is null group by f.id`;
 
   db.query(q, (err, data) => {
     if (!data.length) {

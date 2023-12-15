@@ -109,6 +109,12 @@
       font-size: $font-size-s;
       text-align: center;
       // @include text(1);
+      &.name__job {
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-align: start;
+      }
       @include tablet {
         width: 100%;
         display: grid;

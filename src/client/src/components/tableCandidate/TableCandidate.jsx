@@ -118,20 +118,20 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
         {String(index + 1).padStart(2, "0")}
       </div>
       <div className="table__candidate__body__row__item" data-cell={"Thông tin"}>
-        <div className="table__candidate__body__row__item__info">
-          <Link to={`/nguoi-dung/${item?.idUser}`}>
+        <Link to={`/nguoi-dung/${item?.idUser}`}>
+          <div className="table__candidate__body__row__item__info">
             <img
               className="table__candidate__body__row__item__info__image"
               src={apiImage + item?.avatarPic || img}
             />
-          </Link>
-          <span>{item?.name}</span>
-        </div>
+            <span>{item?.name}</span>
+          </div>
+        </Link>
       </div>
       <div className="table__candidate__body__row__item" data-cell={"Ngày nhận"}>
         {moment(item?.createdAt).format("DD/MM/YYYY")}
       </div>
-      <span className="table__candidate__body__row__item" data-cell={"Công việc"}>
+      <span className="table__candidate__body__row__item name__job" data-cell={"Công việc"}>
         {item.nameJob}
       </span>
       <div className="table__candidate__body__row__item" data-cell={"Trạng thái"}>

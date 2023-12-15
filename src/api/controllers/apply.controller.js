@@ -6,7 +6,6 @@ import checkEmail from "../middlewares/checkEmail.middleware.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
-
 export const getJobApply = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
@@ -202,13 +201,12 @@ export const getStatus = async (req, res) => {
 };
 
 export const applyJob = (req, res) => {
-  const { idJob, name, email, phone, letter, linkCv } = req.body;
+  const { idJob, name, email, phone, letter, cv } = req.body;
 
-  if (!idJob || !name || !email || !phone || !letter || !linkCv)
+  if (!idJob || !name || !email || !phone || !letter || !cv)
     return res.status(401).json("Các trường không để rỗng !");
 
   if (!checkEmail(email)) return res.status(401).json("Email không hợp lệ.");
-  if (!checkUrl(linkCv)) return res.status(401).json("Link cv không hợp lệ.");
 
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
@@ -217,7 +215,7 @@ export const applyJob = (req, res) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q =
-      "INSERT INTO job.apply_job ( `idUser`, `idJob`, `name`, `email`, `phone`, `status`, `letter`, `linkCv`, `createdAt`) VALUES (?)";
+      "INSERT INTO job.apply_job ( `idUser`, `idJob`, `name`, `email`, `phone`, `status`, `letter`, `cv`, `createdAt`) VALUES (?)";
     const values = [
       userInfo.id,
       idJob,
@@ -226,7 +224,7 @@ export const applyJob = (req, res) => {
       phone,
       1,
       letter,
-      linkCv,
+      cv,
       moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
     ];
 

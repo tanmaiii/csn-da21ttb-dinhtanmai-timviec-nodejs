@@ -106,8 +106,6 @@ export default function DetailUser() {
     }
   }, [openModalAvatar]);
 
-  console.log(user);
-
   return (
     <div>
       {loading && <Loader />}
@@ -265,9 +263,9 @@ export default function DetailUser() {
                   <div className="detailUser__wrapper__body__right">
                     <h4>Thông tin</h4>
                     <div className="cv">
-                      <i className="fa-solid fa-globe"></i>
-                      {user?.linkCv ? (
-                        <a href={user?.linkCv}>{user?.linkCv}</a>
+                      <i className="fa-brands fa-facebook"></i>
+                      {user?.linkSocial?.split("/")[3] ? (
+                        <a href={user?.linkSocial}>{user?.linkSocial?.split("/")[3]}</a>
                       ) : (
                         <span>Không có</span>
                       )}
