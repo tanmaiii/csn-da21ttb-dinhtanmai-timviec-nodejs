@@ -5,12 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/images/avatarCpn.png";
 import { apiImage } from "../../axios";
 import { makeRequest } from "../../axios";
+import PropTypes from 'prop-types'
 
 import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
 
 import { useAuth } from "../../context/authContext";
 
-export default function ItemCompany({ company, className, style }) {
+export default function ItemCompany({ company, className }) {
   const btnRef = useRef();
   const navigate = useNavigate();
   const [follower, setFollower] = useState();
@@ -99,4 +100,9 @@ export default function ItemCompany({ company, className, style }) {
       </div>
     )
   );
+}
+
+ItemCompany.propTypes = {
+  company: PropTypes.object,
+  className: PropTypes.string,
 }

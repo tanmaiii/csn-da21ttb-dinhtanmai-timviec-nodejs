@@ -6,9 +6,12 @@
     & > .list {
       list-style: none;
       @include flex(center, unset);
+      flex-wrap: wrap;
       & > .crumb {
         font-size: $font-size-s;
-        font-weight: 500;
+        font-weight: 400;
+        @include flex(center, unset);
+        flex-wrap: nowrap;
         i {
           margin: 0 8px;
           color: themed("text1");
@@ -16,6 +19,7 @@
         a {
           transition: all 0.3s;
           color: $color-primary;
+          white-space: nowrap;
           &:hover {
             color: $color-primary;
             text-decoration: underline;

@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import ReactQuill from "react-quill";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
+import PropTypes from 'prop-types'
+
 
 export default function ApplyJob({ job }) {
   const { currentUser } = useAuth();
@@ -223,4 +225,8 @@ export default function ApplyJob({ job }) {
       </div>
     </div>
   );
+}
+
+ApplyJob.propTypes = {
+  job : PropTypes.object
 }

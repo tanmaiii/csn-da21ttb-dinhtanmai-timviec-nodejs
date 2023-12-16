@@ -3,6 +3,7 @@ import "./dropdownItem.scss";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import formatStr from "../../config/formatStr";
 import queryString from "query-string";
+import PropTypes from "prop-types";
 
 export default function DropdownItem(props) {
   const {
@@ -52,9 +53,7 @@ export default function DropdownItem(props) {
     <div className="dropdown" ref={dropdownRef}>
       <div
         className={`dropdown__toggle ${
-          (optionActive?.length > 0 && "active") || salaryFilter?.length > 0
-            ? "active"
-            : ""
+          (optionActive?.length > 0 && "active") || salaryFilter?.length > 0 ? "active" : ""
         }`}
         onClick={() => setOpen(!open)}
       >
@@ -62,9 +61,7 @@ export default function DropdownItem(props) {
           {icon && icon}
           <span className="text">{title}</span>
         </div>
-        <i
-          className={`fa-solid fa-angle-down icon-down ${open ? "open" : ""}`}
-        ></i>
+        <i className={`fa-solid fa-angle-down icon-down ${open ? "open" : ""}`}></i>
       </div>
       {open && (
         <div className="dropdown__menu">
@@ -87,19 +84,17 @@ export default function DropdownItem(props) {
           {option && (
             <div className="dropdown__menu__list">
               {option
-                ?.filter((asd) =>
-                  formatStr(asd.name).includes(formatStr(value))
-                )
+                ?.filter((asd) => formatStr(asd.name).includes(formatStr(value)))
                 .map((option, i) => (
                   <div key={i} className="dropdown__menu__list__item">
-                    <label htmlFor={i}>
+                    <label htmlFor={`list__item__${i}`}>
                       <input
                         defaultChecked={optionActive.includes(option?.name)}
                         type="checkbox"
-                        checked={optionActive.includes(option?.name)}
+                    //    checked={optionActive.includes(option?.name)}
                         name=""
-                        id={i}
-                        onClick={() => handleClickOption(option?.name)}
+                        id={`list__item__${i}`}
+                        onChange={() => handleClickOption(option?.name)}
                       />
                       <span>{option?.name}</span>
                     </label>
@@ -108,10 +103,7 @@ export default function DropdownItem(props) {
             </div>
           )}
           {salary && (
-            <DropdownMenuSalary
-              setSalaryFilter={setSalaryFilter}
-              salaryFilter={salaryFilter}
-            />
+            <DropdownMenuSalary setSalaryFilter={setSalaryFilter} salaryFilter={salaryFilter} />
           )}
         </div>
       )}
@@ -134,8 +126,7 @@ function DropdownMenuSalary({ setSalaryFilter, salaryFilter }) {
   const maxValRef = useRef();
 
   const slideMin = () => {
-    let gap =
-      parseInt(maxValRef.current.value) - parseInt(minValRef.current.value);
+    let gap = parseInt(maxValRef.current.value) - parseInt(minValRef.current.value);
     if (gap <= minGap) {
       minValRef.current.value = parseInt(maxValRef.current.value) - minGap;
     }
@@ -146,8 +137,7 @@ function DropdownMenuSalary({ setSalaryFilter, salaryFilter }) {
   };
 
   const slideMax = () => {
-    let gap =
-      parseInt(maxValRef.current.value) - parseInt(minValRef.current.value);
+    let gap = parseInt(maxValRef.current.value) - parseInt(minValRef.current.value);
     if (gap <= minGap) {
       maxValRef.current.value = parseInt(minValRef.current.value) + minGap;
     }
@@ -193,6 +183,7 @@ function DropdownMenuSalary({ setSalaryFilter, salaryFilter }) {
       <div className="dropdown__menu__salary__slider">
         <span className="slider-track"></span>
         <input
+          defaultChecked={min}
           type="range"
           name="min"
           className="min-val"
@@ -203,6 +194,7 @@ function DropdownMenuSalary({ setSalaryFilter, salaryFilter }) {
           value={minVal}
         />
         <input
+          defaultChecked={max}
           type="range"
           name="min"
           className="max-val"
@@ -220,10 +212,22 @@ function DropdownMenuSalary({ setSalaryFilter, salaryFilter }) {
           Áp dụng
         </button>
         <button className="btn-remove" onClick={() => handleClickRemove()}>
-          <i class="fa-regular fa-trash-can"></i>
+          <i className="fa-regular fa-trash-can"></i>
           <span>Xóa lọc</span>
         </button>
       </div>
     </div>
   );
 }
+
+DropdownItem.propTypes = {
+  icon: PropTypes.object,
+  title: PropTypes.string,
+  option: PropTypes.array,
+  salary: PropTypes.bool,
+  optionActive: PropTypes.array,
+  setOptionActive: PropTypes.func,
+  setSalaryFilter: PropTypes.func,
+  salaryFilter: PropTypes.array,
+  search: PropTypes.bool,
+};

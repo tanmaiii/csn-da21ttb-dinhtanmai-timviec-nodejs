@@ -8,6 +8,7 @@ import img from "../../assets/images/avatarCpn.png";
 import Modal from "../modal/Modal";
 import moment from "moment";
 import "moment/locale/vi";
+import PropTypes from 'prop-types'
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -270,4 +271,10 @@ export default function ItemJob({ className, job, onClick }) {
       }
     </>
   );
+}
+
+ItemJob.propTypes = {
+  job: PropTypes.object,
+  className: PropTypes.string,
+  onClick: PropTypes.func,
 }

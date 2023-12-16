@@ -11,8 +11,8 @@
     z-index: 9999;
     @include flex(center, center);
     display: none;
-    &.active{
-        display: flex;
+    &.active {
+      display: flex;
     }
     &__wrapper {
       width: 600px;
@@ -55,7 +55,6 @@
         @include flex(center, center);
         flex-direction: column;
         width: 100%;
-
         &__image {
           position: relative;
           width: 100%;
@@ -90,6 +89,19 @@
                 height: 100%;
                 cursor: pointer;
               }
+            }
+          }
+          .reactEasyCrop_Container {
+            height: 100%;
+            width: 100%;
+            .reactEasyCrop_Image {
+              height: 100%;
+              width: 100%;
+              object-fit: contain;
+            }
+            .reactEasyCrop_CropArea {
+              height: 100%;
+              width: auto;
             }
           }
         }

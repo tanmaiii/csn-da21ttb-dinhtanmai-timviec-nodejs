@@ -36,7 +36,7 @@ export default function RecomKeyword() {
         </div>
         <div className="recomKeyword__wrapper__body">
           {tuKhoaTimViec.map((key, i) => (
-            <button onClick={() => navigate(`/tim-kiem/${key}`)} className="item">
+            <button key={i} onClick={() => navigate(`/tim-kiem/${key}`)} className="item">
               {key}
             </button>
           ))}

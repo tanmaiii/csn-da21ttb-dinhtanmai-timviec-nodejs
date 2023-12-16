@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
+import moment from "moment";
 
 export const getCompanies = async (req, res) => {
   try {
@@ -8,8 +9,9 @@ export const getCompanies = async (req, res) => {
     const { page, limit } = req.query;
     const offset = (page - 1) * limit;
 
-    const q = `SELECT nameCompany, avatarPic, scale, web, c.id, p.name as province FROM job.follow_company AS f, job.companies AS c, job.provinces as p 
-              WHERE f.idUser = ? AND f.idCompany = c.id AND c.idProvince = p.id limit ? offset ?`;
+    const q = `SELECT nameCompany, avatarPic, scale, web, c.id, p.name as province 
+              FROM job.follow_company AS f, job.companies AS c, job.provinces as p 
+              WHERE f.idUser = ? AND f.idCompany = c.id AND c.idProvince = p.id order by f.createdAt desc limit ? offset ?`;
 
     const q2 = `SELECT count(*) as count FROM job.follow_company AS f, job.companies AS c 
                 WHERE f.idUser = ? AND f.idCompany = c.id`;
@@ -37,8 +39,7 @@ export const getCompanies = async (req, res) => {
 
 export const getFollower = (req, res) => {
   try {
-    const q =
-      "SELECT idUser FROM job.follow_company as f WHERE f.idCompany = ?";
+    const q = "SELECT idUser FROM job.follow_company as f WHERE f.idCompany = ?";
 
     db.query(q, [req.query.idCompany], (err, data) => {
       if (err) return res.status(500).json(err);
@@ -56,9 +57,12 @@ export const addFollow = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
-    const q =
-      "INSERT INTO job.follow_company (`idUser`, `idCompany`) VALUES (?)";
-    const values = [userInfo.id, req.query.idCompany];
+    const q = "INSERT INTO job.follow_company (`idUser`, `idCompany`, `createdAt`) VALUES (?)";
+    const values = [
+      userInfo.id,
+      req.query.idCompany,
+      moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+    ];
 
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
@@ -74,8 +78,7 @@ export const removeFollow = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
-    const q =
-      "DELETE FROM job.follow_company WHERE `idUser` = ? AND `idCompany` = ?";
+    const q = "DELETE FROM job.follow_company WHERE `idUser` = ? AND `idCompany` = ?";
 
     db.query(q, [userInfo.id, req.query.idCompany], (err, data) => {
       if (err) return res.status(500).json(err);

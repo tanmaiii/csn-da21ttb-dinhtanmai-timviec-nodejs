@@ -96,7 +96,7 @@
             .file__name {
               @include flex(center, unset);
               gap: 8px;
-              & > span {
+              & > a {
                 color: themed("text1");
                 @include hideText(100%);
               }

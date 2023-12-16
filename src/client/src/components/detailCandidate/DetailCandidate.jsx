@@ -4,6 +4,7 @@ import { makeRequest } from "../../axios.js";
 import moment from "moment";
 import { useQuery } from "react-query";
 import { apiCv } from "../../axios.js";
+import PropTypes from "prop-types";
 
 export default function DetailCandidate({ idApply }) {
   const [candidate, setCandidate] = useState();
@@ -69,10 +70,10 @@ export default function DetailCandidate({ idApply }) {
             <h4 className="detailCandidate__wrapper__group__title">Cv của ứng viên</h4>
             <div className="detailCandidate__wrapper__group__content">
               {candidate?.cv ? (
-                <a target="_blank" href={`${apiCv + candidate?.cv}`} className="file">
+                <div className="file">
                   <div className="file__name">
                     <i class="fa-regular fa-file-lines"></i>
-                    <span>{candidate?.cv}</span>
+                    <a href={`${apiCv + candidate?.cv}`} download >{candidate?.cv}</a>
                   </div>
                   <a href={`${apiCv + candidate?.cv}`} download>
                     <button className="file__button">
@@ -80,7 +81,7 @@ export default function DetailCandidate({ idApply }) {
                       <span>Tải xuống</span>
                     </button>
                   </a>
-                </a>
+                </div>
               ) : (
                 <span>Không có</span>
               )}
@@ -91,3 +92,7 @@ export default function DetailCandidate({ idApply }) {
     )
   );
 }
+
+DetailCandidate.propTypes = {
+  idApply: PropTypes.number,
+};

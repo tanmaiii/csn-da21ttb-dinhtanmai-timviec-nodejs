@@ -7,6 +7,7 @@ import img from "../../assets/images/avatarCpn.png";
 import { useAuth } from "../../context/authContext";
 import { toast } from "sonner";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import PropTypes from 'prop-types'
 
 export default function ListJobCol({ name, nameField, idField, idJob }) {
   const [jobs, setJobs] = useState();
@@ -35,9 +36,9 @@ export default function ListJobCol({ name, nameField, idField, idJob }) {
             <h4>{name}</h4>
           </div>
           <div className="listJobCol__wrapper__body">
-            {jobs?.map((job) => {
+            {jobs?.map((job, i) => {
               if (job?.id === idJob) return;
-              return <ItemJob job={job} className={"col pc-12"} />;
+              return <ItemJob key={i} job={job} className={"col pc-12"} />;
             })}
           </div>
           <div className="listJobCol__wrapper__bottom">
@@ -148,4 +149,15 @@ function ItemJob({ job }) {
       </div>
     </div>
   );
+}
+
+ListJobCol.propTypes = {
+  name: PropTypes.string,
+  nameField: PropTypes.string,
+  idField: PropTypes.number,
+  idJob: PropTypes.number,
+}
+
+ItemJob.propTypes = {
+  job: PropTypes.object
 }

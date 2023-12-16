@@ -2,12 +2,10 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import "./breadcrumbs.scss";
+import PropTypes from 'prop-types'
 
 export default function Breadcrumbs({ field, name }) {
   const navigate = useNavigate();
-
-  const location = useLocation();
-  const pathnames = location.pathname.split("/").filter((x) => x);
 
   return (
     <nav className="breadcrumbs">
@@ -26,4 +24,9 @@ export default function Breadcrumbs({ field, name }) {
       </ul>
     </nav>
   );
+}
+
+Breadcrumbs.propTypes = {
+  field : PropTypes.string,
+  name: PropTypes.string
 }

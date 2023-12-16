@@ -344,7 +344,7 @@ function BannerSearch() {
             />
             <DropdownItem
               icon={<i className="fa-solid fa-chart-gantt"></i>}
-              title={"loại công việc"}
+              title={"Loại công việc"}
               option={typeWorks}
               optionActive={optionActiveTypeWork}
               setOptionActive={setOptionActiveTypeWork}
