@@ -11,8 +11,6 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 //const CROP_AREA_ASPECT = 2 / 2;
 
-const dogImg =
-  "https://img.huffingtonpost.com/asset/5ab4d4ac2000007d06eb2c56.jpeg?cache=sih0jwle4e&ops=1910_1000";
 
 export default function ModalCropImage({ openModal, setOpenModal }) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });

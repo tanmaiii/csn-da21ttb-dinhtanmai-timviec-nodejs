@@ -29,7 +29,11 @@
   margin-bottom: 20px;
   padding: 10px;
   font-weight: 700;
-  width: 100%;
+  // width: 100%;
+  width: max-content;
+  margin-right: auto;
+  margin-left: auto;
+  @include flex(center, center);
 }
 
 .mess {
@@ -51,6 +55,8 @@ select {
   background-color: unset;
   cursor: pointer;
 }
+
+
 
 a {
   color: unset;

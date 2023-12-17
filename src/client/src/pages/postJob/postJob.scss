@@ -62,13 +62,14 @@
                 &__input {
                   @include flex(center, unset);
                   gap: 20px;
+                  // border-radius: $border-radius-10;
                   flex-wrap: wrap;
                   .select {
                     width: 360px;
                   }
                   input {
-                    border: 1px solid themed("border");
                     border-radius: $border-radius-10;
+                    border: 1px solid themed("border");
                     padding: 16px;
                     width: 360px;
                     font-size: $font-size-s;
@@ -132,7 +133,8 @@
                   border-bottom-right-radius: $border-radius-10;
                   .ql-editor {
                     font-size: $font-size-s;
-                    min-height: 300px;
+                    height: 400px;
+                    overflow: auto;
                   }
                 }
               }

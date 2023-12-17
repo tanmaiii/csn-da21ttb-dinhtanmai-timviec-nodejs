@@ -67,6 +67,8 @@ export const getAll = async (req, res) => {
 
     if (sort === "new") {
       q += ` ORDER BY j.createdAt DESC `;
+    } else if (sort === "old") {
+      q += `  ORDER BY j.createdAt ASC `;
     } else if (sort === "maxToMin") {
       q += ` ORDER BY j.salaryMin DESC `;
     } else if (sort === "minToMax") {
@@ -406,7 +408,6 @@ export const deleteJob = async (req, res) => {
     if (err) return res.status(403).json("Token không trùng !");
 
     const q = `DELETE FROM job.jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
-
 
     db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);

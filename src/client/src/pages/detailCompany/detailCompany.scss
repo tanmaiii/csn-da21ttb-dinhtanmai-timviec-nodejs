@@ -230,7 +230,7 @@
             &__control-mobile {
               @include flex(center, unset);
               gap: 6px;
-              height: 100%;
+              // height: 100%;
               display: none;
               padding: 12px;
               border-radius: $border-radius-10;

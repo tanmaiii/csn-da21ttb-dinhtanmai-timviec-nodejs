@@ -34,9 +34,7 @@ export default function CandidateHide() {
 
   const getApply = async () => {
     try {
-      const res = await makeRequest.get(
-        `/apply/userHideApply?&limit=${limit}&page=${paginate}`
-      );
+      const res = await makeRequest.get(`/apply/userHideApply?&limit=${limit}&page=${paginate}`);
 
       setData(res.data.data || []);
       setTotalPage(res.data?.pagination.totalPage || 0);
@@ -69,7 +67,7 @@ export default function CandidateHide() {
     },
     {
       onSuccess: () => {
-        toast.success("Bỏ ẩn ứng viên thành công.")
+        toast.success("Bỏ ẩn ứng viên thành công.");
         queryClient.invalidateQueries(["apply"]);
       },
     }
@@ -90,7 +88,7 @@ export default function CandidateHide() {
         <div className="candidateHide__wrapper">
           <div className="candidateHide__wrapper__header">
             <Link to={"/nha-tuyen-dung/ung-vien"}>
-              <button>
+              <button className="btn-cancel">
                 <i className="fa-solid fa-angle-left"></i>
                 <span>Quay lại</span>
               </button>
@@ -105,10 +103,7 @@ export default function CandidateHide() {
                 <>
                   <div className="candidateHide__wrapper__body__list__delete">
                     {listCheck?.length > 0 && (
-                      <button
-                        className="button__delete"
-                        onClick={handleClickHidden}
-                      >
+                      <button className="button__delete" onClick={handleClickHidden}>
                         <i className="fa-regular fa-eye"></i>
                         <span>Bỏ ẩn</span>
                       </button>
@@ -127,9 +122,10 @@ export default function CandidateHide() {
               <div className="candidateHide__wrapper__body__pgn__left">
                 <span>
                   {totalPage !== 0 &&
-                    `Trang ${String(paginate).padStart(2, "0")} trên ${String(
-                      totalPage
-                    ).padStart(2, "0")}`}
+                    `Trang ${String(paginate).padStart(2, "0")} trên ${String(totalPage).padStart(
+                      2,
+                      "0"
+                    )}`}
                 </span>
               </div>
               <div className="candidateHide__wrapper__body__pgn__right">

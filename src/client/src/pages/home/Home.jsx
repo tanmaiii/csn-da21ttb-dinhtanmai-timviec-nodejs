@@ -102,7 +102,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <SectionJobs title={"Gợi ý việc làm"} />
+          <SectionJobs title={"Việc làm mới nhất"} />
         </div>
       </div>
     </div>

@@ -22,11 +22,16 @@ const sort = [
   },
   {
     id: 2,
+    displayName: "Cũ nhất",
+    value: "old",
+  },
+  {
+    id: 3,
     displayName: "Lương cao đến thấp",
     value: "maxToMin",
   },
   {
-    id: 3,
+    id: 4,
     displayName: "Lương thấp đến cao",
     value: "minToMax",
   },
@@ -44,6 +49,7 @@ export default function Search() {
   const limit = 6;
   const { keyword } = useParams();
   const location = useLocation();
+  const sortRef = useRef();
 
   const handleSelectSort = (item) => {
     setOpenSort(false);
@@ -55,7 +61,6 @@ export default function Search() {
       arrayFormat: "bracket-separator",
       arrayFormatSeparator: "|",
     });
-
     setLoading(true);
     try {
       let url = `/job?page=${paginate}&limit=${limit}`;
@@ -117,6 +122,16 @@ export default function Search() {
   });
 
   useEffect(() => {
+    const handleMousedown = (e) => {
+      if (!sortRef?.current?.contains(e.target)) {
+        setOpenSort(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => document.removeEventListener("mousedown", handleMousedown);
+  });
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
@@ -136,7 +151,7 @@ export default function Search() {
                   </h4>
                   <div className="search__list__header__sort">
                     <span>Sắp xếp :</span>
-                    <div className="dropdown">
+                    <div className="dropdown" ref={sortRef}>
                       <div className="header" onClick={() => setOpenSort(!openSort)}>
                         <span>{sortActive && sortActive?.displayName}</span>
                         <i className="fa-solid fa-angle-down"></i>
@@ -471,7 +486,7 @@ function InputSearch() {
         <div className={`inputSearch__history  ${openHistory ? "active" : ""}`}>
           <ul>
             {searchHistory?.slice(0, 4).map((item, i) => (
-              <li onClick={() => handleSubmitHistory(item)}>
+              <li key={i} onClick={() => handleSubmitHistory(item)}>
                 <i className="fa-solid fa-magnifying-glass"></i>
                 <span>{item}</span>
               </li>

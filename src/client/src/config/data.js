@@ -83,8 +83,8 @@ export const scale = [
   },
   {
     value: "500-1000",
-    label: "500 - 10000 nhân viên",
-    name: "500 - 10000",
+    label: "500 - 1000 nhân viên",
+    name: "500 - 1000",
   },
   {
     value: "1000-5000",

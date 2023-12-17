@@ -44,7 +44,7 @@
     color: themed("text1");
 
     @include flex(center, center);
-    z-index: 9999;
+    z-index: 99;
   }
 }
 .slick-prev:hover,

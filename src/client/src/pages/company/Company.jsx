@@ -12,7 +12,7 @@ import queryString from "query-string";
 
 export default function Company() {
   const [paginate, setPaginate] = useState(1);
-  const [totalPage, setTotalPage] = useState();
+  const [totalPage, setTotalPage] = useState(0);
   const limit = 6;
   const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState();
@@ -63,6 +63,10 @@ export default function Company() {
     window.scroll(0, 0);
   }, [paginate, location]);
 
+  useEffect(() => {
+    setPaginate(1);
+  }, [location]);
+
   return (
     <div className="company">
       <div className="container">
@@ -77,9 +81,7 @@ export default function Company() {
             </div>
           </div>
           <div className="company__wrapper__main row">
-            <div className="col pc-3 t-3 m-0">
-              <FilterCompany />
-            </div>
+            <div className="col pc-3 t-3 m-0">{!filterMobile && <FilterCompany />}</div>
             <div className="col pc-9 t-9 m-12">
               <motion.div className="company__wrapper__main__list">
                 <AnimatePresence>
@@ -108,7 +110,7 @@ export default function Company() {
         <button className="button__close__filter" onClick={() => setFilterMobile(false)}>
           <i class="fa-solid fa-xmark"></i>
         </button>
-        <FilterCompany />
+        {filterMobile && <FilterCompany />}
       </div>
     </div>
   );
@@ -251,7 +253,7 @@ function FilterCompany() {
                 type="checkbox"
                 onChange={() => handleClickScale(item?.name)}
               />
-              <label htmlFor={`filterScale-${item?.name}`}>{item?.name}</label>
+              <label htmlFor={`filterScale-${item?.name}`}>{item?.label}</label>
             </div>
           ))}
         </div>

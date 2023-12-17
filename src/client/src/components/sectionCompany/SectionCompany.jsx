@@ -14,7 +14,7 @@ export default function SectionCompany({ title }) {
   const getCpn = async () => {
     setLoading(true);
     try {
-      const res = await makeRequest.get("/company?page=1&limit=6");
+      const res = await makeRequest.get("/company?page=1&limit=8");
       setCompanies(res.data.data);
       setLoading(false);
     } catch (error) {}
@@ -38,7 +38,7 @@ export default function SectionCompany({ title }) {
               <ItemCompany
                 key={i}
                 company={company}
-                className="col pc-3 t-6 m-12"
+                className="col pc-3 t-4 m-12"
               />
             ))}
         </div>

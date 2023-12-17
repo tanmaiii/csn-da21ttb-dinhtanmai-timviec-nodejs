@@ -13,18 +13,25 @@
         &__header {
           margin-bottom: 20px;
           @include flex(center, space-between);
-          button {
+          gap: 8px;
+          & > a .btn-cancel {
             font-size: $font-size-s;
             color: themed("text1");
             @include flex(center, unset);
             gap: 8px;
+            padding: 12px 16px;
+            border-radius: $border-radius-10;
             i {
+              transform: translateY(1px);
               font-size: 1.2rem;
               transition: all 0.3s;
             }
             &:hover {
-              i {
-                transform: translateX(-8px);
+              background-color: themed("bg1");
+            }
+            span {
+              @include mobile {
+                display: none;
               }
             }
           }

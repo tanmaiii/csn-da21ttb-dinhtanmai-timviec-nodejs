@@ -4,7 +4,7 @@
   @include themify($themes) {
     &__wrapper {
       padding: 18px;
-      background-color: themed('bg2');
+      background-color: themed("bg2");
       border-radius: $border-radius-10;
       &__header {
         @include flex(center, space-between);
@@ -40,6 +40,30 @@
           font-size: $font-size-s;
           color: themed("text1");
           font-weight: 400;
+          img {
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+          }
+          ul {
+            display: block;
+            list-style-type: disc;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-inline-start: 40px;
+          }
+
+          ol {
+            display: block;
+            list-style-type: decimal;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-inline-start: 40px;
+          }
         }
         &__edit {
           .quill {
