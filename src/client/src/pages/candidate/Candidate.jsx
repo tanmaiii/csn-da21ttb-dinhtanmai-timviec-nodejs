@@ -7,7 +7,7 @@ import { makeRequest } from "../../axios";
 import { useAuth } from "../../context/authContext";
 import NotFoundData from "../../components/notFoundData/NotFoundData";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { status } from "../../config/data.js";
+import { statusCompany } from "../../config/data.js";
 import queryString from "query-string";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -41,6 +41,7 @@ export default function Candidate() {
   const location = useLocation();
   const navigate = useNavigate();
   const [listCheck, setListCheck] = useState([]);
+  const [listEmail, setListEmail] = useState([]);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -213,7 +214,7 @@ export default function Candidate() {
                 <div className="candidate__wrapper__body__control__right__select">
                   <SelectCandidate
                     title={"Trạng thái"}
-                    option={status}
+                    option={statusCompany}
                     optionActive={optionStatusActive}
                     setOptionActive={setOptionStatusActive}
                   />
@@ -248,18 +249,28 @@ export default function Candidate() {
                 <NotFoundData />
               ) : (
                 <>
-                  <div className="candidate__wrapper__body__list__delete">
+                  <div className="candidate__wrapper__body__list__control">
                     {listCheck?.length > 0 && (
-                      <button className="button__delete" onClick={handleClickHidden}>
-                        <i className="fa-regular fa-eye-slash"></i>
-                        <span>Ẩn</span>
-                      </button>
+                      <>
+                        <button className="button__delete" onClick={handleClickHidden}>
+                          <i className="fa-regular fa-eye-slash"></i>
+                          <span>Ẩn</span>
+                        </button>
+                        <a href={`mailto:${listEmail.join(",")}`}>
+                          <button className="button__send">
+                            <i className="fa-regular fa-paper-plane"></i>
+                            <span>Gửi mail</span>
+                          </button>
+                        </a>
+                      </>
                     )}
                   </div>
                   <TableCandidate
                     data={data}
                     listCheck={listCheck}
                     setListCheck={setListCheck}
+                    listEmail={listEmail}
+                    setListEmail={setListEmail}
                     handleClickHidden={handleClickHidden}
                   />
                 </>

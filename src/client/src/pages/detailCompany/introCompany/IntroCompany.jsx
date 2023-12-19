@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
 import { makeRequest } from "../../../axios";
 
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 export default function IntroCompany({ intro }) {
   const [edit, setEdit] = useState(false);

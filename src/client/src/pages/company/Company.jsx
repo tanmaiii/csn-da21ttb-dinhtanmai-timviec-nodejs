@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./company.scss";
 import ItemCompany from "../../components/itemCompany/ItemCompany";
 import Pagination from "../../components/pagination/Pagination";
@@ -75,8 +75,8 @@ export default function Company() {
             <h4>Nhà tuyển dụng hàng đầu</h4>
             <div>
               <SearchCompany />
-              <button className="button-filter" onClick={() => setFilterMobile(!filterMobile)}>
-                <i class="fa-solid fa-filter"></i>
+              <button className="button__filter" onClick={() => setFilterMobile(!filterMobile)}>
+                <i className="fa-solid fa-filter"></i>
               </button>
             </div>
           </div>

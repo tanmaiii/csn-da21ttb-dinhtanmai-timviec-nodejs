@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/images/avatarCpn.png";
 import { apiImage } from "../../axios";
 import { makeRequest } from "../../axios";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -83,7 +83,7 @@ export default function ItemCompany({ company, className }) {
                   <i className="fa-solid fa-location-dot"></i>
                   <span>{company?.province}</span>
                 </div>
-                <span className="job">{ jobQty > 99 ? "+99" : jobQty} việc làm</span>
+                <span className="job">{jobQty > 99 ? "+99" : jobQty} việc làm</span>
               </div>
             </div>
             <div className="itemCompany__wrapper__body__left">
@@ -105,4 +105,4 @@ export default function ItemCompany({ company, className }) {
 ItemCompany.propTypes = {
   company: PropTypes.object,
   className: PropTypes.string,
-}
+};

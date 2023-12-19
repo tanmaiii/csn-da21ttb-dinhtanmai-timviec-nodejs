@@ -28,59 +28,39 @@ export default function DropdownCompany() {
 
   return (
     <div className="dropdownCompany" ref={dropdownCompanyRef}>
-      <div
-        className="dropdownCompany__toogle"
-        onClick={() => setOpenMenuUser(!openMenuUser)}
-      >
+      <div className="dropdownCompany__toogle" onClick={() => setOpenMenuUser(!openMenuUser)}>
         <div className="dropdownCompany__toogle__text">
           <img
-            src={
-              currentCompany.avatarPic
-                ? apiImage + currentCompany.avatarPic
-                : avatar
-            }
+            src={currentCompany.avatarPic ? apiImage + currentCompany.avatarPic : avatar}
             alt=""
           />
           <span>{currentCompany.nameCompany}</span>
         </div>
         <i class="fa-solid fa-angle-down"></i>
       </div>
-      <div
-        className={`dropdownCompany__dropdown ${openMenuUser ? "open" : ""}`}
-      >
-        <Link
-          to={`/nha-tuyen-dung/${id}`}
-          className="dropdownCompany__dropdown__option"
-        >
+      <div className={`dropdownCompany__dropdown ${openMenuUser ? "open" : ""}`}>
+        <Link to={`/nha-tuyen-dung/${id}`} className="dropdownCompany__dropdown__option">
           <i className="fa-regular fa-user"></i>
           <span>Trang cá nhân</span>
         </Link>
 
-        <Link
+        {/* <Link
           to={`/nha-tuyen-dung/${id}/jobs`}
           className="dropdownCompany__dropdown__option"
         >
           <i className="fa-regular fa-rectangle-list"></i>
           <span>Việc làm của bạn</span>
-        </Link>
-        <Link
-          to={`/nha-tuyen-dung/${id}/info`}
-          className="dropdownCompany__dropdown__option"
-        >
+        </Link> */}
+        
+        <Link to={`/nha-tuyen-dung/${id}/info`} className="dropdownCompany__dropdown__option">
           <i className="fa-regular fa-id-badge"></i>
           <span>Thông tin cá nhân</span>
         </Link>
-        <Link
-          to={"/nha-tuyen-dung/ung-vien"}
-          className="dropdownCompany__dropdown__option"
-        >
+        <Link to={"/nha-tuyen-dung/ung-vien"} className="dropdownCompany__dropdown__option">
           <i className="fa-regular fa-address-card"></i>
           <span>Đơn ứng tuyển</span>
         </Link>
-        <Link
-          to={"/nha-tuyen-dung/dang-bai"}
-          className="dropdownCompany__dropdown__option"
-        >
+        <Link to={"/nha-tuyen-dung/dang-bai"} className="dropdownCompany__dropdown__option">
           <i className="fa-solid fa-plus"></i>
           <span>Đăng ứng tuyển</span>
         </Link>

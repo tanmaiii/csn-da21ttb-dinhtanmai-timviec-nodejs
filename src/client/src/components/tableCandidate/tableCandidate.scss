@@ -223,13 +223,13 @@
     }
     &__toggle {
       padding: 12px 20px;
-      background-color: themed("bg2");
+      // background-color: themed("bg2");
       border-radius: $border-radius-10;
       border: 1px solid themed("border");
       @include flex(center, space-between);
       cursor: pointer;
       gap: 6px;
-      color: themed("text1");
+      // color: themed("text1");
       transition: all 0.3s;
       user-select: none;
       z-index: 1;
@@ -240,24 +240,7 @@
         border-radius: $border-radius-10;
         @include flex(center, space-between);
       }
-      &.status-1 {
-        background-color: $color-blue;
-        color: $color-txt-blue;
-      }
-      &.status-2 {
-        background-color: $color-yellow;
-        color: $color-txt-yellow;
-      }
-      &.status-3 {
-        background-color: $color-red;
-        color: $color-txt-red;
-      }
-      &.status-4 {
-        background-color: $color-green;
-        color: $color-txt-green;
-      }
-
-      &.active {
+      .active {
         background-color: $color-primary;
         border-color: $color-primary;
         color: $color-white;

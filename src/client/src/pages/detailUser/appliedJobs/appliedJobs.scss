@@ -198,28 +198,20 @@
             text-align: center;
           }
           .status {
-            color: $color-white;
+            // color: $color-white;
             font-size: $font-size-s;
             font-weight: 500;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border-radius: $border-radius-10;
-            @include flex(center, unset);
+            @include flex(center, center);
             gap: 8px;
-            &.status-1 {
-              background-color: $color-blue;
-              color: $color-txt-blue;
+            flex-wrap: wrap;
+            span {
+              font-size: $font-size-s;
+              text-align: center;
             }
-            &.status-2 {
-              background-color: $color-yellow;
-              color: $color-txt-yellow;
-            }
-            &.status-3 {
-              background-color: $color-red;
-              color: $color-txt-red;
-            }
-            &.status-4 {
-              background-color: $color-green;
-              color: $color-txt-green;
+            i {
+              font-size: 1.2rem;
             }
           }
         }

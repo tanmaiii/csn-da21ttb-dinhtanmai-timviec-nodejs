@@ -35,12 +35,12 @@ export default function JobsCompany() {
     return getJob();
   });
 
-  useEffect(() => {
-    window.scroll(0, 0);
-  }, []);
+  // useEffect(() => {
+  //   window.scroll(0, 0);
+  // }, []);
 
   return (
-    <div className="jobsCompany">
+    <div id="jobs" className="jobsCompany">
       <div className="jobsCompany__wrapper">
         <div className="jobsCompany__wrapper__header">
           <h4>Tuyển dụng</h4>

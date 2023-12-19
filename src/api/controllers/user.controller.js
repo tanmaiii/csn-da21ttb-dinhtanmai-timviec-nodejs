@@ -75,7 +75,7 @@ export const updateUser = (req, res) => {
       return res.status(403).json("Chỉ thay đổi được thông tin của mình");
     });
   });
-};
+};  
 
 export const updateIntroUser = (req, res) => {
   const token = req.cookies?.accessToken;

@@ -164,26 +164,15 @@
 
           &__list {
             width: 100%;
-            &__delete {
+            &__control {
               margin-bottom: 20px;
-              button {
-                color: $color-txt-red;
-                padding: 12px 20px;
-                @include flex(center, center);
-                gap: 8px;
-                border-radius: $border-radius-10;
-                border: 1px solid themed("border");
-                span {
-                  font-size: $font-size-s;
-                  color: $color-txt-red;
-                  font-weight: 500;
-                }
-                i {
-                  font-size: 1.2rem;
-                }
-                &:hover {
-                  background-color: themed("bg1");
-                }
+              @include flex(center, unset);
+              gap: 8px;
+              & > .button__delete {
+                @include button($color-txt-red, $color-red)
+              }
+              & > a .button__send{
+                @include button($color-txt-blue, $color-blue)
               }
             }
           }

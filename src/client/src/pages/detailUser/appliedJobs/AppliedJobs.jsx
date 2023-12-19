@@ -5,7 +5,7 @@ import Pagination from "../../../components/pagination/Pagination";
 import img from "../../../assets/images/avatarCpn.png";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
-import { status } from "../../../config/data.js";
+import { statusUser } from "../../../config/data.js";
 import NotFoundData from "../../../components/notFoundData/NotFoundData";
 import Loader from "../../../components/loader/Loader";
 import { useQuery } from "react-query";
@@ -119,9 +119,9 @@ function AppliedItem({ job, i }) {
       <div className="col pc-3 t-3 m-12">
         <div className="appliedJobs__wrapper__item__right">
           <span className="header">Trạng thái</span>
-          {status.map(
+          {statusUser.map(
             (status) =>
-              status.id === parseInt(statusId) && (
+            status.id === parseInt(statusId) && (
                 <div className={`status status-${statusId}`}>
                   {status?.icon}
                   <span className={statusId}>{status?.name}</span>

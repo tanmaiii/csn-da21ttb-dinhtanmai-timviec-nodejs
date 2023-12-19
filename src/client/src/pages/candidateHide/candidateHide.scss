@@ -158,22 +158,7 @@
             &__delete {
               margin-bottom: 20px;
               button {
-                color: $color-txt-red;
-                padding: 12px 20px;
-                @include flex(center, center);
-                gap: 8px;
-                border-radius: $border-radius-10;
-                border: 1px solid themed("border");
-                span {
-                  font-size: $font-size-s;
-                  color: $color-txt-red;
-                }
-                i {
-                  font-size: 1.2rem;
-                }
-                &:hover {
-                  background-color: themed("bg1");
-                }
+                @include button($color-txt-red, $color-red)
               }
             }
           }

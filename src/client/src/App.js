@@ -55,6 +55,7 @@ function App() {
 
             <Route path="nha-tuyen-dung/:id" element={<DetailCompany />}>
               <Route path="info" element />
+              <Route path="jobs" element />
             </Route>
 
             <Route path="nha-tuyen-dung/ung-vien" element={<Candidate />} />

@@ -4,13 +4,13 @@ import "./tableCandidate.scss";
 import Modal from "../../components/modal/Modal";
 import DetailCandidate from "../../components/detailCandidate/DetailCandidate";
 import moment from "moment";
-import { status } from "../../config/data.js";
+import { statusCompany } from "../../config/data.js";
 import { apiImage } from "../../axios.js";
 import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios.js";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-export default function TableCandidate({ data, listCheck, setListCheck }) {
+export default function TableCandidate({ data, listCheck, setListCheck, listEmail, setListEmail }) {
   const [openModal, setOpenModal] = useState(false);
   const [idApply, setIdApply] = useState(null);
 
@@ -26,6 +26,15 @@ export default function TableCandidate({ data, listCheck, setListCheck }) {
       setListCheck([]);
       data.map((item) => {
         setListCheck((current) => [...current, item?.id]);
+      });
+    }
+
+    if (listEmail?.length === data?.length) {
+      setListEmail([]);
+    } else {
+      setListEmail([]);
+      data.map((item) => {
+        setListEmail((current) => [...current, item?.email]);
       });
     }
   };
@@ -50,6 +59,7 @@ export default function TableCandidate({ data, listCheck, setListCheck }) {
           <span>Trạng thái</span>
           <span></span>
         </div>
+        {/* <a href="mailto:1@gmail.com,2@gmail.com,3@gmail.com,4@gmail.com">Click head</a> */}
         <div className="table__candidate__body">
           {data?.map((item, i) => (
             <RowTableCandidate
@@ -59,6 +69,8 @@ export default function TableCandidate({ data, listCheck, setListCheck }) {
               handleClickView={handleClickView}
               listCheck={listCheck}
               setListCheck={setListCheck}
+              listEmail={listEmail}
+              setListEmail={setListEmail}
             />
           ))}
         </div>
@@ -70,7 +82,15 @@ export default function TableCandidate({ data, listCheck, setListCheck }) {
   );
 }
 
-function RowTableCandidate({ item, index, handleClickView, setListCheck, listCheck }) {
+function RowTableCandidate({
+  item,
+  index,
+  handleClickView,
+  setListCheck,
+  listCheck,
+  listEmail,
+  setListEmail,
+}) {
   const [statusId, setStatusId] = useState();
   const [active, setActive] = useState(false);
 
@@ -89,13 +109,21 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
     setActive(listCheck?.includes(item?.id));
   }, [listCheck]);
 
-  const handleClickOption = (id) => {
+  const handleClickOption = (id, email) => {
     if (listCheck.includes(id)) {
       const newFilter = [...listCheck];
       newFilter.splice(listCheck.indexOf(id), 1);
       setListCheck(newFilter);
     } else {
       setListCheck((current) => [...current, id]);
+    }
+
+    if (listEmail.includes(email)) {
+      const newFilter = [...listEmail];
+      newFilter.splice(listEmail.indexOf(email), 1);
+      setListEmail(newFilter);
+    } else {
+      setListEmail((current) => [...current, email]);
     }
   };
 
@@ -109,7 +137,7 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
           <input
             id={`item_cadi_${item?.id}`}
             type="checkbox"
-            onChange={() => handleClickOption(item?.id)}
+            onChange={() => handleClickOption(item?.id, item?.email)}
             checked={listCheck?.includes(item?.id)}
           />
         </label>
@@ -135,7 +163,7 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
         {item.nameJob}
       </span>
       <div className="table__candidate__body__row__item" data-cell={"Trạng thái"}>
-        <RowSelectStatus option={status} defaultActive={item?.status} id={item?.id} />
+        <RowSelectStatus option={statusCompany} defaultActive={item?.status} id={item?.id} />
       </div>
       <div className="table__candidate__body__row__item" data-cell={"Chi tiết"}>
         <button className="button-eye" onClick={() => handleClickView(item?.id)}>

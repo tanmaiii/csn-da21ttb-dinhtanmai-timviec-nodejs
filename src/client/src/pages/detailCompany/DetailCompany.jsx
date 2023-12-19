@@ -279,6 +279,15 @@ export default function DetailCompany() {
                             </>
                           }
                         />
+                        <Route
+                          path="jobs"
+                          element={
+                            <>
+                              <IntroCompany intro={company?.intro} />
+                              <JobsCompany />
+                            </>
+                          }
+                        />
                         <Route path="info" element={<InfoCompany />} />
                       </Routes>
                     </div>

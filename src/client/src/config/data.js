@@ -98,31 +98,76 @@ export const scale = [
   },
 ];
 
-export const status = [
+export const statusUser = [
   {
     id: 1,
-    icon: <i class="fa-regular fa-envelope"></i>,
-    value: "Đã gửi",
-    label: "Đã gửi",
-    name: "Đã gửi",
+    icon: <i className="fa-regular fa-envelope"></i>,
+    value: "Đã gửi hồ sơ",
+    label: "Đã gửi hồ sơ",
+    name: "Đã gửi hồ sơ",
   },
   {
     id: 2,
-    icon: <i class="fa-regular fa-eye"></i>,
+    icon: <i className="fa-regular fa-eye"></i>,
+    value: "Đã xem hồ sơ",
+    label: "Đã xem hồ sơ",
+    name: "Đã xem hồ sơ",
+  },
+  {
+    id: 3,
+    icon: <i className="fa-solid fa-clipboard-question"></i>,
+    value: "Phỏng vấn",
+    label: "Phỏng vấn",
+    name: "Phỏng vấn",
+  },
+  {
+    id: 4,
+    icon: <i className="fa-regular fa-circle-xmark"></i>,
+    value: "Từ chối",
+    label: "Từ chối",
+    name: "Từ chối",
+  },
+  {
+    id: 5,
+    icon: <i className="fa-regular fa-circle-check"></i>,
+    value: "Chấp nhận",
+    label: "Chấp nhận",
+    name: "Chấp nhận",
+  },
+];
+
+export const statusCompany = [
+  {
+    id: 1,
+    icon: <i className="fa-regular fa-eye-slash"></i>,
+    value: "Chưa xem",
+    label: "Chưa xem",
+    name: "Chưa xem",
+  },
+  {
+    id: 2,
+    icon: <i className="fa-regular fa-eye"></i>,
     value: "Đã xem",
     label: "Đã xem",
     name: "Đã xem",
   },
   {
     id: 3,
-    icon: <i class="fa-regular fa-circle-xmark"></i>,
+    icon: <i className="fa-solid fa-clipboard-question"></i>,
+    value: "Phỏng vấn",
+    label: "Phỏng vấn",
+    name: "Phỏng vấn",
+  },
+  {
+    id: 4,
+    icon: <i className="fa-regular fa-circle-xmark"></i>,
     value: "Từ chối",
     label: "Từ chối",
     name: "Từ chối",
   },
   {
-    id: 4,
-    icon: <i class="fa-regular fa-circle-check"></i>,
+    id: 5,
+    icon: <i className="fa-regular fa-circle-check"></i>,
     value: "Chấp nhận",
     label: "Chấp nhận",
     name: "Chấp nhận",
@@ -134,6 +179,7 @@ export const sexData = [
   { id: 2, name: "sex", value: "Nữ" },
   { id: 3, name: "sex", value: "Cả hai" },
 ];
+
 export const categories = [
   {
     link: "?field[]=Dịch vụ khách hàng",
@@ -219,114 +265,5 @@ export const categories = [
     link: "?field[]=Chăm sóc sức khỏe / Y tế",
     text: "Chăm sóc sức khỏe / Y tế",
     icon: "/icon/healthcare.png",
-  },
-];
-
-export const categories2 = [
-  {
-    link: "/posts",
-    section: "posts",
-    icon: "/icon/doctor.png",
-    text: "CNTT-Phần mềm",
-    slug: "ke-toan",
-  },
-  {
-    link: "/orders",
-    section: "orders",
-    icon: "/icon/2.png",
-    text: "Quảng cáo/ Khuyến mãi / Đối ngoại",
-
-    slug: "ke-toan",
-  },
-  {
-    link: "/customers",
-    section: "customers",
-    icon: "/icon/3.png",
-    text: "Nông nghiệp / Lâm nghiệp",
-    slug: "ke-toan",
-  },
-  {
-    link: "/stats",
-    section: "stats",
-    icon: "/icon/1.png",
-    text: "Nghệ thuật/ thiết kế / Giải trí",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Ngân hàng / chứng khoán",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Thư ký/ Hành chính",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Tư vấn",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Thêm",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Thêm",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Thêm",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Thêm",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Thêm",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Thêm",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Thêm",
-    slug: "ke-toan",
-  },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "/icon/1.png",
-    text: "Thêm",
-    slug: "ke-toan",
   },
 ];

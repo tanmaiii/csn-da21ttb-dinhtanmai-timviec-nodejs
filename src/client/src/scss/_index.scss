@@ -56,8 +56,6 @@ select {
   cursor: pointer;
 }
 
-
-
 a {
   color: unset;
   text-decoration: unset;
@@ -93,6 +91,28 @@ input[type="number"] {
     animation: loading 1.5s linear infinite;
   }
 }
+
+.status-1 {
+  background-color: $color-blue;
+  color: $color-txt-blue;
+}
+.status-2 {
+  background-color: $color-yellow;
+  color: $color-txt-yellow;
+}
+.status-3 {
+  background-color: $color-orange;
+  color: $color-txt-orange;
+}
+.status-4 {
+  background-color: $color-red;
+  color: $color-txt-red;
+}
+.status-5 {
+  background-color: $color-green;
+  color: $color-txt-green;
+}
+
 
 @keyframes rotation {
   0% {

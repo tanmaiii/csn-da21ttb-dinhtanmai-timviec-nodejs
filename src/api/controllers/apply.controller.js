@@ -65,7 +65,7 @@ export const getUserByCpn = (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    let q = `SELECT a.id, a.idUser, a.name, a.status, a.createdAt , j.nameJob, u.avatarPic FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+    let q = `SELECT a.id, a.idUser, a.name, a.email, a.status, a.createdAt , j.nameJob, u.avatarPic FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
              WHERE c.id = ? AND a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     let q2 = `SELECT count(*) as count 
