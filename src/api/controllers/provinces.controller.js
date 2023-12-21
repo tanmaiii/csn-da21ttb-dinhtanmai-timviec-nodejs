@@ -2,10 +2,10 @@ import { db } from "../config/connect.js";
 
 export const getAll = (req, res) => {
   const q =
-    "SELECT id as pId ,name as name , name as value, name as label, nameWithType FROM job.provinces;";
+    "SELECT id as pId ,name as name , name as value, name as label, nameWithType FROM provinces;";
 
   db.query(q, (err, data) => {
-    if (!data.length) {
+    if (!data?.length) {
       return res.status(401).json("Không tồn tại !");
     } else {
       return res.json(data);
@@ -19,8 +19,8 @@ export const getWithPage = async (req, res) => {
     const { page, limit } = req.query;
 
     const offset = (page - 1) * limit;
-    const q = "SELECT * from job.provinces limit ? offset ? ";
-    const q2 = "SELECT count(*) as count FROM job.provinces";
+    const q = "SELECT * fromprovinces limit ? offset ? ";
+    const q2 = "SELECT count(*) as count FROMprovinces";
 
     const [data] = await promiseDb.query(q, [+limit, +offset]);
     const [totalPageData] = await promiseDb.query(q2);
@@ -44,10 +44,10 @@ export const getWithPage = async (req, res) => {
 
 export const getWithType = (req, res) => {
   const q = `SELECT p.id ,name as name , name as value, name as label, nameWithType, count(j.nameJob) as countJobs 
-    FROM job.provinces as p LEFT JOIN job.jobs as j on p.id = j.idProvince group by p.id`;
+    FROM provinces as p LEFT JOIN jobs as j on p.id = j.idProvince group by p.id`;
 
   db.query(q, (err, data) => {
-    if (!data.length) {
+    if (!data?.length) {
       return res.status(401).json("Không tồn tại !");
     } else {
       return res.json(data);

@@ -96,6 +96,10 @@
       border-color: $color-primary;
     }
 
+    &.notSeen{
+      background-color: themed("bg1");
+    }
+
     @include tablet {
       display: flex;
       flex-direction: column;

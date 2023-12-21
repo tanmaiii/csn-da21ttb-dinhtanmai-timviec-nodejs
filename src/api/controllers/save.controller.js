@@ -12,11 +12,11 @@ export const getJobSave = async (req, res) => {
     const offset = (page - 1) * limit;
 
     const q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields 
-               FROM job.save_job as s , job.jobs as j , job.companies AS c ,  job.provinces as p , job.fields as f 
+               FROM save_job as s , jobs as j , companies AS c ,  provinces as p , fields as f 
                WHERE s.idUser = ? AND s.idJob = j.id AND  j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id order by s.createdAt desc limit ? offset ?`;
 
     const q2 = `SELECT count(*) as count 
-                FROM job.save_job as s , job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f 
+                FROM save_job as s , jobs as j , companies AS c , provinces as p , fields as f 
                 WHERE s.idUser = ? AND s.idJob = j.id AND  j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id`;
 
     const [data] = await promiseDb.query(q, [idUser, +limit, +offset]);
@@ -43,7 +43,7 @@ export const getJobSave = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
-    const q = "SELECT idUser FROM job.save_job as s WHERE s.idJob = ?";
+    const q = "SELECT idUser FROM save_job as s WHERE s.idJob = ?";
 
     db.query(q, [req.query.idJob], (err, data) => {
       if (err) return res.status(500).json(err);
@@ -62,7 +62,7 @@ export const addSave = (req, res) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q =
-      "INSERT INTO job.save_job (`idUser`, `idJob`, `createdAt`) VALUES (?)";
+      "INSERT INTO save_job (`idUser`, `idJob`, `createdAt`) VALUES (?)";
 
     const values = [
       userInfo.id,
@@ -84,7 +84,7 @@ export const removeSave = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
-    const q = "DELETE FROM job.save_job WHERE `idUser` = ? AND `idJob` = ?";
+    const q = "DELETE FROM save_job WHERE `idUser` = ? AND `idJob` = ?";
 
     db.query(q, [userInfo.id, req.query.idJob], (err, data) => {
       if (err) return res.status(500).json(err);

@@ -18,11 +18,11 @@ export const getJobApply = (req, res) => {
     const offset = (page - 1) * limit;
 
     const q = `SELECT a.id, j.id as idJob,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany,  p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields , a.createdAt, a.status
-               FROM job.apply_job as a , job.jobs as j , job.companies AS c ,  job.provinces as p , job.fields as f 
+               FROM apply_job as a , jobs as j , companies AS c ,  provinces as p , fields as f 
                WHERE a.idUser = ? AND a.idJob = j.id AND  j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id order by a.createdAt desc limit ? offset ?`;
 
     const q2 = `SELECT count(*) as count 
-                FROM job.apply_job as a , job.jobs as j , job.companies AS c ,  job.provinces as p , job.fields as f 
+                FROM apply_job as a , jobs as j , companies AS c ,  provinces as p , fields as f 
                 WHERE a.idUser = ? AND a.idJob = j.id AND  j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id`;
 
     jwt.verify(token, "secretkey", async (err, userInfo) => {
@@ -65,11 +65,11 @@ export const getUserByCpn = (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    let q = `SELECT a.id, a.idUser, a.name, a.email, a.status, a.createdAt , j.nameJob, u.avatarPic FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+    let q = `SELECT a.id, a.idUser, a.name, a.email, a.status, a.createdAt , j.nameJob, u.avatarPic, a.cv FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
              WHERE c.id = ? AND a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     let q2 = `SELECT count(*) as count 
-              FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+              FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
               WHERE c.id = ? AND a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     if (idJob) {
@@ -127,11 +127,11 @@ export const getUserHideByCpn = (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    let q = `SELECT a.id, a.idUser, a.name, a.status, a.createdAt , j.nameJob, u.avatarPic FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+    let q = `SELECT a.id, a.idUser, a.name, a.status, a.createdAt , j.nameJob, u.avatarPic FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
              WHERE c.id = ? AND not a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY a.deletedAt DESC`;
 
     let q2 = `SELECT count(*) as count 
-              FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+              FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
               WHERE c.id = ? AND not a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     jwt.verify(token, "secretkey", async (err, cpn) => {
@@ -160,7 +160,7 @@ export const getUserHideByCpn = (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
-    const q = "SELECT DISTINCT idUser FROM job.apply_job as a WHERE a.idJob = ?";
+    const q = "SELECT DISTINCT idUser FROM apply_job as a WHERE a.idJob = ?";
 
     db.query(q, [req.query.idJob], (err, data) => {
       if (err) return res.status(500).json(err);
@@ -174,7 +174,7 @@ export const getUser = async (req, res) => {
 export const getDetailApply = async (req, res) => {
   try {
     const { id } = req.params;
-    const q = `SELECT a.* , j.nameJob, u.avatarPic, u.sex FROM job.apply_job as a, job.jobs as j , job.companies AS c , job.provinces as p , job.fields as f , job.users as u
+    const q = `SELECT a.* , j.nameJob, u.avatarPic, u.sex FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
       WHERE a.id = ? AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id`;
 
     db.query(q, [id], (err, data) => {
@@ -189,7 +189,7 @@ export const getDetailApply = async (req, res) => {
 export const getStatus = async (req, res) => {
   try {
     const id = req.query.id;
-    const q = `SELECT a.status FROM job.apply_job as a WHERE a.id = ?`;
+    const q = `SELECT a.status FROM apply_job as a WHERE a.id = ?`;
 
     db.query(q, [id], (err, data) => {
       if (err) return res.status(500).json(err);
@@ -215,7 +215,7 @@ export const applyJob = (req, res) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q =
-      "INSERT INTO job.apply_job ( `idUser`, `idJob`, `name`, `email`, `phone`, `status`, `letter`, `cv`, `createdAt`) VALUES (?)";
+      "INSERT INTO apply_job ( `idUser`, `idJob`, `name`, `email`, `phone`, `status`, `letter`, `cv`, `createdAt`) VALUES (?)";
     const values = [
       userInfo.id,
       idJob,
@@ -242,7 +242,7 @@ export const updateStatusUser = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
-      "UPDATE job.apply_job as a , job.companies as c, job.jobs as j SET `status`= ? WHERE a.id = ? AND c.id = ? AND a.idJob = j.id AND j.idCompany = c.id";
+      "UPDATE apply_job as a , companies as c, jobs as j SET `status`= ? WHERE a.id = ? AND c.id = ? AND a.idJob = j.id AND j.idCompany = c.id";
 
     const values = [req.query.status, req.query.id, userInfo.id];
 
@@ -252,7 +252,7 @@ export const updateStatusUser = (req, res) => {
       return res.status(403).json("Chỉ thay đổi được thông tin của mình");
     });
 
-    const q2 = "SELECT * FROM job.apply_job as a WHERE a.id = ?";
+    const q2 = "SELECT * FROM apply_job as a WHERE a.id = ?";
 
     db.query(q2, req.query.id, (err, data) => {
       if (err) return res.status(401).json("Lỗi !");
@@ -325,9 +325,7 @@ export const hiddenUserByCpn = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
-    const q = `UPDATE job.apply_job as a , job.jobs as j SET a.deletedAt = '${moment(
-      Date.now()
-    ).format(
+    const q = `UPDATE apply_job as a , jobs as j SET a.deletedAt = '${moment(Date.now()).format(
       "YYYY-MM-DD HH:mm:ss"
     )}' WHERE a.id in ('${idFilter}') AND a.idJob = j.id AND j.idCompany = ${userInfo.id}`;
 
@@ -349,7 +347,7 @@ export const unHiddenUserByCpn = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
-    const q = `UPDATE job.apply_job as a , job.jobs as j SET a.deletedAt = null WHERE a.id in ('${idFilter}') AND a.idJob = j.id  AND j.idCompany = ${userInfo.id}`;
+    const q = `UPDATE apply_job as a , jobs as j SET a.deletedAt = null WHERE a.id in ('${idFilter}') AND a.idJob = j.id  AND j.idCompany = ${userInfo.id}`;
 
     db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);

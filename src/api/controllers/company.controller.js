@@ -10,7 +10,7 @@ dotenv.config();
 export const getCompany = (req, res) => {
   const id = req.params.id;
   const q =
-    "SELECT nameCompany, avatarPic, intro, scale, web, c.id, p.name as province FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id and c.id=?";
+    "SELECT nameCompany, avatarPic, intro, scale, web, c.id, p.name as province FROM companies as c, provinces as p WHERE c.idProvince = p.id and c.id=?";
   if (id) {
     db.query(q, id, (err, data) => {
       if (!data.length) {
@@ -29,8 +29,8 @@ export const getOwnerCompany = (req, res) => {
 
   if (!token) return res.status(401).json("Not logged in!");
 
-  const q = `SELECT c.* , p.name as province FROM job.companies as c
-             LEFT JOIN job.provinces as p ON c.idProvince = p.id where c.id = ?`;
+  const q = `SELECT c.* , p.name as province FROM companies as c
+             LEFT JOIN provinces as p ON c.idProvince = p.id where c.id = ?`;
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     db.query(q, userInfo.id, (err, data) => {
@@ -47,16 +47,17 @@ export const getOwnerCompany = (req, res) => {
 export const getAllCompany = async (req, res) => {
   try {
     const promiseDb = db.promise();
-    const { page, limit } = req.query;
+    const page = req.query?.page || 1;
+    const limit = req.query?.limit || 10;
     const search = req.query?.search;
     const province = req.query?.province;
     const scale = req.query?.scale;
     const offset = (page - 1) * limit;
 
     let q = `SELECT c.id, nameCompany, avatarPic, intro, scale, web, c.id, p.name as province 
-                          FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id`;
+                          FROM companies as c, provinces as p WHERE c.idProvince = p.id`;
 
-    let q2 = `SELECT count(*) as count FROM job.companies as c, job.provinces as p WHERE c.idProvince = p.id `;
+    let q2 = `SELECT count(*) as count FROM companies as c, provinces as p WHERE c.idProvince = p.id `;
 
     if (search) {
       q += ` AND c.nameCompany like '%${search}%' `;
@@ -142,7 +143,7 @@ export const updateIntroCompany = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
-    const q = "UPDATE job.companies SET `intro` = ? WHERE id = ? ";
+    const q = "UPDATE companies SET `intro` = ? WHERE id = ? ";
 
     db.query(q, [req.body.intro, userInfo.id], (err, data) => {
       if (!err) return res.status(200).json(data);
@@ -169,7 +170,7 @@ export const uploadImage = (req, res) => {
 export const forgotPassword = (req, res) => {
   const { email } = req.body;
 
-  const q = "SELECT email, nameAdmin, id from job.companies WHERE email = ?";
+  const q = "SELECT email, nameAdmin, id from companies WHERE email = ?";
 
   db.query(q, [email], (err, data) => {
     if (!data?.length) {
@@ -240,7 +241,7 @@ export const resetPassword = (req, res) => {
 
   if (!id || !token || !password) return res.status(403).json("Không tìm thấy!");
 
-  const q = `UPDATE job.companies SET password = ? WHERE companies.id = ?`;
+  const q = `UPDATE companies SET password = ? WHERE companies.id = ?`;
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
 

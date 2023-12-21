@@ -9,8 +9,8 @@ dotenv.config();
 
 export const getUser = (req, res) => {
   const id = req.params.id;
-  const q = `SELECT u.id, u.name, u.email, u.phone, u.avatarPic, u.birthDay, u.intro, u.linkSocial, p.name as province FROM job.users as u 
-    LEFT JOIN job.provinces as p ON u.idProvince = p.id WHERE u.id = ?`;
+  const q = `SELECT u.id, u.name, u.email, u.phone, u.avatarPic, u.birthDay, u.intro, u.linkSocial, p.name as province FROM users as u 
+    LEFT JOIN provinces as p ON u.idProvince = p.id WHERE u.id = ?`;
 
   if (id) {
     db.query(q, id, (err, data) => {
@@ -26,8 +26,8 @@ export const getUser = (req, res) => {
 };
 
 export const getOwnerUser = (req, res) => {
-  let q = `SELECT u.* , p.name as province FROM job.users as u
-           LEFT JOIN job.provinces as p ON u.idProvince = p.id where u.id = ?`;
+  let q = `SELECT u.* , p.name as province FROM users as u
+           LEFT JOIN provinces as p ON u.idProvince = p.id where u.id = ?`;
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
@@ -57,7 +57,7 @@ export const updateUser = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
-      "UPDATE job.users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ?, `sex`= ? , `idProvince`= ?, `linkSocial` = ? WHERE id = ? ";
+      "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ?, `sex`= ? , `idProvince`= ?, `linkSocial` = ? WHERE id = ? ";
     const values = [
       name,
       email,
@@ -83,7 +83,7 @@ export const updateIntroUser = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
-    const q = "UPDATE job.users SET `intro` = ? WHERE id = ? ";
+    const q = "UPDATE users SET `intro` = ? WHERE id = ? ";
 
     db.query(q, [req.body.intro, userInfo.id], (err, data) => {
       if (!err) return res.status(200).json(data);
@@ -110,7 +110,7 @@ export const uploadImage = (req, res) => {
 export const forgotPassword = (req, res) => {
   const { email } = req.body;
 
-  const q = "SELECT email, name, id from job.users WHERE email = ?";
+  const q = "SELECT email, name, id from users WHERE email = ?";
 
   db.query(q, [email], (err, data) => {
     if (!data?.length) {
@@ -181,7 +181,7 @@ export const resetPassword = (req, res) => {
 
   if (!id || !token || !password) return res.status(403).json("Không tìm thấy!");
 
-  const q = `UPDATE job.users SET password = ? WHERE users.id = ?`;
+  const q = `UPDATE users SET password = ? WHERE users.id = ?`;
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
 

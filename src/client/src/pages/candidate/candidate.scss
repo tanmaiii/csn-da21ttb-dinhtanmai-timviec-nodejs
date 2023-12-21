@@ -169,10 +169,13 @@
               @include flex(center, unset);
               gap: 8px;
               & > .button__delete {
-                @include button($color-txt-red, $color-red)
+                @include button(themed("text1"), themed("bg1"));
               }
-              & > a .button__send{
-                @include button($color-txt-blue, $color-blue)
+              & > a .button__send {
+                @include button(themed("text1"), themed("bg1"));
+              }
+              & > .button__down {
+                @include button(themed("text1"), themed("bg1"));
               }
             }
           }

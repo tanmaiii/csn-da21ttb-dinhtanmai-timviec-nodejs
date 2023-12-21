@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios.js";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-export default function TableCandidate({ data, listCheck, setListCheck, listEmail, setListEmail }) {
+export default function TableCandidate({ data, listCheck, setListCheck }) {
   const [openModal, setOpenModal] = useState(false);
   const [idApply, setIdApply] = useState(null);
 
@@ -25,16 +25,14 @@ export default function TableCandidate({ data, listCheck, setListCheck, listEmai
     } else {
       setListCheck([]);
       data.map((item) => {
-        setListCheck((current) => [...current, item?.id]);
-      });
-    }
-
-    if (listEmail?.length === data?.length) {
-      setListEmail([]);
-    } else {
-      setListEmail([]);
-      data.map((item) => {
-        setListEmail((current) => [...current, item?.email]);
+        setListCheck((current) => [
+          ...current,
+          {
+            id: item.id,
+            email: item.email,
+            cv: item.cv,
+          },
+        ]);
       });
     }
   };
@@ -59,7 +57,6 @@ export default function TableCandidate({ data, listCheck, setListCheck, listEmai
           <span>Trạng thái</span>
           <span></span>
         </div>
-        {/* <a href="mailto:1@gmail.com,2@gmail.com,3@gmail.com,4@gmail.com">Click head</a> */}
         <div className="table__candidate__body">
           {data?.map((item, i) => (
             <RowTableCandidate
@@ -69,8 +66,6 @@ export default function TableCandidate({ data, listCheck, setListCheck, listEmai
               handleClickView={handleClickView}
               listCheck={listCheck}
               setListCheck={setListCheck}
-              listEmail={listEmail}
-              setListEmail={setListEmail}
             />
           ))}
         </div>
@@ -82,15 +77,7 @@ export default function TableCandidate({ data, listCheck, setListCheck, listEmai
   );
 }
 
-function RowTableCandidate({
-  item,
-  index,
-  handleClickView,
-  setListCheck,
-  listCheck,
-  listEmail,
-  setListEmail,
-}) {
+function RowTableCandidate({ item, index, handleClickView, setListCheck, listCheck = [] }) {
   const [statusId, setStatusId] = useState();
   const [active, setActive] = useState(false);
 
@@ -106,29 +93,31 @@ function RowTableCandidate({
   });
 
   useEffect(() => {
-    setActive(listCheck?.includes(item?.id));
+    setActive(listCheck?.some((itemSelect) => itemSelect.id === item.id));
   }, [listCheck]);
 
-  const handleClickOption = (id, email) => {
-    if (listCheck.includes(id)) {
-      const newFilter = [...listCheck];
-      newFilter.splice(listCheck.indexOf(id), 1);
-      setListCheck(newFilter);
+  const handleClickOption = (id, email, cv) => {
+    let isIdInList = listCheck?.some((item) => item.id === id);
+
+    if (isIdInList) {
+      // Đối tượng tồn tại, xóa nó khỏi mảng
+      setListCheck((currentList) => currentList.filter((item) => item.id !== id));
     } else {
-      setListCheck((current) => [...current, id]);
+      setListCheck((currentList) => [
+        ...currentList,
+        {
+          id: id,
+          email: email,
+          cv: cv,
+        },
+      ]);
     }
 
-    if (listEmail.includes(email)) {
-      const newFilter = [...listEmail];
-      newFilter.splice(listEmail.indexOf(email), 1);
-      setListEmail(newFilter);
-    } else {
-      setListEmail((current) => [...current, email]);
-    }
+    console.log(listCheck);
   };
 
   return (
-    <div className={`table__candidate__body__row ${active && "active"}`}>
+    <div className={`table__candidate__body__row ${active && "active"} ${item?.status === 1 ? "notSeen" : ""}`}>
       <div className="table__candidate__body__row__item" data-cell={"Chọn"}>
         <label
           className="table__candidate__body__row__item__checkbox"
@@ -137,8 +126,8 @@ function RowTableCandidate({
           <input
             id={`item_cadi_${item?.id}`}
             type="checkbox"
-            onChange={() => handleClickOption(item?.id, item?.email)}
-            checked={listCheck?.includes(item?.id)}
+            onChange={() => handleClickOption(item?.id, item?.email, item?.cv)}
+            checked={listCheck?.some((itemSelect) => itemSelect.id === item.id)}
           />
         </label>
       </div>

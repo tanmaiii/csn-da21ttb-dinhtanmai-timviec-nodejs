@@ -20,7 +20,6 @@ export default function CandidateHide() {
   const location = useLocation();
   const navigate = useNavigate();
   const [listCheck, setListCheck] = useState([]);
-  const [listEmail, setListEmail] = useState([]);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -59,8 +58,8 @@ export default function CandidateHide() {
       let url = "/apply/unHidden?";
 
       if (listCheck) {
-        listCheck?.map((id) => {
-          url += `&id[]=${id}`;
+        listCheck?.map((item) => {
+          url += `&id[]=${item.id}`;
         });
       }
 
@@ -114,8 +113,6 @@ export default function CandidateHide() {
                     data={data}
                     setListCheck={setListCheck}
                     listCheck={listCheck}
-                    listEmail={listEmail}
-                    setListEmail={setListEmail}
                     handleClickHidden={handleClickHidden}
                   />
                 </>

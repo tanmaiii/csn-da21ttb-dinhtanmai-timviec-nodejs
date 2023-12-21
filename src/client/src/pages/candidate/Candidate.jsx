@@ -9,6 +9,8 @@ import NotFoundData from "../../components/notFoundData/NotFoundData";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { statusCompany } from "../../config/data.js";
 import queryString from "query-string";
+import { saveAs } from "file-saver";
+import { apiCv } from "../../axios.js";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -41,7 +43,6 @@ export default function Candidate() {
   const location = useLocation();
   const navigate = useNavigate();
   const [listCheck, setListCheck] = useState([]);
-  const [listEmail, setListEmail] = useState([]);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -136,8 +137,8 @@ export default function Candidate() {
       let url = "/apply/hidden?";
 
       if (listCheck) {
-        listCheck?.map((id) => {
-          url += `&id[]=${id}`;
+        listCheck?.map((item) => {
+          url += `&id[]=${item.id}`;
         });
       }
 
@@ -159,6 +160,13 @@ export default function Candidate() {
   const handleSelectSort = (item) => {
     setOpenSort(false);
     setSortActive(item);
+  };
+
+  const handleDownload = () => {
+    // Lặp qua mảng listEmail và tải xuống từng CV
+    listCheck.forEach((item) => {
+      item.cv !== null && saveAs(apiCv + item.cv, item.cv);
+    });
   };
 
   useEffect(() => {
@@ -256,23 +264,20 @@ export default function Candidate() {
                           <i className="fa-regular fa-eye-slash"></i>
                           <span>Ẩn</span>
                         </button>
-                        <a href={`mailto:${listEmail.join(",")}`}>
+                        <a href={`mailto:${listCheck.map((item) => item.email).join(",")}`}>
                           <button className="button__send">
                             <i className="fa-regular fa-paper-plane"></i>
                             <span>Gửi mail</span>
                           </button>
                         </a>
+                        <button className="button__down" onClick={handleDownload}>
+                          <i class="fa-regular fa-circle-down"></i>
+                          <span>Tải CV</span>
+                        </button>
                       </>
                     )}
                   </div>
-                  <TableCandidate
-                    data={data}
-                    listCheck={listCheck}
-                    setListCheck={setListCheck}
-                    listEmail={listEmail}
-                    setListEmail={setListEmail}
-                    handleClickHidden={handleClickHidden}
-                  />
+                  <TableCandidate data={data} listCheck={listCheck} setListCheck={setListCheck} />
                 </>
               )}
             </div>

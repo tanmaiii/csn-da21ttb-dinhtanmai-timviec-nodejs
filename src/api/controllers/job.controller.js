@@ -19,10 +19,10 @@ export const getAll = async (req, res) => {
     const offset = (page - 1) * limit;
 
     let q = `SELECT j.id, j.experience, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt ,j.deletedAt, p.name as province , c.nameCompany, c.avatarPic, f.name as nameField
-       FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f
+       FROM jobs AS j , companies AS c , provinces as p , fields as f
        WHERE j.deletedAt is null AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
-    let q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p ,job.fields as f
+    let q2 = `SELECT count(*) as count FROM jobs AS j , companies AS c , provinces as p ,fields as f
        WHERE j.deletedAt is null AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     if (search) {
@@ -107,11 +107,11 @@ export const findJobs = async (req, res) => {
     const offset = (page - 1) * limit;
 
     const q =
-      "SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f WHERE f.name LIKE '%" +
+      "SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields FROM jobs AS j , companies AS c , provinces as p , fields as f WHERE f.name LIKE '%" +
       field +
       "%' AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id  ORDER BY j.createdAt DESC limit ? offset ?";
     const q2 =
-      "SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f WHERE f.name LIKE '%" +
+      "SELECT count(*) as count FROM jobs AS j , companies AS c , provinces as p , fields as f WHERE f.name LIKE '%" +
       field +
       "%' AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt";
 
@@ -138,7 +138,7 @@ export const findJobs = async (req, res) => {
 
 export const getById = async (req, res) => {
   const q = `SELECT j.* , p.name as province , c.nameCompany, c.avatarPic , f.name as nameField, deletedAt
-             FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f
+             FROM jobs AS j , companies AS c , provinces as p , fields as f
              WHERE j.id = ? AND j.idField = f.id  AND j.idCompany = c.id AND j.idProvince = p.id`;
 
   db.query(q, req.params.id, (err, data) => {
@@ -157,19 +157,19 @@ export const getByIdCompany = async (req, res) => {
     const token = req.cookies?.accessToken;
 
     let q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt, j.deletedAt , p.name as province , c.nameCompany, c.avatarPic
-    FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+    FROM jobs AS j , companies AS c ,  provinces as p 
     WHERE j.deletedAt is null AND c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
 
-    let q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
+    let q2 = `SELECT count(*) as count FROM jobs AS j , companies AS c , provinces as p 
     WHERE j.deletedAt is null AND c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
 
     token &&
       jwt.verify(token, "secretkey", (err, companmyInfo) => {
         if (parseInt(companmyInfo.id) === parseInt(id)) {
           q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt ,j.deletedAt, p.name as province , c.nameCompany, c.avatarPic
-        FROM job.jobs AS j , job.companies AS c ,  job.provinces as p 
+        FROM jobs AS j , companies AS c ,  provinces as p 
         WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id ORDER BY j.createdAt DESC limit ? offset ?`;
-          q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p 
+          q2 = `SELECT count(*) as count FROM jobs AS j , companies AS c , provinces as p 
         WHERE c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
         }
       });
@@ -199,7 +199,7 @@ export const getByIdCompany = async (req, res) => {
 export const getNameJob = (req, res) => {
   const { id } = req.params;
 
-  const q = "SELECT j.id, j.nameJob as name, j.idCompany FROM job.jobs as j Where j.idCompany = ?";
+  const q = "SELECT j.id, j.nameJob as name, j.idCompany FROM jobs as j Where j.idCompany = ?";
 
   db.query(q, [id], (err, data) => {
     if (!data.length) {
@@ -239,7 +239,7 @@ export const postJob = (req, res) => {
       if (!data?.length) return res.status(401).json("Người dùng không hợp lệ !");
 
       const q =
-        "INSERT INTO job.jobs (`idCompany`, `idField`, `idProvince` , `nameJob`, `request`, `desc`, `other`, `salaryMin`, `salaryMax`,`sex`, `typeWork` , `education`, `experience`,  `createdAt`) VALUE (?)";
+        "INSERT INTO jobs (`idCompany`, `idField`, `idProvince` , `nameJob`, `request`, `desc`, `other`, `salaryMin`, `salaryMax`,`sex`, `typeWork` , `education`, `experience`,  `createdAt`) VALUE (?)";
       const values = [
         companmyInfo.id,
         idField,
@@ -273,9 +273,9 @@ export const getByIdField = async (req, res) => {
     const offset = (page - 1) * limit;
 
     const q = `SELECT j.id, j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt , p.name as province , c.nameCompany, c.avatarPic, f.name as nameFields
-       FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f 
+       FROM jobs AS j , companies AS c , provinces as p , fields as f 
       WHERE f.id = ? AND j.deletedAt is null AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt DESC limit ? offset ?`;
-    const q2 = `SELECT count(*) as count FROM job.jobs AS j , job.companies AS c , job.provinces as p , job.fields as f 
+    const q2 = `SELECT count(*) as count FROM jobs AS j , companies AS c , provinces as p , fields as f 
       WHERE j.deletedAt is null AND f.id = ? AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id ORDER BY j.createdAt`;
 
     const [data] = await promiseDb.query(q, [+idField, +limit, +offset]);
@@ -329,7 +329,7 @@ export const updateJob = async (req, res) => {
       if (!data?.length) return res.status(401).json("Người dùng không hợp lệ !");
 
       const q =
-        "UPDATE job.jobs as j SET `nameJob`=?,`idField`=?,`idProvince`=?,`desc`=?,`request`=?,`other`=?,`salaryMin`=?,`salaryMax`=?,`sex`=?,`typeWork`=?,`education`=?,`experience`=?  WHERE j.id = ? AND j.idCompany = ?";
+        "UPDATE jobs as j SET `nameJob`=?,`idField`=?,`idProvince`=?,`desc`=?,`request`=?,`other`=?,`salaryMin`=?,`salaryMax`=?,`sex`=?,`typeWork`=?,`education`=?,`experience`=?  WHERE j.id = ? AND j.idCompany = ?";
 
       const values = [
         nameJob,
@@ -365,7 +365,7 @@ export const hiddenJob = async (req, res) => {
   jwt.verify(token, "secretkey", (err, companmyInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
 
-    const q = `UPDATE job.jobs as j SET \`deletedAt\` = '${moment(Date.now()).format(
+    const q = `UPDATE jobs as j SET \`deletedAt\` = '${moment(Date.now()).format(
       "YYYY-MM-DD HH:mm:ss"
     )}' WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
 
@@ -387,7 +387,7 @@ export const unHiddenJob = async (req, res) => {
   jwt.verify(token, "secretkey", (err, companmyInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
 
-    const q = `UPDATE job.jobs as j SET \`deletedAt\` = null WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
+    const q = `UPDATE jobs as j SET \`deletedAt\` = null WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
 
     db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);
@@ -407,7 +407,7 @@ export const deleteJob = async (req, res) => {
   jwt.verify(token, "secretkey", (err, companmyInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
 
-    const q = `DELETE FROM job.jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
+    const q = `DELETE FROM jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
 
     db.query(q, (err, data) => {
       if (!err) return res.status(200).json(data);

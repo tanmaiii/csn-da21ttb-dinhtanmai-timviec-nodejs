@@ -5,6 +5,7 @@ import moment from "moment";
 import { useQuery } from "react-query";
 import { apiCv } from "../../axios.js";
 import PropTypes from "prop-types";
+import { saveAs } from "file-saver";
 
 export default function DetailCandidate({ idApply }) {
   const [candidate, setCandidate] = useState();
@@ -73,14 +74,17 @@ export default function DetailCandidate({ idApply }) {
                 <div className="file">
                   <div className="file__name">
                     <i class="fa-regular fa-file-lines"></i>
-                    <a href={`${apiCv + candidate?.cv}`} download >{candidate?.cv}</a>
+                    <a href={`${apiCv + candidate?.cv}`} download>
+                      {candidate?.cv}
+                    </a>
                   </div>
-                  <a href={`${apiCv + candidate?.cv}`} download>
-                    <button className="file__button">
-                      <i class="fa-regular fa-circle-down"></i>
-                      <span>Tải xuống</span>
-                    </button>
-                  </a>
+                  <button
+                    className="file__button"
+                    onClick={() => saveAs(apiCv + candidate?.cv, candidate?.cv)}
+                  >
+                    <i class="fa-regular fa-circle-down"></i>
+                    <span>Tải xuống</span>
+                  </button>
                 </div>
               ) : (
                 <span>Không có</span>
