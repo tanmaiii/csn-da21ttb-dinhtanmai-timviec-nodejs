@@ -65,7 +65,7 @@ export const getUserByCpn = (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    let q = `SELECT a.id, a.idUser, a.name, a.email, a.status, a.createdAt , j.nameJob, u.avatarPic, a.cv FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
+    let q = `SELECT a.id, a.idUser, a.name, a.email, a.status, a.createdAt , j.nameJob, u.avatarPic FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
              WHERE c.id = ? AND a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     let q2 = `SELECT count(*) as count 
@@ -325,7 +325,9 @@ export const hiddenUserByCpn = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
-    const q = `UPDATE apply_job as a , jobs as j SET a.deletedAt = '${moment(Date.now()).format(
+    const q = `UPDATE apply_job as a , jobs as j SET a.deletedAt = '${moment(
+      Date.now()
+    ).format(
       "YYYY-MM-DD HH:mm:ss"
     )}' WHERE a.id in ('${idFilter}') AND a.idJob = j.id AND j.idCompany = ${userInfo.id}`;
 

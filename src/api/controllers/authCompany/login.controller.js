@@ -12,7 +12,7 @@ export const login = (req, res) => {
 
     db.query(q, email, (err, data) => {
       if (err) return res.status(500).json(err);
-      if (data.length === 0) return res.status(404).json("Email không tồn tại");
+      if (data?.length === 0) return res.status(404).json("Email không tồn tại");
       const checkPassword = bcrypt.compareSync(
         req.body.password,
         data[0].password

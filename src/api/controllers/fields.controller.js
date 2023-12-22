@@ -5,7 +5,7 @@ export const getAll = (req, res) => {
     "SELECT id as fId, name as name , name as value, name as label, typeField FROM fields";
 
   db.query(q, (err, data) => {
-    if (!data.length) {
+    if (!data?.length) {
       return res.status(401).json("Không tồn tại !");
     } else {
       return res.json(data);
@@ -18,7 +18,7 @@ export const getWithType = (req, res) => {
      FROM fields as f LEFT JOIN jobs as j on f.id = j.idField and j.deletedAt is null group by f.id`;
 
   db.query(q, (err, data) => {
-    if (!data.length) {
+    if (!data?.length) {
       return res.status(401).json("Không tồn tại !");
     } else {
       return res.json(data);

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
 import checkEmail from "../middlewares/checkEmail.middleware.js";
-import checkUrl from "../middlewares/checkUrl.middleware.js"
+import checkUrl from "../middlewares/checkUrl.middleware.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
@@ -13,11 +13,8 @@ export const getCompany = (req, res) => {
     "SELECT nameCompany, avatarPic, intro, scale, web, c.id, p.name as province FROM companies as c, provinces as p WHERE c.idProvince = p.id and c.id=?";
   if (id) {
     db.query(q, id, (err, data) => {
-      if (!data.length) {
-        return res.status(401).json("Không tồn tại !");
-      } else {
-        return res.json(data[0]);
-      }
+      if (!data?.length) return res.status(401).json("Không tồn tại !");
+      return res.json(data[0]);
     });
   } else {
     return res.status(401).json("Không để rỗng !");
@@ -34,7 +31,7 @@ export const getOwnerCompany = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     db.query(q, userInfo.id, (err, data) => {
-      if (!data.length) {
+      if (!data?.length) {
         return res.status(401).json("Không tồn tại !");
       } else {
         const { password, ...others } = data[0];
@@ -47,8 +44,7 @@ export const getOwnerCompany = (req, res) => {
 export const getAllCompany = async (req, res) => {
   try {
     const promiseDb = db.promise();
-    const page = req.query?.page || 1;
-    const limit = req.query?.limit || 10;
+    const { page, limit } = req.query;
     const search = req.query?.search;
     const province = req.query?.province;
     const scale = req.query?.scale;
@@ -76,10 +72,7 @@ export const getAllCompany = async (req, res) => {
       q2 += ` AND c.scale in ('${scaleFilter}') `;
     }
 
-    const [data] = await promiseDb.query(`${q} limit ? offset ?`, [
-      +limit,
-      +offset,
-    ]);
+    const [data] = await promiseDb.query(`${q} limit ? offset ?`, [+limit, +offset]);
 
     const [totalPageData] = await promiseDb.query(q2);
 
@@ -105,10 +98,9 @@ export const getAllCompany = async (req, res) => {
 export const updateCompany = (req, res) => {
   const token = req.cookies?.accessToken;
 
-  const { nameCompany, nameAdmin, email, phone, idProvince, web, scale } =
-    req.body;
+  const { nameCompany, nameAdmin, email, phone, idProvince, web, scale } = req.body;
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
-  if(web?.length > 0 && !checkUrl(web)) return res.status(409).json("Link không hợp lệ !");
+  if (web?.length > 0 && !checkUrl(web)) return res.status(409).json("Link không hợp lệ !");
 
   if (!token) return res.status(401).json("Not logged in!");
 
@@ -118,16 +110,7 @@ export const updateCompany = (req, res) => {
     const q =
       "UPDATE companies SET `nameCompany`= ?,`nameAdmin`= ?,  `email`= ?, `phone`= ?, `idProvince`= ?,`web` = ?, `scale`= ? WHERE id = ? ";
 
-    const values = [
-      nameCompany,
-      nameAdmin,
-      email,
-      phone,
-      idProvince,
-      web,
-      scale,
-      userInfo.id,
-    ];
+    const values = [nameCompany, nameAdmin, email, phone, idProvince, web, scale, userInfo.id];
 
     db.query(q, values, (err, data) => {
       if (!err) return res.status(200).json(err);
@@ -223,9 +206,9 @@ export const forgotPassword = (req, res) => {
         html: emailHTML,
       };
 
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
+      transporter.sendMail(mailOptions, function (err, info) {
+        if (err) {
+          console.log(err);
         } else {
           return res.send({ Status: "Success" });
         }

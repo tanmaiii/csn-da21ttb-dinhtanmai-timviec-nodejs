@@ -202,7 +202,7 @@ export const getNameJob = (req, res) => {
   const q = "SELECT j.id, j.nameJob as name, j.idCompany FROM jobs as j Where j.idCompany = ?";
 
   db.query(q, [id], (err, data) => {
-    if (!data.length) {
+    if (!data?.length) {
       return res.status(401).json("Không tồn tại !");
     } else {
       return res.json(data);

@@ -7,6 +7,10 @@ import cors from "cors";
 import multer from "multer";
 import path from "path";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerFile from "./swagger-output.json" assert { type: "json" };
+
 import authUserRouter from "./routes/authUser.router.js";
 import authCompanyRouter from "./routes/authCompany.router.js";
 import userRouter from "./routes/user.router.js";
@@ -37,6 +41,7 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+
 app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use("/cv", express.static(path.join(__dirname, "/fileCv")));
 
@@ -54,7 +59,6 @@ db.connect(function (err) {
 });
 
 // Multer image
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "images");
@@ -67,13 +71,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post("/api/upload", upload.single("file"), (req, res) => {
+  // #swagger.tags = ['Lưu hình']
   const file = req.file;
   if (!checkImage(file)) return res.status(404).json("Ảnh không hợp lệ! Vui lòng gửi lại.");
   res.status(200).json(file.filename);
 });
 
 // Multer file cv
-
 const storageFile = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "fileCv");
@@ -86,23 +90,88 @@ const storageFile = multer.diskStorage({
 const uploadFile = multer({ storage: storageFile });
 
 app.post("/api/uploadFile", uploadFile.single("file"), (req, res) => {
+  // #swagger.tags = ['Lưu File']
   console.log(req.file);
   const file = req.file;
   res.status(200).json(file.filename);
 });
 
+// swagger
+// const options = {
+//   definition: {
+//     openapi: "3.0.0",
+//     info: {
+//       title: "Express API with Swagger",
+//       version: "1.0.0",
+//     },
+//   },
+//   apis: ["./routes/*.js", "./schema/*.js"],
+// };
+
+// const specs = swaggerJsdoc(options);
+
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 // router
 
-app.use("/api/authUser", authUserRouter);
-app.use("/api/authCompany", authCompanyRouter);
-app.use("/api/user", userRouter);
-app.use("/api/company", companyRouter);
-app.use("/api/job", jobRouter);
-app.use("/api/fields", fieldsRouter);
-app.use("/api/provinces", provinesRouter);
-app.use("/api/follow", followRouter);
-app.use("/api/save", saveRouter);
-app.use("/api/apply", applyRouter);
+app.use(
+  "/api/authUser",
+
+  // #swagger.tags = ['Xác thực người tìm việc'],
+  authUserRouter
+);
+app.use(
+  "/api/authCompany",
+  // #swagger.tags = ['Xác thực nhà tuyển dụng']
+  authCompanyRouter
+);
+app.use(
+  "/api/user",
+  // #swagger.tags = ['Người tìm việc']
+  userRouter
+);
+app.use(
+  "/api/company",
+  // #swagger.tags = ['Nhà tuyển dụng']
+  companyRouter
+);
+app.use(
+  "/api/job",
+  // #swagger.tags = ['Công việc']
+  jobRouter
+);
+app.use(
+  "/api/fields",
+  // #swagger.tags = ['Ngành nghề']
+  fieldsRouter
+);
+app.use(
+  "/api/provinces",
+  // #swagger.tags = ['Tỉnh']
+  provinesRouter
+);
+app.use(
+  "/api/follow",
+  // #swagger.tags = ['Theo dõi công ty']
+  followRouter
+);
+app.use(
+  "/api/save",
+  // #swagger.tags = ['Lưu công việc']
+  saveRouter
+);
+app.use(
+  "/api/apply",
+  // #swagger.tags = ['Ứng tuyển']
+  applyRouter
+);
+
+app.get("/", (req, res) => {
+  // #swagger.tags = []
+  return res.status(200).json("Hello express");
+});
 
 app.listen(8800, (req, res) => {
   console.log("Backend running");

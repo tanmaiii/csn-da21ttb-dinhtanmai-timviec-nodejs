@@ -14,7 +14,7 @@ export const getUser = (req, res) => {
 
   if (id) {
     db.query(q, id, (err, data) => {
-      if (!data.length) {
+      if (!data?.length) {
         return res.status(401).json("Không tồn tại !");
       } else {
         return res.json(data[0]);

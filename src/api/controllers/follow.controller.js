@@ -6,7 +6,8 @@ export const getCompanies = async (req, res) => {
   try {
     const promiseDb = db.promise();
     const idUser = req.params.idUser;
-    const { page, limit } = req.query;
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
     const offset = (page - 1) * limit;
 
     const q = `SELECT nameCompany, avatarPic, scale, web, c.id, p.name as province 
@@ -58,6 +59,7 @@ export const addFollow = (req, res) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q = "INSERT INTO follow_company (`idUser`, `idCompany`, `createdAt`) VALUES (?)";
+
     const values = [
       userInfo.id,
       req.query.idCompany,

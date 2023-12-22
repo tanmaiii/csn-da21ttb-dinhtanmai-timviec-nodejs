@@ -14,7 +14,7 @@ export const register = (req, res) => {
 
   db.query(q, email, (err, data) => {
     if (err) return res.status(500).json(err);
-    if (data.length) return res.status(409).json("Email đã tồn tại !");
+    if (data?.length) return res.status(409).json("Email đã tồn tại !");
 
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
