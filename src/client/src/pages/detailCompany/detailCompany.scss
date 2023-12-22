@@ -4,9 +4,9 @@
   @include themify($themes) {
     margin-top: $height-header;
     padding: $spacing 0;
+    min-height: 100vh;
     .container {
       .detailCompany__wrapper {
-        min-height: 100vh;
         display: flex;
         flex-direction: column;
         gap: 18px;

@@ -31,15 +31,15 @@ export default function Signup() {
   const handleSubmit = async () => {
     setErr("");
     setMess("");
-    if (passwordRef.current.value.length < 6)
-      return setErr("Mật khẩu từ 6 kí tự trở lên.");
+    setLoading(true);
+    if (passwordRef.current.value.length < 6) return setErr("Mật khẩu từ 6 kí tự trở lên.");
     if (passwordRef.current.value !== rePasswordRef.current.value)
       return setErr("Nhập lại mật khẩu không trùng khớp.");
     try {
-      setLoading(true);
       await makeRequest.post("/authUser/register", inputs);
       setMess("Đăng ký thành công.");
       navigate("/dang-nhap/nguoi-dung");
+      setLoading(false);
       setInputs("");
     } catch (err) {
       setErr(err?.response?.data);
@@ -112,10 +112,7 @@ export default function Signup() {
             id="password"
           />
           <label htmlFor="password">Mật khẩu</label>
-          <span
-            className="tooglePassword"
-            onClick={() => setShowPass(!showPass)}
-          >
+          <span className="tooglePassword" onClick={() => setShowPass(!showPass)}>
             {showPass ? (
               <i className="fa-regular fa-eye"></i>
             ) : (
@@ -134,10 +131,7 @@ export default function Signup() {
             id="repassword"
           />
           <label htmlFor="repassword">Nhập lại mật khẩu</label>
-          <span
-            className="tooglePassword"
-            onClick={() => setShowRePass(!showRePass)}
-          >
+          <span className="tooglePassword" onClick={() => setShowRePass(!showRePass)}>
             {showRePass ? (
               <i className="fa-regular fa-eye"></i>
             ) : (
@@ -155,8 +149,7 @@ export default function Signup() {
           </button>
         )}
         <span className="link-signin">
-          Bạn đã có tài khoản ?
-          <Link to={"/dang-nhap/nguoi-dung"}> Đăng nhập</Link>
+          Bạn đã có tài khoản ?<Link to={"/dang-nhap/nguoi-dung"}> Đăng nhập</Link>
         </span>
       </div>
     </div>

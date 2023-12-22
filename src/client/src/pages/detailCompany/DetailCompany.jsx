@@ -46,12 +46,15 @@ export default function DetailCompany() {
   const controlPathname = pathname.split("/").filter(Boolean).pop();
 
   const getCompany = async () => {
+    setLoading(true);
     try {
       const res = await makeRequest.get("/company/" + id);
       setCompany(res.data);
+      setLoading(false);
     } catch (error) {
       setErr("id không đúng");
     }
+    setLoading(false);
   };
 
   const getFollower = async () => {
@@ -125,127 +128,94 @@ export default function DetailCompany() {
 
   return (
     <div>
-      {loading && <Loader />}
-      {err && <NotFound />}
-      {company && (
-        <div className="detailCompany">
-          <div className="container">
+      <div className="detailCompany">
+        <div className="container">
+          {err && <NotFound />}
+          {company && (
             <div className="detailCompany__wrapper">
-              <div className="detailCompany__wrapper__header">
-                <div className="detailCompany__wrapper__header__bg">
-                  <img src={bg} alt="" />
-                </div>
-                <div className="detailCompany__wrapper__header__main">
-                  <div className="detailCompany__wrapper__header__main__left">
-                    <div className="detailCompany__wrapper__header__main__left__image">
-                      <img
-                        onClick={() => setOpenModalAvatar(true)}
-                        src={company?.avatarPic ? apiImage + company?.avatarPic : avatar}
-                        alt=""
-                      />
-                      {company?.id === currentCompany?.id && (
-                        <button
-                          onClick={() => setOpenModalEditAvatar(true)}
-                          className="detailCompany__wrapper__header__main__left__image__edit"
-                        >
-                          <i className="fa-solid fa-camera"></i>
-                        </button>
-                      )}
+              {loading ? (
+                <Loader />
+              ) : (
+                <>
+                  <div className="detailCompany__wrapper__header">
+                    <div className="detailCompany__wrapper__header__bg">
+                      <img className="image-loading" src={bg} alt="" />
                     </div>
-                    <div className="detailCompany__wrapper__header__main__left__text">
-                      <span className="tag">Nhà tuyển dụng</span>
-                      <h4 className="name-company">
-                        {company?.nameCompany ? company?.nameCompany : "..."}
-                      </h4>
-                      <div className="desc-company">
-                        <div className="scale">
-                          <i className="fa-solid fa-building"></i>
-                          <span>{company?.scale ? `${company?.scale} nhân viên` : "..."}</span>
-                        </div>
-                        <div className="follow">
-                          <i className="fa-solid fa-user-group"></i>
-                          <span>{follower ? follower?.length : "0"} người theo dõi</span>
-                        </div>
-                        <div className="link">
-                          <i className="fa-solid fa-globe"></i>
-                          {company?.web ? <a href={company.web}>{company.web}</a> : "..."}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {company?.id === currentCompany?.id ? (
-                    <Link
-                      to={`/nha-tuyen-dung/${currentCompany?.id}/info`}
-                      className="button__edit"
-                    >
-                      <button>Chỉnh sửa</button>
-                    </Link>
-                  ) : (
-                    <div className="button__follow" onClick={() => handleSubmitFollow()}>
-                      {follower?.includes(currentUser?.id) ? (
-                        <button className="btn-unFollow">
-                          <span>Đang theo dõi</span>
-                        </button>
-                      ) : (
-                        <button className="btn-follow">
-                          <span>Theo dõi công ty</span>
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="detailCompany__wrapper__body row">
-                <div className=" col pc-9 t-8 m-12">
-                  <div className="detailCompany__wrapper__body__left">
-                    {company?.id === currentCompany?.id && (
-                      <>
-                        <div className="detailCompany__wrapper__body__left__control">
-                          <button
-                            onClick={() => navigate("")}
-                            className={`${controlPathname === id && "active"}`}
-                          >
-                            <span>Giới thiệu</span>
-                          </button>
+                    <div className="detailCompany__wrapper__header__main">
+                      <div className="detailCompany__wrapper__header__main__left">
+                        <div className="detailCompany__wrapper__header__main__left__image">
+                          <img
+                            className="image-loading"
+                            onClick={() => setOpenModalAvatar(true)}
+                            src={company?.avatarPic ? apiImage + company?.avatarPic : avatar}
+                            alt=""
+                          />
                           {company?.id === currentCompany?.id && (
-                            <>
-                              <button
-                                onClick={() => navigate("info")}
-                                className={`${controlPathname === "info" && "active"}`}
-                              >
-                                <span>Thông tin</span>
-                              </button>
-                              <Link to={"/nha-tuyen-dung/ung-vien"}>
-                                <button>
-                                  <span>Ứng viên</span>
-                                </button>
-                              </Link>
-                              <Link to={"/nha-tuyen-dung/dang-bai"}>
-                                <button>Tuyển dụng</button>
-                              </Link>
-                            </>
+                            <button
+                              onClick={() => setOpenModalEditAvatar(true)}
+                              className="detailCompany__wrapper__header__main__left__image__edit"
+                            >
+                              <i className="fa-solid fa-camera"></i>
+                            </button>
                           )}
                         </div>
-
-                        <div className="detailCompany__wrapper__body__left__control-mobile">
-                          <button
-                            onClick={() => navigate("")}
-                            className={`${controlPathname === id && "active"}`}
-                          >
-                            <span>Giới thiệu</span>
-                          </button>
-
-                          {company?.id === currentCompany?.id && (
-                            <div className="button__more" ref={controlMbRef}>
+                        <div className="detailCompany__wrapper__header__main__left__text">
+                          <span className="tag">Nhà tuyển dụng</span>
+                          <h4 className="name-company">
+                            {company?.nameCompany ? company?.nameCompany : "..."}
+                          </h4>
+                          <div className="desc-company">
+                            <div className="scale">
+                              <i className="fa-solid fa-building"></i>
+                              <span>{company?.scale ? `${company?.scale} nhân viên` : "..."}</span>
+                            </div>
+                            <div className="follow">
+                              <i className="fa-solid fa-user-group"></i>
+                              <span>{follower ? follower?.length : "0"} người theo dõi</span>
+                            </div>
+                            <div className="link">
+                              <i className="fa-solid fa-globe"></i>
+                              {company?.web ? <a href={company.web}>{company.web}</a> : "..."}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {company?.id === currentCompany?.id ? (
+                        <Link
+                          to={`/nha-tuyen-dung/${currentCompany?.id}/info`}
+                          className="button__edit"
+                        >
+                          <button>Chỉnh sửa</button>
+                        </Link>
+                      ) : (
+                        <div className="button__follow" onClick={() => handleSubmitFollow()}>
+                          {follower?.includes(currentUser?.id) ? (
+                            <button className="btn-unFollow">
+                              <span>Đang theo dõi</span>
+                            </button>
+                          ) : (
+                            <button className="btn-follow">
+                              <span>Theo dõi công ty</span>
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="detailCompany__wrapper__body row">
+                    <div className=" col pc-9 t-8 m-12">
+                      <div className="detailCompany__wrapper__body__left">
+                        {company?.id === currentCompany?.id && (
+                          <>
+                            <div className="detailCompany__wrapper__body__left__control">
                               <button
-                                className="button__more__toggle"
-                                onClick={() => setOpenControlMb(!openControlMb)}
+                                onClick={() => navigate("")}
+                                className={`${controlPathname === id && "active"}`}
                               >
-                                <span>Thêm</span>
-                                <i className="fa-solid fa-angle-down"></i>
+                                <span>Giới thiệu</span>
                               </button>
-                              {openControlMb && (
-                                <div className="button__more__dropdown">
+                              {company?.id === currentCompany?.id && (
+                                <>
                                   <button
                                     onClick={() => navigate("info")}
                                     className={`${controlPathname === "info" && "active"}`}
@@ -260,70 +230,109 @@ export default function DetailCompany() {
                                   <Link to={"/nha-tuyen-dung/dang-bai"}>
                                     <button>Tuyển dụng</button>
                                   </Link>
+                                </>
+                              )}
+                            </div>
+
+                            <div className="detailCompany__wrapper__body__left__control-mobile">
+                              <button
+                                onClick={() => navigate("")}
+                                className={`${controlPathname === id && "active"}`}
+                              >
+                                <span>Giới thiệu</span>
+                              </button>
+
+                              {company?.id === currentCompany?.id && (
+                                <div className="button__more" ref={controlMbRef}>
+                                  <button
+                                    className="button__more__toggle"
+                                    onClick={() => setOpenControlMb(!openControlMb)}
+                                  >
+                                    <span>Thêm</span>
+                                    <i className="fa-solid fa-angle-down"></i>
+                                  </button>
+                                  {openControlMb && (
+                                    <div className="button__more__dropdown">
+                                      <button
+                                        onClick={() => navigate("info")}
+                                        className={`${controlPathname === "info" && "active"}`}
+                                      >
+                                        <span>Thông tin</span>
+                                      </button>
+                                      <Link to={"/nha-tuyen-dung/ung-vien"}>
+                                        <button>
+                                          <span>Ứng viên</span>
+                                        </button>
+                                      </Link>
+                                      <Link to={"/nha-tuyen-dung/dang-bai"}>
+                                        <button>Tuyển dụng</button>
+                                      </Link>
+                                    </div>
+                                  )}
                                 </div>
                               )}
                             </div>
+                          </>
+                        )}
+
+                        <div className="detailCompany__wrapper__body__left__content">
+                          <Routes>
+                            <Route
+                              index
+                              element={
+                                <>
+                                  <IntroCompany intro={company?.intro} />
+                                  <JobsCompany />
+                                </>
+                              }
+                            />
+                            <Route
+                              path="jobs"
+                              element={
+                                <>
+                                  <IntroCompany intro={company?.intro} />
+                                  <JobsCompany />
+                                </>
+                              }
+                            />
+                            <Route path="info" element={<InfoCompany />} />
+                          </Routes>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col pc-3 t-4 m-12">
+                      <div className="detailCompany__wrapper__body__right">
+                        <h6>Địa chỉ</h6>
+                        <div className="province">
+                          <i className="fa-solid fa-location-dot"></i>
+                          {company?.province ? (
+                            <span href="">{company?.province}</span>
+                          ) : (
+                            <span>Không có</span>
                           )}
                         </div>
-                      </>
-                    )}
-
-                    <div className="detailCompany__wrapper__body__left__content">
-                      <Routes>
-                        <Route
-                          index
-                          element={
-                            <>
-                              <IntroCompany intro={company?.intro} />
-                              <JobsCompany />
-                            </>
-                          }
-                        />
-                        <Route
-                          path="jobs"
-                          element={
-                            <>
-                              <IntroCompany intro={company?.intro} />
-                              <JobsCompany />
-                            </>
-                          }
-                        />
-                        <Route path="info" element={<InfoCompany />} />
-                      </Routes>
+                        <h6>Chia sẻ</h6>
+                        <div className="detailCompany__wrapper__body__right__list">
+                          <FacebookShareButton url={urlShare}>
+                            <FacebookIcon size={32} round />
+                          </FacebookShareButton>
+                          <EmailShareButton url={urlShare}>
+                            <EmailIcon size={32} round />
+                          </EmailShareButton>
+                          <TwitterShareButton url={urlShare}>
+                            <TwitterIcon size={32} round />
+                          </TwitterShareButton>
+                        </div>
+                      </div>
+                      <RecomKeyword />
                     </div>
                   </div>
-                </div>
-                <div className="col pc-3 t-4 m-12">
-                  <div className="detailCompany__wrapper__body__right">
-                    <h6>Địa chỉ</h6>
-                    <div className="province">
-                      <i className="fa-solid fa-location-dot"></i>
-                      {company?.province ? (
-                        <span href="">{company?.province}</span>
-                      ) : (
-                        <span>Không có</span>
-                      )}
-                    </div>
-                    <h6>Chia sẻ</h6>
-                    <div className="detailCompany__wrapper__body__right__list">
-                      <FacebookShareButton url={urlShare}>
-                        <FacebookIcon size={32} round />
-                      </FacebookShareButton>
-                      <EmailShareButton url={urlShare}>
-                        <EmailIcon size={32} round />
-                      </EmailShareButton>
-                      <TwitterShareButton url={urlShare}>
-                        <TwitterIcon size={32} round />
-                      </TwitterShareButton>
-                    </div>
-                  </div>
-                  <RecomKeyword />
-                </div>
-              </div>
+                </>
+              )}
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
       <ModalCropImage openModal={openModalEditAvatar} setOpenModal={setOpenModalEditAvatar} />
       <div className={`modal__avatar ${openModalAvatar ? "active" : ""}`}>
         <div ref={modalAvatarRef} className="modal__avatar__wrapper">

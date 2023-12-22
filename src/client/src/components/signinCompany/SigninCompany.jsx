@@ -25,14 +25,12 @@ export default function SigninCompany() {
   const handleSubmit = async () => {
     setErr("");
     setLoading(true);
-    const res = async () => {
-      try {
-        await loginCompany(inputs);
-      } catch (err) {
-        setErr(err?.response?.data);
-      }
-    };
-    res();
+    try {
+      await loginCompany(inputs);
+      setLoading(false);
+    } catch (err) {
+      setErr(err?.response?.data);
+    }
     setLoading(false);
   };
 
@@ -64,8 +62,7 @@ export default function SigninCompany() {
       <div className="signinCompany__header ">
         <h4>Chào mừng nhà tuyển dụng đã quay trở lại</h4>
         <span>
-          Hãy cùng chúng tôi làm nổi bật doanh nghiệp của bạn với trải nghiệm
-          tuyển dụng tiên tiến
+          Hãy cùng chúng tôi làm nổi bật doanh nghiệp của bạn với trải nghiệm tuyển dụng tiên tiến
         </span>
       </div>
       {err && <p className="err">{err}</p>}
@@ -102,20 +99,19 @@ export default function SigninCompany() {
           </span>
         </div>
         <div className="reset">
-            <Link to={'/quen-mat-khau?type=nha-tuyen-dung'}>Quên mật khẩu ?</Link>
+          <Link to={"/quen-mat-khau?type=nha-tuyen-dung"}>Quên mật khẩu ?</Link>
         </div>
-        {!loading ? (
-          <button className="btn-auth" onClick={handleSubmit}>
-            Đăng nhập
-          </button>
-        ) : (
+        {loading ? (
           <button className="btn-loading">
             <div className="loading"></div>
           </button>
+        ) : (
+          <button className="btn-auth" onClick={handleSubmit}>
+            Đăng nhập
+          </button>
         )}
         <span className="link-signup">
-          Bạn chưa có tài khoản ?
-          <Link to={"/dang-ky/nha-tuyen-dung"}> Đăng ký</Link>
+          Bạn chưa có tài khoản ?<Link to={"/dang-ky/nha-tuyen-dung"}> Đăng ký</Link>
         </span>
       </div>
     </div>

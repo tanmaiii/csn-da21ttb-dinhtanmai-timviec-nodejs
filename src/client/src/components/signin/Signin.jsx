@@ -23,18 +23,16 @@ export default function Signin() {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
     setErr("");
-    const res = async () => {
-      try {
-        await loginUser(inputs);
-      } catch (err) {
-        setErr(err?.response?.data);
-      }
-    };
+    try {
+      await loginUser(inputs);
+      setLoading(false);
+    } catch (err) {
+      setErr(err?.response?.data);
+    }
     setLoading(false);
-    res();
   };
 
   useEffect(() => {
@@ -101,16 +99,16 @@ export default function Signin() {
         </div>
 
         <div className="reset">
-            <Link to={'/quen-mat-khau?type=nguoi-dung'}>Quên mật khẩu ?</Link>
+          <Link to={"/quen-mat-khau?type=nguoi-dung"}>Quên mật khẩu ?</Link>
         </div>
 
-        {!loading ? (
-          <button className="btn-auth" onClick={handleSubmit}>
-            Đăng ký
-          </button>
-        ) : (
+        {loading ? (
           <button className="btn-loading">
             <div className="loading"></div>
+          </button>
+        ) : (
+          <button className="btn-auth" onClick={handleSubmit}>
+            Đăng ký
           </button>
         )}
 

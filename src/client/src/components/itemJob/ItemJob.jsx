@@ -8,7 +8,7 @@ import img from "../../assets/images/avatarCpn.png";
 import Modal from "../modal/Modal";
 import moment from "moment";
 import "moment/locale/vi";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -134,7 +134,11 @@ export default function ItemJob({ className, job, onClick }) {
       <div className={`itemJob ${className && className}`} onClick={onClick}>
         <div className="itemJob__wrapper">
           <div className="itemJob__wrapper__header">
-            <img src={job?.avatarPic ? apiImage + job?.avatarPic : img} alt="" />
+            <img
+              className="image-loading"
+              src={job?.avatarPic ? apiImage + job?.avatarPic : img}
+              alt=""
+            />
             <div className="text">
               <Link to={`/viec-lam/${job?.id}`}>
                 <h4 className="nameJob">{job?.nameJob}</h4>
@@ -277,4 +281,4 @@ ItemJob.propTypes = {
   job: PropTypes.object,
   className: PropTypes.string,
   onClick: PropTypes.func,
-}
+};

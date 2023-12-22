@@ -73,7 +73,12 @@ export default function ItemCompany({ company, className }) {
       <div onClick={(e) => handleClick(e)} className={`itemCompany ${className && className}`}>
         <div className="itemCompany__wrapper">
           <div className="itemCompany__wrapper__image">
-            <img src={company?.avatarPic ? apiImage + company?.avatarPic : img} alt="" />
+            <img
+              className="image-loading"
+              loading="lazy"
+              src={company?.avatarPic ? apiImage + company?.avatarPic : img}
+              alt=""
+            />
           </div>
           <div className="itemCompany__wrapper__body">
             <div className="itemCompany__wrapper__body__right">

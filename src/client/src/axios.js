@@ -1,9 +1,15 @@
-import axios from 'axios'
+import axios from "axios";
 
-export const apiImage = "http://localhost:8800/images/"
-export const apiCv = "http://localhost:8800/cv/"
+//http://localhost:8800
+//https://nodejs-mysql-y4nx.onrender.com
+//https://api-job.vercel.app
+const baseURL = "http://localhost:8800";
+
+export const apiImage = `${baseURL}/images/`;
+
+export const apiCv = `${baseURL}/cv/`;
 
 export const makeRequest = axios.create({
-    baseURL: "http://localhost:8800/api",
-    withCredentials: true
-})
+  baseURL: `${baseURL}/api`,
+  withCredentials: true,
+});
