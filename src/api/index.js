@@ -28,7 +28,6 @@ import checkImage from "./middlewares/checkImage.middleware.js";
 import { fileURLToPath } from "url";
 import { log } from "console";
 
-
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,7 +40,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "jobquest-tm.vercel.app"],
   })
 );
 
@@ -216,7 +215,21 @@ app.post("/api/signupEmail", (req, res) => {
 
 app.get("/", (req, res) => {
   // #swagger.tags = []
-  return res.status(200).json("Hello express");
+  res.send("Hello this is api jobquest");
+});
+
+app.get("/mysql", (req, res) => {
+  // #swagger.tags = []
+  db.connect(function (err) {
+    if (err) {
+      console.log("Error connecting SQL " + err.stack);
+    } else {
+      db.query("SHOW DATABASES;", function (err, result) {
+        if (err) throw err;
+        res.send(result);
+      });
+    }
+  });
 });
 
 app.listen(8800, (req, res) => {

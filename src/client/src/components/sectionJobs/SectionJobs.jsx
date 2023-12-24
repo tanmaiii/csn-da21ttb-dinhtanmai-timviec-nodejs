@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./sectionJobs.scss";
 import ItemJob from "../itemJob/ItemJob";
 import { makeRequest } from "../../axios";
+import Loader from "../../components/loader/Loader";
 
 export default function SectionJobs({ title }) {
   const [jobs, setJobs] = useState([]);
@@ -21,9 +22,8 @@ export default function SectionJobs({ title }) {
   };
 
   useEffect(() => {
-    getJobs()
-  },[])
-  
+    getJobs();
+  }, []);
 
   return (
     <div className="sectionJobs">
@@ -32,13 +32,12 @@ export default function SectionJobs({ title }) {
       </div>
       <div className="sectionJobs__body">
         <div ref={sectionJobsRef} className=" sectionJobs__body__list row">
+          {loading && <Loader />}
           {jobs &&
-            jobs?.map((job, i) => (
-              <ItemJob key={i} job={job} className={"col pc-6 t-6 m-12"} />
-            ))}
+            jobs?.map((job, i) => <ItemJob key={i} job={job} className={"col pc-6 t-6 m-12"} />)}
         </div>
       </div>
-      <Link to={'/tim-kiem'} className="sectionJobs__btn">
+      <Link to={"/tim-kiem"} className="sectionJobs__btn">
         <button className="">
           <span>Xem tất cả</span> <i className="fa-solid fa-chevron-right"></i>
         </button>

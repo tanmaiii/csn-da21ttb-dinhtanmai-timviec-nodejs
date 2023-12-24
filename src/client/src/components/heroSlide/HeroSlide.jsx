@@ -57,7 +57,7 @@ export default function HeroSlide() {
 }
 
 function SearchHeroSlide() {
-  const [province, setProvince] = useState();
+  const [province, setProvince] = useState([]);
   const [openSearch, setOpenSearch] = useState();
   const { searchHistory, setSearchHistory } = useMode();
   const [openProvince, setOpenProvince] = useState();
@@ -74,7 +74,6 @@ function SearchHeroSlide() {
       try {
         const res = await makeRequest.get("/provinces");
         setProvince(res.data);
-        console.log(province);
       } catch (error) {}
     };
     getProvince();
