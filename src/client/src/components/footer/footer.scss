@@ -78,7 +78,7 @@
                 @include flex(center, unset);
                 gap: 8px;
                 list-style: none;
-                li {
+                li a {
                   --size: 50px;
                   width: var(--size);
                   height: var(--size);
@@ -94,6 +94,7 @@
                     box-shadow: themed("box-shadow");
                   }
                   i {
+                    @include flex(center, center);
                     font-size: 1.2rem;
                     color: themed("text1");
                   }
@@ -126,7 +127,7 @@
               border-radius: $border-radius-10;
               width: 400px;
               padding: 0 12px;
-              @include mobile{
+              @include mobile {
                 width: 100%;
               }
               i {

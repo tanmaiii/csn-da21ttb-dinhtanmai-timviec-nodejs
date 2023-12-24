@@ -31,10 +31,11 @@ export default function Signup() {
   const handleSubmit = async () => {
     setErr("");
     setMess("");
-    setLoading(true);
     if (passwordRef.current.value.length < 6) return setErr("Mật khẩu từ 6 kí tự trở lên.");
     if (passwordRef.current.value !== rePasswordRef.current.value)
       return setErr("Nhập lại mật khẩu không trùng khớp.");
+
+    setLoading(true);
     try {
       await makeRequest.post("/authUser/register", inputs);
       setMess("Đăng ký thành công.");
@@ -94,7 +95,7 @@ export default function Signup() {
             autoComplete="off"
             onChange={handleChange}
             name="phone"
-            type="text"
+            type="number"
             placeholder=" "
             id="phone"
           />

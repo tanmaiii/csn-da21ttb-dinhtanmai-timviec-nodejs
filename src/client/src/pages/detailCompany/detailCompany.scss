@@ -51,8 +51,8 @@
               }
               &__image {
                 --size: 200px;
-                width: var(--size);
-                height: var(--size);
+                max-width: var(--size);
+                max-height: var(--size);
                 @include flex(center, center);
                 position: relative;
                 margin-top: -100px;

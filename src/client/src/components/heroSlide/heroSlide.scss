@@ -65,6 +65,7 @@
             width: 100%;
             height: auto;
             object-fit: cover;
+            animation: animation_image 8s ease-in-out infinite 1s;
             @include mobile {
               height: 100%;
               width: 100%;
@@ -74,6 +75,18 @@
         }
       }
     }
+  }
+}
+
+@keyframes animation_image {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, 8px);
+  }
+  100% {
+    transform: translate(0, 0);
   }
 }
 

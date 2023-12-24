@@ -51,7 +51,7 @@ export default function DropdownCompany() {
           <i className="fa-regular fa-rectangle-list"></i>
           <span>Việc làm của bạn</span>
         </Link> */}
-        
+
         <Link to={`/nha-tuyen-dung/${id}/info`} className="dropdownCompany__dropdown__option">
           <i className="fa-regular fa-id-badge"></i>
           <span>Thông tin cá nhân</span>
@@ -65,6 +65,10 @@ export default function DropdownCompany() {
           <span>Đăng ứng tuyển</span>
         </Link>
         <hr />
+        <Link to={`/doi-mat-khau?type=nha-tuyen-dung`} className="dropdownUser__dropdown__option">
+          <i className="fa-solid fa-rotate-right"></i>
+          <span>Đổi mật khẩu</span>
+        </Link>
         <button
           onClick={() => logoutCompany()}
           className="dropdownCompany__dropdown__option dropdownCompany__dropdown__option__logout"

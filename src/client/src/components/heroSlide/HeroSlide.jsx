@@ -16,36 +16,31 @@ export default function HeroSlide() {
   const { darkMode } = useMode();
 
   return (
-    <div
-      className="HeroSlide"
-      style={{ backgroundImage: ` url(${darkMode ? bg2 : bg1})` }}
-    >
+    <div className="HeroSlide" style={{ backgroundImage: ` url(${darkMode ? bg2 : bg1})` }}>
       <div className="container">
         <div className="HeroSlide__wrapper row">
           <div className="HeroSlide__wrapper__left col pc-7 t-7 m-12">
             <h4>
-              "Khám phá tiềm năng nghề nghiệp cùng JobQuest - Bước đầu cho sự
-              nghiệp tươi sáng!"
+              "Khám phá tiềm năng nghề nghiệp cùng JobQuest - Bước đầu cho sự nghiệp tươi sáng!"
             </h4>
             <span>
-              Hãy bắt đầu cuộc hành trình tìm kiếm công việc mơ ước của bạn ngay
-              hôm nay tại JobQuest - nền tảng đáng tin cậy dành riêng cho cộng
-              đồng người Việt Nam. Với hàng nghìn cơ hội việc làm từ khắp mọi
-              nơi, chúng tôi sẽ giúp bạn nắm bắt cơ hội và xây dựng sự nghiệp mà
-              bạn luôn mong muốn.
+              Hãy bắt đầu cuộc hành trình tìm kiếm công việc mơ ước của bạn ngay hôm nay tại
+              JobQuest - nền tảng đáng tin cậy dành riêng cho cộng đồng người Việt Nam. Với hàng
+              nghìn cơ hội việc làm từ khắp mọi nơi, chúng tôi sẽ giúp bạn nắm bắt cơ hội và xây
+              dựng sự nghiệp mà bạn luôn mong muốn.
             </span>
             <ul className="HeroSlide__wrapper__left__list-company">
               <li>
-                <img src={imgVNG} alt="" />
+                <img loading="lazy" src={imgVNG} alt="" />
               </li>
               <li>
-                <img src={imgTGDD} alt="" />
+                <img loading="lazy" src={imgTGDD} alt="" />
               </li>
               <li>
-                <img src={imgVT} alt="" />
+                <img loading="lazy" src={imgVT} alt="" />
               </li>
               <li>
-                <img src={imgFPT} alt="" />
+                <img loading="lazy" src={imgFPT} alt="" />
               </li>
             </ul>
             <div className="HeroSlide__wrapper__left__search">
@@ -53,7 +48,7 @@ export default function HeroSlide() {
             </div>
           </div>
           <div className="HeroSlide__wrapper__right col pc-5 t-5 m-12">
-            <img src={img} alt="" />
+            <img loading="lazy" src={img} alt="" />
           </div>
         </div>
       </div>
@@ -64,9 +59,7 @@ export default function HeroSlide() {
 function SearchHeroSlide() {
   const [province, setProvince] = useState();
   const [openSearch, setOpenSearch] = useState();
-  const [searchHistory, setSearchHistory] = useState(
-    JSON.parse(localStorage?.getItem("searchHistory" || null))
-  );
+  const { searchHistory, setSearchHistory } = useMode();
   const [openProvince, setOpenProvince] = useState();
   const [keywordSearch, setKeywordSearch] = useState("");
   const [keywordProvince, setKeywordProvince] = useState("");
@@ -131,11 +124,10 @@ function SearchHeroSlide() {
   };
 
   const handleSaveHistory = (item) => {
-    //  / item = item?.trim();
+    item = item.trim();
     if (!searchHistory?.includes(item)) {
-      const updateHistory = [item.trim(), ...searchHistory];
-      setSearchHistory(updateHistory);
-      localStorage.setItem("searchHistory", JSON.stringify(updateHistory));
+      const updateHistory = [item, ...searchHistory];
+      setSearchHistory(updateHistory?.slice(0, 4));
     }
   };
 
@@ -171,19 +163,12 @@ function SearchHeroSlide() {
               placeholder="Nhập tên công việc..."
             />
             {keywordSearch?.length > 0 && (
-              <button
-                className="btn-clear"
-                onClick={() => setKeywordSearch("")}
-              >
+              <button className="btn-clear" onClick={() => setKeywordSearch("")}>
                 <i class="fa-solid fa-circle-xmark"></i>
               </button>
             )}
           </div>
-          <div
-            className={`searchHeroSlide__wrapper__item__list ${
-              openSearch ? "open" : ""
-            }`}
-          >
+          <div className={`searchHeroSlide__wrapper__item__list ${openSearch ? "open" : ""}`}>
             <ul>
               {searchHistory?.slice(0, 4).map((item, i) => (
                 <li key={i} onClick={() => setKeywordSearch(item)}>
@@ -210,24 +195,15 @@ function SearchHeroSlide() {
               placeholder="Nhập tỉnh , thành phố..."
             />
             {keywordProvince?.length > 0 && (
-              <button
-                className="btn-clear"
-                onClick={() => setKeywordProvince("")}
-              >
+              <button className="btn-clear" onClick={() => setKeywordProvince("")}>
                 <i class="fa-solid fa-circle-xmark"></i>
               </button>
             )}
           </div>
-          <div
-            className={`searchHeroSlide__wrapper__item__list  ${
-              openProvince ? "open" : ""
-            }`}
-          >
+          <div className={`searchHeroSlide__wrapper__item__list  ${openProvince ? "open" : ""}`}>
             <ul>
               {province
-                ?.filter((asd) =>
-                  formatStr(asd.name).includes(formatStr(keywordProvince))
-                )
+                ?.filter((asd) => formatStr(asd.name).includes(formatStr(keywordProvince)))
                 .map((prov, i) => (
                   <li key={i} onClick={() => setKeywordProvince(prov.name)}>
                     <i class="fa-solid fa-location-dot"></i>

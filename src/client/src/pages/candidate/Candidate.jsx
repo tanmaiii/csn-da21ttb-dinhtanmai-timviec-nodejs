@@ -196,18 +196,20 @@ export default function Candidate() {
             <div className="candidate__wrapper__body__control">
               <div className="candidate__wrapper__body__control__left">
                 <div className="candidate__wrapper__body__control__left__search">
-                  <i className="fa-solid fa-magnifying-glass icon-glass"></i>
-                  <input
-                    type="text"
-                    placeholder="Tìm kiếm ứng viên..."
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                  />
-                  {keyword && (
-                    <button className="button-clear" onClick={() => setKeyword("")}>
-                      <i className="fa-solid fa-circle-xmark"></i>
-                    </button>
-                  )}
+                  <div className="candidate__wrapper__body__control__left__search__input">
+                    <i className="fa-solid fa-magnifying-glass icon-glass"></i>
+                    <input
+                      type="text"
+                      placeholder="Tìm kiếm ứng viên..."
+                      value={keyword}
+                      onChange={(e) => setKeyword(e.target.value)}
+                    />
+                    {keyword && (
+                      <button className="button-clear" onClick={() => setKeyword("")}>
+                        <i className="fa-solid fa-circle-xmark"></i>
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="candidate__wrapper__body__control__right">

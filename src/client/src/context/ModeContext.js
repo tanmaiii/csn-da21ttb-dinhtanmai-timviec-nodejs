@@ -7,9 +7,11 @@ export function useMode() {
   return useContext(ModeContext);
 }
 
-export const  ModeContextProvider = ({ children }) =>{
-  const [darkMode, setDarkMode] = useState(
-    JSON.parse(localStorage.getItem("darkMode") || false)
+export const ModeContextProvider = ({ children }) => {
+  const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode")) || false);
+  const defaultHistory = [];
+  const [searchHistory, setSearchHistory] = useState(
+    JSON.parse(localStorage.getItem("searchHistory")) || []
   );
 
   const toggleDarkMode = () => {
@@ -20,9 +22,13 @@ export const  ModeContextProvider = ({ children }) =>{
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
+  useEffect(() => {
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+  }, [searchHistory]);
+
   return (
-    <ModeContext.Provider value={{ darkMode, toggleDarkMode }}>
+    <ModeContext.Provider value={{ darkMode, toggleDarkMode, searchHistory, setSearchHistory }}>
       {children}
     </ModeContext.Provider>
   );
-}
+};

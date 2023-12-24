@@ -7,7 +7,8 @@ import {
   updateIntroCompany,
   uploadImage,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  changePassword
 } from "../controllers/company.controller.js";
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.put("/updateIntro", updateIntroCompany);
 router.put("/uploadImage", uploadImage);
 router.post("/forgot", forgotPassword);
 router.post("/resetPassword/:id/:token", resetPassword);
+router.post("/changePassword/:id", changePassword);
 
 export default router;

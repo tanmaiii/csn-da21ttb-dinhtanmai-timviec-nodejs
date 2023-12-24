@@ -65,35 +65,39 @@
                 width: 100%;
               }
               &__search {
-                border-radius: $border-radius-10;
-                border: 1px solid themed("border");
-                padding: 0 10px;
                 @include flex(center, unset);
                 gap: 8px;
-                position: relative;
-                input {
-                  font-size: $font-size-s;
-                  color: themed("text1");
-                  width: 300px;
-                  padding: 16px 0;
-                  margin-right: 18px;
-                }
-                .icon-glass {
-                  font-size: 1.2rem;
-                  color: themed("text1");
-                }
-                .button-clear {
-                  cursor: pointer;
-                  position: absolute;
-                  --size: 18px;
-                  width: var(--size);
-                  top: 50%;
-                  right: 8px;
-                  transform: translateY(-50%);
-                  height: var(--size);
-                  i {
-                    font-size: 1.1rem;
+                &__input {
+                  border-radius: $border-radius-10;
+                  border: 1px solid themed("border");
+                  padding: 0 10px;
+                  @include flex(center, unset);
+                  gap: 8px;
+                  position: relative;
+                  input {
+                    font-size: $font-size-s;
                     color: themed("text1");
+                    width: 300px;
+                    padding: 16px 0;
+                    margin-right: 18px;
+                  }
+                  .icon-glass {
+                    font-size: 1.2rem;
+                    color: themed("text1");
+                  }
+                  .button-clear {
+                    cursor: pointer;
+                    position: absolute;
+                    --size: 18px;
+                    width: var(--size);
+                    top: 50%;
+                    right: 8px;
+                    transform: translateY(-50%);
+                    height: var(--size);
+                    i {
+                      font-size: 1.1rem;
+                      color: themed("text1");
+                    }
                   }
                 }
               }
@@ -161,7 +165,6 @@
               }
             }
           }
-
           &__list {
             width: 100%;
             &__control {

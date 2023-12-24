@@ -1,4 +1,5 @@
 import { db } from "../config/connect.js";
+import "express-async-errors";
 
 export const getAll = (req, res) => {
   const q =

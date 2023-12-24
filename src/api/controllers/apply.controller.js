@@ -5,6 +5,7 @@ import checkUrl from "../middlewares/checkUrl.middleware.js";
 import checkEmail from "../middlewares/checkEmail.middleware.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import "express-async-errors";
 
 export const getJobApply = (req, res) => {
   const token = req.cookies.accessToken;

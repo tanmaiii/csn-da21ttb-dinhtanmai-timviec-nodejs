@@ -1,3 +1,4 @@
+import "express-async-errors";
 
 export const logout = (req, res) => {
   res

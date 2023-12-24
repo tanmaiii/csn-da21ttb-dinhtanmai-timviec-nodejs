@@ -3,30 +3,31 @@
 .searchQuick {
   @include themify($themes) {
     min-height: 100vh;
-    margin-top: calc($height-header) ;
+    margin-top: calc($height-header);
     &__wrapper {
-      padding:  $spacing 20px;
+      padding: $spacing 0;
       width: 100%;
       border-radius: $border-radius-10;
       &__header {
-        margin-bottom: $spacing;
+        margin-bottom: 20px;
         color: themed("text1");
       }
       &__content {
         width: 100%;
-        margin-top: $spacing;
         background-color: themed("bg2");
         border-radius: $border-radius-20;
         padding: 20px;
-        flex-wrap: wrap;
-        & > div {
-          min-height: 100vh;
+        & > .row {
+          flex-wrap: wrap;
         }
         &__popular {
           background-color: themed("bg2");
           border: $border-radius-10;
           padding: 20px;
           border-radius: $border-radius-10;
+          @include mobile {
+            padding: 0;
+          }
           .header {
             font-size: $font-size-m;
             color: themed("text1");
@@ -36,7 +37,7 @@
             @include flex(start, unset);
             flex-direction: column;
             .item {
-              @include flex(center, unset);
+              @include flex(center, space-between);
               gap: 8px;
               padding: 10px 0;
               border-bottom: 1px solid themed("border");
@@ -56,6 +57,13 @@
                 color: themed("text2");
                 font-weight: 400;
               }
+            }
+          }
+        }
+        & > div .recomKeyword {
+          .recomKeyword__wrapper {
+            @include mobile {
+              padding: 20px 0;
             }
           }
         }

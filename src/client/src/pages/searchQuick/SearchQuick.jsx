@@ -86,11 +86,11 @@ export default function SearchQuick() {
           <div className="searchQuick__wrapper__header">
             <h2>Tìm kiếm việc làm nhanh</h2>
           </div>
-          <div className="searchQuick__wrapper__content row">
+          <div className="searchQuick__wrapper__content ">
             {loading ? (
               <Loader />
             ) : (
-              <>
+              <div className="row">
                 <div className="col pc-9 t-8 m-12">
                   <SearchQuickFields fields={fields} />
                   <SearchQuickProvince provinces={provinces} />
@@ -112,7 +112,7 @@ export default function SearchQuick() {
                   </div>
                   <RecomKeyword />
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>

@@ -38,20 +38,20 @@ export default function SignupCompany() {
   const handleSumit = async () => {
     setMess("");
     setErr("");
-    if (passwordRef.current.value.length < 6)
-      return setErr("Mật khẩu từ 6 kí tự trở lên.");
+    if (passwordRef.current.value.length < 6) return setErr("Mật khẩu từ 6 kí tự trở lên.");
     if (passwordRef.current.value !== rePasswordRef.current.value)
       return setErr("Nhập lại mật khẩu không trùng khớp.");
-    if (!selectedOptionScale || !selectedOptionProvince)
-      return setErr("Chọn quy mô mà địa chỉ.");
+    if (!selectedOptionScale || !selectedOptionProvince) return setErr("Chọn quy mô mà địa chỉ.");
+
+    setLoading(true);
     try {
-      setLoading(true);
       inputs.scale = selectedOptionScale.name;
       inputs.idProvince = selectedOptionProvince.pId;
       console.log(inputs);
       await makeRequest.post("/authCompany/register", inputs);
       setMess("Đăng ký thành công.");
       navigate("/dang-nhap/nha-tuyen-dung");
+      setLoading(false);
     } catch (err) {
       setErr(err?.response?.data);
     }
@@ -82,10 +82,7 @@ export default function SignupCompany() {
     <div className="signupCompany">
       <div className="signupCompany__header ">
         <h4>Đăng ký nhà tuyển dụng</h4>
-        <span>
-          Hãy cùng chúng tôi xây dựng cơ hội tuyển dụng tốt nhất cho doanh
-          nghiệp của bạn
-        </span>
+        <span>Hãy cùng chúng tôi xây dựng cơ hội tuyển dụng tốt nhất cho doanh nghiệp của bạn</span>
       </div>
       {err && <span className="err">{err}</span>}
       {mess && <span className="mess">{mess}</span>}
@@ -113,7 +110,7 @@ export default function SignupCompany() {
               autoComplete="off"
               id="phone"
               name="phone"
-              type="text"
+              type="number"
               value={inputs.phone}
             />
             <label htmlFor="phone">Số điện thoại</label>
@@ -131,10 +128,7 @@ export default function SignupCompany() {
               type={`${showPass ? "password" : "text"}`}
             />
             <label htmlFor="password">Mật khẩu</label>
-            <span
-              className="tooglePassword"
-              onClick={() => setShowPass(!showPass)}
-            >
+            <span className="tooglePassword" onClick={() => setShowPass(!showPass)}>
               {showPass ? (
                 <i className="fa-regular fa-eye"></i>
               ) : (
@@ -152,10 +146,7 @@ export default function SignupCompany() {
               type={`${showRePass ? "password" : "text"}`}
             />
             <label htmlFor="repassword">Nhập lại mật khẩu</label>
-            <span
-              className="tooglePassword"
-              onClick={() => setShowRePass(!showRePass)}
-            >
+            <span className="tooglePassword" onClick={() => setShowRePass(!showRePass)}>
               {showRePass ? (
                 <i className="fa-regular fa-eye"></i>
               ) : (
@@ -225,8 +216,7 @@ export default function SignupCompany() {
           </button>
         )}
         <span className="link-signin">
-          Bạn đã có tài khoản ?
-          <Link to={"/dang-nhap/nha-tuyen-dung"}> Đăng nhập</Link>
+          Bạn đã có tài khoản ?<Link to={"/dang-nhap/nha-tuyen-dung"}> Đăng nhập</Link>
         </span>
       </div>
     </div>

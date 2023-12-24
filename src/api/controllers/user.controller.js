@@ -5,10 +5,13 @@ import checkUrl from "../middlewares/checkUrl.middleware.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import "express-async-errors";
+
 dotenv.config();
 
 export const getUser = (req, res) => {
   const id = req.params.id;
+
   const q = `SELECT u.id, u.name, u.email, u.phone, u.avatarPic, u.birthDay, u.intro, u.linkSocial, p.name as province FROM users as u 
     LEFT JOIN provinces as p ON u.idProvince = p.id WHERE u.id = ?`;
 
@@ -75,7 +78,7 @@ export const updateUser = (req, res) => {
       return res.status(403).json("Chỉ thay đổi được thông tin của mình");
     });
   });
-};  
+};
 
 export const updateIntroUser = (req, res) => {
   const token = req.cookies?.accessToken;
@@ -111,6 +114,8 @@ export const forgotPassword = (req, res) => {
   const { email } = req.body;
 
   const q = "SELECT email, name, id from users WHERE email = ?";
+
+  if (!checkEmail(email)) return res.status(403).json("Email không hợp lệ !");
 
   db.query(q, [email], (err, data) => {
     if (!data?.length) {
@@ -194,5 +199,40 @@ export const resetPassword = (req, res) => {
         return res.status(401).json("Lỗi!");
       });
     }
+  });
+};
+
+export const changePassword = (req, res) => {
+  const { passwordOld, password } = req.body;
+  const id = req.params.id;
+  const token = req.cookies?.accessToken;
+
+  if (!id) return res.status(403).json("Không tìm thấy người dùng!");
+  if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+  const q = "SELECT * FROM users WHERE id=?";
+
+  db.query(q, id, (err, data) => {
+    if (err) return res.status(500).json(err);
+    if (data?.length === 0) return res.status(404).json("Nguời dùng không tồn tại");
+
+    const checkPassword = bcrypt.compareSync(passwordOld, data[0].password);
+
+    if (!checkPassword) return res.status(401).json("Mật khẩu cũ không đúng !");
+
+    const q2 = `UPDATE users SET password = ? WHERE users.id = ?`;
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+
+    jwt.verify(token, "secretkey", (err, userInfo) => {
+      if (err) {
+        return res.status(401).json("Lỗi!");
+      } else {
+        db.query(q2, [hashedPassword, userInfo.id], (err, data) => {
+          if (!err) return res.status(200).json("Cập nhật mật khẩu thành công!");
+          return res.status(401).json("Lỗi!");
+        });
+      }
+    });
   });
 };

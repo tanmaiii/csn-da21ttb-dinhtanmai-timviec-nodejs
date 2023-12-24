@@ -229,12 +229,12 @@ export default function EditJob() {
                   </div>
                 </div>
                 <div className="editJob__wrapper__body__form__content__item editJob__wrapper__body__form__content__item__salary">
-                  <h6>Mức lương trên tháng (từ 1 đến 50 triệu)</h6>
+                  <h6>Mức lương trên tháng (từ 1 đến 100 triệu)</h6>
                   <div className="editJob__wrapper__body__form__content__item__input editJob__wrapper__body__form__content__item__scale__input">
                     <input
                       type="number"
                       onChange={(e) =>
-                        parseInt(e.target.value) < 1 || parseInt(e.target.value) > 50
+                        parseInt(e.target.value) < 1 || parseInt(e.target.value) > 100
                           ? setSalaryMin(1)
                           : setSalaryMin(parseInt(e.target.value))
                       }
@@ -242,20 +242,20 @@ export default function EditJob() {
                       value={salaryMin}
                       placeholder="Tối thiểu"
                       min={1}
-                      max={50}
+                      max={100}
                     />
                     <input
                       type="number"
                       onChange={(e) =>
-                        parseInt(e.target.value) < 1 || parseInt(e.target.value) > 50
-                          ? setSalaryMax(50)
+                        parseInt(e.target.value) < 1 || parseInt(e.target.value) > 100
+                          ? setSalaryMax(100)
                           : setSalaryMax(parseInt(e.target.value))
                       }
                       name="salaryMax"
                       value={salaryMax}
                       placeholder="Tối đa"
                       min={1}
-                      max={50}
+                      max={100}
                     />
                     <div className="editJob__wrapper__body__form__content__item__input__child">
                       <input

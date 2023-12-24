@@ -10,6 +10,7 @@ import { makeRequest } from "../../axios";
 import img from "../../assets/images/bannerSearch.jpg";
 import queryString from "query-string";
 import { useQuery } from "react-query";
+import { useMode } from "../../context/ModeContext";
 
 import { typeWorks, experienceJob, educationJob } from "../../config/data";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -392,15 +393,14 @@ function BannerSearch() {
 }
 
 function InputSearch() {
+  const { searchHistory, setSearchHistory } = useMode();
   const [keyword, setKeyWord] = useState(useParams().keyword || undefined);
-  const [searchHistory, setSearchHistory] = useState(
-    JSON.parse(localStorage?.getItem("searchHistory" || null))
-  );
   const [openHistory, setOpenHistory] = useState(false);
   const inputRef = useRef();
   const inputSearchRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
+  const params = useParams();
 
   useEffect(() => {
     const enterEvent = (e) => {
@@ -426,10 +426,10 @@ function InputSearch() {
   };
 
   const handleSaveHistory = (item) => {
+    item = item.trim();
     if (!searchHistory?.includes(item)) {
-      const updateHistory = [item.trim(), ...searchHistory];
-      setSearchHistory(updateHistory);
-      localStorage.setItem("searchHistory", JSON.stringify(updateHistory));
+      const updateHistory = [item, ...searchHistory];
+      setSearchHistory(updateHistory?.slice(0, 4));
     }
   };
 
@@ -459,6 +459,10 @@ function InputSearch() {
     }
   }, []);
 
+  useEffect(() => {
+    setKeyWord(params.keyword);
+  }, [params]);
+
   return (
     <div className="inputSearch" ref={inputSearchRef}>
       <div className="inputSearch__input">
@@ -482,18 +486,16 @@ function InputSearch() {
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </div>
-      {searchHistory && (
-        <div className={`inputSearch__history  ${openHistory ? "active" : ""}`}>
-          <ul>
-            {searchHistory?.slice(0, 4).map((item, i) => (
-              <li key={i} onClick={() => handleSubmitHistory(item)}>
-                <i className="fa-solid fa-magnifying-glass"></i>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div className={`inputSearch__history  ${openHistory ? "active" : ""}`}>
+        <ul>
+          {searchHistory?.map((item, i) => (
+            <li key={i} onClick={() => handleSubmitHistory(item)}>
+              <i className="fa-solid fa-magnifying-glass"></i>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

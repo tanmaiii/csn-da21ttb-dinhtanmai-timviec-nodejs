@@ -1,6 +1,7 @@
 import { db } from "../config/connect.js";
 import jwt from "jsonwebtoken";
 import moment from "moment";
+import "express-async-errors";
 
 export const getAll = async (req, res) => {
   try {
@@ -26,8 +27,8 @@ export const getAll = async (req, res) => {
        WHERE j.deletedAt is null AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
     if (search) {
-      q += ` AND (j.nameJob like '%${search}%' or c.nameCompany like '%${search}%') `;
-      q2 += ` AND (j.nameJob like '%${search}%' or c.nameCompany like '%${search}%') `;
+      q += ` AND (j.nameJob like '%${search}%' or c.nameCompany like '%${search}%' or p.name like '%${search}%')`;
+      q2 += ` AND (j.nameJob like '%${search}%' or c.nameCompany like '%${search}%' or p.name like '%${search}%') `;
     }
 
     if (province) {

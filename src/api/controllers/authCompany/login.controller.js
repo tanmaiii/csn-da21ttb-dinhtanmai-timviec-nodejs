@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { db } from "../../config/connect.js";
 import checkEmail from "../../middlewares/checkEmail.middleware.js";
+import "express-async-errors";
 
 export const login = (req, res) => {
   const { email, password } = req.body;
@@ -13,10 +14,7 @@ export const login = (req, res) => {
     db.query(q, email, (err, data) => {
       if (err) return res.status(500).json(err);
       if (data?.length === 0) return res.status(404).json("Email không tồn tại");
-      const checkPassword = bcrypt.compareSync(
-        req.body.password,
-        data[0].password
-      );
+      const checkPassword = bcrypt.compareSync(req.body.password, data[0].password);
       if (!checkPassword) return res.status(401).json("Sai mật khẩu");
 
       const token = jwt.sign({ id: data[0].id }, "secretkey");
@@ -30,6 +28,6 @@ export const login = (req, res) => {
         .json(others);
     });
   } else {
-    return res.status(409).json("Các trường không để rỗng!");
+    return res.status(409).json("Email và mật khẩu không được để rỗng!");
   }
 };

@@ -9,6 +9,7 @@ import Loader from "../../components/loader/Loader";
 import { motion, AnimatePresence } from "framer-motion";
 import NotFoundData from "../../components/notFoundData/NotFoundData";
 import queryString from "query-string";
+import { useMode } from "../../context/ModeContext";
 
 export default function Company() {
   const [paginate, setPaginate] = useState(1);
@@ -118,14 +119,34 @@ export default function Company() {
 
 function SearchCompany() {
   const [keyword, setKeyword] = useState(useParams().keyword || undefined);
+  const { searchHistory, setSearchHistory } = useMode();
+  const [openHistory, setOpenHistory] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const inputRef = useRef();
+  const boxInputRef = useRef();
 
   const goToSearch = () => {
-    if (keyword.trim()?.length > 0) {
-      navigate(`/nha-tuyen-dung/search/${keyword}${location.search}`);
+    if (keyword?.trim()?.length > 0) {
+      navigate(`/nha-tuyen-dung/tim-kiem/${keyword}${location.search}`);
+      handleSaveHistory(keyword.trim());
     } else {
       navigate(`/nha-tuyen-dung`);
+    }
+    setOpenHistory(false);
+  };
+
+  const handleSubmitHistory = (item) => {
+    setKeyword(item);
+    setOpenHistory(false);
+    goToSearch();
+  };
+
+  const handleSaveHistory = (item) => {
+    item = item.trim();
+    if (!searchHistory?.includes(item)) {
+      const updateHistory = [item, ...searchHistory];
+      setSearchHistory(updateHistory?.slice(0, 4));
     }
   };
 
@@ -142,16 +163,71 @@ function SearchCompany() {
     };
   }, [keyword]);
 
+  useEffect(() => {
+    let handleMousedown = (e) => {
+      if (!boxInputRef.current.contains(e.target)) {
+        setOpenHistory(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMousedown);
+    return () => {
+      document.removeEventListener("mousedown", handleMousedown);
+    };
+  });
+
+  useEffect(() => {
+    if (inputRef) {
+      inputRef.current.addEventListener("focus", () => {
+        setOpenHistory(true);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const enterEvent = (e) => {
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        goToSearch();
+      }
+    };
+    document.addEventListener("keyup", enterEvent);
+    return () => {
+      document.removeEventListener("keyup", enterEvent);
+    };
+  }, [keyword]);
+
   return (
-    <div className="company__wrapper__header__search">
-      <i className="fa-solid fa-magnifying-glass"></i>
-      <input
-        value={keyword}
-        type="text"
-        placeholder="Tìm công ty"
-        onChange={(e) => setKeyword(e.target.value)}
-      />
-      <button onClick={() => goToSearch()}>Tìm</button>
+    <div className="company__inputSearch" ref={boxInputRef}>
+      <div className={`company__inputSearch__search`}>
+        <i className="fa-solid fa-magnifying-glass"></i>
+        <div className="company__inputSearch__search__input">
+          <input
+            ref={inputRef}
+            value={keyword}
+            type="text"
+            placeholder="Tìm công ty"
+            onChange={(e) => setKeyword(e.target.value)}
+          />
+          {keyword?.length > 0 && (
+            <button className="btn-clear" onClick={() => setKeyword("")}>
+              <i className="fa-solid fa-circle-xmark"></i>
+            </button>
+          )}
+        </div>
+        <button className="btn-submit" onClick={() => goToSearch()}>
+          Tìm
+        </button>
+      </div>
+      <div className={`company__inputSearch__history ${openHistory ? "active" : ""}`}>
+        <ul>
+          {searchHistory?.map((item, i) => (
+            <li key={i} onClick={() => handleSubmitHistory(item)}>
+              <i className="fa-solid fa-magnifying-glass"></i>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

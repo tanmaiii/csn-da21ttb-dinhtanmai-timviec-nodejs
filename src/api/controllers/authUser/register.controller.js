@@ -7,8 +7,10 @@ export const register = (req, res) => {
 
   const q = "SELECT * FROM users WHERE email = ?";
 
-  if (!name || !email || !password || !phone)
-    return res.status(409).json("Các trường không để rỗng !");
+    if (!name) return res.status(409).json("Tên không được để trống !");
+    if (!email) return res.status(409).json("Email không được để trống !");
+    if (!password) return res.status(409).json("Mật khẩu không được để trống !");
+    if (!phone) return res.status(409).json("Số điện thoại không được để trống !");
 
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
 
@@ -19,8 +21,7 @@ export const register = (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    const q =
-      "INSERT INTO users (`name`, `email`, `password`, `phone`) VALUE (?)";
+    const q = "INSERT INTO users (`name`, `email`, `password`, `phone`) VALUE (?)";
 
     const values = [name, email, hashedPassword, phone];
 

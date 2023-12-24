@@ -7,8 +7,8 @@ import cors from "cors";
 import multer from "multer";
 import path from "path";
 
+import nodemailer from "nodemailer";
 import swaggerUi from "swagger-ui-express";
-import swaggerJsdoc from "swagger-jsdoc";
 import swaggerFile from "./swagger-output.json" assert { type: "json" };
 
 import authUserRouter from "./routes/authUser.router.js";
@@ -22,9 +22,12 @@ import followRouter from "./routes/follow.router.js";
 import saveRouter from "./routes/save.router.js";
 import applyRouter from "./routes/apply.router.js";
 
+import checkEmail from "./middlewares/checkEmail.middleware.js";
 import checkImage from "./middlewares/checkImage.middleware.js";
 
 import { fileURLToPath } from "url";
+import { log } from "console";
+
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -97,28 +100,11 @@ app.post("/api/uploadFile", uploadFile.single("file"), (req, res) => {
 });
 
 // swagger
-// const options = {
-//   definition: {
-//     openapi: "3.0.0",
-//     info: {
-//       title: "Express API with Swagger",
-//       version: "1.0.0",
-//     },
-//   },
-//   apis: ["./routes/*.js", "./schema/*.js"],
-// };
-
-// const specs = swaggerJsdoc(options);
-
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // router
-
 app.use(
   "/api/authUser",
-
   // #swagger.tags = ['Xác thực người tìm việc'],
   authUserRouter
 );
@@ -167,6 +153,66 @@ app.use(
   // #swagger.tags = ['Ứng tuyển']
   applyRouter
 );
+
+app.post("/api/signupEmail", (req, res) => {
+  // #swagger.tags = ['Đăng ký danh sách gửi thư']
+  const email = req.body.email || "";
+
+  if (email) {
+    if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ.");
+
+    console.log(!checkEmail(email));
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: `${process.env.MAIL_NAME}`,
+        pass: `${process.env.MAIL_PASSWORD}`,
+      },
+    });
+
+    const emailHTML = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Thông Báo Đăng Ký Nhận Email Mới từ Website</title>
+    </head>
+    <body>
+      <p><strong>Chào ${email} ,</strong></p>
+    
+      <p>Chúc mừng! Bạn đã đăng ký thành công để nhận thông báo mới từ website của chúng tôi.</p>
+    
+      <p>Từ giờ, bạn sẽ nhận được các thông báo về tin tức, cập nhật, và những sự kiện quan trọng trực tiếp qua email của mình. Chúng tôi cam kết gửi cho bạn những thông tin hữu ích và đáng chú ý.</p>
+    
+      <p>Nếu có bất kỳ câu hỏi hoặc yêu cầu nào, đừng ngần ngại liên hệ với chúng tôi qua địa chỉ email <a href="mailto:${process.env.MAIL_NAME}">${process.env.MAIL_NAME}</a>. Chúng tôi luôn sẵn lòng hỗ trợ bạn.</p>
+    
+      <p>Cảm ơn bạn đã tham gia cộng đồng của chúng tôi. Chúng tôi rất mong muốn có cơ hội chia sẻ những tin tức thú vị với bạn.</p>
+    
+      <p><strong>Trân trọng,</strong></p>
+      <p><em>JOBQUEST || <br>Đội ngũ Hỗ trợ Khách hàng</em></p>
+    </body>
+    </html>
+    `;
+
+    var mailOptions = {
+      from: `${process.env.MAIL_NAME}`,
+      to: `${email}`,
+      subject: "JobQuest || Đăng ký tham gia danh sách nhận thông báo",
+      html: emailHTML,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        return res.send({ Status: "Success" });
+      }
+    });
+  } else {
+    return res.status(409).json("Email rỗng !");
+  }
+});
 
 app.get("/", (req, res) => {
   // #swagger.tags = []

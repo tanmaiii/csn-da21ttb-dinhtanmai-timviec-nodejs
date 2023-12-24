@@ -25,6 +25,7 @@ import Signin from "./components/signin/Signin";
 import Signup from "./components/signup/Signup";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import ResetPassword from "./components/resetPassword/ResetPassword";
+import ChangePassword from "./components/changePassword/ChangePassword";
 
 import SigninCompany from "./components/signinCompany/SigninCompany";
 import SignupCompany from "./components/signupCompany/SignupCompany";
@@ -50,7 +51,7 @@ function App() {
 
             <Route path="/tim-viec-lam-nhanh" element={<SearchQuick />} />
 
-            <Route path="/nha-tuyen-dung/search/:keyword" element={<Company />} />
+            <Route path="/nha-tuyen-dung/tim-kiem/:keyword" element={<Company />} />
             <Route path="/nha-tuyen-dung" element={<Company />} />
 
             <Route path="nha-tuyen-dung/:id" element={<DetailCompany />}>
@@ -89,6 +90,10 @@ function App() {
 
           <Route path="/tao-moi-mat-khau/:id/:token" element={<AuthLayout />}>
             <Route index path="" element={<ResetPassword />} />
+          </Route>
+
+          <Route path="/doi-mat-khau" element={<AuthLayout />}>
+            <Route index path="" element={<ChangePassword />} />
           </Route>
         </Routes>
       </div>

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
 import moment from "moment";
+import "express-async-errors";
 
 export const getCompanies = async (req, res) => {
   try {

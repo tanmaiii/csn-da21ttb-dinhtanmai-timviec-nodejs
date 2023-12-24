@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import "./resetPassword.scss";
+import "./changePassword.scss";
 import { useAuth } from "../../context/authContext";
 import { makeRequest } from "../../axios";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 
-export default function ResetPassword() {
+export default function ChangePassword() {
+  const [passwordOld, setPasswordOld] = useState();
   const [password, setPassword] = useState();
   const [rePassword, setRePassword] = useState();
+  const [showPassOld, setShowPassOld] = useState(false);
   const [showPass, setShowPass] = useState(false);
   const [showRePass, setShowRePass] = useState(false);
   const [err, setErr] = useState("");
@@ -19,41 +21,74 @@ export default function ResetPassword() {
   const location = useLocation();
   const params = queryString.parse(location.search);
 
-  const { id, token } = useParams();
-
   const handleSubmit = async () => {
     setErr("");
     if (password?.length < 6) return setErr("Mật khẩu phải từ 6 kí tự trở lên !");
     if (password !== rePassword) return setErr("Mật khẩu không trùng khớp !");
+    if (passwordOld === password) return setErr("Mật khẩu mới không được giống với mật khẩu cũ !");
     setSuccess(false);
     setLoading(true);
     try {
       let res;
-      params.type === "nguoi-dung"
-        ? (res = await makeRequest.post(`/user/resetPassword/${id}/${token}`, { password }))
-        : (res = await makeRequest.post(`/company/resetPassword/${id}/${token}`, { password }));
+
+      params.type === "nguoi-dung" &&
+        (res = await makeRequest.post(`/user/changePassword/${currentUser?.id}`, {
+          passwordOld,
+          password,
+        }));
+
+      params.type === "nha-tuyen-dung" &&
+        (res = await makeRequest.post(`/company/changePassword/${currentCompany?.id}`, {
+          passwordOld,
+          password,
+        }));
 
       res.data && setSuccess(true);
       setLoading(false);
       setPassword("");
+      setPasswordOld("");
       setRePassword("");
     } catch (err) {
-      setErr("Lỗi! Vui lòng xác nhận lại email.");
+      setErr(err?.response?.data);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    if (currentUser || currentCompany) return navigate("/");
+    if (!(currentCompany || currentUser)) return navigate("/");
+    if (!(params.type.includes("nguoi-dung") || params.type.includes("nha-tuyen-dung")))
+      return navigate("/");
+    if (currentUser && params.type.includes("nha-tuyen-dung")) return navigate("/");
+    if (currentCompany && params.type.includes("nguoi-dung")) return navigate("/");
   });
 
   return (
-    <div className="resetPassword">
-      <div className="resetPassword__header ">
-        <h4>Tạo mật khẩu mới</h4>
+    <div className="changePassword">
+      <div className="changePassword__header ">
+        <h4>Thay đổi mật khẩu mới</h4>
         <span>Mật khẩu có ít nhất 6 kí tự.</span>
       </div>
-      <div className="resetPassword__body">
+      <div className="changePassword__body">
+        <div className="item">
+          <i className="fa-solid fa-lock"></i>
+          <input
+            autoComplete="none"
+            type={`${showPassOld ? "text" : "password"}`}
+            name="passwordOld"
+            id="password"
+            value={passwordOld}
+            placeholder=" "
+            onChange={(e) => setPasswordOld(e.target.value)}
+          />
+          <label htmlFor="password">Mật khẩu cũ</label>
+          <span className="tooglePassword" onClick={() => setShowPassOld(!showPassOld)}>
+            {showPassOld ? (
+              <i className="fa-solid fa-eye-slash"></i>
+            ) : (
+              <i className="fa-regular fa-eye"></i>
+            )}
+          </span>
+        </div>
         <div className="item">
           <i className="fa-solid fa-lock"></i>
           <input
@@ -65,7 +100,7 @@ export default function ResetPassword() {
             placeholder=" "
             onChange={(e) => setPassword(e.target.value)}
           />
-          <label htmlFor="password">Mật khẩu</label>
+          <label htmlFor="password">Mật khẩu mới</label>
           <span className="tooglePassword" onClick={() => setShowPass(!showPass)}>
             {showPass ? (
               <i className="fa-solid fa-eye-slash"></i>
@@ -85,7 +120,7 @@ export default function ResetPassword() {
             placeholder=" "
             onChange={(e) => setRePassword(e.target.value)}
           />
-          <label htmlFor="rePassword">Nhập lại mật khẩu</label>
+          <label htmlFor="rePassword">Nhập lại mật khẩu mới</label>
           <span className="tooglePassword" onClick={() => setShowRePass(!showRePass)}>
             {showRePass ? (
               <i className="fa-solid fa-eye-slash"></i>
@@ -109,7 +144,7 @@ export default function ResetPassword() {
           )}
         </div>
       </div>
-      <div className="resetPassword__control">
+      <div className="changePassword__control">
         {loading ? (
           <button className="btn-loading">
             <div className="loading"></div>
@@ -121,11 +156,7 @@ export default function ResetPassword() {
         )}
       </div>
       <span className="link-signup">
-        Trở về{" "}
-        <Link to={`/dang-nhap/${params.type === "nguoi-dung" ? "nguoi-dung" : "nha-tuyen-dung"}`}>
-          {" "}
-          Đăng nhập
-        </Link>
+        Trở về <Link to={`/`}>Trang chủ</Link>
       </span>
     </div>
   );

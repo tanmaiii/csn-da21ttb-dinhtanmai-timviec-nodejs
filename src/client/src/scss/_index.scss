@@ -9,7 +9,7 @@
 @use "./grid" as *;
 
 .container {
-  max-width: 1400px;
+  max-width: 1300px;
   margin: 0 auto;
   @include tablet {
     width: 100%;

@@ -29,56 +29,39 @@ export default function DropdownUser() {
 
   return (
     <div className="dropdownUser" ref={dropdownUserRef}>
-      <div
-        className="dropdownUser__toogle"
-        onClick={() => setOpenMenuUser(!openMenuUser)}
-      >
+      <div className="dropdownUser__toogle" onClick={() => setOpenMenuUser(!openMenuUser)}>
         <div className="dropdownUser__toogle__text">
-          <img
-            src={currentUser.avatarPic ? apiImage + currentUser.avatarPic : avt}
-            alt=""
-          />
+          <img src={currentUser.avatarPic ? apiImage + currentUser.avatarPic : avt} alt="" />
           <span>{currentUser?.name}</span>
         </div>
         <i class="fa-solid fa-angle-down"></i>
       </div>
       <div className={`dropdownUser__dropdown ${openMenuUser ? "open" : ""}`}>
-        <Link
-          to={`/nguoi-dung/${id}`}
-          className="dropdownUser__dropdown__option"
-        >
+        <Link to={`/nguoi-dung/${id}`} className="dropdownUser__dropdown__option">
           <i className="fa-regular fa-user"></i>
           <span>Trang cá nhân</span>
         </Link>
-        <Link
-          to={`/nguoi-dung/${id}/info`}
-          className="dropdownUser__dropdown__option"
-        >
+        <Link to={`/nguoi-dung/${id}/info`} className="dropdownUser__dropdown__option">
           <i className="fa-regular fa-id-badge"></i>
           <span>Thông tin</span>
         </Link>
-        <Link
-          to={`/nguoi-dung/${id}/apply`}
-          className="dropdownUser__dropdown__option"
-        >
+        <Link to={`/nguoi-dung/${id}/apply`} className="dropdownUser__dropdown__option">
           <i className="fa-regular fa-paper-plane"></i>
           <span>Ứng tuyển</span>
         </Link>
-        <Link
-          to={`/nguoi-dung/${id}/jobs`}
-          className="dropdownUser__dropdown__option"
-        >
+        <Link to={`/nguoi-dung/${id}/jobs`} className="dropdownUser__dropdown__option">
           <i className="fa-regular fa-bookmark"></i>
           <span>Việc làm</span>
         </Link>
-        <Link
-          to={`/nguoi-dung/${id}/companies`}
-          className="dropdownUser__dropdown__option"
-        >
+        <Link to={`/nguoi-dung/${id}/companies`} className="dropdownUser__dropdown__option">
           <i className="fa-regular fa-heart"></i>
           <span>Theo dõi</span>
         </Link>
         <hr />
+        <Link to={`/doi-mat-khau?type=nguoi-dung`} className="dropdownUser__dropdown__option">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>Đổi mật khẩu</span>
+        </Link>
         <button
           onClick={() => logoutUser()}
           className="dropdownUser__dropdown__option dropdownUser__dropdown__option__logout"

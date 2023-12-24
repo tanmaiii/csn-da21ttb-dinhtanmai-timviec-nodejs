@@ -6,7 +6,8 @@ import {
   updateIntroUser,
   uploadImage,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  changePassword
 } from "../controllers/user.controller.js";
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.put("/updateIntro", updateIntroUser); //localhost:8800/api/user/updateInt
 router.put("/uploadImage", uploadImage); //localhost:8800/api/user/uploadImage
 router.post("/forgot", forgotPassword);
 router.post("/resetPassword/:id/:token", resetPassword);
+router.post("/changePassword/:id", changePassword);
 
 export default router;
