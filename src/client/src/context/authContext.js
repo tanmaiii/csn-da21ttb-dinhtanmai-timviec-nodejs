@@ -18,6 +18,7 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const loginCompany = async (inputs) => {
+    setCurrentUser(null);
     localStorage.setItem("user", null);
     const res = await makeRequest.post("/authCompany/login", inputs);
     setCurrentCompany(res.data);
@@ -30,6 +31,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const loginUser = async (inputs) => {
+    setCurrentCompany(null);
     localStorage.setItem("company", null);
     const res = await makeRequest.post("/authUser/login", inputs);
     setCurrentUser(res.data);
