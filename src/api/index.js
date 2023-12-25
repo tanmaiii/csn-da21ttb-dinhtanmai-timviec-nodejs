@@ -2,6 +2,7 @@ import express from "express";
 import { db } from "./config/connect.js";
 
 import cookieParser from "cookie-parser";
+import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import cors from "cors";
 import multer from "multer";
@@ -52,6 +53,7 @@ dotenv.config();
 app.use(cookieParser());
 app.use(express.json());
 
+
 db.connect(function (err) {
   if (err) {
     console.log("Error connecting SQL " + err.stack);
@@ -93,7 +95,6 @@ const uploadFile = multer({ storage: storageFile });
 
 app.post("/api/uploadFile", uploadFile.single("file"), (req, res) => {
   // #swagger.tags = ['Lưu File']
-  console.log(req.file);
   const file = req.file;
   res.status(200).json(file.filename);
 });

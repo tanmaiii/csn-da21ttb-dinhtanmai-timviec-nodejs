@@ -87,6 +87,10 @@ export default function DetailCompany() {
   const handleSubmitFollow = () => {
     if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
     mutationFollow.mutate(follower?.includes(currentUser?.id));
+
+    follower?.includes(currentUser?.id)
+    ? toast.success("Đã bỏ yêu thích công ty.")
+    : toast.success("Đã thêm vào công ty yêu thích.");
   };
 
   useEffect(() => {
@@ -189,13 +193,19 @@ export default function DetailCompany() {
                         </Link>
                       ) : (
                         <div className="button__follow" onClick={() => handleSubmitFollow()}>
-                          {follower?.includes(currentUser?.id) ? (
-                            <button className="btn-unFollow">
-                              <span>Đang theo dõi</span>
-                            </button>
+                          {!loadingFollow ? (
+                            follower?.includes(currentUser?.id) ? (
+                              <button className="btn-unFollow">
+                                <span>Đang theo dõi</span>
+                              </button>
+                            ) : (
+                              <button className="btn-follow">
+                                <span>Theo dõi công ty</span>
+                              </button>
+                            )
                           ) : (
-                            <button className="btn-follow">
-                              <span>Theo dõi công ty</span>
+                            <button className="btn-loading">
+                              <div className="loading"></div>
                             </button>
                           )}
                         </div>

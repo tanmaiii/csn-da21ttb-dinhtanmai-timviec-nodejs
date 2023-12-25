@@ -52,9 +52,13 @@ export default function ApplyJob({ job }) {
   };
 
   const postApply = async () => {
-    if (!inputs?.name || !inputs?.email || !inputs?.phone)
+
+    if (!inputs?.name || !inputs?.email || !inputs?.phone )
       return toast.error("Các trường không được rỗng.");
+
     if (!job) return;
+    
+    if (!file)  return toast.error("Chưa tải file cv");;
 
     try {
       const formData = new FormData();
@@ -62,7 +66,7 @@ export default function ApplyJob({ job }) {
       const postCv = await makeRequest.post("/uploadFile", formData);
 
       inputs.idJob = job?.id;
-      inputs.cv = postCv.data;
+      inputs.cv = postCv?.data;
       inputs.letter = letter;
       await makeRequest.post("/apply", inputs);
       navigate(`/viec-lam/${job?.id}`);
@@ -160,18 +164,7 @@ export default function ApplyJob({ job }) {
           />
           <label htmlFor="phone">Số điện thoại hiển thị với nhà tuyển dụng</label>
         </div>
-        {/* <div className="applyJob__body__item">
-          <i class="fa-solid fa-address-card"></i>
-          <input
-            type="text"
-            placeholder=" "
-            id="linkCv"
-            name="linkCv"
-            value={inputs?.linkCv}
-            onChange={handleChange}
-          />
-          <label htmlFor="linkCv">Cv của bạn</label>
-        </div> */}
+
         <div className="applyJob__body__item__cv">
           <div className="header">
             <i class="fa-solid fa-file"></i>

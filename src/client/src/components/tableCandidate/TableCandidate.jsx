@@ -9,6 +9,7 @@ import { apiImage } from "../../axios.js";
 import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios.js";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import SelectStatus from "../selectStatus/SelectStatus.jsx";
 
 export default function TableCandidate({ data, listCheck, setListCheck }) {
   const [openModal, setOpenModal] = useState(false);
@@ -130,91 +131,13 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
         {item.nameJob}
       </span>
       <div className="table__candidate__body__row__item" data-cell={"Trạng thái"}>
-        <RowSelectStatus option={statusCompany} defaultActive={item?.status} id={item?.id} />
+        <SelectStatus option={statusCompany} defaultActive={item?.status} id={item?.id} />
       </div>
       <div className="table__candidate__body__row__item" data-cell={"Chi tiết"}>
         <button className="button-eye" onClick={() => handleClickView(item?.id)}>
           <i className="fa-solid fa-eye"></i>
         </button>
       </div>
-    </div>
-  );
-}
-
-function RowSelectStatus({ option, defaultActive, id }) {
-  const [open, setOpen] = useState(false);
-  const [optionActive, setOptionActive] = useState(defaultActive);
-  const rowSelectStatusRef = useRef();
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    setOptionActive(defaultActive);
-  }, [defaultActive]);
-
-  const mutation = useMutation(
-    (status) => {
-      return makeRequest.put(`/apply/status?id=${id}&status=${status}`);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["apply"]);
-      },
-    }
-  );
-
-  const handleClickOption = (status) => {
-    setOptionActive(status);
-    mutation.mutate(status);
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    const handleMousedown = (e) => {
-      if (!rowSelectStatusRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleMousedown);
-    return () => document.removeEventListener("mousedown", handleMousedown);
-  });
-
-  return (
-    <div className="rowSelectStatus" ref={rowSelectStatusRef}>
-      {optionActive &&
-        option?.map((option, i) => {
-          if (option.id === optionActive)
-            return (
-              <div
-                key={i}
-                className={`rowSelectStatus__toggle  status-${option?.id}`}
-                onClick={() => setOpen(!open)}
-              >
-                <div className={`rowSelectStatus__toggle__title`}>
-                  {option?.icon}
-                  <span className="text">{option.name}</span>
-                </div>
-                <i className={`fa-solid fa-angle-down icon-down ${open ? "open" : ""}`}></i>
-              </div>
-            );
-        })}
-      {open && (
-        <div className="rowSelectStatus__menu">
-          <div className={`rowSelectStatus__menu__list`}>
-            {option?.map((option, i) => (
-              <div
-                key={i}
-                className={`rowSelectStatus__menu__list__item  ${
-                  optionActive === option?.id ? "active" : ""
-                }`}
-                onClick={() => handleClickOption(option?.id)}
-              >
-                {option?.icon}
-                <span>{option?.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
