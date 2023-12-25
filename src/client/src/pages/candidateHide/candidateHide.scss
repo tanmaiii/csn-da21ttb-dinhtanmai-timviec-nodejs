@@ -1,4 +1,4 @@
-@use "../../scss/" as *;
+@use '../../scss/' as *;
 
 .candidateHide {
   @include themify($themes) {
@@ -38,133 +38,90 @@
           h2 {
             color: $color-primary;
             font-size: $font-size-l;
+            text-align: center;
+          }
+          & > a .btn-hidden {
+            @include button($color-white, $color-primary);
+            span {
+              @include mobile {
+                display: none;
+              }
+            }
           }
         }
         &__body {
-          &__control {
-            @include flex(end, space-between);
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            @include tablet {
-              flex-direction: column;
-              align-items: center;
-              gap: 20px;
-            }
-            &__left {
-              @include mobile {
-                width: 100%;
-              }
-              &__search {
-                border-radius: $border-radius-10;
-                border: 1px solid themed("border");
-                padding: 0 10px;
-                @include flex(center, unset);
-                gap: 8px;
-                position: relative;
-                input {
-                  font-size: $font-size-s;
-                  color: themed("text1");
-                  width: 300px;
-                  padding: 16px 0;
-                  margin-right: 18px;
-                }
-                .icon-glass {
-                  font-size: 1.2rem;
-                  color: themed("text1");
-                }
-                .button-clear {
-                  cursor: pointer;
-                  position: absolute;
-                  --size: 18px;
-                  width: var(--size);
-                  top: 50%;
-                  right: 8px;
-                  transform: translateY(-50%);
-                  height: var(--size);
-                  i {
-                    font-size: 1.1rem;
-                    color: themed("text1");
-                  }
-                }
-              }
-            }
-            &__right {
+          &__list {
+            width: 100%;
+            &__control {
+              margin-bottom: 20px;
               @include flex(center, unset);
-              gap: 8px;
               flex-wrap: wrap;
-              @include mobile {
-                width: 100%;
-                gap: 20px;
-              }
-              &__select {
-                @include mobile {
-                  width: 100%;
-                  display: flex;
-                  align-items: end;
-                }
-                .button-sort {
+              gap: 8px;
+              & > .button__checkAll {
+                @include button(themed("text1"), themed("bg1"));
+                label {
+                  cursor: pointer;
                   @include flex(center, unset);
-                  gap: 8px;
-                  position: relative;
-                  .toogle {
-                    font-size: $font-size-s;
-                    color: themed("text1");
-                    font-weight: 600;
-                    padding: 12px 20px;
-                    background-color: themed("bg2");
-                    border-radius: $border-radius-10;
-                    border: 1px solid themed("border");
-                    cursor: pointer;
-                    @include flex(center, unset);
-                    gap: 8px;
+                  gap: 10px;
+                  transition: all 0.3s;
+                  width: max-content;
+                  &:hover {
+                    background-color: themed("bg1");
                   }
-                  .list {
-                    position: absolute;
+                  input[type="checkbox"] {
+                    appearance: none;
+                    --webkit-appearance: none;
+                    height: 22px;
+                    width: 22px;
                     background-color: themed("bg2");
-                    box-shadow: themed("box-shadow");
-                    border-radius: $border-radius-10;
-                    min-width: 100%;
-                    width: max-content;
-                    @include flex(start, unset);
-                    flex-direction: column;
-                    right: 0;
-                    top: calc(100% + 8px);
-                    overflow: hidden;
-                    z-index: 99;
-                    &__item {
-                      padding: 10px;
-                      font-size: $font-size-s;
-                      color: themed("text1");
-                      font-weight: 400;
-                      cursor: pointer;
-                      text-align: left;
-                      width: 100%;
-                      &.active {
-                        font-weight: 600;
-                      }
-                      &:hover {
-                        background-color: themed("bg1");
+                    border-radius: 5px;
+                    border: 2px solid themed("border");
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s;
+                    &:hover {
+                      border-color: $color-primary;
+                    }
+                    &::after {
+                      font-family: "Font Awesome 6 Free";
+                      content: "\f00c";
+                      font-size: 20px;
+                      color: $color-white;
+                      font-weight: 999;
+                      display: none;
+                    }
+                    &:checked {
+                      border-color: $color-primary;
+                      background-color: $color-primary;
+                      &::after {
+                        display: block;
                       }
                     }
                   }
                 }
               }
-            }
-          }
-
-          &__list {
-            width: 100%;
-            &__delete {
-              margin-bottom: 20px;
-              button {
-                @include button($color-txt-red, $color-red)
+              & > .button__delete {
+                @include button(themed("text1"), themed("bg1"));
+              }
+              & > a .button__send {
+                @include button(themed("text1"), themed("bg1"));
+              }
+              & > .button__down {
+                @include button(themed("text1"), themed("bg1"));
               }
             }
           }
           &__pgn {
             @include flex(center, space-between);
+            @include mobile {
+              justify-content: center;
+            }
             &__left {
+              @include mobile {
+                display: none;
+              }
               span {
                 font-size: $font-size-s;
                 font-weight: 500;

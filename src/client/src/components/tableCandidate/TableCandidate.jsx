@@ -19,37 +19,11 @@ export default function TableCandidate({ data, listCheck, setListCheck }) {
     setOpenModal(true);
   };
 
-  const handleClickAll = () => {
-    if (listCheck?.length === data?.length) {
-      setListCheck([]);
-    } else {
-      setListCheck([]);
-      data.map((item) => {
-        setListCheck((current) => [
-          ...current,
-          {
-            id: item.id,
-            email: item.email,
-            cv: item.cv,
-          },
-        ]);
-      });
-    }
-  };
-
   return (
     <>
       <div className="table__candidate">
         <div className="table__candidate__header">
-          <label className="table__candidate__header__checkbox" htmlFor="input_candidate_all">
-            <input
-              id="input_candidate_all"
-              onChange={() => handleClickAll()}
-              checked={listCheck?.length === data?.length}
-              type="checkbox"
-              className="table__candidate__header__checkAll"
-            />
-          </label>
+          <span></span>
           <span>STT</span>
           <span>Thông tin</span>
           <span>Nhận vào</span>
@@ -57,6 +31,7 @@ export default function TableCandidate({ data, listCheck, setListCheck }) {
           <span>Trạng thái</span>
           <span></span>
         </div>
+        <div className="table__candidate__checkAll"></div>
         <div className="table__candidate__body">
           {data?.map((item, i) => (
             <RowTableCandidate
@@ -97,6 +72,7 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
   }, [listCheck]);
 
   const handleClickOption = (id, email, cv) => {
+    console.log(listCheck);
     let isIdInList = listCheck?.some((item) => item.id === id);
 
     if (isIdInList) {
@@ -112,12 +88,14 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
         },
       ]);
     }
-
-    console.log(listCheck);
   };
 
   return (
-    <div className={`table__candidate__body__row ${active && "active"} ${item?.status === 1 ? "notSeen" : ""}`}>
+    <div
+      className={`table__candidate__body__row ${active && "active"} ${
+        item?.status === 1 ? "notSeen" : ""
+      }`}
+    >
       <div className="table__candidate__body__row__item" data-cell={"Chọn"}>
         <label
           className="table__candidate__body__row__item__checkbox"

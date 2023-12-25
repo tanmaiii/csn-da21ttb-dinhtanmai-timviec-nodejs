@@ -109,13 +109,13 @@ export default function DetailUser() {
   return (
     <div>
       {err && <NotFound />}
-      {user && (
-        <div className="detailUser">
-          <div className="container">
-            <div className="detailUser__wrapper">
-              {loading ? (
-                <Loader />
-              ) : (
+      <div className="detailUser">
+        <div className="container">
+          <div className="detailUser__wrapper">
+            {loading ? (
+              <Loader />
+            ) : (
+              user && (
                 <>
                   <div className="detailUser__wrapper__header">
                     <div className="detailUser__wrapper__header__bg">
@@ -291,11 +291,11 @@ export default function DetailUser() {
                     </div>
                   </div>
                 </>
-              )}
-            </div>
+              )
+            )}
           </div>
         </div>
-      )}
+      </div>
       <ModalCropImage openModal={openModalEditAvatar} setOpenModal={setOpenModalEditAvatar} />
       <div className={`modal__avatar ${openModalAvatar ? "active" : ""}`}>
         <div ref={modalAvatarRef} className="modal__avatar__wrapper">

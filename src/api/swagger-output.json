@@ -7,14 +7,23 @@
   },
   "host": "localhost:8800",
   "basePath": "/",
-  "schemes": ["http"],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/api/upload": {
       "post": {
-        "tags": ["Lưu hình"],
-        "description": "",     "responses": {
+        "tags": [
+          "Lưu hình"
+        ],
+        "description": "",
+        "responses": {
           "200": {
             "description": "OK"
           },
@@ -26,7 +35,9 @@
     },
     "/api/uploadFile": {
       "post": {
-        "tags": ["Lưu File"],
+        "tags": [
+          "Lưu File"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -37,7 +48,9 @@
     },
     "/api/signupEmail": {
       "post": {
-        "tags": ["Đăng ký danh sách gửi thư"],
+        "tags": [
+          "Đăng ký danh sách gửi thư"
+        ],
         "description": "",
         "parameters": [
           {
@@ -74,9 +87,22 @@
         }
       }
     },
+    "/mysql": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/authUser/login": {
       "post": {
-        "tags": ["Xác thực người tìm việc"],
+        "tags": [
+          "Xác thực người tìm việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -113,7 +139,9 @@
     },
     "/api/authUser/register": {
       "post": {
-        "tags": ["Xác thực người tìm việc"],
+        "tags": [
+          "Xác thực người tìm việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -153,7 +181,9 @@
     },
     "/api/authUser/logout": {
       "post": {
-        "tags": ["Xác thực người tìm việc"],
+        "tags": [
+          "Xác thực người tìm việc"
+        ],
         "description": "",
         "responses": {
           "default": {
@@ -164,7 +194,9 @@
     },
     "/api/authCompany/login": {
       "post": {
-        "tags": ["Xác thực nhà tuyển dụng"],
+        "tags": [
+          "Xác thực nhà tuyển dụng"
+        ],
         "description": "",
         "parameters": [
           {
@@ -201,7 +233,9 @@
     },
     "/api/authCompany/register": {
       "post": {
-        "tags": ["Xác thực nhà tuyển dụng"],
+        "tags": [
+          "Xác thực nhà tuyển dụng"
+        ],
         "description": "",
         "parameters": [
           {
@@ -250,7 +284,9 @@
     },
     "/api/authCompany/logout": {
       "post": {
-        "tags": ["Xác thực nhà tuyển dụng"],
+        "tags": [
+          "Xác thực nhà tuyển dụng"
+        ],
         "description": "",
         "responses": {
           "default": {
@@ -261,7 +297,9 @@
     },
     "/api/user/find/{id}": {
       "get": {
-        "tags": ["Người tìm việc"],
+        "tags": [
+          "Người tìm việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -283,7 +321,9 @@
     },
     "/api/user/owner": {
       "get": {
-        "tags": ["Người tìm việc"],
+        "tags": [
+          "Người tìm việc"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -297,7 +337,9 @@
     },
     "/api/user/update": {
       "put": {
-        "tags": ["Người tìm việc"],
+        "tags": [
+          "Người tìm việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -349,7 +391,9 @@
     },
     "/api/user/updateIntro": {
       "put": {
-        "tags": ["Người tìm việc"],
+        "tags": [
+          "Người tìm việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -380,7 +424,9 @@
     },
     "/api/user/uploadImage": {
       "put": {
-        "tags": ["Người tìm việc"],
+        "tags": [
+          "Người tìm việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -411,7 +457,9 @@
     },
     "/api/user/forgot": {
       "post": {
-        "tags": ["Người tìm việc"],
+        "tags": [
+          "Người tìm việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -439,7 +487,9 @@
     },
     "/api/user/resetPassword/{id}/{token}": {
       "post": {
-        "tags": ["Người tìm việc"],
+        "tags": [
+          "Người tìm việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -480,9 +530,59 @@
         }
       }
     },
+    "/api/user/changePassword/{id}": {
+      "post": {
+        "tags": [
+          "Người tìm việc"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordOld": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/company/owner/": {
       "get": {
-        "tags": ["Nhà tuyển dụng"],
+        "tags": [
+          "Nhà tuyển dụng"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -496,7 +596,9 @@
     },
     "/api/company/{id}": {
       "get": {
-        "tags": ["Nhà tuyển dụng"],
+        "tags": [
+          "Nhà tuyển dụng"
+        ],
         "description": "",
         "parameters": [
           {
@@ -518,7 +620,9 @@
     },
     "/api/company/": {
       "get": {
-        "tags": ["Nhà tuyển dụng"],
+        "tags": [
+          "Nhà tuyển dụng"
+        ],
         "description": "",
         "parameters": [
           {
@@ -544,7 +648,9 @@
     },
     "/api/company/update": {
       "put": {
-        "tags": ["Nhà tuyển dụng"],
+        "tags": [
+          "Nhà tuyển dụng"
+        ],
         "description": "",
         "parameters": [
           {
@@ -596,7 +702,9 @@
     },
     "/api/company/updateIntro": {
       "put": {
-        "tags": ["Nhà tuyển dụng"],
+        "tags": [
+          "Nhà tuyển dụng"
+        ],
         "description": "",
         "parameters": [
           {
@@ -627,7 +735,9 @@
     },
     "/api/company/uploadImage": {
       "put": {
-        "tags": ["Nhà tuyển dụng"],
+        "tags": [
+          "Nhà tuyển dụng"
+        ],
         "description": "",
         "parameters": [
           {
@@ -658,7 +768,9 @@
     },
     "/api/company/forgot": {
       "post": {
-        "tags": ["Nhà tuyển dụng"],
+        "tags": [
+          "Nhà tuyển dụng"
+        ],
         "description": "",
         "parameters": [
           {
@@ -686,7 +798,9 @@
     },
     "/api/company/resetPassword/{id}/{token}": {
       "post": {
-        "tags": ["Nhà tuyển dụng"],
+        "tags": [
+          "Nhà tuyển dụng"
+        ],
         "description": "",
         "parameters": [
           {
@@ -727,9 +841,59 @@
         }
       }
     },
+    "/api/company/changePassword/{id}": {
+      "post": {
+        "tags": [
+          "Nhà tuyển dụng"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "passwordOld": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/job/find": {
       "get": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -760,7 +924,9 @@
     },
     "/api/job/company/{id}": {
       "get": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -792,7 +958,9 @@
     },
     "/api/job/field/{idField}": {
       "get": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -824,7 +992,9 @@
     },
     "/api/job/name/{id}": {
       "get": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -846,7 +1016,9 @@
     },
     "/api/job/{id}": {
       "get": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -868,7 +1040,9 @@
     },
     "/api/job/": {
       "get": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -880,7 +1054,9 @@
         }
       },
       "post": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -942,7 +1118,9 @@
         }
       },
       "put": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1007,7 +1185,9 @@
         }
       },
       "delete": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1031,7 +1211,9 @@
     },
     "/api/job/hidden": {
       "put": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1055,7 +1237,9 @@
     },
     "/api/job/unHidden": {
       "put": {
-        "tags": ["Công việc"],
+        "tags": [
+          "Công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1079,7 +1263,9 @@
     },
     "/api/fields/type": {
       "get": {
-        "tags": ["Ngành nghề"],
+        "tags": [
+          "Ngành nghề"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -1093,7 +1279,9 @@
     },
     "/api/fields/": {
       "get": {
-        "tags": ["Ngành nghề"],
+        "tags": [
+          "Ngành nghề"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -1107,7 +1295,9 @@
     },
     "/api/provinces/type": {
       "get": {
-        "tags": ["Tỉnh"],
+        "tags": [
+          "Tỉnh"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -1121,7 +1311,9 @@
     },
     "/api/provinces/": {
       "get": {
-        "tags": ["Tỉnh"],
+        "tags": [
+          "Tỉnh"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -1135,7 +1327,9 @@
     },
     "/api/follow/company/{idUser}": {
       "get": {
-        "tags": ["Theo dõi công ty"],
+        "tags": [
+          "Theo dõi công ty"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1167,7 +1361,9 @@
     },
     "/api/follow/follower": {
       "get": {
-        "tags": ["Theo dõi công ty"],
+        "tags": [
+          "Theo dõi công ty"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1191,7 +1387,9 @@
     },
     "/api/follow/": {
       "post": {
-        "tags": ["Theo dõi công ty"],
+        "tags": [
+          "Theo dõi công ty"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1213,7 +1411,9 @@
         }
       },
       "delete": {
-        "tags": ["Theo dõi công ty"],
+        "tags": [
+          "Theo dõi công ty"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1237,7 +1437,9 @@
     },
     "/api/save/user/": {
       "get": {
-        "tags": ["Lưu công việc"],
+        "tags": [
+          "Lưu công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1261,7 +1463,9 @@
     },
     "/api/save/": {
       "get": {
-        "tags": ["Lưu công việc"],
+        "tags": [
+          "Lưu công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1290,7 +1494,9 @@
         }
       },
       "post": {
-        "tags": ["Lưu công việc"],
+        "tags": [
+          "Lưu công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1312,7 +1518,9 @@
         }
       },
       "delete": {
-        "tags": ["Lưu công việc"],
+        "tags": [
+          "Lưu công việc"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1336,7 +1544,9 @@
     },
     "/api/apply/userApply": {
       "get": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1385,7 +1595,9 @@
     },
     "/api/apply/userHideApply": {
       "get": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1414,7 +1626,9 @@
     },
     "/api/apply/detail/{id}": {
       "get": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1439,7 +1653,9 @@
     },
     "/api/apply/status": {
       "get": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1461,7 +1677,9 @@
         }
       },
       "put": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1490,7 +1708,9 @@
     },
     "/api/apply/user": {
       "get": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1514,7 +1734,9 @@
     },
     "/api/apply/": {
       "get": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1541,7 +1763,9 @@
         }
       },
       "post": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1587,7 +1811,9 @@
     },
     "/api/apply/hidden": {
       "put": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {
@@ -1611,7 +1837,9 @@
     },
     "/api/apply/unHidden": {
       "put": {
-        "tags": ["Ứng tuyển"],
+        "tags": [
+          "Ứng tuyển"
+        ],
         "description": "",
         "parameters": [
           {

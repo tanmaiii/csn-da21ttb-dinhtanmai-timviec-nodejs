@@ -78,6 +78,24 @@ export default function CandidateHide() {
     setListCheck([]);
   };
 
+  const handleCheckAll = () => {
+    if (listCheck?.length === data?.length) {
+      setListCheck([]);
+    } else {
+      setListCheck([]);
+      data.map((item) => {
+        setListCheck((current) => [
+          ...current,
+          {
+            id: item.id,
+            email: item.email,
+            cv: item.cv,
+          },
+        ]);
+      });
+    }
+  };
+
   useEffect(() => {
     if (!currentCompany) navigate("/dang-nhap/nha-tuyen-dung");
   }, []);
@@ -101,12 +119,32 @@ export default function CandidateHide() {
                 <NotFoundData />
               ) : (
                 <>
-                  <div className="candidateHide__wrapper__body__list__delete">
+                  <div className="candidateHide__wrapper__body__list__control">
+                    <button className="button__checkAll">
+                      <label htmlFor="input_checkAll">
+                        <input
+                          onChange={handleCheckAll}
+                          type="checkbox"
+                          name=""
+                          id="input_checkAll"
+                          checked={listCheck?.length === data?.length}
+                        />
+                        <span>Chọn tất cả</span>
+                      </label>
+                    </button>
                     {listCheck?.length > 0 && (
-                      <button className="button__delete" onClick={handleClickHidden}>
-                        <i className="fa-regular fa-eye"></i>
-                        <span>Bỏ ẩn</span>
-                      </button>
+                      <>
+                        <button className="button__delete" onClick={handleClickHidden}>
+                          <i className="fa-regular fa-eye"></i>
+                          <span>Bỏ ẩn</span>
+                        </button>
+                        <a href={`mailto:${listCheck.map((item) => item.email).join(",")}`}>
+                          <button className="button__send">
+                            <i className="fa-regular fa-paper-plane"></i>
+                            <span>Gửi mail</span>
+                          </button>
+                        </a>
+                      </>
                     )}
                   </div>
                   <TableCandidate

@@ -74,6 +74,9 @@
                   @include flex(center, unset);
                   gap: 8px;
                   position: relative;
+                  @include mobile {
+                    width: 100%;
+                  }
                   input {
                     font-size: $font-size-s;
                     color: themed("text1");
@@ -81,9 +84,15 @@
                     padding: 16px 0;
                     margin-right: 18px;
                   }
-                  .icon-glass {
-                    font-size: 1.2rem;
+                  .button-submit {
                     color: themed("text1");
+                    transition: all .3s;
+                    .icon-glass {
+                      font-size: 1.2rem;
+                    }
+                    &:hover{
+                      color: $color-primary;
+                    }
                   }
                   .button-clear {
                     cursor: pointer;
@@ -170,7 +179,53 @@
             &__control {
               margin-bottom: 20px;
               @include flex(center, unset);
+              flex-wrap: wrap;
               gap: 8px;
+              & > .button__checkAll {
+                @include button(themed("text1"), themed("bg1"));
+                label {
+                  cursor: pointer;
+                  @include flex(center, unset);
+                  gap: 10px;
+                  transition: all 0.3s;
+                  width: max-content;
+                  &:hover {
+                    background-color: themed("bg1");
+                  }
+                  input[type="checkbox"] {
+                    appearance: none;
+                    --webkit-appearance: none;
+                    height: 22px;
+                    width: 22px;
+                    background-color: themed("bg2");
+                    border-radius: 5px;
+                    border: 2px solid themed("border");
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s;
+                    &:hover {
+                      border-color: $color-primary;
+                    }
+                    &::after {
+                      font-family: "Font Awesome 6 Free";
+                      content: "\f00c";
+                      font-size: 20px;
+                      color: $color-white;
+                      font-weight: 999;
+                      display: none;
+                    }
+                    &:checked {
+                      border-color: $color-primary;
+                      background-color: $color-primary;
+                      &::after {
+                        display: block;
+                      }
+                    }
+                  }
+                }
+              }
               & > .button__delete {
                 @include button(themed("text1"), themed("bg1"));
               }

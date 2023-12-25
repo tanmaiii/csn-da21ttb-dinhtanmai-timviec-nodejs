@@ -17,48 +17,6 @@
       @include tablet {
         display: none;
       }
-      &__checkbox {
-        cursor: pointer;
-        @include flex(center, unset);
-        gap: 10px;
-        transition: all 0.3s;
-        width: max-content;
-        &:hover {
-          background-color: themed("bg1");
-        }
-        input[type="checkbox"] {
-          appearance: none;
-          --webkit-appearance: none;
-          height: 22px;
-          width: 22px;
-          background-color: themed("bg2");
-          border-radius: 5px;
-          border: 2px solid themed("border");
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s;
-          &:hover {
-            border-color: $color-primary;
-          }
-          &::after {
-            font-family: "Font Awesome 6 Free";
-            content: "\f00c";
-            font-size: 20px;
-            color: $color-white;
-            font-weight: 999;
-            display: none;
-          }
-          &:checked {
-            border-color: $color-primary;
-            background-color: $color-primary;
-            &::after {
-              display: block;
-            }
-          }
-        }
-      }
       & > span {
         font-size: $font-size-s;
         color: themed("text2");

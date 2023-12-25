@@ -152,6 +152,24 @@ export default function Candidate() {
     }
   );
 
+  const handleCheckAll = () => {
+    if (listCheck?.length === data?.length) {
+      setListCheck([]);
+    } else {
+      setListCheck([]);
+      data.map((item) => {
+        setListCheck((current) => [
+          ...current,
+          {
+            id: item.id,
+            email: item.email,
+            cv: item.cv,
+          },
+        ]);
+      });
+    }
+  };
+
   const handleClickHidden = () => {
     mutationHidden.mutate();
     setListCheck([]);
@@ -163,6 +181,7 @@ export default function Candidate() {
   };
 
   const handleDownload = () => {
+    console.log(listCheck);
     // Lặp qua mảng listEmail và tải xuống từng CV
     listCheck.forEach((item) => {
       item.cv !== null && saveAs(apiCv + item.cv, item.cv);
@@ -197,7 +216,9 @@ export default function Candidate() {
               <div className="candidate__wrapper__body__control__left">
                 <div className="candidate__wrapper__body__control__left__search">
                   <div className="candidate__wrapper__body__control__left__search__input">
-                    <i className="fa-solid fa-magnifying-glass icon-glass"></i>
+                    <button className="button-submit" onClick={() => setSearch(keyword)}>
+                      <i className="fa-solid fa-magnifying-glass icon-glass"></i>
+                    </button>
                     <input
                       type="text"
                       placeholder="Tìm kiếm ứng viên..."
@@ -260,6 +281,18 @@ export default function Candidate() {
               ) : (
                 <>
                   <div className="candidate__wrapper__body__list__control">
+                    <button className="button__checkAll">
+                      <label htmlFor="input_checkAll">
+                        <input
+                          onChange={handleCheckAll}
+                          type="checkbox"
+                          name=""
+                          id="input_checkAll"
+                          checked={listCheck?.length === data?.length}
+                        />
+                        <span>Chọn tất cả</span>
+                      </label>
+                    </button>
                     {listCheck?.length > 0 && (
                       <>
                         <button className="button__delete" onClick={handleClickHidden}>
