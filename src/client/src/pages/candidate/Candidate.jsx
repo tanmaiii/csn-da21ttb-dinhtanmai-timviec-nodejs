@@ -1,18 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import "./candidate.scss";
+
 import TableCandidate from "../../components/tableCandidate/TableCandidate";
 import Pagination from "../../components/pagination/Pagination";
-import { makeRequest } from "../../axios";
-import { useAuth } from "../../context/authContext";
 import NotFoundData from "../../components/notFoundData/NotFoundData";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import Loader from "../../components/loader/Loader.jsx";
+
+
+import { useAuth } from "../../context/authContext";
 import { statusCompany } from "../../config/data.js";
+import { apiCv,makeRequest } from "../../axios.js";
+
+import { toast } from "sonner";
 import queryString from "query-string";
 import { saveAs } from "file-saver";
-import { apiCv } from "../../axios.js";
-
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+
+
 
 const sort = [
   {
@@ -31,6 +36,7 @@ export default function Candidate() {
   const [openSort, setOpenSort] = useState(false);
   const [sortActive, setSortActive] = useState(sort[0]);
   const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
   const [jobs, seJobs] = useState();
   const [paginate, setPaginate] = useState(1);
   const [totalPage, setTotalPage] = useState(10);
@@ -57,7 +63,7 @@ export default function Candidate() {
 
   const getApply = async () => {
     const params = queryString.parse(location.search);
-
+    setLoading(true);
     try {
       let url = "/apply/userApply?";
 
@@ -78,10 +84,11 @@ export default function Candidate() {
       }
 
       const res = await makeRequest.get(`${url}&limit=${limit}&page=${paginate}`);
-
+      setLoading(false);
       setData(res.data.data || []);
       setTotalPage(res.data?.pagination.totalPage || 0);
     } catch (error) {}
+    setLoading(false);
   };
 
   const { isLoading, error } = useQuery(["apply"], () => {
@@ -276,7 +283,9 @@ export default function Candidate() {
             </div>
 
             <div className="candidate__wrapper__body__list">
-              {data?.length === 0 ? (
+              {loading ? (
+                <Loader />
+              ) : data?.length === 0 ? (
                 <NotFoundData />
               ) : (
                 <>

@@ -1,19 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./detailCompany.scss";
+
 import avatar from "../../assets/images/avatarCpn.png";
 import bg from "../../assets/images/gradient1.jpg";
+
 import InfoCompany from "./infoCompany/InfoCompany";
 import IntroCompany from "./introCompany/IntroCompany";
 import JobsCompany from "./jobsCompany/JobsCompany";
-import { Link, useParams, Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import { makeRequest, apiImage } from "../../axios";
+
+import ModalAvatar from "../../components/modalAvatar/ModalAvatar";
 import NotFound from "../../pages/notFound/NotFound";
 import Loader from "../../components/loader/Loader";
 import ModalCropImage from "../../components/modalCropImage/ModalCropImage";
 import RecomKeyword from "../../components/recomKeyword/RecomKeyword";
 
 import { useAuth } from "../../context/authContext";
-
+import { makeRequest, apiImage } from "../../axios";
+import { Link, useParams, Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import {
@@ -89,8 +92,8 @@ export default function DetailCompany() {
     mutationFollow.mutate(follower?.includes(currentUser?.id));
 
     follower?.includes(currentUser?.id)
-    ? toast.success("Đã bỏ yêu thích công ty.")
-    : toast.success("Đã thêm vào công ty yêu thích.");
+      ? toast.success("Đã bỏ yêu thích công ty.")
+      : toast.success("Đã thêm vào công ty yêu thích.");
   };
 
   useEffect(() => {
@@ -110,25 +113,6 @@ export default function DetailCompany() {
   useEffect(() => {
     setOpenControlMb(false);
   }, [controlPathname]);
-
-  useEffect(() => {
-    const handleMousedown = (e) => {
-      if (!modalAvatarRef.current.contains(e.target)) {
-        setOpenModalAvatar(false);
-      }
-    };
-    document.addEventListener("mousedown", handleMousedown);
-    return () => document.removeEventListener("mousedown", handleMousedown);
-  });
-
-  useEffect(() => {
-    if (openModalAvatar === true) {
-      document.body.style.overflow = "hidden";
-    }
-    if (openModalAvatar === false) {
-      document.body.style.overflow = "unset";
-    }
-  }, [openModalAvatar]);
 
   return (
     <div>
@@ -344,14 +328,11 @@ export default function DetailCompany() {
         </div>
       </div>
       <ModalCropImage openModal={openModalEditAvatar} setOpenModal={setOpenModalEditAvatar} />
-      <div className={`modal__avatar ${openModalAvatar ? "active" : ""}`}>
-        <div ref={modalAvatarRef} className="modal__avatar__wrapper">
-          <img src={company?.avatarPic ? apiImage + company?.avatarPic : avatar} alt="" />
-          <button onClick={() => setOpenModalAvatar(false)} className="modal__avatar__close">
-            <i className="fa fa-solid fa-xmark"></i>
-          </button>
-        </div>
-      </div>
+      <ModalAvatar
+        openModal={openModalAvatar}
+        setOpenModal={setOpenModalAvatar}
+        avatarPic={company?.avatarPic ? apiImage + company?.avatarPic : avatar}
+      />
     </div>
   );
 }

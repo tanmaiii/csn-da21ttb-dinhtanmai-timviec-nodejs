@@ -1,19 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import "./candidateHide.scss";
+
 import TableCandidate from "../../components/tableCandidate/TableCandidate.jsx";
 import Pagination from "../../components/pagination/Pagination.jsx";
+import NotFoundData from "../../components/notFoundData/NotFoundData.jsx";
+import Loader from "../../components/loader/Loader.jsx";
+
 import { makeRequest } from "../../axios.js";
 import { useAuth } from "../../context/authContext.js";
-import NotFoundData from "../../components/notFoundData/NotFoundData.jsx";
-import { useLocation, useNavigate, Link } from "react-router-dom";
 
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import { toast } from "sonner";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function CandidateHide() {
   const [data, setData] = useState();
   const [jobs, seJobs] = useState();
   const [paginate, setPaginate] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [totalPage, setTotalPage] = useState(10);
   const limit = 10;
   const { currentCompany } = useAuth();
@@ -33,12 +37,14 @@ export default function CandidateHide() {
   }, []);
 
   const getApply = async () => {
+    setLoading(true);
     try {
       const res = await makeRequest.get(`/apply/userHideApply?&limit=${limit}&page=${paginate}`);
-
+      setLoading(false);
       setData(res.data.data || []);
       setTotalPage(res.data?.pagination.totalPage || 0);
     } catch (error) {}
+    setLoading(false);
   };
 
   const { isLoading, error } = useQuery(["apply"], () => {
@@ -115,10 +121,12 @@ export default function CandidateHide() {
           </div>
           <div className="candidateHide__wrapper__body">
             <div className="candidateHide__wrapper__body__list">
-              {data?.length === 0 ? (
+              {loading ? (
+                <Loader />
+              ) : data?.length === 0 ? (
                 <NotFoundData />
               ) : (
-                <>
+                <div>
                   <div className="candidateHide__wrapper__body__list__control">
                     <button className="button__checkAll">
                       <label htmlFor="input_checkAll">
@@ -153,7 +161,7 @@ export default function CandidateHide() {
                     listCheck={listCheck}
                     handleClickHidden={handleClickHidden}
                   />
-                </>
+                </div>
               )}
             </div>
             <div className="candidateHide__wrapper__body__pgn">

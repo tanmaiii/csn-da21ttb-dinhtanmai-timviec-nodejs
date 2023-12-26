@@ -12,6 +12,7 @@ import CompaniesSave from "./companiesSave/CompaniesSave";
 import JobsSave from "./jobsSave/JobsSave";
 import ModalCropImage from "../../components/modalCropImage/ModalCropImage";
 import RecomKeywork from "../../components/recomKeyword/RecomKeyword";
+import ModalAvatar from "../../components/modalAvatar/ModalAvatar";
 
 import {
   useSearchParams,
@@ -86,25 +87,6 @@ export default function DetailUser() {
   useEffect(() => {
     setOpenControlMb(false);
   }, [controlPathname]);
-
-  useEffect(() => {
-    const handleMousedown = (e) => {
-      if (!modalAvatarRef.current.contains(e.target)) {
-        setOpenModalAvatar(false);
-      }
-    };
-    document.addEventListener("mousedown", handleMousedown);
-    return () => document.removeEventListener("mousedown", handleMousedown);
-  });
-
-  useEffect(() => {
-    if (openModalAvatar === true) {
-      document.body.style.overflow = "hidden";
-    }
-    if (openModalAvatar === false) {
-      document.body.style.overflow = "unset";
-    }
-  }, [openModalAvatar]);
 
   return (
     <div>
@@ -297,14 +279,9 @@ export default function DetailUser() {
         </div>
       </div>
       <ModalCropImage openModal={openModalEditAvatar} setOpenModal={setOpenModalEditAvatar} />
-      <div className={`modal__avatar ${openModalAvatar ? "active" : ""}`}>
-        <div ref={modalAvatarRef} className="modal__avatar__wrapper">
-          <img src={user?.avatarPic ? apiImage + user?.avatarPic : avatar} alt="" />
-          <button onClick={() => setOpenModalAvatar(false)} className="modal__avatar__close">
-            <i className="fa fa-solid fa-xmark"></i>
-          </button>
-        </div>
-      </div>
+
+      <ModalAvatar openModal={openModalAvatar} setOpenModal={setOpenModalAvatar} avatarPic={user.avatarPic ? apiImage + user?.avatarPic : avatar} />
+      
     </div>
   );
 }
