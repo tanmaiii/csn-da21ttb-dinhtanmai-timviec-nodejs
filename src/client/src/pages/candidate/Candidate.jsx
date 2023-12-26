@@ -188,7 +188,6 @@ export default function Candidate() {
   };
 
   const handleDownload = () => {
-    console.log(listCheck);
     // Lặp qua mảng listEmail và tải xuống từng CV
     listCheck.forEach((item) => {
       item.cv !== null && saveAs(apiCv + item.cv, item.cv);
