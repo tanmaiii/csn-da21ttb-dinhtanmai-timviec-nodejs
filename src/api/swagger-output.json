@@ -5,9 +5,10 @@
     "version": "1.0.0",
     "description": ""
   },
-  "host": "https://csn-api.onrender.com",
+  "host": "localhost:8800",
   "basePath": "/",
   "schemes": [
+    "https",
     "http"
   ],
   "consumes": [

@@ -9,7 +9,7 @@ const doc = {
   },
   host: process.env.API_URL, // Thay đổi địa chỉ host của bạn
   basePath: "/",
-  schemes: ["http"],
+  schemes: ["https", "http"],
   consumes: ["application/json"],
   produces: ["application/json"],
 };
