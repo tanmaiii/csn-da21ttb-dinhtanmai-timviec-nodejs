@@ -16,6 +16,7 @@ export default function ItemJob({ className, job, onClick }) {
   const [openModalHidden, setOpenModalHidden] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [openMore, setOpenMore] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false);
   const { currentCompany, currentUser } = useAuth();
   const [userSave, setUserSave] = useState();
   const navigate = useNavigate();
@@ -24,10 +25,13 @@ export default function ItemJob({ className, job, onClick }) {
   const buttonMoreRef = useRef();
 
   const getUserSave = async () => {
+    setLoadingSave(true);
     try {
       const res = await makeRequest.get(`save/user?idJob=${job.id}`);
       setUserSave(res.data);
+      setLoadingSave(false);
     } catch (error) {}
+    setLoadingSave(false);
   };
 
   const { isLoading, error, data } = useQuery(["save", job.id], () => {
@@ -41,14 +45,16 @@ export default function ItemJob({ className, job, onClick }) {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["save"]);
+        queryClient.invalidateQueries(["save", job?.id]);
       },
     }
   );
 
   const handleSubmitSave = () => {
     if (!currentUser) return navigate("/dang-nhap/nguoi-dung");
+
     mutationSave.mutate(userSave?.includes(currentUser?.id));
+
     userSave?.includes(currentUser?.id)
       ? toast.success("Đã gỡ khỏi việc làm yêu thích.", {
           action: {
@@ -185,7 +191,11 @@ export default function ItemJob({ className, job, onClick }) {
               )}
 
               <button className="button__save" onClick={() => handleSubmitSave()}>
-                {userSave?.includes(currentUser?.id) ? (
+                {loadingSave ? (
+                  <div className="icon-loading">
+                    <div className="loading"></div>
+                  </div>
+                ) : userSave?.includes(currentUser?.id) ? (
                   <i class="fa-solid fa-heart"></i>
                 ) : (
                   <i class="fa-regular fa-heart"></i>

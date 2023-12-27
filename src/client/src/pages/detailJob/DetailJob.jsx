@@ -31,7 +31,8 @@ export default function DetailJob() {
   const [openModalHidden, setOpenModalHidden] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [userSave, setUserSave] = useState();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false);
   const [userApply, setUserApply] = useState();
   const [job, setJob] = useState([]);
   const [openMore, setOpenMore] = useState(false);
@@ -70,10 +71,13 @@ export default function DetailJob() {
   });
 
   const getUserSave = async () => {
+    setLoadingSave(true);
     try {
       const res = await makeRequest.get(`save/user?idJob=${job?.id}`);
       setUserSave(res.data);
+      setLoadingSave(false);
     } catch (error) {}
+    setLoadingSave(false);
   };
 
   const {} = useQuery(["save", job?.id], () => {
@@ -255,19 +259,23 @@ export default function DetailJob() {
                             <span>Ngừng ứng tuyển</span>
                           </button>
                         )}
-                        <button className="btn_save" onClick={() => handleSubmitSave()}>
-                          {userSave?.includes(currentUser?.id) ? (
-                            <>
-                              <i class="fa-solid fa-heart"></i>
-                              <span>Đã Lưu</span>
-                            </>
-                          ) : (
-                            <>
-                              <i class="fa-regular fa-heart"></i>
-                              <span>Lưu</span>
-                            </>
-                          )}
-                        </button>
+                        {loadingSave ? (
+                            <div className="loading"></div>
+                        ) : (
+                          <button className="btn_save" onClick={() => handleSubmitSave()}>
+                            {userSave?.includes(currentUser?.id) ? (
+                              <>
+                                <i class="fa-solid fa-heart"></i>
+                                <span>Đã Lưu</span>
+                              </>
+                            ) : (
+                              <>
+                                <i class="fa-regular fa-heart"></i>
+                                <span>Lưu</span>
+                              </>
+                            )}
+                          </button>
+                        )}
                       </div>
                       <div className="detailJob__wrapper__main__button__company">
                         {job?.idCompany === currentCompany?.id && (

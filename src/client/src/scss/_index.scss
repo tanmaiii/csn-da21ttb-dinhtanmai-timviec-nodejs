@@ -75,11 +75,40 @@ input[type="number"] {
   width: 100%;
   height: 100%;
   @include flex(center, center);
-  .loading {
+  &>.loading {
     --size: 38px;
     width: var(--size);
     height: var(--size);
     border: 4px solid #ccc;
+    border-bottom-color: $color-white;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+}
+
+.loading {
+  --size: 38px;
+  width: var(--size);
+  height: var(--size);
+  border: 4px solid #ccc;
+  border-bottom-color: $color-white;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.icon-loading {
+  width: 100%;
+  height: 100%;
+  @include flex(center, center);
+  &>.loading {
+    --size: 19px;
+    width: var(--size);
+    height: var(--size);
+    border: 2px solid #ccc;
     border-bottom-color: $color-white;
     border-radius: 50%;
     display: inline-block;

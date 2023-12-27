@@ -280,7 +280,7 @@ export default function DetailUser() {
       </div>
       <ModalCropImage openModal={openModalEditAvatar} setOpenModal={setOpenModalEditAvatar} />
 
-      <ModalAvatar openModal={openModalAvatar} setOpenModal={setOpenModalAvatar} avatarPic={user.avatarPic ? apiImage + user?.avatarPic : avatar} />
+      <ModalAvatar openModal={openModalAvatar} setOpenModal={setOpenModalAvatar} avatarPic={user?.avatarPic ? apiImage + user?.avatarPic : avatar} />
       
     </div>
   );

@@ -28,7 +28,6 @@ export default function Signin() {
     setErr("");
     try {
       await loginUser(inputs);
-      console.log(inputs);
       setLoading(false);
     } catch (err) {
       setErr(err?.response?.data);
