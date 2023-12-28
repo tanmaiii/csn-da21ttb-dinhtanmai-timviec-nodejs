@@ -165,7 +165,7 @@ export const getByIdCompany = async (req, res) => {
     WHERE j.deletedAt is null AND c.id = ? AND j.idCompany = c.id AND j.idProvince = p.id`;
 
     token &&
-      jwt.verify(token, "secretkey", (err, companmyInfo) => {
+      jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
         if (parseInt(companmyInfo.id) === parseInt(id)) {
           q = `SELECT j.id,  j.nameJob, j.salaryMax, j.salaryMin, j.typeWork, j.idCompany, j.createdAt ,j.deletedAt, p.name as province , c.nameCompany, c.avatarPic
         FROM jobs AS j , companies AS c ,  provinces as p 
@@ -235,7 +235,7 @@ export const postJob = (req, res) => {
 
   const q = "SELECT * FROM companies WHERE id = ?";
 
-  jwt.verify(token, "secretkey", (err, companmyInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
     db.query(q, companmyInfo.id, (err, data) => {
       if (!data?.length) return res.status(401).json("Người dùng không hợp lệ !");
 
@@ -325,7 +325,7 @@ export const updateJob = async (req, res) => {
 
   const q = "SELECT * FROM companies WHERE id = ?";
 
-  jwt.verify(token, "secretkey", (err, companmyInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
     db.query(q, companmyInfo.id, (err, data) => {
       if (!data?.length) return res.status(401).json("Người dùng không hợp lệ !");
 
@@ -363,7 +363,7 @@ export const hiddenJob = async (req, res) => {
 
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, companmyInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
 
     const q = `UPDATE jobs as j SET \`deletedAt\` = '${moment(Date.now()).format(
@@ -385,7 +385,7 @@ export const unHiddenJob = async (req, res) => {
 
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, companmyInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
 
     const q = `UPDATE jobs as j SET \`deletedAt\` = null WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
@@ -405,7 +405,7 @@ export const deleteJob = async (req, res) => {
 
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, companmyInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
 
     const q = `DELETE FROM jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;

@@ -56,7 +56,7 @@ export const addFollow = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q = "INSERT INTO follow_company (`idUser`, `idCompany`, `createdAt`) VALUES (?)";
@@ -78,7 +78,7 @@ export const removeFollow = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q = "DELETE FROM follow_company WHERE `idUser` = ? AND `idCompany` = ?";

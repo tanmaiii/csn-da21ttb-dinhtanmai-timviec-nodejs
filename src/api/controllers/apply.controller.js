@@ -26,7 +26,7 @@ export const getJobApply = (req, res) => {
                 FROM apply_job as a , jobs as j , companies AS c , provinces as p , fields as f 
                 WHERE a.idUser = ? AND a.idJob = j.id AND  j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id`;
 
-    jwt.verify(token, "secretkey", async (err, userInfo) => {
+    jwt.verify(token, process.env.MY_SECRET, async (err, userInfo) => {
       if (err) return res.status(401).json("Token is not invalid");
 
       const [data] = await promiseDb.query(q, [userInfo.id, +limit, +offset]);
@@ -94,7 +94,7 @@ export const getUserByCpn = (req, res) => {
       q += ` ORDER BY a.createdAt ASC `;
     }
 
-    jwt.verify(token, "secretkey", async (err, cpn) => {
+    jwt.verify(token, process.env.MY_SECRET, async (err, cpn) => {
       const [data] = await promiseDb.query(`${q} limit ${+limit} offset ${+offset}`, [cpn.id]);
       const [total] = await promiseDb.query(q2, cpn.id);
       const totalPage = Math.ceil(+total[0]?.count / limit);
@@ -135,7 +135,7 @@ export const getUserHideByCpn = (req, res) => {
               FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
               WHERE c.id = ? AND not a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
-    jwt.verify(token, "secretkey", async (err, cpn) => {
+    jwt.verify(token, process.env.MY_SECRET , async (err, cpn) => {
       const [data] = await promiseDb.query(`${q} limit ${+limit} offset ${+offset}`, [cpn.id]);
       const [total] = await promiseDb.query(q2, cpn.id);
       const totalPage = Math.ceil(+total[0]?.count / limit);
@@ -212,7 +212,7 @@ export const applyJob = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q =
@@ -240,7 +240,7 @@ export const updateStatusUser = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
       "UPDATE apply_job as a , companies as c, jobs as j SET `status`= ? WHERE a.id = ? AND c.id = ? AND a.idJob = j.id AND j.idCompany = c.id";
@@ -324,7 +324,7 @@ export const hiddenUserByCpn = (req, res) => {
 
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q = `UPDATE apply_job as a , jobs as j SET a.deletedAt = '${moment(Date.now()).format(
       "YYYY-MM-DD HH:mm:ss"
@@ -346,7 +346,7 @@ export const unHiddenUserByCpn = (req, res) => {
 
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q = `UPDATE apply_job as a , jobs as j SET a.deletedAt = null WHERE a.id in ('${idFilter}') AND a.idJob = j.id  AND j.idCompany = ${userInfo.id}`;
 

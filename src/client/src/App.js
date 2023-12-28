@@ -1,6 +1,6 @@
-import { Route, BrowserRouter, Routes, Outlet } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-//import "https://kit.fontawesome.com/dc548344cf.js";
+// import "https://kit.fontawesome.com/dc548344cf.js";
 import "./assets/libs/fontawesome-free-6.4.2-web/css/all.min.css";
 
 import "./App.scss";

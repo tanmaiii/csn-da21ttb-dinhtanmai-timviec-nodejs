@@ -35,7 +35,7 @@ export const getOwnerUser = (req, res) => {
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     db.query(q, userInfo.id, (err, data) => {
       if (!data?.length) {
         return res.status(401).json("Không tồn tại !");
@@ -57,7 +57,7 @@ export const updateUser = (req, res) => {
   if (linkSocial?.length > 0 && !checkUrl(linkSocial))
     return res.status(409).json("Link Cv không hợp lệ !");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q =
       "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ?, `sex`= ? , `idProvince`= ?, `linkSocial` = ? WHERE id = ? ";
@@ -84,7 +84,7 @@ export const updateIntroUser = (req, res) => {
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q = "UPDATE users SET `intro` = ? WHERE id = ? ";
 
@@ -102,7 +102,7 @@ export const uploadImage = (req, res) => {
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(403).json("Chưa đăng nhập !");
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     db.query(q, [avatarPic, userInfo.id], (err, data) => {
       if (!err) return res.status(200).json("Lưu ảnh thành công !");
       return res.status(401).json("Lỗi!");
@@ -121,7 +121,7 @@ export const forgotPassword = (req, res) => {
     if (!data?.length) {
       return res.status(403).json("Không tìm thấy email!");
     } else {
-      const token = jwt.sign({ id: data[0].id }, "jwt_secret_key", { expiresIn: 60 }); // token tồn tại trong 1 phút
+      const token = jwt.sign({ id: data[0].id }, process.env.MY_SECRET, { expiresIn: 60 }); // token tồn tại trong 1 phút
 
       var transporter = nodemailer.createTransport({
         service: "gmail",
@@ -190,7 +190,7 @@ export const resetPassword = (req, res) => {
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
 
-  jwt.verify(token, "jwt_secret_key", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) {
       return res.status(401).json("Lỗi!");
     } else {
@@ -224,7 +224,7 @@ export const changePassword = (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    jwt.verify(token, "secretkey", (err, userInfo) => {
+    jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
       if (err) {
         return res.status(401).json("Lỗi!");
       } else {

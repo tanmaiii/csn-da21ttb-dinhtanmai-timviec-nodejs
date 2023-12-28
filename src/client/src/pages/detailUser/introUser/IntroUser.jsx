@@ -73,7 +73,7 @@ export default function IntroUser({ intro }) {
             ></div>
           ) : (
             <div className="introUser__wrapper__body__edit">
-              <ReactQuill theme="snow" value={valueIntro} onChange={setValueIntro} />
+             <ReactQuill theme="snow" value={valueIntro} onChange={setValueIntro} />
             </div>
           )}
         </div>

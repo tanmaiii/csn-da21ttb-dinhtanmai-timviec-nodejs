@@ -18,13 +18,14 @@ export const login = (req, res) => {
       const checkPassword = bcrypt.compareSync(req.body.password, data[0].password);
       if (!checkPassword) return res.status(401).json("Sai mật khẩu");
 
-      const token = jwt.sign({ id: data[0].id }, "secretkey", { expiresIn: "7d" });
+      const token = jwt.sign({ id: data[0].id }, process.env.MY_SECRET, { expiresIn: "7d" });
       const { password, ...others } = data[0];
 
       res
         .cookie("accessToken", token, {
+          httpOnly: true,
+          sameSite: "none",
           secure: true,
-          sameSite: 'none',
         })
         .status(200)
         .json(others);

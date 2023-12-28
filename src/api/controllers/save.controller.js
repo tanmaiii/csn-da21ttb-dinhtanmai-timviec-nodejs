@@ -59,7 +59,7 @@ export const addSave = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q =
@@ -82,7 +82,7 @@ export const removeSave = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  jwt.verify(token, "secretkey", (err, userInfo) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
     const q = "DELETE FROM save_job WHERE `idUser` = ? AND `idJob` = ?";

@@ -27,7 +27,6 @@ import checkEmail from "./middlewares/checkEmail.middleware.js";
 import checkImage from "./middlewares/checkImage.middleware.js";
 
 import { fileURLToPath } from "url";
-import { log } from "console";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
