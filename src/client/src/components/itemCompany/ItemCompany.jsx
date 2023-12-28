@@ -15,6 +15,7 @@ export default function ItemCompany({ company, className }) {
   const btnRef = useRef();
   const navigate = useNavigate();
   const [follower, setFollower] = useState();
+  const [loadingSave, setLoadingSave] = useState(false);
   const [jobQty, setJobQty] = useState(0);
   const queryClient = useQueryClient();
   const { currentUser } = useAuth();
@@ -26,10 +27,13 @@ export default function ItemCompany({ company, className }) {
   };
 
   const getFollower = async () => {
+    setLoadingSave(true);
     try {
       const res = await makeRequest("follow/follower?idCompany=" + company?.id);
       setFollower(res.data);
+      setLoadingSave(false);
     } catch (error) {}
+    setLoadingSave(false);
   };
 
   const getJobQty = async () => {
@@ -39,7 +43,7 @@ export default function ItemCompany({ company, className }) {
     } catch (error) {}
   };
 
-  const { isLoading: loadingJob, data: dataJob } = useQuery(["job", company?.id], () => {
+  const { isLoading: loadingJob, data: dataJob } = useQuery(["job", company.id], () => {
     return getJobQty();
   });
 
@@ -54,7 +58,7 @@ export default function ItemCompany({ company, className }) {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["follower"]);
+        queryClient.invalidateQueries(["follower", company.id]);
       },
     }
   );
@@ -93,7 +97,11 @@ export default function ItemCompany({ company, className }) {
             </div>
             <div className="itemCompany__wrapper__body__left">
               <button ref={btnRef} className={`btn__follow`} onClick={() => handleSubmitFollow()}>
-                {follower?.includes(currentUser?.id) ? (
+                {loadingSave ? (
+                  <div className="icon-loading">
+                    <div className="loading"></div>
+                  </div>
+                ) : follower?.includes(currentUser?.id) ? (
                   <i className="fa-solid fa-heart"></i>
                 ) : (
                   <i className="fa-regular fa-heart"></i>
