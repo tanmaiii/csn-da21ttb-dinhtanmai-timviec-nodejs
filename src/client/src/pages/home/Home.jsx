@@ -26,7 +26,7 @@ export default function Home() {
               <img src={presont} alt="" />
             </div>
             <div className="home__section__right col pc-6 t-6 m-12">
-              <i class="fa-solid fa-briefcase home__section__right__logo"></i>
+              <i className="fa-solid fa-briefcase home__section__right__logo"></i>
               <h2>Cổng thông tin việc làm đáng tin cậy và phổ biến.</h2>
               <span>
                 Tìm công việc mơ ước của bạn từ hàng ngàn vị trí tuyển dụng được
@@ -37,13 +37,13 @@ export default function Home() {
                 <Link to={"/tim-kiem"}>
                   <button>
                     <span>Tìm việc làm</span>
-                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <i className="fa-solid fa-arrow-right-long"></i>
                   </button>
                 </Link>
                 <Link to={"/nha-tuyen-dung/dang-bai"}>
                   <button>
                     <span>Đăng việc làm</span>
-                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <i className="fa-solid fa-arrow-right-long"></i>
                   </button>
                 </Link>
               </div>

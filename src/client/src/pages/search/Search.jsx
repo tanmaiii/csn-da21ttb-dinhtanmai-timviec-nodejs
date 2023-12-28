@@ -134,7 +134,7 @@ export default function Search() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [keyword]);
 
   return (
     <>
@@ -159,8 +159,9 @@ export default function Search() {
                       </div>
                       {openSort && (
                         <div className="list">
-                          {sort.map((item) => (
+                          {sort.map((item, i) => (
                             <span
+                            key={i}
                               className={`list__item ${
                                 sortActive?.displayName === item?.displayName ? "active" : ""
                               }`}

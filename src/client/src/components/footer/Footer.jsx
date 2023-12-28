@@ -39,22 +39,22 @@ export default function Footer() {
                 <ul>
                   <li>
                     <a href="https://www.facebook.com/tanmai2003">
-                      <i class="fa-brands fa-facebook-f"></i>
+                      <i className="fa-brands fa-facebook-f"></i>
                     </a>
                   </li>
                   <li>
                     <a href="https://www.x.com">
-                      <i class="fa-brands fa-twitter"></i>
+                      <i className="fa-brands fa-twitter"></i>
                     </a>
                   </li>
                   <li>
                     <a href="https://www.douyin.com/">
-                      <i class="fa-brands fa-tiktok"></i>
+                      <i className="fa-brands fa-tiktok"></i>
                     </a>
                   </li>
                   <li>
                     <a href="mailto:jobquestofficial@gmail.com">
-                      <i class="fa-regular fa-envelope"></i>
+                      <i className="fa-regular fa-envelope"></i>
                     </a>
                   </li>
                 </ul>

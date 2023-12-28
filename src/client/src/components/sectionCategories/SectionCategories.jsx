@@ -76,14 +76,14 @@ export default function SectionCategories() {
       <div className="sectionCategories__header">
         <h4>Ngành nghề phổ biến</h4>
         <Link className="sectionCategories__header__link" to={"/tim-viec-lam-nhanh"}>
-          <span>Xem tất cả</span> <i class="fa-solid fa-chevron-right"></i>
+          <span>Xem tất cả</span> <i className="fa-solid fa-chevron-right"></i>
         </Link>
       </div>
       <div className="sectionCategories__body">
         <div className="sectionCategories__body__list">
           <Slider {...settings}>
-            {categories.map((item) => (
-              <div className="sectionCategories__body__list__item">
+            {categories.map((item, i) => (
+              <div key={i} className="sectionCategories__body__list__item">
                 <div key={item.id} className="sectionCategories__body__list__item__box">
                   <Link
                     to={`/tim-kiem${item.link}`}

@@ -178,7 +178,7 @@ export default function ItemJob({ className, job, onClick }) {
             <div className="itemJob__wrapper__bottom__button">
               {job.deletedAt && job?.deletedAt !== null ? (
                 <div className="job__hide">
-                  <i class="fa-regular fa-circle-xmark"></i>
+                  <i className="fa-regular fa-circle-xmark"></i>
                   <span>Ngừng ứng tuyển</span>
                 </div>
               ) : (
@@ -196,9 +196,9 @@ export default function ItemJob({ className, job, onClick }) {
                     <div className="loading"></div>
                   </div>
                 ) : userSave?.includes(currentUser?.id) ? (
-                  <i class="fa-solid fa-heart"></i>
+                  <i className="fa-solid fa-heart"></i>
                 ) : (
-                  <i class="fa-regular fa-heart"></i>
+                  <i className="fa-regular fa-heart"></i>
                 )}
               </button>
 
@@ -215,7 +215,7 @@ export default function ItemJob({ className, job, onClick }) {
                       </button>
                     </Link>
                     <button onClick={() => setOpenModalDelete(true)}>
-                      <i class="fa-regular fa-trash-can"></i>
+                      <i className="fa-regular fa-trash-can"></i>
                       <span>Xóa</span>
                     </button>
                     <button onClick={() => setOpenModalHidden(true)}>

@@ -2,6 +2,8 @@ import { db } from "../config/connect.js";
 import jwt from "jsonwebtoken";
 import moment from "moment";
 import "express-async-errors";
+import dotenv from 'dotenv'
+dotenv.config()
 
 export const getAll = async (req, res) => {
   try {

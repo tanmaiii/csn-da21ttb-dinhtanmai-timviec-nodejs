@@ -18,7 +18,7 @@ const hedearItem = [
   },
   {
     display: "Ngành nghề/Địa điểm",
-    icon: <i class="fa-solid fa-briefcase"></i>,
+    icon: <i className="fa-solid fa-briefcase"></i>,
     path: "/tim-viec-lam-nhanh",
   },
   {

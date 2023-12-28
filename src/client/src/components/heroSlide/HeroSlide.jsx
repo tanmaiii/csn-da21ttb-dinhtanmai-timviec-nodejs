@@ -151,7 +151,7 @@ function SearchHeroSlide() {
           ref={searchRef}
         >
           <div className="searchHeroSlide__wrapper__item__input">
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i className="fa-solid fa-magnifying-glass"></i>
             <input
               ref={inputSearchRef}
               onChange={(e) => setKeywordSearch(e.target.value)}
@@ -163,7 +163,7 @@ function SearchHeroSlide() {
             />
             {keywordSearch?.length > 0 && (
               <button className="btn-clear" onClick={() => setKeywordSearch("")}>
-                <i class="fa-solid fa-circle-xmark"></i>
+                <i className="fa-solid fa-circle-xmark"></i>
               </button>
             )}
           </div>
@@ -171,7 +171,7 @@ function SearchHeroSlide() {
             <ul>
               {searchHistory?.slice(0, 4).map((item, i) => (
                 <li key={i} onClick={() => setKeywordSearch(item)}>
-                  <i class="fa-regular fa-clock"></i>
+                  <i className="fa-regular fa-clock"></i>
                   <span>{item}</span>
                 </li>
               ))}
@@ -183,7 +183,7 @@ function SearchHeroSlide() {
           ref={provinceRef}
         >
           <div className="searchHeroSlide__wrapper__item__input">
-            <i class="fa-solid fa-location-dot"></i>
+            <i className="fa-solid fa-location-dot"></i>
             <input
               onChange={(e) => setKeywordProvince(e.target.value)}
               value={keywordProvince}
@@ -195,7 +195,7 @@ function SearchHeroSlide() {
             />
             {keywordProvince?.length > 0 && (
               <button className="btn-clear" onClick={() => setKeywordProvince("")}>
-                <i class="fa-solid fa-circle-xmark"></i>
+                <i className="fa-solid fa-circle-xmark"></i>
               </button>
             )}
           </div>
@@ -205,7 +205,7 @@ function SearchHeroSlide() {
                 ?.filter((asd) => formatStr(asd.name).includes(formatStr(keywordProvince)))
                 .map((prov, i) => (
                   <li key={i} onClick={() => setKeywordProvince(prov.name)}>
-                    <i class="fa-solid fa-location-dot"></i>
+                    <i className="fa-solid fa-location-dot"></i>
                     <span>{prov.name}</span>
                   </li>
                 ))}

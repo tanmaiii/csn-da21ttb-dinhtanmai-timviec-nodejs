@@ -29,7 +29,7 @@ export default function ItemCompany({ company, className }) {
   const getFollower = async () => {
     setLoadingSave(true);
     try {
-      const res = await makeRequest("follow/follower?idCompany=" + company?.id);
+      const res = await makeRequest.get("follow/follower?idCompany=" + company?.id);
       setFollower(res.data);
       setLoadingSave(false);
     } catch (error) {}
@@ -39,11 +39,11 @@ export default function ItemCompany({ company, className }) {
   const getJobQty = async () => {
     try {
       const res = await makeRequest.get(`/job/company/${company?.id}`);
-      setJobQty(res.data.pagination.total);
+      setJobQty(res?.data?.pagination?.total);
     } catch (error) {}
   };
 
-  const { isLoading: loadingJob, data: dataJob } = useQuery(["job", company.id], () => {
+  const { isLoading: loadingJob, data: dataJob } = useQuery(["job", company?.id], () => {
     return getJobQty();
   });
 

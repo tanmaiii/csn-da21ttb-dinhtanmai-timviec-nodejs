@@ -103,7 +103,7 @@ export default function SearchQuick() {
                         ?.sort((a, b) => b.countJobs - a.countJobs)
                         .slice(0, 10)
                         .map((item, i) => (
-                          <li className="item" onClick={() => handleClick(item?.name)}>
+                          <li key={i} className="item" onClick={() => handleClick(item?.name)}>
                             <h6>{item.name}</h6>
                             <span>({item.countJobs})</span>
                           </li>
@@ -133,7 +133,7 @@ function SearchQuickFields({ fields }) {
       <h4>Tìm kiếm việc làm nhanh theo ngành nghề</h4>
       <div className="searchQuick__wrapper__content__item__list">
         {fields?.map((gr, i) => (
-          <div className="searchQuick__wrapper__content__item__list__group">
+          <div key={i} className="searchQuick__wrapper__content__item__list__group">
             <h4 className="header">{gr[0]?.typeField}</h4>
             <div className="list">
               {gr.map((item, i) => (
