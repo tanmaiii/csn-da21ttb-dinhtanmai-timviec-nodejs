@@ -117,13 +117,14 @@ export default function DetailCompany() {
   return (
     <div>
       <div className="detailCompany">
+        {!company  && <Loader />}
         <div className="container">
           {err && <NotFound />}
           {company && (
             <div className="detailCompany__wrapper">
-              {loading ? (
+              {/* {loading ? (
                 <Loader />
-              ) : (
+              ) : ( */}
                 <>
                   <div className="detailCompany__wrapper__header">
                     <div className="detailCompany__wrapper__header__bg">
@@ -322,7 +323,7 @@ export default function DetailCompany() {
                     </div>
                   </div>
                 </>
-              )}
+               {/* )} */}
             </div>
           )}
         </div>

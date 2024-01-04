@@ -93,7 +93,7 @@ export default function ItemCompany({ company, className }) {
                   <i className="fa-solid fa-location-dot"></i>
                   <span>{company?.province}</span>
                 </div>
-                <span className="job">{jobQty > 99 ? "+99" : jobQty} việc làm</span>
+                <span className="job">{jobQty ? jobQty > 99 ? "+99" : jobQty : 0}  việc làm</span>
               </div>
             </div>
             <div className="itemCompany__wrapper__body__left">

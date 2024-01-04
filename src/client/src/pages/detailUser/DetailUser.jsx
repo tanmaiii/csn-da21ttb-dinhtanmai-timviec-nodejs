@@ -91,13 +91,14 @@ export default function DetailUser() {
   return (
     <div>
       {err && <NotFound />}
+      {!user && <Loader/>}
       <div className="detailUser">
         <div className="container">
           <div className="detailUser__wrapper">
-            {loading ? (
+            {/* {loading ? (
               <Loader />
-            ) : (
-              user && (
+            ) : ( */}
+             { user && (
                 <>
                   <div className="detailUser__wrapper__header">
                     <div className="detailUser__wrapper__header__bg">
@@ -273,8 +274,8 @@ export default function DetailUser() {
                     </div>
                   </div>
                 </>
-              )
-            )}
+              )}
+            {/* )}  */}
           </div>
         </div>
       </div>

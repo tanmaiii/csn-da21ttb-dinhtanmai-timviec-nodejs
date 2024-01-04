@@ -52,15 +52,19 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
 
-  // useEffect(() => {
-  //   // Kiểm tra cookie có tồn tại hay không
-  //   const myCookieValue = Cookies.get('accessToken');
+  useEffect(() => {
+    // Kiểm tra cookie có tồn tại hay không
+    const myCookieValue = Cookies.get('accessToken');
     
-  //   if (!myCookieValue) {
-  //     setCurrentUser(null);
-  //     setCurrentCompany(null)
-  //   }
-  // }, []);
+    if (!myCookieValue) {
+      setCurrentUser(null);
+      setCurrentCompany(null)
+    // console.log("Khong co token"); 
+    }else{
+     //console.log(myCookieValue); 
+    }
+
+  }, []);
 
   return (
     <AuthContext.Provider

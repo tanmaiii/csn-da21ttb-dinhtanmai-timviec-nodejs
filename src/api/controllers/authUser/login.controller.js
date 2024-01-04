@@ -23,11 +23,11 @@ export const login = (req, res) => {
 
       res
         .cookie("accessToken", token, {
-          httpOnly: true,
-          sameSite: "none",
+          // httpOnly: true,
+          sameSite: "lax",
           secure: true,
-          expire : new Date() + 9999,
-          maxAge: 900000
+          expires: new Date(Date.now() + 900000),
+          maxAge: 24 * 60 * 60 * 1000 
         })
         .status(200)
         .json(others);

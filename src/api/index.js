@@ -159,7 +159,6 @@ app.post("/api/signupEmail", (req, res) => {
   if (email) {
     if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ.");
 
-    console.log(!checkEmail(email));
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {

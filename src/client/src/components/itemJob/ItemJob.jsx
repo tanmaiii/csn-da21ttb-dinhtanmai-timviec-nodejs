@@ -113,11 +113,11 @@ export default function ItemJob({ className, job, onClick }) {
   const deleteJob = async () => {
     try {
       await makeRequest.delete("job/?idJob=" + job.id);
-      setOpenModalDelete(false);
       toast.success("Xóa bài tuyển dụng thành công.");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      toast.error(err?.reponse?.data);
     }
+    setOpenModalDelete(false);
   };
 
   const mutationDelete = useMutation(
