@@ -101,6 +101,8 @@ export const updateCompany = (req, res) => {
 
   const { nameCompany, nameAdmin, email, phone, idProvince, web, scale } = req.body;
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
+  if(isNaN(phone))  return res.status(409).json("Số điện thoại không hợp lê !");
+  
   if (web?.length > 0 && !checkUrl(web)) return res.status(409).json("Link không hợp lệ !");
 
   if (!token) return res.status(401).json("Not logged in!");

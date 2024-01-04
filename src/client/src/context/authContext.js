@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { makeRequest } from "../axios";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
 const AuthContext = React.createContext();
 
@@ -52,15 +52,15 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
 
-  useEffect(() => {
-    // Kiểm tra cookie có tồn tại hay không
-    const myCookieValue = Cookies.get("accessToken");
-
-    if (!myCookieValue) {
-      setCurrentUser(null);
-      setCurrentCompany(null);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Kiểm tra cookie có tồn tại hay không
+  //   const myCookieValue = Cookies.get('accessToken');
+    
+  //   if (!myCookieValue) {
+  //     setCurrentUser(null);
+  //     setCurrentCompany(null)
+  //   }
+  // }, []);
 
   return (
     <AuthContext.Provider

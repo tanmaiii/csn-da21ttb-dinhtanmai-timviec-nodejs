@@ -54,6 +54,8 @@ export const updateUser = (req, res) => {
   const { name, birthDay, sex, email, phone, idProvince, linkSocial } = req.body;
 
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
+  if(isNaN(phone))  return res.status(409).json("Số điện thoại không hợp lê !");
+
   if (linkSocial?.length > 0 && !checkUrl(linkSocial))
     return res.status(409).json("Link Cv không hợp lệ !");
 
