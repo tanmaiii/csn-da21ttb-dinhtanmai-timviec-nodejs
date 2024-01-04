@@ -51,12 +51,11 @@
               }
               &__image {
                 --size: 200px;
-                max-width: var(--size);
-                max-height: var(--size);
+                width: var(--size);
+                height: var(--size);
                 @include flex(center, center);
                 position: relative;
                 margin-top: -100px;
-                border-radius: 50%;
                 @include mobile {
                 }
                 img {

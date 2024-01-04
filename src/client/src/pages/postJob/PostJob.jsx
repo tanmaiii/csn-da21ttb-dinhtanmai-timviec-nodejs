@@ -14,6 +14,8 @@ export default function PostJob() {
   const [fields, setFields] = useState();
   const [provinces, setProvinces] = useState();
 
+  const [loading, setLoading] = useState(false);
+
   const [selectedOptionProvince, setSelectedOptionProvince] = useState();
   const [selectedOptionFields, setSelectedOptionFields] = useState();
 
@@ -59,6 +61,7 @@ export default function PostJob() {
     if (salaryMax < salaryMin)
       return toast.error("Tiền lương tối đa không nhỏ hơn tiền lương tối thiểu.");
 
+    setLoading(true);
     try {
       inputs.idField = selectedOptionFields.fId;
       inputs.idProvince = selectedOptionProvince.pId;
@@ -79,9 +82,11 @@ export default function PostJob() {
       await makeRequest.post("/job", inputs);
       toast.success("Đăng bài thành công!");
       navigate(`/nha-tuyen-dung/${currentCompany.id}`);
+      setLoading(false);
     } catch (err) {
       toast.error(err?.response?.data);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -317,9 +322,15 @@ export default function PostJob() {
               </div>
             </div>
           </div>
-          <div className="postJob__wrapper__bottom">
-            <button onClick={handleSubmit}>Đăng bài</button>
-          </div>
+          {loading ? (
+            <button className="btn-loading">
+              <div className="loading"></div>
+            </button>
+          ) : (
+            <div className="postJob__wrapper__bottom">
+              <button onClick={handleSubmit}>Đăng bài</button>
+            </div>
+          )}
         </div>
       </div>
     </div>

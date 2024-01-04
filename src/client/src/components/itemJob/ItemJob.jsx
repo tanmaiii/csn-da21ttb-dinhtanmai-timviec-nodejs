@@ -16,6 +16,7 @@ export default function ItemJob({ className, job, onClick }) {
   const [openModalHidden, setOpenModalHidden] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [openMore, setOpenMore] = useState(false);
+  const [loadingDelete, setLoadingDelelte] = useState(false);
   const [loadingSave, setLoadingSave] = useState(false);
   const { currentCompany, currentUser } = useAuth();
   const [userSave, setUserSave] = useState();
@@ -111,12 +112,15 @@ export default function ItemJob({ className, job, onClick }) {
   };
 
   const deleteJob = async () => {
+    setLoadingDelelte(true);
     try {
       await makeRequest.delete("job/?idJob=" + job.id);
       toast.success("Xóa bài tuyển dụng thành công.");
+      setLoadingDelelte(false);
     } catch (err) {
       toast.error(err?.response?.data);
     }
+    setLoadingDelelte(false);
     setOpenModalDelete(false);
   };
 
@@ -269,14 +273,22 @@ export default function ItemJob({ className, job, onClick }) {
         >
           <div className="modal__sure">
             <h2>Bạn có chắc chắn muốn xóa công việc này không ?</h2>
-         
+
             <div className="modal__sure__footer">
-              <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>
-                Hủy
-              </button>
-              <button className="btn-submit" onClick={handleClickDelete}>
-                Xác nhận
-              </button>
+              {loadingDelete ? (
+                <button className="btn-loading">
+                  <div className="loading"></div>
+                </button>
+              ) : (
+                <>
+                  <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>
+                    Hủy
+                  </button>
+                  <button className="btn-submit" onClick={handleClickDelete}>
+                    Xác nhận
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </Modal>

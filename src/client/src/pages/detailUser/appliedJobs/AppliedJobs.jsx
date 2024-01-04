@@ -12,8 +12,6 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useAuth } from "../../../context/authContext.js";
 import Modal from "../../../components/modal/Modal.jsx";
 import { toast } from "sonner";
-;
-
 export default function AppliedJobs() {
   const [jobs, setJobs] = useState();
   const [paginate, setPaginate] = useState(1);
@@ -35,13 +33,9 @@ export default function AppliedJobs() {
     setLoading(false);
   };
 
-  const {} = useQuery(
-    ["applies", paginate],
-    () => {
-      return getJobApply();
-    }
-  );
-
+  const {} = useQuery(["applies", paginate], () => {
+    return getJobApply();
+  });
 
   useEffect(() => {
     if (parseInt(currentUser?.id) !== parseInt(id)) return navigate("/dang-nhap/nguoi-dung");
@@ -50,8 +44,9 @@ export default function AppliedJobs() {
   return (
     <div className="appliedJobs">
       <div className="appliedJobs__wrapper">
-        {loading && <Loader />}
-        {jobs?.length > 0 ? (
+        {loading ? (
+          <Loader />
+        ) : jobs?.length > 0 ? (
           jobs?.map((job, i) => <AppliedItem job={job} i={i} />)
         ) : (
           <NotFoundData />
@@ -88,10 +83,10 @@ function AppliedItem({ job, i }) {
       await makeRequest.delete(`apply?idJob=${job?.idJob}`);
       toast.success("Xóa đơn ứng tuyển thành công.");
     } catch (err) {
-      toast.error(err?.response?.data)
+      toast.error(err?.response?.data);
     }
     setOpenModalRecall(false);
-  }
+  };
 
   const mutationRecall = useMutation(
     () => {
@@ -102,11 +97,11 @@ function AppliedItem({ job, i }) {
         queryClient.invalidateQueries(["applies"]);
       },
     }
-  )
+  );
 
   const handleSubmitRecall = () => {
     mutationRecall.mutate();
-  }
+  };
 
   return (
     <div key={i} className="appliedJobs__wrapper__item">
@@ -151,7 +146,7 @@ function AppliedItem({ job, i }) {
       </div>
       <div className="col pc-3 t-3 m-12">
         <div className="appliedJobs__wrapper__item__right">
-         {/* / <span className="header">Trạng thái</span> */}
+          {/* / <span className="header">Trạng thái</span> */}
           <div className="button">
             {statusId === 1 && (
               <button className="button__recall" onClick={() => setOpenModalRecall(true)}>
@@ -161,7 +156,8 @@ function AppliedItem({ job, i }) {
             )}
             {statusUser.map(
               (status) =>
-                status.id === parseInt(statusId) && statusId !== 1 && (
+                status.id === parseInt(statusId) &&
+                statusId !== 1 && (
                   <div className={`status status-${statusId}`}>
                     {status?.icon}
                     <span className={statusId}>{status?.name}</span>
@@ -172,7 +168,7 @@ function AppliedItem({ job, i }) {
         </div>
       </div>
       {
-      <Modal
+        <Modal
           title={"Xóa bài tuyển dụng"}
           openModal={openModalRecall}
           setOpenModal={setOpenModalRecall}
@@ -183,7 +179,7 @@ function AppliedItem({ job, i }) {
               <button className="btn-cancel" onClick={() => setOpenModalRecall(false)}>
                 Hủy
               </button>
-              <button className="btn-submit" onClick={ () => handleSubmitRecall()}>
+              <button className="btn-submit" onClick={() => handleSubmitRecall()}>
                 Xác nhận
               </button>
             </div>
