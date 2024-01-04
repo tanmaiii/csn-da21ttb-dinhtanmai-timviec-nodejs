@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import ReactQuill from "react-quill";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
-import PropTypes from 'prop-types'
-
+import PropTypes from "prop-types";
 
 export default function ApplyJob({ job }) {
   const { currentUser } = useAuth();
@@ -52,14 +51,14 @@ export default function ApplyJob({ job }) {
   };
 
   const postApply = async () => {
-
-    if (!inputs?.name || !inputs?.email || !inputs?.phone )
-      return toast.error("Các trường không được rỗng.");
-
-    if (!job) return;
-    
-    if (!file)  return toast.error("Chưa tải file cv");;
-
+    if (!inputs?.name || !inputs?.email || !inputs?.phone)
+    return toast.error("Các trường không được rỗng.");
+  
+  if (!job) return;
+  
+  if (!file) return toast.error("Chưa tải file cv");
+  
+  setLoading(true);
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -68,12 +67,15 @@ export default function ApplyJob({ job }) {
       inputs.idJob = job?.id;
       inputs.cv = postCv?.data;
       inputs.letter = letter;
+
       await makeRequest.post("/apply", inputs);
       navigate(`/viec-lam/${job?.id}`);
       toast.success("Ứng tuyển thành công");
+      setLoading(false);
     } catch (err) {
       toast.error(err?.response?.data);
     }
+    setLoading(false);
   };
 
   const mutationApply = useMutation(
@@ -205,7 +207,16 @@ export default function ApplyJob({ job }) {
         </div>
       </div>
       <div className="applyJob__bottom">
-        {userApply?.includes(currentUser?.id) ? (
+        {loading ? (
+          <div className="btn-loading">
+            <div className="loading"></div>
+          </div>
+        ) : (
+          <button className="applyJob__bottom__button" onClick={() => mutationApply.mutate()}>
+            Nộp đơn ngay
+          </button>
+        )}
+        {/* {userApply?.includes(currentUser?.id) ? (
           <div className="applyJob__bottom__applied">
             <i class="fa-regular fa-circle-check"></i>
             <span>Bạn đã ứng tuyển</span>
@@ -214,12 +225,12 @@ export default function ApplyJob({ job }) {
           <button className="applyJob__bottom__button" onClick={() => mutationApply.mutate()}>
             Nộp đơn ngay
           </button>
-        )}
+        )} */}
       </div>
     </div>
   );
 }
 
 ApplyJob.propTypes = {
-  job : PropTypes.object
-}
+  job: PropTypes.object,
+};

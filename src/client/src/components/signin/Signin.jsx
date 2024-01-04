@@ -108,7 +108,7 @@ export default function Signin() {
           </button>
         ) : (
           <button className="btn-auth" onClick={handleSubmit}>
-            Đăng ký
+            Đăng nhập
           </button>
         )}
 

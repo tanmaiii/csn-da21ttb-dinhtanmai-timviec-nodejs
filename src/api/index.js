@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://jobquest-tm.vercel.app"],
+    origin: process.env.URL_REACT,
   })
 );
 
@@ -51,7 +51,6 @@ dotenv.config();
 
 app.use(cookieParser());
 app.use(express.json());
-
 
 db.connect(function (err) {
   if (err) {

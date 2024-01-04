@@ -19,6 +19,7 @@ export default function ItemCompany({ company, className }) {
   const [jobQty, setJobQty] = useState(0);
   const queryClient = useQueryClient();
   const { currentUser } = useAuth();
+  
 
   const handleClick = (e) => {
     if (!btnRef.current.contains(e.target)) {
@@ -58,7 +59,7 @@ export default function ItemCompany({ company, className }) {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["follower", company.id]);
+        queryClient.invalidateQueries(["follower", company?.id]);
       },
     }
   );

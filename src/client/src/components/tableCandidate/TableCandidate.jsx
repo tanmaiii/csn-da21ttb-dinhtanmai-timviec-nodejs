@@ -73,7 +73,6 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
   }, [listCheck]);
 
   const handleClickOption = (id, email, cv) => {
-    console.log(listCheck);
     let isIdInList = listCheck?.some((item) => item.id === id);
 
     if (isIdInList) {
@@ -118,7 +117,7 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
           <div className="table__candidate__body__row__item__info">
             <img
               className="table__candidate__body__row__item__info__image"
-              src={apiImage + item?.avatarPic || img}
+              src={item?.avatarPic ? apiImage + item?.avatarPic : img}
             />
             <span>{item?.name}</span>
           </div>

@@ -36,7 +36,7 @@ export default function CompaniesSave() {
   };
 
   const { isLoading: loadingFollow, data: dataFollow } = useQuery(
-    ["follower", id],
+    ["follower"],
     () => {
       return getCompanies();
     }
