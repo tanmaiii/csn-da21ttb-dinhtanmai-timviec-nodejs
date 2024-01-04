@@ -26,6 +26,8 @@ export const login = (req, res) => {
           httpOnly: true,
           sameSite: "none",
           secure: true,
+          expire : new Date() + 9999,
+          maxAge: 900000
         })
         .status(200)
         .json(others);
