@@ -38,7 +38,7 @@ export const getOwnerUser = (req, res) => {
   jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     db.query(q, userInfo.id, (err, data) => {
       if (!data?.length) {
-        return res.status(401).json("Không tồn tại !");
+        return res.json(null);
       } else {
         const { password, ...others } = data[0];
         return res.json(others);

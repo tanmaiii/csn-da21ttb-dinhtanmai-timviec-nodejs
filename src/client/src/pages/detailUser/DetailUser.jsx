@@ -249,10 +249,10 @@ export default function DetailUser() {
                     <div className="col pc-3 t-4 m-12">
                       <div className="detailUser__wrapper__body__right">
                         <h4>Thông tin</h4>
-                        <div className="cv">
+                        <div className="facebook">
                           <i className="fa-brands fa-facebook"></i>
                           {user?.linkSocial?.split("/")[3] ? (
-                            <a href={user?.linkSocial}>{user?.linkSocial?.split("/")[3]}</a>
+                            <a href={user?.linkSocial}>{user?.linkSocial}</a>
                           ) : (
                             <span>Không có</span>
                           )}

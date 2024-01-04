@@ -23,7 +23,7 @@ export const login = (req, res) => {
       res
         .cookie("accessToken", token, {
          // httpOnly: true,
-          sameSite: "lax",
+          sameSite: "none",
           secure: true,
           expires: new Date(Date.now() + 900000),
           maxAge: 24 * 60 * 60 * 1000 

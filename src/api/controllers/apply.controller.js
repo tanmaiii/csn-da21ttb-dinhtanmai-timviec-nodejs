@@ -159,7 +159,7 @@ export const getUserHideByCpn = (req, res) => {
   }
 };
 
-export const getUser = async (req, res) => {
+export const getUser = (req, res) => {
   try {
     const q = "SELECT DISTINCT idUser FROM apply_job as a WHERE a.idJob = ?";
 
@@ -172,7 +172,7 @@ export const getUser = async (req, res) => {
   }
 };
 
-export const getDetailApply = async (req, res) => {
+export const getDetailApply = (req, res) => {
   try {
     const { id } = req.params;
     const q = `SELECT a.* , j.nameJob, u.avatarPic, u.sex FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
@@ -187,7 +187,7 @@ export const getDetailApply = async (req, res) => {
   }
 };
 
-export const getStatus = async (req, res) => {
+export const getStatus = (req, res) => {
   try {
     const id = req.query.id;
     const q = `SELECT a.status FROM apply_job as a WHERE a.id = ?`;
@@ -235,6 +235,27 @@ export const applyJob = (req, res) => {
     });
   });
 };
+
+export const unApplyJob = (req, res) => {
+  const  idJob = req.query.idJob;
+
+  if (!idJob) return res.status(401).json("Không có trường id !");
+
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Chưa đăng nhập !");
+
+  jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
+    if (err) return res.status(401).json("Token is not invalid");
+
+    const q =
+    `DELETE FROM apply_job WHERE idUser= ${userInfo.id} AND idJob= ${idJob} AND status = 1`;
+
+    db.query(q, (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json("Thành công!");
+    });
+  })
+}
 
 export const updateStatusUser = (req, res) => {
   const token = req.cookies.accessToken;

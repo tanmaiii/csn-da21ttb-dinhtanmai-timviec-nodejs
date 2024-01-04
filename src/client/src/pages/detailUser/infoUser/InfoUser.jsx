@@ -244,7 +244,6 @@ function InputRadio({ inputs, setInputs, value, name, desc, onChange }) {
   return (
     <div className="input-radio">
       <div className="input-radio-item">
-        <label htmlFor="">{value[0]}</label>
         <input
           name="sex"
           type="radio"
@@ -252,9 +251,9 @@ function InputRadio({ inputs, setInputs, value, name, desc, onChange }) {
           onChange={handleChange}
           value={value[0]}
         />
+        <label htmlFor="">{value[0]}</label>
       </div>
       <div className="input-radio-item">
-        <label htmlFor="">{value[1]}</label>
         <input
           name="sex"
           type="radio"
@@ -262,6 +261,7 @@ function InputRadio({ inputs, setInputs, value, name, desc, onChange }) {
           onChange={handleChange}
           value={value[1]}
         />
+        <label htmlFor="">{value[1]}</label>
       </div>
     </div>
   );

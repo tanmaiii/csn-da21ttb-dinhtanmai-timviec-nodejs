@@ -407,23 +407,22 @@ export const deleteJob = async (req, res) => {
 
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
-  const kiemTraTonTai = `SELECT * FROM apply_job WHERE idJob = ${idJob}`;
+  const kiemTraTonTai = `SELECT * FROM job.apply_job WHERE idJob = ${idJob}`;
 
-  // data.query(kiemTraTonTai ,(err, data) => {
-  //     console.log(data);
+  db.query(kiemTraTonTai ,(err, data) => {
 
-  //     if (!data?.length) return res.status(401).json("Bài tuyển dụng đã có ứng viên, không thể xóa !");
-  //     return res.status(200).json("Xoa ne");
-  //     // jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
-  //     //   if (err) return res.status(403).json("Token không trùng !");
+      if (data?.length) return res.status(401).json("Bài tuyển dụng đã có ứng viên, không thể xóa !");
 
-  //     //   const q = `DELETE FROM jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
+      jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
+        if (err) return res.status(403).json("Lỗi! Vui lòng đăng nhập lại !");
 
-  //     //   db.query(q, (err, data) => {
-  //     //     if (!err) return res.status(200).json(data);
-  //     //     if (data?.affectedRows > 0) return res.json("Update");
-  //     //     return res.status(403).json("Chỉ thay đổi được thông tin của mình");
-  //     //   });
-  //     // });
-  // });
+        const q = `DELETE FROM jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
+
+        db.query(q, (err, data) => {
+          if (!err) return res.status(200).json(data);
+          if (data?.affectedRows > 0) return res.json("Update");
+          return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+        });
+      });
+  });
 };

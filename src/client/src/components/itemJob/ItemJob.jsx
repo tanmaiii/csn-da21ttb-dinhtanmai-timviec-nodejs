@@ -115,7 +115,7 @@ export default function ItemJob({ className, job, onClick }) {
       await makeRequest.delete("job/?idJob=" + job.id);
       toast.success("Xóa bài tuyển dụng thành công.");
     } catch (err) {
-      toast.error(err?.reponse?.data);
+      toast.error(err?.response?.data);
     }
     setOpenModalDelete(false);
   };
@@ -269,9 +269,7 @@ export default function ItemJob({ className, job, onClick }) {
         >
           <div className="modal__sure">
             <h2>Bạn có chắc chắn muốn xóa công việc này không ?</h2>
-            <span>
-              Lưu ý: Khi đã xóa bài tuyển dụng, những người dùng đã ứng tuyển cũng sẽ bị xóa theo.
-            </span>
+         
             <div className="modal__sure__footer">
               <button className="btn-cancel" onClick={() => setOpenModalDelete(false)}>
                 Hủy

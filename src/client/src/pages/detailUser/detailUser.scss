@@ -271,6 +271,11 @@
               font-size: $font-size-m;
               color: themed("text1");
             }
+            & > .facebook{
+              a{
+                @include text(1);
+              }
+            }
             & > div {
               @include flex(center, unset);
               gap: 8px;
@@ -283,6 +288,7 @@
                 font-size: 1.1rem;
               }
               a {
+                @include text(1);
                 font-size: $font-size-s;
                 color: $color-txt-blue;
                 &:hover {

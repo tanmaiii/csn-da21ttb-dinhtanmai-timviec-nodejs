@@ -88,6 +88,7 @@ $themes: (
   @include flex(center, center);
   white-space: pre;
   gap: 8px;
+  transition: all .3s;
   & > span,
   i {
     white-space: pre;
@@ -96,6 +97,7 @@ $themes: (
   &:not(:disabled) {
     &:hover {
       opacity: 0.8;
+      scale: 0.98;
     }
   }
   &:disabled {

@@ -17,6 +17,7 @@
             margin-bottom: 10px;
           }
           span {
+            @include text(1);
             font-size: $font-size-s;
             color: themed("text2");
             font-weight: 400;

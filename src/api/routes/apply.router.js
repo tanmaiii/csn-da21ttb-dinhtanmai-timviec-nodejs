@@ -11,6 +11,7 @@ import {
   updateStatusUser,
   hiddenUserByCpn,
   unHiddenUserByCpn,
+  unApplyJob
 } from "../controllers/apply.controller.js";
 
 const router = express.Router();
@@ -22,6 +23,7 @@ router.get("/status", getStatus);
 router.get("/user", getUser);
 router.get("/", getJobApply);
 router.post("/", applyJob);
+router.delete("/", unApplyJob);
 router.put("/status", updateStatusUser);
 router.put("/hidden", hiddenUserByCpn);
 router.put("/unHidden", unHiddenUserByCpn);

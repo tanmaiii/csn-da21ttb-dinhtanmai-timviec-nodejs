@@ -18,6 +18,8 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("company") || null)
   );
 
+
+  // Đăng nhập nhà tuyển dụng
   const loginCompany = async (inputs) => {
     setCurrentUser(null);
     localStorage.setItem("user", null);
@@ -25,12 +27,14 @@ export const AuthContextProvider = ({ children }) => {
     setCurrentCompany(res.data);
   };
 
+  // Đăng xuất nhà tuyển dụng
   const logoutCompany = async () => {
     await makeRequest.post("/authCompany/logout");
     setCurrentCompany(null);
     navigate("/");
   };
 
+  //Đăng nhập người tìm việc
   const loginUser = async (inputs) => {
     setCurrentCompany(null);
     localStorage.setItem("company", null);
@@ -38,6 +42,7 @@ export const AuthContextProvider = ({ children }) => {
     setCurrentUser(res.data);
   };
 
+  //Đăng xuất người tìm việc
   const logoutUser = async () => {
     await makeRequest.post("/authUser/logout");
     setCurrentUser(null);
@@ -52,19 +57,43 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
 
-  useEffect(() => {
-    // Kiểm tra cookie có tồn tại hay không
-    const myCookieValue = Cookies.get('accessToken');
-    
-    if (!myCookieValue) {
-      setCurrentUser(null);
-      setCurrentCompany(null)
-    // console.log("Khong co token"); 
-    }else{
-     //console.log(myCookieValue); 
+  useEffect(() =>  {
+    const getInfo = async () => {
+      try {
+        const res = await makeRequest.get("/user/owner");
+        setCurrentUser(res.data);
+      } catch (error) {
+        setCurrentUser(null);
+      }
     }
+    getInfo();
+  },[])
 
-  }, []);
+  useEffect(() =>  {
+    const getInfo = async () => {
+      try {
+        const res = await makeRequest.get("/company/owner");
+        setCurrentCompany(res.data);
+      } catch (error) {
+        setCurrentCompany(null);
+      }
+    }
+    getInfo();
+  },[])
+
+  // useEffect(() => {
+  //   // Kiểm tra cookie có tồn tại hay không
+  //   const myCookieValue = Cookies.get('accessToken');
+    
+  //   if (!myCookieValue) {
+  //     setCurrentUser(null);
+  //     setCurrentCompany(null)
+  //   // console.log("Khong co token"); 
+  //   }else{
+  //    //console.log(myCookieValue); 
+  //   }
+
+  // }, []);
 
   return (
     <AuthContext.Provider
