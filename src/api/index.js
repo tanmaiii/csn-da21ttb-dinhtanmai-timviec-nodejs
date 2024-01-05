@@ -52,13 +52,7 @@ dotenv.config();
 app.use(cookieParser());
 app.use(express.json());
 
-db.connect(function (err) {
-  if (err) {
-    console.log("Error connecting SQL " + err.stack);
-  } else {
-    console.log("Connecting mysql");
-  }
-});
+
 
 // Multer image
 const storage = multer.diskStorage({
@@ -216,10 +210,11 @@ app.get("/", (req, res) => {
   res.send("Hello this is api jobquest");
 });
 
-app.get("/mysql", (req, res) => {
+app.get("/api/mysql", (req, res) => {
   // #swagger.tags = []
   db.connect(function (err) {
     if (err) {
+      res.status(403).json("Error connecting SQL")
       console.log("Error connecting SQL " + err.stack);
     } else {
       db.query("SHOW DATABASES;", function (err, result) {
@@ -228,6 +223,14 @@ app.get("/mysql", (req, res) => {
       });
     }
   });
+});
+
+db.connect(function (err) {
+  if (err) {
+    console.log("Error connecting SQL " + err.stack);
+  } else {
+    console.log("Connecting mysql");
+  }
 });
 
 app.listen(8800, (req, res) => {

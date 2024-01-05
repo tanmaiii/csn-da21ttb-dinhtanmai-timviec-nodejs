@@ -38,7 +38,7 @@ export default function SignupCompany() {
   const handleSumit = async () => {
     setMess("");
     setErr("");
-    if (passwordRef.current.value.length < 6) return setErr("Mật khẩu từ 6 kí tự trở lên.");
+
     if (passwordRef.current.value !== rePasswordRef.current.value)
       return setErr("Nhập lại mật khẩu không trùng khớp.");
     if (!selectedOptionScale || !selectedOptionProvince) return setErr("Chọn quy mô mà địa chỉ.");

@@ -18,3 +18,7 @@ const outputFile = "./swagger-output.json";
 const endpointsFiles = ["./index.js"]; // Thay đổi đường dẫn của file routes của bạn
 
 swaggerAutogen()(outputFile, endpointsFiles, doc);
+
+
+// chạy filw swagger.js
+// node ./swagger.js

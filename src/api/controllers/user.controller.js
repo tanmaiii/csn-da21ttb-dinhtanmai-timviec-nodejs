@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
 import checkEmail from "../middlewares/checkEmail.middleware.js";
+import checkPassword from "../middlewares/checkPassword.middleware.js";
 import checkUrl from "../middlewares/checkUrl.middleware.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
@@ -187,6 +188,7 @@ export const resetPassword = (req, res) => {
   const { password } = req.body;
 
   if (!id || !token || !password) return res.status(403).json("Không tìm thấy!");
+  if(!checkPassword(password)) return res.status(403).json("Mật khẩu phải có chữ, số, chữ cái viết hoa và kí tự đặt biệt. ");
 
   const q = `UPDATE users SET password = ? WHERE users.id = ?`;
   const salt = bcrypt.genSaltSync(10);
@@ -211,6 +213,7 @@ export const changePassword = (req, res) => {
 
   if (!id) return res.status(403).json("Không tìm thấy người dùng!");
   if (!token) return res.status(401).json("Chưa đăng nhập !");
+  if(!checkPassword(password)) return res.status(403).json("Mật khẩu phải có chữ, số, chữ cái viết hoa và kí tự đặt biệt. ");
 
   const q = "SELECT * FROM users WHERE id=?";
 
@@ -218,9 +221,9 @@ export const changePassword = (req, res) => {
     if (err) return res.status(500).json(err);
     if (data?.length === 0) return res.status(404).json("Nguời dùng không tồn tại");
 
-    const checkPassword = bcrypt.compareSync(passwordOld, data[0].password);
+    const checkPasswordOld = bcrypt.compareSync(passwordOld, data[0].password);
 
-    if (!checkPassword) return res.status(401).json("Mật khẩu cũ không đúng !");
+    if (!checkPasswordOld) return res.status(401).json("Mật khẩu cũ không đúng !");
 
     const q2 = `UPDATE users SET password = ? WHERE users.id = ?`;
     const salt = bcrypt.genSaltSync(10);

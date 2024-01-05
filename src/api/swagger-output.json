@@ -88,13 +88,16 @@
         }
       }
     },
-    "/mysql": {
+    "/api/mysql": {
       "get": {
         "tags": [],
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -1795,6 +1798,30 @@
                 }
               }
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Ứng tuyển"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "idJob",
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {

@@ -31,7 +31,7 @@ export default function Signup() {
   const handleSubmit = async () => {
     setErr("");
     setMess("");
-    if (passwordRef.current.value.length < 6) return setErr("Mật khẩu từ 6 kí tự trở lên.");
+  //  if (passwordRef.current.value.length < 6) return setErr("Mật khẩu từ 6 kí tự trở lên.");
     if (passwordRef.current.value !== rePasswordRef.current.value)
       return setErr("Nhập lại mật khẩu không trùng khớp.");
 
@@ -62,7 +62,7 @@ export default function Signup() {
         <h4>Chào mừng bạn đến với JobQuest</h4>
         <span>Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng</span>
       </div>
-      {err && <p className="err">{err}</p>}
+      {err && <span className="err">{err}</span>}
       {mess && <p className="mess">{mess}</p>}
       <div className="signup__body">
         <div className="item">

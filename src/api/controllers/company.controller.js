@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { db } from "../config/connect.js";
 import checkEmail from "../middlewares/checkEmail.middleware.js";
 import checkUrl from "../middlewares/checkUrl.middleware.js";
+import checkPassword from "../middlewares/checkPassword.middleware.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
@@ -226,8 +227,9 @@ export const forgotPassword = (req, res) => {
 export const resetPassword = (req, res) => {
   const { id, token } = req.params;
   const { password } = req.body;
-
+  
   if (!id || !token || !password) return res.status(403).json("Không tìm thấy!");
+  if(!checkPassword(password)) return res.status(403).json("Mật khẩu phải có chữ, số, chữ cái viết hoa và kí tự đặt biệt. ");
 
   const q = `UPDATE companies SET password = ? WHERE companies.id = ?`;
   const salt = bcrypt.genSaltSync(10);
@@ -252,6 +254,7 @@ export const changePassword = (req, res) => {
 
   if (!id) return res.status(403).json("Không tìm thấy người dùng!");
   if (!token) return res.status(401).json("Chưa đăng nhập !");
+  if(!checkPassword(password)) return res.status(403).json("Mật khẩu phải có chữ, số, chữ cái viết hoa và kí tự đặt biệt. ");
 
   const q = "SELECT * FROM companies WHERE id=?";
 

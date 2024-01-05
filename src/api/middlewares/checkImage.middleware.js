@@ -1,4 +1,5 @@
 import sizeOf from "image-size";
+
 export default function checkImage(file) {
   try {
     const dimensions = sizeOf(file.path);

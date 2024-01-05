@@ -139,7 +139,7 @@ export const findJobs = async (req, res) => {
   }
 };
 
-export const getById = async (req, res) => {
+export const getById = (req, res) => {
   const q = `SELECT j.* , p.name as province , c.nameCompany, c.avatarPic , f.name as nameField, deletedAt
              FROM jobs AS j , companies AS c , provinces as p , fields as f
              WHERE j.id = ? AND j.idField = f.id  AND j.idCompany = c.id AND j.idProvince = p.id`;
