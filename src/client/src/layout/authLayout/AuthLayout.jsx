@@ -6,7 +6,8 @@ import img1 from "../../assets/images/gradient1.jpg";
 import img2 from "../../assets/images/gradient2.jpg";
 import logo from "../../assets/images/logoJobQuest.png";
 import { useMode } from "../../context/ModeContext";
-import { Link } from "react-router-dom";
+
+import { Toaster } from "sonner";
 
 export default function AuthLayout() {
   const { darkMode } = useMode();
@@ -40,6 +41,7 @@ export default function AuthLayout() {
           </div>
         </div>
       </div>
+      <Toaster richColors />
     </div>
   );
 }

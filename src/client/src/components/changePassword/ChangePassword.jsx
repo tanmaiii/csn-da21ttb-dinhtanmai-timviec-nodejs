@@ -23,7 +23,6 @@ export default function ChangePassword() {
 
   const handleSubmit = async () => {
     setErr("");
-    if (password?.length < 6) return setErr("Mật khẩu phải từ 6 kí tự trở lên !");
     if (password !== rePassword) return setErr("Mật khẩu không trùng khớp !");
     if (passwordOld === password) return setErr("Mật khẩu mới không được giống với mật khẩu cũ !");
     setSuccess(false);
@@ -32,13 +31,13 @@ export default function ChangePassword() {
       let res;
 
       params.type === "nguoi-dung" &&
-        (res = await makeRequest.post(`/user/changePassword/${currentUser?.id}`, {
+        (res = await makeRequest.post(`/authUser/changePassword/${currentUser?.id}`, {
           passwordOld,
           password,
         }));
 
       params.type === "nha-tuyen-dung" &&
-        (res = await makeRequest.post(`/company/changePassword/${currentCompany?.id}`, {
+        (res = await makeRequest.post(`/authCompany/changePassword/${currentCompany?.id}`, {
           passwordOld,
           password,
         }));

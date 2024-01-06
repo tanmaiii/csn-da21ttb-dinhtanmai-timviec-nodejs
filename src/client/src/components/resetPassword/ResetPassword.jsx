@@ -23,28 +23,27 @@ export default function ResetPassword() {
 
   const handleSubmit = async () => {
     setErr("");
-    if (password?.length < 6) return setErr("Mật khẩu phải từ 6 kí tự trở lên !");
     if (password !== rePassword) return setErr("Mật khẩu không trùng khớp !");
     setSuccess(false);
     setLoading(true);
     try {
       let res;
       params.type === "nguoi-dung"
-        ? (res = await makeRequest.post(`/user/resetPassword/${id}/${token}`, { password }))
-        : (res = await makeRequest.post(`/company/resetPassword/${id}/${token}`, { password }));
+        ? (res = await makeRequest.post(`/authUser/resetPassword/${id}/${token}`, { password }))
+        : (res = await makeRequest.post(`/authcompany/resetPassword/${id}/${token}`, { password }));
 
       res.data && setSuccess(true);
       setLoading(false);
       setPassword("");
       setRePassword("");
     } catch (err) {
-      setErr("Lỗi! Vui lòng xác nhận lại email.");
+      setErr(err?.response?.data);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    if (currentUser || currentCompany) return navigate("/");
+    if (!(params.type === "nguoi-dung" || params.type === "nha-tuyen-dung")) return navigate('/')
   });
 
   return (
@@ -123,7 +122,6 @@ export default function ResetPassword() {
       <span className="link-signup">
         Trở về{" "}
         <Link to={`/dang-nhap/${params.type === "nguoi-dung" ? "nguoi-dung" : "nha-tuyen-dung"}`}>
-          {" "}
           Đăng nhập
         </Link>
       </span>

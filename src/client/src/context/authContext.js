@@ -66,7 +66,7 @@ export const AuthContextProvider = ({ children }) => {
         setCurrentUser(null);
       }
     }
-    getInfo();
+    Cookies.get('accessToken') && getInfo();
   },[])
 
   useEffect(() =>  {
@@ -78,22 +78,8 @@ export const AuthContextProvider = ({ children }) => {
         setCurrentCompany(null);
       }
     }
-    getInfo();
+    Cookies.get('accessToken') && getInfo();
   },[])
-
-  // useEffect(() => {
-  //   // Kiểm tra cookie có tồn tại hay không
-  //   const myCookieValue = Cookies.get('accessToken');
-    
-  //   if (!myCookieValue) {
-  //     setCurrentUser(null);
-  //     setCurrentCompany(null)
-  //   // console.log("Khong co token"); 
-  //   }else{
-  //    //console.log(myCookieValue); 
-  //   }
-
-  // }, []);
 
   return (
     <AuthContext.Provider

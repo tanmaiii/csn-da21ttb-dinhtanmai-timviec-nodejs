@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import logo from "../../assets/images/logoJobQuest.png";
 import "./signupCompany.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { scale } from "../../config/data";
 import Select from "../select/Select";
 import { makeRequest } from "../../axios";
 import { useAuth } from "../../context/authContext";
+import { toast } from "sonner";
 
 export default function SignupCompany() {
   const [showPass, setShowPass] = useState(true);
@@ -14,7 +14,6 @@ export default function SignupCompany() {
   const [selectedOptionScale, setSelectedOptionScale] = useState();
   const [provinces, setProvinces] = useState();
   const [err, setErr] = useState();
-  const [mess, setMess] = useState();
   const [loading, setLoading] = useState(false);
   const passwordRef = useRef();
   const rePasswordRef = useRef();
@@ -36,7 +35,6 @@ export default function SignupCompany() {
   };
 
   const handleSumit = async () => {
-    setMess("");
     setErr("");
 
     if (passwordRef.current.value !== rePasswordRef.current.value)
@@ -47,11 +45,11 @@ export default function SignupCompany() {
     try {
       inputs.scale = selectedOptionScale.name;
       inputs.idProvince = selectedOptionProvince.pId;
-      console.log(inputs);
       await makeRequest.post("/authCompany/register", inputs);
-      setMess("Đăng ký thành công.");
-      navigate("/dang-nhap/nha-tuyen-dung");
+      toast.success('Đăng ký thành công.')
+     navigate("/dang-nhap/nha-tuyen-dung");
       setLoading(false);
+      
     } catch (err) {
       setErr(err?.response?.data);
     }
@@ -85,7 +83,6 @@ export default function SignupCompany() {
         <span>Hãy cùng chúng tôi xây dựng cơ hội tuyển dụng tốt nhất cho doanh nghiệp của bạn</span>
       </div>
       {err && <span className="err">{err}</span>}
-      {mess && <span className="mess">{mess}</span>}
       <div className="signupCompany__body">
         <div className="signupCompany__body__info__auth">
           <h4 className="header">Thông tin đăng nhập</h4>

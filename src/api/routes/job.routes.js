@@ -6,7 +6,6 @@ import {
   getByIdCompany,
   postJob,
   getAll,
-  findJobs,
   getByIdField,
   getNameJob,
   updateJob,
@@ -15,7 +14,6 @@ import {
   deleteJob
 } from "../controllers/job.controller.js";
 
-router.get("/find", findJobs);
 router.get("/company/:id", getByIdCompany);
 router.get("/field/:idField", getByIdField);
 router.get("/name/:id", getNameJob);

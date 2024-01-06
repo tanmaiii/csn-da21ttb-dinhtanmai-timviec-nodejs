@@ -1,3 +1,4 @@
+
 import express from "express";
 import { db } from "./config/connect.js";
 
@@ -12,16 +13,16 @@ import nodemailer from "nodemailer";
 import swaggerUi from "swagger-ui-express";
 import swaggerFile from "./swagger-output.json" assert { type: "json" };
 
-import authUserRouter from "./routes/authUser.router.js";
-import authCompanyRouter from "./routes/authCompany.router.js";
-import userRouter from "./routes/user.router.js";
-import companyRouter from "./routes/company.router.js";
-import jobRouter from "./routes/job.router.js";
-import fieldsRouter from "./routes/fields.router.js";
-import provinesRouter from "./routes/provinces.router.js";
-import followRouter from "./routes/follow.router.js";
-import saveRouter from "./routes/save.router.js";
-import applyRouter from "./routes/apply.router.js";
+import authUserRouter from "./routes/authUser.routes.js";
+import authCompanyRouter from "./routes/authCompany.routes.js";
+import userRouter from "./routes/user.routes.js";
+import companyRouter from "./routes/company.routes.js";
+import jobRouter from "./routes/job.routes.js";
+import fieldsRouter from "./routes/fields.routes.js";
+import provinesRouter from "./routes/provinces.routes.js";
+import followRouter from "./routes/follow.routes.js";
+import saveRouter from "./routes/save.routes.js";
+import applyRouter from "./routes/apply.routes.js";
 
 import checkEmail from "./middlewares/checkEmail.middleware.js";
 import checkImage from "./middlewares/checkImage.middleware.js";
@@ -51,8 +52,6 @@ dotenv.config();
 
 app.use(cookieParser());
 app.use(express.json());
-
-
 
 // Multer image
 const storage = multer.diskStorage({
@@ -94,7 +93,7 @@ app.post("/api/uploadFile", uploadFile.single("file"), (req, res) => {
 // swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-// router
+// routes
 app.use(
   "/api/authUser",
   // #swagger.tags = ['Xác thực người tìm việc'],
@@ -214,7 +213,7 @@ app.get("/api/mysql", (req, res) => {
   // #swagger.tags = []
   db.connect(function (err) {
     if (err) {
-      res.status(403).json("Error connecting SQL")
+      res.status(403).json("Error connecting SQL");
       console.log("Error connecting SQL " + err.stack);
     } else {
       db.query("SHOW DATABASES;", function (err, result) {
@@ -229,10 +228,22 @@ db.connect(function (err) {
   if (err) {
     console.log("Error connecting SQL " + err.stack);
   } else {
-    console.log("Connecting mysql");
+    console.log("[Connect Mysql success]");
   }
 });
 
-app.listen(8800, (req, res) => {
-  console.log("Backend running");
+const PORT = process.env.PORT || 8800;
+
+app.listen(PORT, (req, res) => {
+  console.log(`[Server running with port ${PORT}]`);
 });
+
+
+
+
+
+
+
+
+
+

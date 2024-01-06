@@ -4,6 +4,7 @@ import "./forgotPassword.scss";
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 import queryString from "query-string";
+import { useEffect } from "react";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -22,8 +23,8 @@ export default function ForgotPassword() {
     try {
       let res;
       params.type === "nguoi-dung"
-        ? (res = await makeRequest.post("/user/forgot", { email }))
-        : (res = await makeRequest.post("/company/forgot", { email }));
+        ? (res = await makeRequest.post("/authUser/forgot", { email }))
+        : (res = await makeRequest.post("/authCompany/forgot", { email }));
       setEmail("");
       res.data && setSuccess(true);
       setLoading(false);
@@ -32,6 +33,10 @@ export default function ForgotPassword() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (!(params.type === "nguoi-dung" || params.type === "nha-tuyen-dung")) return navigate('/')
+  },[])
 
   return (
     <div className="forgotPassword">

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import logo from "../../assets/images/logoJobQuest.png";
 import "./signup.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import { useAuth } from "../../context/authContext";
+import { toast } from "sonner";
 
 export default function Signup() {
   const [err, setErr] = useState();
@@ -31,14 +31,14 @@ export default function Signup() {
   const handleSubmit = async () => {
     setErr("");
     setMess("");
-  //  if (passwordRef.current.value.length < 6) return setErr("Mật khẩu từ 6 kí tự trở lên.");
     if (passwordRef.current.value !== rePasswordRef.current.value)
       return setErr("Nhập lại mật khẩu không trùng khớp.");
 
     setLoading(true);
     try {
       await makeRequest.post("/authUser/register", inputs);
-      setMess("Đăng ký thành công.");
+      // setMess("Đăng ký thành công.");
+      toast.success("Đăng ký tài khoản thành công.")
       navigate("/dang-nhap/nguoi-dung");
       setLoading(false);
       setInputs("");
