@@ -108,7 +108,7 @@ export const forgotPassword = (req, res) => {
         },
       });
 
-      const url = `{process.env.URL_REACT}/tao-moi-mat-khau/${data[0].id}/${token}?type=nguoi-dung`;
+      const url = `${process.env.URL_REACT}/tao-moi-mat-khau/${data[0].id}/${token}?type=nguoi-dung`;
 
       const emailHTML = `
         <!DOCTYPE html>

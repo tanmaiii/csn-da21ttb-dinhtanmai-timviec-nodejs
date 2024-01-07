@@ -18,7 +18,7 @@ export default function SelectStatus({ option, defaultActive, id }) {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["apply"]);
+        queryClient.invalidateQueries(["apply", id]);
       },
     }
   );

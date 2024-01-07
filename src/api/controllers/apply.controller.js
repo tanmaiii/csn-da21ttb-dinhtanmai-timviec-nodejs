@@ -279,7 +279,7 @@ export const updateStatusUser = (req, res) => {
     db.query(q2, req.query.id, (err, data) => {
       if (err) return res.status(401).json("Lỗi !");
 
-      const url = `http://localhost:3000/nguoi-dung/${data[0]?.idUser}/apply`;
+      const url = `${process.env.URL_REACT}/nguoi-dung/${data[0]?.idUser}/apply`;
 
       var transporter = nodemailer.createTransport({
         service: "gmail",
