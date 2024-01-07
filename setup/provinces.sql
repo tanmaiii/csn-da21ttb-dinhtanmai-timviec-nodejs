@@ -1,4 +1,5 @@
-INSERT INTO provinces (id , name, nameWithType ) VALUES(1,'Hà Nội', 'Thành phố Hà Nội'),
+INSERT INTO provinces (id , name, nameWithType ) VALUES
+(1,'Hà Nội', 'Thành phố Hà Nội'),
 (2,'Hà Giang', 'Tỉnh Hà Giang'),
 (4,'Cao Bằng', 'Tỉnh Cao Bằng'),
 (6,'Bắc Kạn', 'Tỉnh Bắc Kạn'),
