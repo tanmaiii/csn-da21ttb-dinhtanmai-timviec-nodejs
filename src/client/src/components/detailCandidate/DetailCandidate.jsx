@@ -6,22 +6,29 @@ import { useQuery } from "react-query";
 import { apiCv } from "../../axios.js";
 import PropTypes from "prop-types";
 import { saveAs } from "file-saver";
+import Loader from "../loader/Loader.jsx";
 
 export default function DetailCandidate({ idApply }) {
   const [candidate, setCandidate] = useState();
+  const [loading, setLoading] = useState(false);
 
   const getApply = async () => {
+    setLoading(true);
     try {
       const res = await makeRequest.get("/apply/detail/" + idApply);
       setCandidate(res.data);
+      setLoading(false);
     } catch (error) {}
+    setLoading(false);
   };
 
   const {} = useQuery(["apply", idApply], () => {
     return getApply();
   });
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     candidate && (
       <div className="detailCandidate">
         <div className="detailCandidate__wrapper">

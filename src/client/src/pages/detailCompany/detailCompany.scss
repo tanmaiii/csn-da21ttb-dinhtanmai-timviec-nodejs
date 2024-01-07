@@ -51,8 +51,9 @@
               }
               &__image {
                 --size: 200px;
-                width: var(--size);
+                min-width: var(--size);
                 height: var(--size);
+                width: var(--size);
                 @include flex(center, center);
                 position: relative;
                 margin-top: -100px;

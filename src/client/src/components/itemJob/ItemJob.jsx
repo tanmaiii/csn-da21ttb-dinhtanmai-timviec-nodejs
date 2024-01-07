@@ -18,6 +18,7 @@ export default function ItemJob({ className, job, onClick }) {
   const [openMore, setOpenMore] = useState(false);
   const [loadingDelete, setLoadingDelelte] = useState(false);
   const [loadingSave, setLoadingSave] = useState(false);
+  const [loadingHidden, setLoadingHidden] = useState(false);
   const { currentCompany, currentUser } = useAuth();
   const [userSave, setUserSave] = useState();
   const navigate = useNavigate();
@@ -84,6 +85,7 @@ export default function ItemJob({ className, job, onClick }) {
   });
 
   const putHiddenJob = async () => {
+    setLoadingHidden(true);
     try {
       job.deletedAt !== null
         ? await makeRequest.put("job/unHidden?idJob=" + job.id)
@@ -91,9 +93,11 @@ export default function ItemJob({ className, job, onClick }) {
 
       toast.success("Thay đổi trạng thái bài tuyển dụng thành công.");
       setOpenModalHidden(false);
+      setLoadingHidden(false);
     } catch (error) {
       toast.error(error?.reponse?.data);
     }
+    setLoadingHidden(false);
   };
 
   const mutationHidden = useMutation(
@@ -255,12 +259,20 @@ export default function ItemJob({ className, job, onClick }) {
                 : "Bạn có chắc chắn muốn ngừng tuyển dụng công việc này không?"
             }`}</h2>
             <div className="modal__sure__footer">
-              <button className="btn-cancel" onClick={() => setOpenModalHidden(false)}>
-                Hủy
-              </button>
-              <button className="btn-submit" onClick={handleClickHidden}>
-                Xác nhận
-              </button>
+              {loadingHidden ? (
+                <button className="btn-loading">
+                  <div className="loading"></div>
+                </button>
+              ) : (
+                <>
+                  <button className="btn-cancel" onClick={() => setOpenModalHidden(false)}>
+                    Hủy
+                  </button>
+                  <button className="btn-submit" onClick={handleClickHidden}>
+                    Xác nhận
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </Modal>
