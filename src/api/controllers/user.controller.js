@@ -52,31 +52,39 @@ export const updateUser = (req, res) => {
   const { name, birthDay, sex, email, phone, idProvince, linkSocial } = req.body;
 
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
-  if(isNaN(phone))  return res.status(409).json("Số điện thoại không hợp lê !");
+  if (isNaN(phone)) return res.status(409).json("Số điện thoại không hợp lê !");
 
   if (linkSocial?.length > 0 && !checkUrl(linkSocial))
     return res.status(409).json("Liên kết không hợp lệ !");
 
   jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
-    const q =
-      "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ?, `sex`= ? , `idProvince`= ?, `linkSocial` = ? WHERE id = ? ";
- 
-      const values = [
-      name,
-      email,
-      phone,
-      new Date(birthDay),
-      sex,
-      idProvince,
-      linkSocial,
-      userInfo.id,
-    ];
 
-    db.query(q, values, (err, data) => {
-      if (!err) return res.status(200).json(data);
-      if (data?.affectedRows > 0) return res.json("Update");
-      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+    const q = "SELECT * FROM users WHERE email = ? and id != ?";
+
+    db.query(q, [email, userInfo.id], (err, data) => {
+      if (err) return res.status(200).json(err);
+      if (data?.length) return res.status(409).json("Email đã tồn tại !");
+
+      const q2 =
+        "UPDATE users SET `name`= ?, `email`= ?, `phone`= ?, `birthDay`= ?, `sex`= ? , `idProvince`= ?, `linkSocial` = ? WHERE id = ? ";
+
+      const values = [
+        name,
+        email,
+        phone,
+        new Date(birthDay),
+        sex,
+        idProvince,
+        linkSocial,
+        userInfo.id,
+      ];
+
+      db.query(q2, values, (err, data) => {
+        if (err) return res.status(200).json(err);
+        if (data?.affectedRows > 0) return res.json("Update");
+        return res.status(403).json("Lỗi vui lòng thử lại !");
+      });
     });
   });
 };

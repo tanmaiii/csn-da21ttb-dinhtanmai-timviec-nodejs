@@ -46,7 +46,7 @@ export default function InfoUser() {
     if (parseInt(currentUser?.id) !== parseInt(id)) return navigate("/dang-nhap/nguoi-dung");
   }, []);
 
-  const { isLoading, error, data } = useQuery(["user"], async () => {
+  const { isLoading, error, data } = useQuery(["user", id], async () => {
     await makeRequest.get("/user/owner/").then((res) => {
       setInputs({
         name: res.data.name,
@@ -151,8 +151,7 @@ function ItemInfo({
   setEdit,
 }) {
   const [selectedOption, setSelectedOption] = useState(inputs?.idProvince);
-  const { setCurrentUser } = useAuth();
-
+  const { id } = useParams();
   const queryClient = useQueryClient();
 
   const putInfo = async () => {
@@ -170,7 +169,10 @@ function ItemInfo({
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["user"]);
+        queryClient.invalidateQueries(["user", id]);
+      },
+      onError: () => {
+        queryClient.invalidateQueries(["user", id]);
       },
     }
   );

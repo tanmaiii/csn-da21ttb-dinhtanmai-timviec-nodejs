@@ -98,9 +98,10 @@ export const updateCompany = (req, res) => {
   const token = req.cookies?.accessToken;
 
   const { nameCompany, nameAdmin, email, phone, idProvince, web, scale } = req.body;
+
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
-  if(isNaN(phone))  return res.status(409).json("Số điện thoại không hợp lê !");
-  
+  if (isNaN(phone)) return res.status(409).json("Số điện thoại không hợp lê !");
+
   if (web?.length > 0 && !checkUrl(web)) return res.status(409).json("Link không hợp lệ !");
 
   if (!token) return res.status(401).json("Not logged in!");
@@ -108,15 +109,22 @@ export const updateCompany = (req, res) => {
   jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
 
-    const q =
-      "UPDATE companies SET `nameCompany`= ?,`nameAdmin`= ?,  `email`= ?, `phone`= ?, `idProvince`= ?,`web` = ?, `scale`= ? WHERE id = ? ";
+    const q = "SELECT * FROM companies WHERE email = ? and id != ?";
 
-    const values = [nameCompany, nameAdmin, email, phone, idProvince, web, scale, userInfo.id];
+    db.query(q, [email, userInfo.id], (err, data) => {
+      if (err) return res.status(200).json(err);
+      if (data?.length) return res.status(409).json("Email đã tồn tại !");
 
-    db.query(q, values, (err, data) => {
-      if (!err) return res.status(200).json(err);
-      if (data?.affectedRows > 0) return res.json("Update");
-      return res.status(403).json("Chỉ thay đổi được thông tin của mình");
+      const q2 =
+        "UPDATE companies SET `nameCompany`= ?,`nameAdmin`= ?,  `email`= ?, `phone`= ?, `idProvince`= ?,`web` = ?, `scale`= ? WHERE id = ? ";
+
+      const values = [nameCompany, nameAdmin, email, phone, idProvince, web, scale, userInfo.id];
+
+      db.query(q2, values, (err, data) => {
+        if (err) return res.status(200).json(err);
+        if (data?.affectedRows > 0) return res.json("Update");
+        return res.status(403).json("Lỗi vui lòng thử lại !");
+      });
     });
   });
 };

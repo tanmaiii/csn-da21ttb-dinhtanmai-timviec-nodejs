@@ -46,7 +46,7 @@ export default function InfoCompany() {
     }
   };
 
-  const { isLoading, error, data } = useQuery(["company"], () => {
+  const { isLoading, error, data } = useQuery(["company", id], () => {
     return getInfo();
   });
 
@@ -146,7 +146,8 @@ function ItemInfoCompany({
 }) {
   const [selectedOption, setSelectedOption] = useState();
   const queryClient = useQueryClient();
-
+  const { id } = useParams();
+  
   const putInfo = async () => {
     try {
       await makeRequest.put("/company/update", inputs);
@@ -162,8 +163,11 @@ function ItemInfoCompany({
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["company"]);
+        queryClient.invalidateQueries(["company", id]);
       },
+      onError: () => {
+        queryClient.invalidateQueries(["company", id]);
+      }
     }
   );
 
