@@ -41,7 +41,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: process.env.URL_REACT,
+    origin:[ process.env.URL_REACT, "http://localhost:3000"],
   })
 );
 

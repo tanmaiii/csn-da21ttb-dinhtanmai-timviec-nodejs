@@ -193,6 +193,11 @@ export const postJob = (req, res) => {
   if (!idField || !idProvince || !nameJob)
     return res.status(401).json("Các trường không để rỗng !");
 
+  if (nameJob.length > 255) return res.status(401).json("Tên công việc không vượt quá 255 kí tự.");
+
+  if (request.length > 5000 || desc.length > 5000 || other.length > 5000)
+    return res.status(401).json("Các trường không vượt quá 5000 kí tự.");
+
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
@@ -220,7 +225,7 @@ export const postJob = (req, res) => {
         experience,
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       ];
-      
+
       db.query(q, [values], (err, data) => {
         if (err) return res.status(500).json(err);
         return res.status(200).json("Đăng thành công");
@@ -283,6 +288,11 @@ export const updateJob = async (req, res) => {
 
   if (!idField || !idProvince || !nameJob)
     return res.status(401).json("Các trường không để rỗng !");
+
+  if (nameJob.length > 255) return res.status(401).json("Tên công việc không vượt quá 255 kí tự.");
+
+  if (request.length > 5000 || desc.length > 5000 || other.length > 5000)
+    return res.status(401).json("Các trường không vượt quá 5000 kí tự.");
 
   const token = req.cookies?.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
@@ -371,20 +381,19 @@ export const deleteJob = async (req, res) => {
 
   const kiemTraTonTai = `SELECT * FROM job.apply_job WHERE idJob = ${idJob}`;
 
-  db.query(kiemTraTonTai ,(err, data) => {
+  db.query(kiemTraTonTai, (err, data) => {
+    if (data?.length) return res.status(401).json("Bài tuyển dụng đã có ứng viên, không thể xóa !");
 
-      if (data?.length) return res.status(401).json("Bài tuyển dụng đã có ứng viên, không thể xóa !");
+    jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
+      if (err) return res.status(403).json("Lỗi! Vui lòng đăng nhập lại !");
 
-      jwt.verify(token, process.env.MY_SECRET, (err, companmyInfo) => {
-        if (err) return res.status(403).json("Lỗi! Vui lòng đăng nhập lại !");
+      const q = `DELETE FROM jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
 
-        const q = `DELETE FROM jobs as j WHERE j.id = ${idJob} AND j.idCompany = ${companmyInfo.id}`;
-
-        db.query(q, (err, data) => {
-          if (!err) return res.status(200).json(data);
-          if (data?.affectedRows > 0) return res.json("Update");
-          return res.status(403).json("Chỉ thay đổi được thông tin của mình");
-        });
+      db.query(q, (err, data) => {
+        if (!err) return res.status(200).json(data);
+        if (data?.affectedRows > 0) return res.json("Update");
+        return res.status(403).json("Chỉ thay đổi được thông tin của mình");
       });
+    });
   });
 };

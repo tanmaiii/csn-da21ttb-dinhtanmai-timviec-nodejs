@@ -58,7 +58,7 @@ export default function DetailUser() {
     setLoading(false);
   };
 
-  const { isLoading, error, data } = useQuery(["user", id], () => {
+  const { isLoading, error, data } = useQuery(["user"], () => {
     return getUser();
   });
 

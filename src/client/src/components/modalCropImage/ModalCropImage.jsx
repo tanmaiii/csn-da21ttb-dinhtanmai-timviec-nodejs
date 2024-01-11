@@ -60,6 +60,7 @@ export default function ModalCropImage({ openModal, setOpenModal }) {
         : await makeRequest.put("/user/uploadImage", {
             avatarPic: postImage.data,
           });
+
       toast.success("Thay đổi ảnh đại diện thành công.");
       setOpenModal(false);
       setImg(null);

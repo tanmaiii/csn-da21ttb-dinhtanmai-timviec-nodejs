@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { makeRequest } from "../axios";
 import { useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 const AuthContext = React.createContext();
 
@@ -17,7 +17,6 @@ export const AuthContextProvider = ({ children }) => {
   const [currentCompany, setCurrentCompany] = useState(
     JSON.parse(localStorage.getItem("company") || null)
   );
-
 
   // Đăng nhập nhà tuyển dụng
   const loginCompany = async (inputs) => {
@@ -57,7 +56,7 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
 
-  useEffect(() =>  {
+  useEffect(() => {
     const getInfo = async () => {
       try {
         const res = await makeRequest.get("/user/owner");
@@ -65,11 +64,11 @@ export const AuthContextProvider = ({ children }) => {
       } catch (error) {
         setCurrentUser(null);
       }
-    }
-    Cookies.get('accessToken') && getInfo();
-  },[])
+    };
+    currentUser && getInfo();
+  }, []);
 
-  useEffect(() =>  {
+  useEffect(() => {
     const getInfo = async () => {
       try {
         const res = await makeRequest.get("/company/owner");
@@ -77,9 +76,9 @@ export const AuthContextProvider = ({ children }) => {
       } catch (error) {
         setCurrentCompany(null);
       }
-    }
-    Cookies.get('accessToken') && getInfo();
-  },[])
+    };
+    currentCompany && getInfo();
+  }, []);
 
   return (
     <AuthContext.Provider

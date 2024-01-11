@@ -62,7 +62,7 @@ export default function IntroCompany({ intro }) {
           {!edit ? (
             <div
               className="introCompany__wrapper__body__content"
-              dangerouslySetInnerHTML={{ __html: intro }}
+              dangerouslySetInnerHTML={{ __html: intro || "Không có" }}
             ></div>
           ) : (
             <div className="introCompany__wrapper__body__edit">

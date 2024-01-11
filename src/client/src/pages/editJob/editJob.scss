@@ -128,12 +128,8 @@
                   border-bottom-right-radius: $border-radius-10;
                   .ql-editor {
                     font-size: $font-size-s;
-                    min-height: 300px;
-                    p {
-                      & > * {
-                        color: themed("text1") !important;
-                      }
-                    }
+                    height: 400px;
+                    overflow: auto;
                   }
                 }
               }

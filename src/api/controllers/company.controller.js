@@ -98,13 +98,16 @@ export const updateCompany = (req, res) => {
   const token = req.cookies?.accessToken;
 
   const { nameCompany, nameAdmin, email, phone, idProvince, web, scale } = req.body;
-
+  
+  if (!token) return res.status(401).json("Not logged in!");
+  if(!nameCompany)return res.status(409).json("Tên công ty không được để rổng!");
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
-  if (isNaN(phone)) return res.status(409).json("Số điện thoại không hợp lê !");
-
+  if (isNaN(phone) || phone.length > 45) return res.status(409).json("Số điện thoại không hợp lê !");
   if (web?.length > 0 && !checkUrl(web)) return res.status(409).json("Link không hợp lệ !");
 
-  if (!token) return res.status(401).json("Not logged in!");
+  if (nameCompany.length > 255 || nameAdmin.length > 255 || email.length > 255 || web.length > 255)
+    return res.status(409).json("Các trường không vượt quá 255 kí tự!");
+
 
   jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
@@ -131,13 +134,17 @@ export const updateCompany = (req, res) => {
 
 export const updateIntroCompany = (req, res) => {
   const token = req.cookies?.accessToken;
+  const intro = req.body.intro;
+
   if (!token) return res.status(401).json("Not logged in!");
+
+  if(intro.length > 5000) return res.status(401).json("Giới thiệu không vượt quá 5000 kí tự.");
 
   jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");
     const q = "UPDATE companies SET `intro` = ? WHERE id = ? ";
 
-    db.query(q, [req.body.intro, userInfo.id], (err, data) => {
+    db.query(q, [intro, userInfo.id], (err, data) => {
       if (!err) return res.status(200).json(data);
       if (data?.affectedRows > 0) return res.json("Update");
       return res.status(403).json("Chỉ thay đổi được thông tin của mình");

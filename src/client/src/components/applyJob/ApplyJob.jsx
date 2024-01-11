@@ -139,6 +139,7 @@ export default function ApplyJob({ job }) {
             id="name"
             name="name"
             onChange={handleChange}
+            size={255}
           />
           <label htmlFor="name">Tên hiển thị với nhà tuyển dụng</label>
         </div>
@@ -151,6 +152,7 @@ export default function ApplyJob({ job }) {
             id="email"
             name="email"
             onChange={handleChange}
+            size={255}
           />
           <label htmlFor="email">Email hiển thị với nhà tuyển dụng</label>
         </div>
@@ -163,6 +165,7 @@ export default function ApplyJob({ job }) {
             name="phone"
             value={inputs?.phone}
             onChange={handleChange}
+            size={255}
           />
           <label htmlFor="phone">Số điện thoại hiển thị với nhà tuyển dụng</label>
         </div>

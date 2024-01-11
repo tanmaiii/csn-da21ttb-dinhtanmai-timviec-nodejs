@@ -67,7 +67,7 @@ export default function DetailCompany() {
     } catch (error) {}
   };
 
-  const { isLoading, error, data } = useQuery(["company", id], () => {
+  const { isLoading, error, data } = useQuery(["company"], () => {
     return getCompany();
   });
 

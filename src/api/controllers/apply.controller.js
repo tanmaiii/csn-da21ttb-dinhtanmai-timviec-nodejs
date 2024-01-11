@@ -135,7 +135,7 @@ export const getUserHideByCpn = (req, res) => {
               FROM apply_job as a, jobs as j , companies AS c , provinces as p , fields as f , users as u
               WHERE c.id = ? AND not a.deletedAt is null AND a.idUser = u.id AND a.idJob = j.id AND j.idCompany = c.id AND j.idProvince = p.id AND j.idField = f.id `;
 
-    jwt.verify(token, process.env.MY_SECRET , async (err, cpn) => {
+    jwt.verify(token, process.env.MY_SECRET, async (err, cpn) => {
       const [data] = await promiseDb.query(`${q} limit ${+limit} offset ${+offset}`, [cpn.id]);
       const [total] = await promiseDb.query(q2, cpn.id);
       const totalPage = Math.ceil(+total[0]?.count / limit);
@@ -209,6 +209,15 @@ export const applyJob = (req, res) => {
 
   if (!checkEmail(email)) return res.status(401).json("Email không hợp lệ.");
 
+  if (
+    name.length > 255 ||
+    email.length > 255 ||
+    phone.length > 255
+  )
+    return res.status(401).json("Các trường không vượt quá 255 kí tự.");
+
+  if (letter.length > 5000) return res.status(401).json("Thư xin việc không vượt quá 5000 kí tự.");
+
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");
 
@@ -237,7 +246,7 @@ export const applyJob = (req, res) => {
 };
 
 export const unApplyJob = (req, res) => {
-  const  idJob = req.query.idJob;
+  const idJob = req.query.idJob;
 
   if (!idJob) return res.status(401).json("Không có trường id !");
 
@@ -247,15 +256,14 @@ export const unApplyJob = (req, res) => {
   jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(401).json("Token is not invalid");
 
-    const q =
-    `DELETE FROM apply_job WHERE idUser= ${userInfo.id} AND idJob= ${idJob} AND status = 1`;
+    const q = `DELETE FROM apply_job WHERE idUser= ${userInfo.id} AND idJob= ${idJob} AND status = 1`;
 
     db.query(q, (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json("Thành công!");
     });
-  })
-}
+  });
+};
 
 export const updateStatusUser = (req, res) => {
   const token = req.cookies.accessToken;

@@ -23,7 +23,7 @@ export default function PostJob() {
   const [desc, setDesc] = useState("");
   const [other, setOther] = useState("");
 
-  const [sex, setSex] = useState("cả hai");
+  const [sex, setSex] = useState("Cả hai");
   const [salaryMin, setSalaryMin] = useState(0);
   const [salaryMax, setSalaryMax] = useState(0);
   const [salaryDiscuss, setSalaryDiscuss] = useState(false);
@@ -141,6 +141,7 @@ export default function PostJob() {
                   <h6>Chức danh tuyển dụng</h6>
                   <div className="postJob__wrapper__body__form__content__item__input">
                     <input
+                      size="255"
                       onChange={handleChange}
                       name="nameJob"
                       type="text"
@@ -210,6 +211,7 @@ export default function PostJob() {
                       placeholder="Tối thiểu"
                       min={1}
                       max={100}
+                      step="any"
                     />
                     <input
                       type="number"
@@ -223,6 +225,7 @@ export default function PostJob() {
                       placeholder="Tối đa"
                       min={1}
                       max={100}
+                      step="any"
                     />
                     <div className="postJob__wrapper__body__form__content__item__input__child">
                       <input

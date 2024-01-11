@@ -14,8 +14,11 @@ export const register = (req, res) => {
   if (!name) return res.status(409).json("Tên không được để trống !");
   if (!email) return res.status(409).json("Email không được để trống !");
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ.");
-  if (!phone || isNaN(phone)) return res.status(409).json("Số điện thoại không  được để trống !");
-  
+  if (!phone || isNaN(phone) || phone.length > 45)
+    return res.status(409).json("Số điện thoại không hợp lệ !");
+
+  if (name.length > 255 || email.length > 255 || password.length > 255)
+    return res.status(409).json("Các trường không vượt quá 255 kí tự !");
 
   if (!checkPassword(password))
     return res
@@ -23,8 +26,6 @@ export const register = (req, res) => {
       .json(
         "Mật khẩu phải bao gồm ít nhất 6 kí tự, trong đó có chữ cái, số, chữ cái viết hoa và kí tự đặt biệt."
       );
-      
-
 
   db.query(q, email, (err, data) => {
     if (err) return res.status(500).json(err);
@@ -63,7 +64,7 @@ export const login = (req, res) => {
 
       res
         .cookie("accessToken", token, {
-          // httpOnly: true,
+          httpOnly: true,
           sameSite: "none",
           secure: true,
           expires: new Date(Date.now() + 900000),
@@ -162,6 +163,9 @@ export const resetPassword = (req, res) => {
   const { password } = req.body;
 
   if (!id || !token || !password) return res.status(403).json("Không tìm thấy!");
+
+  if (password.length > 255) return res.status(409).json("Các trường không vượt quá 255 kí tự !");
+
   if (!checkPassword(password))
     return res
       .status(403)
@@ -194,6 +198,7 @@ export const changePassword = (req, res) => {
 
   if (!id) return res.status(403).json("Không tìm thấy người dùng!");
   if (!token) return res.status(401).json("Chưa đăng nhập !");
+  if (!password.length > 255) return res.status(409).json("Các trường không vượt quá 255 kí tự!");
   if (!checkPassword(password))
     return res
       .status(403)

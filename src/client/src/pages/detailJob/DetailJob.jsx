@@ -339,7 +339,7 @@ export default function DetailJob() {
                           </div>
                           <span className="content">
                             {job?.salaryMin === 0 || job?.salaryMax === 0
-                              ? "Thương lượng"
+                              ? "Thảo thuận"
                               : `${job?.salaryMin} - ${job?.salaryMax} tr`}
                           </span>
                         </div>
