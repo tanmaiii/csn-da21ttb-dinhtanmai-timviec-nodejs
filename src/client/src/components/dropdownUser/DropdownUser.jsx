@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdownUser.scss";
-import avt from "../../assets/images/avatar.png";
+import avatar from "../../assets/images/avatar.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { apiImage } from "../../axios";
@@ -31,7 +31,11 @@ export default function DropdownUser() {
     <div className="dropdownUser" ref={dropdownUserRef}>
       <div className="dropdownUser__toogle" onClick={() => setOpenMenuUser(!openMenuUser)}>
         <div className="dropdownUser__toogle__text">
-          <img src={currentUser.avatarPic ? apiImage + currentUser.avatarPic : avt} alt="" />
+          <img
+            src={currentUser?.avatarPic ? apiImage + currentUser?.avatarPic : avatar}
+            onError={(e) => (e.target.src = avatar)}
+            alt={currentUser?.avatarPic}
+          />
           <span>{currentUser?.name}</span>
         </div>
         <i class="fa-solid fa-angle-down"></i>

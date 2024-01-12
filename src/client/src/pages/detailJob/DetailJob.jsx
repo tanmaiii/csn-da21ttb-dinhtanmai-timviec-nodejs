@@ -231,6 +231,7 @@ export default function DetailJob() {
                       <img
                         className="image-loading"
                         src={job?.avatarPic ? apiImage + job.avatarPic : img}
+                        onError={(e) => (e.target.src = img)}
                         alt=""
                       />
                       <div className="detailJob__wrapper__main__image__name">
@@ -260,7 +261,7 @@ export default function DetailJob() {
                           </button>
                         )}
                         {loadingSave ? (
-                            <div className="loading"></div>
+                          <div className="loading"></div>
                         ) : (
                           <button className="btn_save" onClick={() => handleSubmitSave()}>
                             {userSave?.includes(currentUser?.id) ? (
@@ -422,7 +423,7 @@ export default function DetailJob() {
       </div>
       {!userApply?.includes(currentUser?.id) && (
         <Modal title={"Ứng tuyển"} openModal={openModal} setOpenModal={setOpenModal}>
-          {openModal && <ApplyJob job={job && job} />}
+          {openModal && <ApplyJob job={job && job} setOpenModal={setOpenModal} />}
         </Modal>
       )}
       {

@@ -8,7 +8,7 @@ import ReactQuill from "react-quill";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
 import PropTypes from "prop-types";
 
-export default function ApplyJob({ job }) {
+export default function ApplyJob({ job , setOpenModal }) {
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [userApply, setUserApply] = useState();
@@ -52,13 +52,13 @@ export default function ApplyJob({ job }) {
 
   const postApply = async () => {
     if (!inputs?.name || !inputs?.email || !inputs?.phone)
-    return toast.error("Các trường không được rỗng.");
-  
-  if (!job) return;
-  
-  if (!file) return toast.error("Chưa tải file cv");
-  
-  setLoading(true);
+      return toast.error("Các trường không được rỗng.");
+
+    if (!job) return;
+
+    if (!file) return toast.error("Chưa tải file cv");
+
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -70,6 +70,7 @@ export default function ApplyJob({ job }) {
 
       await makeRequest.post("/apply", inputs);
       navigate(`/viec-lam/${job?.id}`);
+      setOpenModal(false);
       toast.success("Ứng tuyển thành công");
       setLoading(false);
     } catch (err) {
@@ -101,8 +102,8 @@ export default function ApplyJob({ job }) {
   });
 
   const handleChangeInputFile = (e) => {
-    const file = e.target.files[0];
-    const fileType = e.target.files[0].type;
+    const file = e.target?.files[0];
+    const fileType = e.target.files[0]?.type;
     if (
       fileType === "application/pdf" ||
       fileType === "application/msword" ||

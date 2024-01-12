@@ -14,7 +14,7 @@
           gap: 8px;
           font-size: $font-size-s;
           font-weight: 500;
-          color: $color-white;
+          color: themed('text1');
           i {
             transition: all 0.3s;
           }

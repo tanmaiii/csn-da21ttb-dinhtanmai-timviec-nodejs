@@ -133,6 +133,7 @@ export default function DetailCompany() {
                         className="image-loading"
                         onClick={() => setOpenModalAvatar(true)}
                         src={company?.avatarPic ? apiImage + company?.avatarPic : avatar}
+                        onError={(e) => (e.target.src = avatar)}
                         alt=""
                       />
                       {company?.id === currentCompany?.id && (

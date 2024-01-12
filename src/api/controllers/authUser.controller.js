@@ -14,7 +14,7 @@ export const register = (req, res) => {
   if (!name) return res.status(409).json("Tên không được để trống !");
   if (!email) return res.status(409).json("Email không được để trống !");
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ.");
-  if (!phone || isNaN(phone) || phone.length > 45)
+  if (!phone || isNaN(phone) || phone?.length > 45)
     return res.status(409).json("Số điện thoại không hợp lệ !");
 
   if (name?.length > 255 || email?.length > 255 || password?.length > 255)
@@ -205,7 +205,7 @@ export const changePassword = (req, res) => {
         "Mật khẩu phải bao gồm ít nhất 6 kí tự, trong đó có chữ cái, số, chữ cái viết hoa và kí tự đặt biệt."
       );
 
-  if (password.length > 255) return res.status(409).json("Các trường không vượt quá 255 kí tự!");
+  if (password?.length > 255) return res.status(409).json("Các trường không vượt quá 255 kí tự!");
 
   const q = "SELECT * FROM users WHERE id=?";
 

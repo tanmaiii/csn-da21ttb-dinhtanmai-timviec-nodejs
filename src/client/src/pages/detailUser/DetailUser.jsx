@@ -111,6 +111,7 @@ export default function DetailUser() {
                           className="image-loading"
                           onClick={() => setOpenModalAvatar(true)}
                           src={user?.avatarPic ? apiImage + user?.avatarPic : avatar}
+                          onError={(e) => (e.target.src = avatar)}
                           alt=""
                         />
                         {user?.id === currentUser?.id && (

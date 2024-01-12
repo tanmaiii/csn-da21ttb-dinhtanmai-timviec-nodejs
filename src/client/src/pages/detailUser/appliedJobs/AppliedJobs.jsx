@@ -100,6 +100,7 @@ function AppliedItem({ job, i }) {
   );
 
   const handleSubmitRecall = () => {
+    setOpenModalRecall(false);
     mutationRecall.mutate();
   };
 
@@ -108,7 +109,11 @@ function AppliedItem({ job, i }) {
       <div className="col pc-9 t-9 m-12">
         <div className="appliedJobs__wrapper__item__left ">
           <div className="appliedJobs__wrapper__item__left__header">
-            <img src={job?.avatarPic ? apiImage + job?.avatarPic : img} alt="" />
+            <img
+              src={job?.avatarPic ? apiImage + job?.avatarPic : img}
+              onError={(e) => (e.target.src = img)}
+              alt=""
+            />
             <div className="text">
               <Link to={`/viec-lam/${job?.idJob}`}>
                 <h4 className="nameJob">{job?.nameJob}</h4>

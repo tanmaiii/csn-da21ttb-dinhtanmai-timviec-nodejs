@@ -151,6 +151,7 @@ export default function ItemJob({ className, job, onClick }) {
             <img
               className="image-loading"
               src={job?.avatarPic ? apiImage + job?.avatarPic : img}
+              onError={(e) => (e.target.src = img)}
               alt=""
             />
             <div className="text">

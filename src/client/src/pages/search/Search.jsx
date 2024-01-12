@@ -161,7 +161,7 @@ export default function Search() {
                         <div className="list">
                           {sort.map((item, i) => (
                             <span
-                            key={i}
+                              key={i}
                               className={`list__item ${
                                 sortActive?.displayName === item?.displayName ? "active" : ""
                               }`}
@@ -293,6 +293,7 @@ function BannerSearch() {
     setSalaryFilter([]);
     location.search = null;
   };
+
 
   useEffect(() => {
     setQtyFilter(

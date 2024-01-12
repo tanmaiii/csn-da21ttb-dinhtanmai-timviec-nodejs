@@ -118,6 +118,7 @@ function RowTableCandidate({ item, index, handleClickView, setListCheck, listChe
             <img
               className="table__candidate__body__row__item__info__image"
               src={item?.avatarPic ? apiImage + item?.avatarPic : img}
+              onError={(e) => (e.target.src = img)}
             />
             <span>{item?.name}</span>
           </div>

@@ -49,6 +49,7 @@ export default function Header() {
   const handleReloadPage = () => {
     navigate("/");
     window.location.reload();
+    window.scroll(0, 0);
   };
 
   let lastScrollTop = 0;
@@ -110,10 +111,17 @@ export default function Header() {
               <ul>
                 {hedearItem.map((item, i) => (
                   <li key={i}>
-                    <Link className={pathname === item.path ? "active" : ""} to={item.path}>
-                      {item.icon}
-                      <span>{item.display}</span>
-                    </Link>
+                    {pathname === item.path ? (
+                      <h4 className={pathname === item.path ? "active" : ""}>
+                        {item.icon}
+                        <span>{item.display}</span>
+                      </h4>
+                    ) : (
+                      <Link to={pathname === item.path ? "" : item.path}>
+                        {item.icon}
+                        <span>{item.display}</span>
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -164,10 +172,17 @@ export default function Header() {
 
                 {hedearItem.map((item, i) => (
                   <li key={i}>
-                    <Link className={pathname === item.path ? "active" : ""} to={item.path}>
-                      {item.icon}
-                      <span>{item.display}</span>
-                    </Link>
+                    {pathname === item.path ? (
+                      <h4 className={pathname === item.path ? "active" : ""}>
+                        {item.icon}
+                        <span>{item.display}</span>
+                      </h4>
+                    ) : (
+                      <Link className={pathname === item.path ? "active" : ""} to={item.path}>
+                        {item.icon}
+                        <span>{item.display}</span>
+                      </Link>
+                    )}
                   </li>
                 ))}
 

@@ -19,7 +19,6 @@ export default function ItemCompany({ company, className }) {
   const [jobQty, setJobQty] = useState(0);
   const queryClient = useQueryClient();
   const { currentUser } = useAuth();
-  
 
   const handleClick = (e) => {
     if (!btnRef.current.contains(e.target)) {
@@ -51,6 +50,7 @@ export default function ItemCompany({ company, className }) {
   const { isLoading: loadingFollow, data: dataFollow } = useQuery(["follower", company?.id], () => {
     return getFollower();
   });
+  
 
   const mutationFollow = useMutation(
     (following) => {
@@ -82,6 +82,7 @@ export default function ItemCompany({ company, className }) {
               className="image-loading"
               loading="lazy"
               src={company?.avatarPic ? apiImage + company?.avatarPic : img}
+              onError={(e) => (e.target.src = img)}
               alt=""
             />
           </div>
@@ -93,7 +94,7 @@ export default function ItemCompany({ company, className }) {
                   <i className="fa-solid fa-location-dot"></i>
                   <span>{company?.province}</span>
                 </div>
-                <span className="job">{jobQty ? jobQty > 99 ? "+99" : jobQty : 0}  việc làm</span>
+                <span className="job">{jobQty ? (jobQty > 99 ? "+99" : jobQty) : 0} việc làm</span>
               </div>
             </div>
             <div className="itemCompany__wrapper__body__left">

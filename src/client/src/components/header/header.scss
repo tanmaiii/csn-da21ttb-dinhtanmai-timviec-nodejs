@@ -68,12 +68,13 @@
             list-style: none;
             li {
               height: 100%;
-              a {
+              a,h4 {
                 @include flex(center, center);
                 gap: 4px;
                 height: 100%;
                 padding: 0 10px;
                 position: relative;
+                cursor: pointer;
                 i {
                   @include flex(center, center);
                   --size: 20px;
@@ -192,6 +193,7 @@
               width: 100%;
               padding: 10px;
               a,
+              h4,
               button {
                 @include flex(center, unset);
                 gap: 8px;
@@ -201,6 +203,7 @@
                 color: themed("text1");
                 font-weight: 500;
                 font-size: $font-size-s;
+                cursor: pointer;
                 i {
                   @include flex(center, center);
                   font-size: 1.2rem;

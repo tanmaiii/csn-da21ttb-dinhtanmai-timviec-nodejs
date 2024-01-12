@@ -81,7 +81,7 @@ export default function DetailCandidate({ idApply }) {
                 <div className="file">
                   <div className="file__name">
                     <i class="fa-regular fa-file-lines"></i>
-                    <a href={`${apiCv + candidate?.cv}`} download>
+                    <a onError={e => e.target.href = "/"} href={`${apiCv + candidate?.cv}`} download >
                       {candidate?.cv}
                     </a>
                   </div>

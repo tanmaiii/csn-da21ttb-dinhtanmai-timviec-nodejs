@@ -47,8 +47,6 @@ export default function ModalCropImage({ openModal, setOpenModal }) {
       const croppedImage = await getCroppedImg(img, croppedAreaPixels, rotation);
       setCroppedImage(croppedImage);
 
-      console.log(croppedImage);
-
       const formData = new FormData();
       formData.append("file", croppedImage);
       const postImage = await makeRequest.post("/upload", formData);

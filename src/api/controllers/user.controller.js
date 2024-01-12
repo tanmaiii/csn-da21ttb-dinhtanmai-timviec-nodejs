@@ -116,6 +116,8 @@ export const uploadImage = (req, res) => {
   const avatarPic = req.body.avatarPic;
   const q = "UPDATE users SET avatarPic = ? WHERE id = ? ";
 
+  if(avatarPic?.length > 255) return res.status(403).json("Tên hình ảnh quá dài !")
+
   const token = req.cookies?.accessToken;
   if (!token) return res.status(403).json("Chưa đăng nhập !");
   jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {

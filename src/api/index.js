@@ -1,4 +1,3 @@
-
 import express from "express";
 import { db } from "./config/connect.js";
 
@@ -26,8 +25,10 @@ import applyRouter from "./routes/apply.routes.js";
 
 import checkEmail from "./middlewares/checkEmail.middleware.js";
 import checkImage from "./middlewares/checkImage.middleware.js";
+import checkFile from "./middlewares/chechFile.middleware.js";
 
 import { fileURLToPath } from "url";
+import { log } from "console";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -41,7 +42,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin:[ process.env.URL_REACT, "http://localhost:3000"],
+    origin: [process.env.URL_REACT, "http://localhost:3000"],
   })
 );
 
@@ -82,11 +83,14 @@ const storageFile = multer.diskStorage({
   },
 });
 
-const uploadFile = multer({ storage: storageFile });
+const uploadFile = multer({
+  storage: storageFile,
+});
 
 app.post("/api/uploadFile", uploadFile.single("file"), (req, res) => {
   // #swagger.tags = ['Lưu File']
   const file = req.file;
+  if (!checkFile(file)) return res.status(404).json("Tệp quá lớn không thể lưu trữ !");
   res.status(200).json(file.filename);
 });
 
@@ -237,13 +241,3 @@ const PORT = process.env.PORT || 8800;
 app.listen(PORT, (req, res) => {
   console.log(`[Server running with port ${PORT}]`);
 });
-
-
-
-
-
-
-
-
-
-

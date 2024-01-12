@@ -7,8 +7,7 @@ export default function Modal({ children, title, openModal, setOpenModal }) {
   useEffect(() => {
     if (openModal === true) {
       document.body.style.overflow = "hidden";
-    }
-    if (openModal === false) {
+    } else {
       document.body.style.overflow = "unset";
     }
   }, [openModal]);

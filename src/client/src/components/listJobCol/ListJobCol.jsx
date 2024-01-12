@@ -104,7 +104,7 @@ function ItemJob({ job }) {
     <div className="col__itemJob">
       <div className="col__itemJob__wrapper">
         <div className="header">
-          <img src={job?.avatarPic ? apiImage + job?.avatarPic : img} alt="" />
+          <img src={job?.avatarPic ? apiImage + job?.avatarPic : img} onError={(e) => (e.target.src = img)} alt={job?.avatarPic} />
           <div className="text">
             <Link to={`/viec-lam/${job?.id}`}>
               <h4 className="nameJob" data-tooltip={job?.nameJob}>

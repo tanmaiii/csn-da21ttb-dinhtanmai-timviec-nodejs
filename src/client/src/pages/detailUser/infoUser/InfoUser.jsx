@@ -81,7 +81,7 @@ export default function InfoUser() {
           name="birthDay"
           handleChange={handleChange}
           title={"Ngày sinh :"}
-          desc={moment(user?.birthDay).format("DD/MM/YYYY")}
+          desc={user?.birthDay ? moment(user?.birthDay).format("DD/MM/YYYY") : null}
           type={"input-date"}
         />
         <ItemInfo

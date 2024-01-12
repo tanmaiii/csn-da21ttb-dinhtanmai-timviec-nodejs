@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./dropdownCompany.scss";
-import avatar from "../../assets/images/avatar.png";
+import avatar from "../../assets/images/avatarCpn.png";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { apiImage } from "../../axios";
@@ -31,8 +31,9 @@ export default function DropdownCompany() {
       <div className="dropdownCompany__toogle" onClick={() => setOpenMenuUser(!openMenuUser)}>
         <div className="dropdownCompany__toogle__text">
           <img
-            src={currentCompany.avatarPic ? apiImage + currentCompany.avatarPic : avatar}
-            alt=""
+            src={currentCompany?.avatarPic ? apiImage + currentCompany?.avatarPic : avatar}
+            onError={(e) => (e.target.src = avatar)}
+            alt={currentCompany?.avatarPic}
           />
           <span>{currentCompany.nameCompany}</span>
         </div>

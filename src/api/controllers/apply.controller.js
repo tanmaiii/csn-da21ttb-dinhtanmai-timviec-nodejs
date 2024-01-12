@@ -5,6 +5,7 @@ import checkUrl from "../middlewares/checkUrl.middleware.js";
 import checkEmail from "../middlewares/checkEmail.middleware.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import fs from 'fs'
 import "express-async-errors";
 
 export const getJobApply = (req, res) => {
@@ -210,13 +211,14 @@ export const applyJob = (req, res) => {
   if (!checkEmail(email)) return res.status(401).json("Email không hợp lệ.");
 
   if (
-    name.length > 255 ||
-    email.length > 255 ||
-    phone.length > 255
+    name?.length > 255 ||
+    email?.length > 255 ||
+    phone?.length > 255 || 
+    cv?.length > 255
   )
     return res.status(401).json("Các trường không vượt quá 255 kí tự.");
 
-  if (letter.length > 5000) return res.status(401).json("Thư xin việc không vượt quá 5000 kí tự.");
+  if (letter?.length > 5000) return res.status(401).json("Thư xin việc không vượt quá 5000 kí tự.");
 
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Chưa đăng nhập !");

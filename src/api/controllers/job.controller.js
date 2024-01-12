@@ -193,9 +193,9 @@ export const postJob = (req, res) => {
   if (!idField || !idProvince || !nameJob)
     return res.status(401).json("Các trường không để rỗng !");
 
-  if (nameJob.length > 255) return res.status(401).json("Tên công việc không vượt quá 255 kí tự.");
+  if (nameJob?.length > 255) return res.status(401).json("Tên công việc không vượt quá 255 kí tự.");
 
-  if (request.length > 5000 || desc.length > 5000 || other.length > 5000)
+  if (request?.length > 5000 || desc?.length > 5000 || other?.length > 5000)
     return res.status(401).json("Các trường không vượt quá 5000 kí tự.");
 
   const token = req.cookies?.accessToken;
@@ -289,9 +289,9 @@ export const updateJob = async (req, res) => {
   if (!idField || !idProvince || !nameJob)
     return res.status(401).json("Các trường không để rỗng !");
 
-  if (nameJob.length > 255) return res.status(401).json("Tên công việc không vượt quá 255 kí tự.");
+  if (nameJob?.length > 255) return res.status(401).json("Tên công việc không vượt quá 255 kí tự.");
 
-  if (request.length > 5000 || desc.length > 5000 || other.length > 5000)
+  if (request?.length > 5000 || desc?.length > 5000 || other?.length > 5000)
     return res.status(401).json("Các trường không vượt quá 5000 kí tự.");
 
   const token = req.cookies?.accessToken;

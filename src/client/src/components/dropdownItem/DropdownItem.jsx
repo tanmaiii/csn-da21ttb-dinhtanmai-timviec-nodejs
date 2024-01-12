@@ -89,7 +89,7 @@ export default function DropdownItem(props) {
                   <div key={i} className="dropdown__menu__list__item">
                     <label htmlFor={`list__item__${i}`}>
                       <input
-                        defaultChecked={optionActive.includes(option?.name)}
+                       // defaultChecked={optionActive.includes(option?.name)}
                         type="checkbox"
                         checked={optionActive.includes(option?.name)}
                         name=""
