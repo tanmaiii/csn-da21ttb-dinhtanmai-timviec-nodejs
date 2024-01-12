@@ -91,7 +91,7 @@ export default function DropdownItem(props) {
                       <input
                         defaultChecked={optionActive.includes(option?.name)}
                         type="checkbox"
-                    //    checked={optionActive.includes(option?.name)}
+                        checked={optionActive.includes(option?.name)}
                         name=""
                         id={`list__item__${i}`}
                         onChange={() => handleClickOption(option?.name)}
