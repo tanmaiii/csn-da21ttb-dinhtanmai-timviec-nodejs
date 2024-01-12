@@ -56,11 +56,11 @@ export const updateUser = (req, res) => {
   if (linkSocial?.length > 0 && !checkUrl(linkSocial))
     return res.status(409).json("Liên kết không hợp lệ !");
 
-  if (isNaN(phone) || phone.length > 24) return res.status(409).json("Số điện thoại không hợp lê !");
+  if (isNaN(phone) || phone?.length > 24) return res.status(409).json("Số điện thoại không hợp lê !");
 
   if(!name) return res.status(409).json("Tên không được để trống.");
 
-  if (name.length > 255 || email.length > 255 || linkSocial.length > 255)
+  if (name?.length > 255 || email?.length > 255 || linkSocial?.length > 255)
     return res.status(409).json("Các trường không vượt quá 255 kí tự.");
   
 

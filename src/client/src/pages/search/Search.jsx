@@ -148,7 +148,7 @@ export default function Search() {
               <div className="search__list">
                 <div className="search__list__header">
                   <h4>
-                    {totalJobs && totalJobs} việc làm {keyword && keyword}
+                    {parseInt(totalJobs) > 99 ? "99+" : totalJobs} việc làm {keyword && keyword}
                   </h4>
                   <div className="search__list__header__sort">
                     <span>Sắp xếp :</span>

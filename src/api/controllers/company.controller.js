@@ -102,10 +102,10 @@ export const updateCompany = (req, res) => {
   if (!token) return res.status(401).json("Not logged in!");
   if(!nameCompany)return res.status(409).json("Tên công ty không được để rổng!");
   if (!checkEmail(email)) return res.status(409).json("Email không hợp lệ !");
-  if (isNaN(phone) || phone.length > 45) return res.status(409).json("Số điện thoại không hợp lê !");
+  if (isNaN(phone) || phone?.length > 45) return res.status(409).json("Số điện thoại không hợp lê !");
   if (web?.length > 0 && !checkUrl(web)) return res.status(409).json("Link không hợp lệ !");
 
-  if (nameCompany.length > 255 || nameAdmin.length > 255 || email.length > 255 || web.length > 255)
+  if (nameCompany?.length > 255 || nameAdmin?.length > 255 || email?.length > 255 || web?.length > 255)
     return res.status(409).json("Các trường không vượt quá 255 kí tự!");
 
 
@@ -138,7 +138,7 @@ export const updateIntroCompany = (req, res) => {
 
   if (!token) return res.status(401).json("Not logged in!");
 
-  if(intro.length > 5000) return res.status(401).json("Giới thiệu không vượt quá 5000 kí tự.");
+  if(intro?.length > 5000) return res.status(401).json("Giới thiệu không vượt quá 5000 kí tự.");
 
   jwt.verify(token, process.env.MY_SECRET, (err, userInfo) => {
     if (err) return res.status(403).json("Token không trùng !");

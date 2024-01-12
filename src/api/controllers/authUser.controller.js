@@ -17,7 +17,7 @@ export const register = (req, res) => {
   if (!phone || isNaN(phone) || phone.length > 45)
     return res.status(409).json("Số điện thoại không hợp lệ !");
 
-  if (name.length > 255 || email.length > 255 || password.length > 255)
+  if (name?.length > 255 || email?.length > 255 || password?.length > 255)
     return res.status(409).json("Các trường không vượt quá 255 kí tự !");
 
   if (!checkPassword(password))
@@ -164,14 +164,14 @@ export const resetPassword = (req, res) => {
 
   if (!id || !token || !password) return res.status(403).json("Không tìm thấy!");
 
-  if (password.length > 255) return res.status(409).json("Các trường không vượt quá 255 kí tự !");
-
   if (!checkPassword(password))
     return res
       .status(403)
       .json(
         "Mật khẩu phải bao gồm ít nhất 6 kí tự, trong đó có chữ cái, số, chữ cái viết hoa và kí tự đặt biệt."
       );
+
+  if (password?.length > 255) return res.status(409).json("Các trường không vượt quá 255 kí tự !");
 
   const q = `UPDATE users SET password = ? WHERE users.id = ?`;
   const salt = bcrypt.genSaltSync(10);
@@ -198,13 +198,14 @@ export const changePassword = (req, res) => {
 
   if (!id) return res.status(403).json("Không tìm thấy người dùng!");
   if (!token) return res.status(401).json("Chưa đăng nhập !");
-  if (!password.length > 255) return res.status(409).json("Các trường không vượt quá 255 kí tự!");
   if (!checkPassword(password))
     return res
       .status(403)
       .json(
         "Mật khẩu phải bao gồm ít nhất 6 kí tự, trong đó có chữ cái, số, chữ cái viết hoa và kí tự đặt biệt."
       );
+
+  if (password.length > 255) return res.status(409).json("Các trường không vượt quá 255 kí tự!");
 
   const q = "SELECT * FROM users WHERE id=?";
 
