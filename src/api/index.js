@@ -28,21 +28,22 @@ import checkImage from "./middlewares/checkImage.middleware.js";
 import checkFile from "./middlewares/chechFile.middleware.js";
 
 import { fileURLToPath } from "url";
-import { log } from "console";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Credentials", true);
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", true);
+  res.header("Access-Control-Allow-Credentials", true);
   next();
 });
 
+
+
 app.use(
   cors({
-    origin: [process.env.URL_REACT, "http://localhost:3000"],
+    origin: [process.env.URL_REACT],
   })
 );
 

@@ -72,6 +72,8 @@ export default function ItemJob({ className, job, onClick }) {
         });
   };
 
+  
+
   useEffect(() => {
     if (currentCompany?.id === job?.idCompany) {
       const handleMousedown = (e) => {

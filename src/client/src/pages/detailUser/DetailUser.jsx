@@ -58,20 +58,9 @@ export default function DetailUser() {
     setLoading(false);
   };
 
-  const { isLoading, error, data } = useQuery(["user"], () => {
+  const { isLoading, error, data } = useQuery(["user", id], () => {
     return getUser();
   });
-
-  const mutation = useMutation(
-    () => {
-      return getUser();
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["user"]);
-      },
-    }
-  );
 
   useEffect(() => {
     window.scroll(0, 0);

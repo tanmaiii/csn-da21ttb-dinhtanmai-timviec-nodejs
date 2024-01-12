@@ -169,10 +169,10 @@ function ItemInfo({
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["user", id]);
+        queryClient.invalidateQueries(["user"]);
       },
       onError: () => {
-        queryClient.invalidateQueries(["user", id]);
+        queryClient.invalidateQueries(["user"]);
       },
     }
   );

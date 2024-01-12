@@ -145,6 +145,7 @@
               @include flex(center, unset);
               gap: 10px;
               height: 100%;
+              flex-wrap: wrap;
               @include mobile {
                 display: none;
               }
