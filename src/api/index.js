@@ -43,7 +43,7 @@ app.use(function (req, res, next) {
 
 app.use(
   cors({
-    origin: [process.env.URL_REACT],
+    origin: [process.env.URL_REACT, "https://jobquest.tanmai.id.vn", "https://jobquest-tm.vercel.app"],
   })
 );
 
