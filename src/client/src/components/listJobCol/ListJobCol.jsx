@@ -77,7 +77,7 @@ function ItemJob({ job }) {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["save"]);
+        queryClient.invalidateQueries(["save", job?.id]);
       },
     }
   );
