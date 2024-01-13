@@ -57,6 +57,10 @@ export default function Search() {
     setSortActive(item);
   };
 
+  useEffect(() => {
+    setPaginate(1);
+  }, [location])
+
   const getJob = async () => {
     const params = queryString.parse(location.search, {
       arrayFormat: "bracket-separator",

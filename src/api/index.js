@@ -11,6 +11,7 @@ import path from "path";
 import nodemailer from "nodemailer";
 import swaggerUi from "swagger-ui-express";
 import swaggerFile from "./swagger-output.json" assert { type: "json" };
+import "express-async-errors";
 
 import authUserRouter from "./routes/authUser.routes.js";
 import authCompanyRouter from "./routes/authCompany.routes.js";
@@ -26,6 +27,8 @@ import applyRouter from "./routes/apply.routes.js";
 import checkEmail from "./middlewares/checkEmail.middleware.js";
 import checkImage from "./middlewares/checkImage.middleware.js";
 import checkFile from "./middlewares/chechFile.middleware.js";
+
+
 
 import { fileURLToPath } from "url";
 
@@ -242,3 +245,5 @@ const PORT = process.env.PORT || 8800;
 app.listen(PORT, (req, res) => {
   console.log(`[Server running with port ${PORT}]`);
 });
+
+
