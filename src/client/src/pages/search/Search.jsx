@@ -55,6 +55,7 @@ export default function Search() {
   const handleSelectSort = (item) => {
     setOpenSort(false);
     setSortActive(item);
+    setPaginate(1);
   };
 
   useEffect(() => {
