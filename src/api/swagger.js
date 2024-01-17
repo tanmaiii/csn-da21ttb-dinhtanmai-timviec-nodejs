@@ -1,16 +1,3 @@
-import { db } from "../config/connect.js";
-
-export const getById = (req, res) => {
-  const q = "SELECT * FROM jobs WHERE id = ?";
-
-  db.query(q, req.params.id, (err, data) => {
-    if (err) res.status(404).json({ message: "Job not found" });
-    return res.status(200).json(data[0]);
-  });
-};
-
-
-
 import swaggerAutogen from "swagger-autogen";
 import dotenv from "dotenv";
 dotenv.config();
