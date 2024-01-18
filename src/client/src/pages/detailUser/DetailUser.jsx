@@ -242,7 +242,7 @@ export default function DetailUser() {
                       <div className="facebook">
                         <i className="fa-brands fa-facebook"></i>
                         {user?.linkSocial?.split("/")[3] ? (
-                          <a href={user?.linkSocial}>{user?.linkSocial}</a>
+                          <a href={user?.linkSocial}>{user?.linkSocial.split("/")[3]}</a>
                         ) : (
                           <span>Không có</span>
                         )}
