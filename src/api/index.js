@@ -42,8 +42,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-
-
 app.use(
   cors({
     origin: [process.env.URL_REACT, "https://jobquest.tanmai.id.vn", "https://jobquest-tm.vercel.app"],
@@ -240,6 +238,27 @@ db.connect(function (err) {
   }
 });
 
+
+// Hàm thực hiện truy vấn SQL để giữ kết nối sống
+const pingDatabase = () => {
+  db.query('SELECT 1', (error, results) => {
+    if (error) {
+      console.error('Error pinging the database:', error.message);
+    } else {
+      console.log('Database pinged successfully');
+    }
+  });
+};
+
+// Thực hiện ping cơ sở dữ liệu mỗi giờ 1 lần (3,600,000 milliseconds)
+const pingInterval = setInterval(pingDatabase, 3600000);
+
+process.on('exit', () => {
+  clearInterval(pingInterval);
+});
+
+
+// Chạy ứng dụng
 const PORT = process.env.PORT || 8800;
 
 app.listen(PORT, (req, res) => {

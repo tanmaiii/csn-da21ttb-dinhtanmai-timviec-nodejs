@@ -42,7 +42,7 @@ export const getJobSave = async (req, res) => {
   }
 };
 
-export const getUser = async (req, res) => {
+export const getUser = (req, res) => {
   try {
     const q = "SELECT idUser FROM save_job as s WHERE s.idJob = ?";
 

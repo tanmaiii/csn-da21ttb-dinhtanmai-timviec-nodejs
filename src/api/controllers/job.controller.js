@@ -269,7 +269,7 @@ export const getByIdField = async (req, res) => {
   }
 };
 
-export const updateJob = async (req, res) => {
+export const updateJob =  (req, res) => {
   const {
     idField,
     idProvince,
@@ -352,7 +352,7 @@ export const hiddenJob = async (req, res) => {
   });
 };
 
-export const unHiddenJob = async (req, res) => {
+export const unHiddenJob =  (req, res) => {
   const token = req.cookies.accessToken;
 
   const idJob = req.query.idJob;
@@ -372,7 +372,7 @@ export const unHiddenJob = async (req, res) => {
   });
 };
 
-export const deleteJob = async (req, res) => {
+export const deleteJob = (req, res) => {
   const token = req.cookies.accessToken;
 
   const idJob = req.query.idJob;
