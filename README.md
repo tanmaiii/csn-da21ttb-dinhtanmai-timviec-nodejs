@@ -27,4 +27,4 @@
     và tương tác với người tìm việc.
 
 ![Alt text](thesis/png/Poster.png)
-![Alt text](thesis/png/full trang chu.png)
+![alt text](<thesis/png/full trang chu.png>)
