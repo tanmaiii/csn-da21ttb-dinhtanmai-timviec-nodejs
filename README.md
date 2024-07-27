@@ -25,3 +25,6 @@
     làm hoàn chỉnh cho người tìm việc và nhà tuyển dụng. Người tìm việc sẽ có khả năng tìm kiếm việc
     làm và quản lý hồ sơ cá nhân. Nhà tuyển dụng sẽ có thể đăng việc làm, quản lý danh sách ứng viên, 
     và tương tác với người tìm việc.
+
+![Alt text](thesis/png/Poster.png)
+![Alt text](thesis/png/full trang chu.png)
